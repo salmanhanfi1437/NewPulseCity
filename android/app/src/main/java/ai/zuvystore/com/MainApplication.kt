@@ -1,4 +1,4 @@
-package com.zuvystore
+package ai.zuvystore.com
 
 import android.app.Application
 import com.facebook.react.PackageList
