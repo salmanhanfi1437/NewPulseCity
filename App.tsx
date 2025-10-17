@@ -1,28 +1,25 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+import React,{useEffect} from 'react';
+import {Provider} from 'react-redux';
+//import RNScreenshotPrevent from 'react-native-screenshot-prevent';
+import RootNavigator from './app/navigation';
 
-import { NewAppScreen } from '@react-native/new-app-screen';
-import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
 
-function App() {
-  const isDarkMode = useColorScheme() === 'dark';
+const App = () => {
 
-  return (
-    <View style={styles.container}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <NewAppScreen templateFileName="App.tsx" />
-    </View>
-  );
+  useEffect(() =>{
+
+    //RNScreenshotPrevent.enabled(true); // Enable ScreenShot blocking
+
+    return () =>{
+
+      //RNScreenshotPrevent.enabled(false); // Disable when unmout
+    }
+
+  },[])
+
+  return(
+    <RootNavigator/>
+  )
+  
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
-
 export default App;
