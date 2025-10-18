@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { StyleSheet,View,ScrollView, Platform } from "react-native";
+import React, { useState,useRef, useEffect } from "react";
+import { StyleSheet,View,ScrollView, Platform,TextInput } from "react-native";
 import { LoginProps } from "../../navigation/types";
 import { ms, mvs } from 'react-native-size-matters';
 import BackgroundPrimaryColor from "../../components/atoms/BackgroundPrimaryColor";
@@ -12,7 +12,6 @@ import CustomTextInput from '../../components/atoms/TextInput';
 import { MicSVG } from "../../assets/svg";
 import { OtpInput } from "react-native-otp-entry";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import colors from "../../styles/colors";
 
 
 const LoginScreen = ({navigation} : LoginProps) => {
@@ -20,18 +19,36 @@ const LoginScreen = ({navigation} : LoginProps) => {
     const [mobileNumber,setMobileNo] = useState('');
     const [otp,setOtp] = useState('');
     const [isOtpVerified,setOtpVerified] = useState(false);
+   const inputRef = useRef<TextInput>(null);
 
+   useEffect(() =>{
+
+    if(!isOtpVerified)
+    {
+        setTimeout(() => {
+      handleFocus();
+    }, 300); //
+    }
+
+   },[isOtpVerified]);
+
+    const handleFocus = () => {
+    inputRef.current?.focus(); // ✅ gives focus
+  };
+    
     const handleVerifyChange = () => {
         if(mobileNumber.length === 10)
         {
-  if(isOtpVerified)
+      if(isOtpVerified)
         {
-            setOtpVerified(false)
+            setOtpVerified(false)      
+            setMobileNo(''),
+            setOtp('')
+            
         }else{
             setOtpVerified(true);
         }
-        }
-      
+        }      
     }
 
     return(
@@ -52,7 +69,8 @@ const LoginScreen = ({navigation} : LoginProps) => {
     >
             <View style={styles.mainCard}>
 
-            <ViewRounded10 title={login}
+            <ViewRounded10 
+            title={login}
             titleStyle={styles.loginText}
             containerStyle={styles.viewRound}
             disabled={false}/>
@@ -65,12 +83,13 @@ const LoginScreen = ({navigation} : LoginProps) => {
             viewStyle={styles.viewInput}>
 
             <CustomTextInput
+            ref={inputRef}
             value={mobileNumber}
             onChangeText={setMobileNo}
             placeholder={'Mobile Number'}
              keyboardType="phone-pad"
              maxLength={10}
-             editable={isOtpVerified ? false : true}
+               editable={!isOtpVerified}j
             style={styles.txtinputStyle}></CustomTextInput>
 
             <CustomText title={isOtpVerified ? change : verify} 
@@ -91,10 +110,11 @@ const LoginScreen = ({navigation} : LoginProps) => {
  <CustomText title={'Enter OTP'} textStyle={styles.mobileText}/>
 
 
-            <OtpInput numberOfDigits={4} 
-            onTextChange={(text) => console.log(text)}
+            <OtpInput 
+            numberOfDigits={4} 
+            onTextChange={(text) => setOtp(text)}
             focusColor={Colors.primaryColor}
-              autoFocus={false}
+              autoFocus={true}
              placeholder="******"
              blurOnFilled={true}
                type="numeric"
@@ -109,11 +129,14 @@ const LoginScreen = ({navigation} : LoginProps) => {
                     </View>
             }    
            
-
-         <ViewRounded10 title={login.toUpperCase()}
+         {
+            otp?.length === 4 && 
+               <ViewRounded10 title={login.toUpperCase()}
             titleStyle={[styles.loginText,{color:Colors.white}]}
-            containerStyle={styles.btnLogin}
-            disabled={false}/>
+            containerStyle={[styles.btnLogin,{backgroundColor:otp.length === 4 ? Colors.primaryColor : Colors.grey_50}]}
+            disabled={otp.length === 4 ? false : true}/>
+         }       
+      
                     
             </View>
             </ScrollView>
