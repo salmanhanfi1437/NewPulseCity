@@ -8,7 +8,7 @@ type viewround10Props = {
 
     title? : string,
     containerStyle? : StyleProp<ViewStyle>;
-    titleStyle : TextStyle;
+    titleStyle : StyleProp<TextStyle>;
     children?: React.ReactNode;
     onPress? : (event: GestureResponderEvent) => void;
     disabled?: boolean;

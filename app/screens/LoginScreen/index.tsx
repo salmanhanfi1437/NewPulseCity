@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet,View,Text } from "react-native";
+import { StyleSheet,View,ScrollView, Platform } from "react-native";
 import { LoginProps } from "../../navigation/types";
 import { ms, mvs } from 'react-native-size-matters';
 import BackgroundPrimaryColor from "../../components/atoms/BackgroundPrimaryColor";
@@ -10,6 +10,9 @@ import { CustomText } from '../../components/atoms/Text'
 import ViewOutlined from "../../components/atoms/ViewOutlined";
 import CustomTextInput from '../../components/atoms/TextInput';
 import { MicSVG } from "../../assets/svg";
+import { OtpInput } from "react-native-otp-entry";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import colors from "../../styles/colors";
 
 
 const LoginScreen = ({navigation} : LoginProps) => {
@@ -32,8 +35,21 @@ const LoginScreen = ({navigation} : LoginProps) => {
     }
 
     return(
+        
         <BackgroundPrimaryColor title="Welcome\nBack">
-
+<KeyboardAwareScrollView
+       style={styles.keyboardView}
+    contentContainerStyle={{ flexGrow: 1 }}
+    enableOnAndroid={true}
+    extraScrollHeight={80}
+    keyboardShouldPersistTaps="handled"
+    showsVerticalScrollIndicator={false}
+  >
+    <ScrollView
+      contentContainerStyle={{ flexGrow: 1 }}
+      keyboardShouldPersistTaps="handled"
+      showsVerticalScrollIndicator={false}
+    >
             <View style={styles.mainCard}>
 
             <ViewRounded10 title={login}
@@ -59,18 +75,49 @@ const LoginScreen = ({navigation} : LoginProps) => {
 
             <CustomText title={isOtpVerified ? change : verify} 
             
-             textStyle={[styles.verifyText,{color: mobileNumber.length != 10 ? Colors.grey_50 : isOtpVerified ? Colors.green : Colors.primaryColor}]} 
+            textStyle={[styles.verifyText,
+            {color: mobileNumber.length != 10 ? Colors.grey_50 : isOtpVerified ? Colors.green : Colors.primaryColor}]} 
             underline={true} onPress={() => handleVerifyChange()}/>
 
             <MicSVG width={ms(30)} height={ms(30)}/>
 
             </ViewOutlined>
+            
+            {
+                isOtpVerified && 
+
+                <View>
+                    
+ <CustomText title={'Enter OTP'} textStyle={styles.mobileText}/>
+
+
+            <OtpInput numberOfDigits={4} 
+            onTextChange={(text) => console.log(text)}
+            focusColor={Colors.primaryColor}
+              autoFocus={false}
+             placeholder="******"
+             blurOnFilled={true}
+               type="numeric"
+            focusStickBlinkingDuration={500}
+            onFocus={() => console.log("Focused")}
+            onBlur={() => console.log("Blurred")}
+            textInputProps={{
+        accessibilityLabel: "One-Time Password"}}
+        theme={{
+    containerStyle: styles.otpView,
+        }} />
+                    </View>
+            }    
            
 
-
-            
+         <ViewRounded10 title={login.toUpperCase()}
+            titleStyle={[styles.loginText,{color:Colors.white}]}
+            containerStyle={styles.btnLogin}
+            disabled={false}/>
+                    
             </View>
-
+            </ScrollView>
+                </KeyboardAwareScrollView>
 
         </BackgroundPrimaryColor>
     )
@@ -89,10 +136,11 @@ const styles = StyleSheet.create({
         justifyContent:'center',
     },
     loginText:{
-        fontSize:ms(12),
+        fontSize:ms(20),
         color:Colors.black,
-        fontWeight:'500',
-        alignSelf:'center'
+        fontWeight:'700',
+        alignSelf:'center',
+        letterSpacing:ms(2)
     },
     mobileText : {
         fontSize:ms(15),
@@ -121,7 +169,27 @@ const styles = StyleSheet.create({
         fontSize:ms(15),
         ...Typography.weights.boldU,
         fontWeight:'700'
-    }
+    },
+    otpView:{
+        marginTop:mvs(20)
+    },
+ scrollContainer: {
+    flexGrow: 1,
+  },
+  keyboardView:{
+    flex:1,
+    backgroundColor:Colors.white
+  },
+   btnLogin:{
+        fontSize:ms(20),
+        color:Colors.black,
+        fontWeight:'700',
+        alignSelf:'center',
+        marginTop:mvs(40),
+        ...Typography.weights.boldU,
+        backgroundColor:Colors.primaryColor,
+        width:'100%'
+    },
     
 })
 
