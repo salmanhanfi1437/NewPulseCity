@@ -1,12 +1,18 @@
 import React from 'react';
-import { Text,TextProps, TextStyle } from 'react-native';
+import { GestureResponderEvent, StyleProp, Text,TextProps, TextStyle } from 'react-native';
 
 
 interface CustomTextProps extends TextProps {
     title? : any;
-    textStyle? : TextStyle;
+    textStyle? : StyleProp<TextStyle>;
+    underline? : boolean;
+    onPress? : (event: GestureResponderEvent) => void;
+    disable?: boolean;
 }
 
-export const CustomText: React.FC<CustomTextProps> = ({ title, textStyle }) => {
-  return <Text style={[textStyle]}>{title}</Text>;
+export const CustomText: React.FC<CustomTextProps> = ({ title, textStyle,underline,onPress }) => {
+  return <Text  onPress={onPress} style={[textStyle, underline && { textDecorationLine: 'underline' },
+
+
+  ]}>{title}</Text>;
 };
