@@ -9,4 +9,5 @@ black : '#000000',
 background : '#ECEAE2',
 grey_50 : '#EBEBEB',
 borderColor : '#A1A1A1',
+green : '#00FF00'
 }
