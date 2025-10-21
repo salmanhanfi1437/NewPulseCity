@@ -5,7 +5,7 @@ import {
   createStackNavigator,
   CardStyleInterpolators,
 } from '@react-navigation/stack';
-import { NativeBaseProvider } from 'native-base'; // is a context provider that wraps your entire app to enable the NativeBase UI library — giving you access to its:
+import { NativeBaseProvider } from 'native-base'; 
 import { RootStackParamList } from './types';
 import SplashScreen from '../screens/SplashScreen';
 import LoginScreen from '../screens/LoginScreen';
@@ -22,7 +22,7 @@ const RootNavigator = () => {
         <Stack.Navigator
           screenOptions={{
             headerShown: false,
-            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS, //controls how the transistion animation looks when navigating between screens
+            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS, 
           }}
         >
           <Stack.Screen name={splash} component={SplashScreen} />
