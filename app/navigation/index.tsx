@@ -3,12 +3,11 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator,CardStyleInterpolators} from '@react-navigation/stack'
 import {NativeBaseProvider} from 'native-base'; // is a context provider that wraps your entire app to enable the NativeBase UI library — giving you access to its:
 import { RootStackParamList } from './types';
-import SplashScreen from '../screens/SplashScreen';
 import LoginScreen from '../screens/LoginScreen';
-import { login } from '../types/constants';
+import { login, signup } from '../types/constants';
+import SignupScreens from '../screens/SignupScreen';
 
 const Stack = createStackNavigator<RootStackParamList>();
-
 
 const RootNavigator = () =>{
 
@@ -23,6 +22,7 @@ return(
     }}>
     {/* <Stack.Screen name ='Splash' component={SplashScreen}/> */}
     <Stack.Screen name = {login} component={LoginScreen}/>
+    <Stack.Screen name ={'signup'} component={SignupScreens}/>
 
     </Stack.Navigator>
 

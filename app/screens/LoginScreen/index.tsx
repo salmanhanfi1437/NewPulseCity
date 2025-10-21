@@ -1,11 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
-import { StyleSheet, View, ScrollView, Platform, TextInput, PermissionsAndroid, TouchableOpacity, Text } from "react-native";
+import { StyleSheet, View, ScrollView, Platform, TextInput, PermissionsAndroid, TouchableOpacity, Text, Pressable } from "react-native";
 import { LoginProps } from "../../navigation/types";
 import { ms, mvs } from 'react-native-size-matters';
 import BackgroundPrimaryColor from "../../components/atoms/BackgroundPrimaryColor";
 import { Colors, Typography } from "../../styles";
 import ViewRounded10 from "../../components/atoms/ViewRounded10";
-import { change, login, mobile_number, verify } from "../../types/constants";
+import { change, login, mobile_number, verify, welcome_to_zuvy } from "../../types/constants";
 import { CustomText } from '../../components/atoms/Text';
 import ViewOutlined from "../../components/atoms/ViewOutlined";
 import CustomTextInput from '../../components/atoms/TextInput';
@@ -13,24 +13,19 @@ import { MicSVG } from "../../assets/svg";
 import { OtpInput } from "react-native-otp-entry";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Voice from '@react-native-voice/voice';
+import Button from "../../components/atoms/Button";
+import PressableOpacity from "../../components/atoms/PressableOpacity";
 
 const LoginScreen = ({ navigation }: LoginProps) => {
     const [mobileNumber, setMobileNo] = useState('');
     const [otp, setOtp] = useState('');
     const [isOtpVerified, setOtpVerified] = useState(false);
     const [isListening, setIsListening] = useState(false);
+    
 
     const inputRef = useRef<TextInput>(null);
 
-    // Initialize voice listeners
-    useEffect(() => {
-        Voice.onSpeechResults = onSpeechResults;
-        Voice.onSpeechError = onSpeechError;
 
-        return () => {
-            Voice.destroy().then(() => Voice.removeAllListeners());
-        };
-    }, []);
 
     // Focus input after OTP verification
     useEffect(() => {
@@ -55,53 +50,14 @@ const LoginScreen = ({ navigation }: LoginProps) => {
         }
     };
 
-    const isVoiceAvailable = async () => {
-  try {
-    const available = await Voice.isAvailable(); // Returns true/false
-    console.log('Voice available:', available);
-  } catch (e) {
-    console.log('Voice check error:', e);
-  }
-};
-    // Voice recognition handlers
-    const onSpeechResults = (e: any) => {
-        if (e.value && e.value.length > 0) {
-            const digits = e.value[0].replace(/\D/g, '').slice(0, 10);
-            setMobileNo(digits);
-            inputRef.current?.focus();
-        }
-        setIsListening(false);
-    };
+   
 
-    const onSpeechError = (e: any) => {
-        console.error('Voice Error:', e);
-        setIsListening(false);
-    };
-
- const startVoice = async () => {
-  try {
-    if (!Voice || !Voice.isAvailable) {
-      console.log('Voice input not supported on this device');
-      return;
-    }
-
-    const available = await Voice.isAvailable();
-    if (!available) {
-      console.log('Voice input not available');
-      return;
-    }
-
-    await Voice.start('en-US');
-    setIsListening(true);
-  } catch (err) {
-    console.error('Voice input error:', err);
-    console.log('Voice input not supported on this device');
-  }
-};
-
+const loginPress = () => {
+    console.log('login Press')
+}
 
     return (
-        <BackgroundPrimaryColor title="Welcome\nBack">
+        <BackgroundPrimaryColor title={welcome_to_zuvy}>
             <KeyboardAwareScrollView
                 style={styles.keyboardView}
                 contentContainerStyle={{ flexGrow: 1 }}
@@ -126,6 +82,9 @@ const LoginScreen = ({ navigation }: LoginProps) => {
                         <CustomText title={mobile_number} textStyle={styles.mobileText} />
 
                         <ViewOutlined viewStyle={styles.viewInput}>
+
+                        <CustomText title={"+91 |"} textStyle={styles.mobileNumberText} />
+
                             <CustomTextInput
                                 ref={inputRef}
                                 value={mobileNumber}
@@ -154,11 +113,18 @@ const LoginScreen = ({ navigation }: LoginProps) => {
                                 onPress={() => handleVerifyChange()}
                             />
 
-                            <TouchableOpacity onPress={startVoice}>
+                            <TouchableOpacity>
                                 <MicSVG width={ms(30)} height={ms(30)} />
                                 {isListening && <Text style={{ color: 'green', fontSize: 12 }}>Listening...</Text>}
                             </TouchableOpacity>
                         </ViewOutlined>
+
+                        <PressableOpacity onPress={()=>{
+                            console.log('111'),
+                            navigation.navigate('signup')
+                        }}>        
+                       <CustomText title={"Sign up"} textStyle={styles.signupText} underline={true}/>
+                          </PressableOpacity>          
 
                         {isOtpVerified && (
                             <View>
@@ -186,13 +152,10 @@ const LoginScreen = ({ navigation }: LoginProps) => {
                         )}
 
                         {otp?.length === 4 && (
-                            <ViewRounded10
+                            <Button
                                 title={login.toUpperCase()}
-                                titleStyle={[styles.loginText, { color: Colors.white }]}
-                                containerStyle={[
-                                    styles.btnLogin,
-                                    { backgroundColor: otp.length === 4 ? Colors.primaryColor : Colors.grey_50 },
-                                ]}
+                                onPress={loginPress}
+                                viewStyle={styles.btnLogin}
                                 disabled={otp.length === 4 ? false : true}
                             />
                         )}
@@ -223,11 +186,25 @@ const styles = StyleSheet.create({
         letterSpacing: ms(2),
     },
     mobileText: {
-        fontSize: ms(15),
+        fontSize: ms(20),
         color: Colors.black,
-        fontWeight: '500',
+        fontWeight: '700',
         ...Typography.weights.mediumU,
-        marginTop: mvs(20),
+        marginTop: mvs(10),
+    },
+     mobileNumberText: {
+        fontSize: ms(20),
+        color: Colors.black,
+        fontWeight: '700',
+        ...Typography.weights.boldU,
+    },
+    signupText: {
+        fontSize: ms(16),
+        color: Colors.primaryColor,
+        fontWeight: '800',
+        alignSelf:'flex-end',
+        marginTop:mvs(10),
+        ...Typography.weights.boldU,
     },
     viewInput: {
         marginTop: mvs(10),
@@ -250,22 +227,22 @@ const styles = StyleSheet.create({
         fontWeight: '700',
     },
     otpView: {
-        marginTop: mvs(20),
+        marginTop: mvs(10),
     },
     keyboardView: {
         flex: 1,
         backgroundColor: Colors.white,
+          borderTopLeftRadius:ms(30),
+            borderTopRightRadius:ms(30)
     },
     btnLogin: {
-        fontSize: ms(20),
-        color: Colors.black,
         fontWeight: '700',
         alignSelf: 'center',
         marginTop: mvs(40),
-        ...Typography.weights.boldU,
         backgroundColor: Colors.primaryColor,
         width: '100%',
     },
+   
 });
 
 export default React.memo(LoginScreen);
