@@ -6,7 +6,7 @@ on:
       - main
       - dev
       - feature/*  # for feature branches
-
+      
 jobs:
   build:
     runs-on: ubuntu-latest

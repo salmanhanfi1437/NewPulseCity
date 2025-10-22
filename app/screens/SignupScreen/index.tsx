@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { ScrollView, StyleSheet,View } from 'react-native';
 import BackgroundPrimaryColor from '../../components/atoms/BackgroundPrimaryColor';
-import { signup, welcome_to_zuvy } from '../../types/constants';
+import { signup, welcome_to_zuvy,const_name,const_email,mobile_number, const_useOfZuvy } from '../../types/constants';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Colors, Typography } from '../../styles';
 import { ms, mvs } from 'react-native-size-matters';
@@ -10,6 +10,7 @@ import TextInputMic from '../../components/atoms/TextInputMic';
 import { CustomText } from '../../components/atoms/Text';
 import Button from '../../components/atoms/Button';
 import { TextInput } from 'react-native-gesture-handler';
+import GlobalStyles from '../../styles/GlobalStyles';
 
 
 const SignupScreens = () =>{
@@ -83,7 +84,10 @@ const SignupScreens = () =>{
                             titleStyle={styles.singupText}
                             containerStyle={styles.viewRound}
                             disabled={false}/>
- <TextInputMic
+
+            <CustomText title={const_name} textStyle={[GlobalStyles.headingText]} />
+
+                            <TextInputMic
                                 ref={nameRef}
                                 value={name}
                                 onChangeText={setName}
@@ -92,7 +96,10 @@ const SignupScreens = () =>{
                                 style={styles.txtinputStyle}
                                 returnKeyType='next'
                                 onSubmitEditing={() => emailRef?.current?.focus()} />
-                            
+
+
+                                     <CustomText title={const_email} textStyle={[GlobalStyles.headingText]} />
+   
 
                              <TextInputMic 
                              ref={emailRef}
@@ -104,6 +111,9 @@ const SignupScreens = () =>{
                                  returnKeyType='next'
                                 onSubmitEditing={() => mobileNumberRef?.current?.focus()}/>
 
+
+            <CustomText title={mobile_number} textStyle={[GlobalStyles.headingText]} />
+
                                  <TextInputMic 
                                  ref={mobileNumberRef}
                                 value={mobileNumber}
@@ -114,13 +124,13 @@ const SignupScreens = () =>{
                                 returnKeyType='done'
                                />
 
-                        {/* <CustomText title={"How do u want to use Zuvy ? "} textStyle={styles.useText} /> */}
 
+                                     <CustomText title={const_useOfZuvy} textStyle={[GlobalStyles.headingText]} />
 
                              <TextInputMic 
                                 value={useZuvy}
                                 onChangeText={setZuvyUse}
-                                placeholder={'How do u want to use Zuvy ? '}
+                                placeholder={const_useOfZuvy}
                                 keyboardType="default"
                                 editable={false}
                                 disabledMic={true}

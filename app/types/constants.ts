@@ -7,6 +7,12 @@ export const verify = 'verify';
 export const change = 'change';
 export const welcome_to_zuvy = 'Welcome to \nZuvyu';
 export const register = "Register";
+export const done = "Done";
+export const next = "Next";
+export const skip = "Skip";
+export const const_name = 'Name';
+export const const_email = 'Email';
+export const const_useOfZuvy = "How do u want to use Zuvy ?";
 
 
 

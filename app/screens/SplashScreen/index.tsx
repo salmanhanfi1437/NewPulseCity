@@ -8,6 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../navigation/types';
 import GlobalStyles from "../../styles/GlobalStyles";
+import Image from '../../components/atoms/Image';
 
 type SplashScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -26,7 +27,7 @@ const SplashScreen = () => {
 
   return (
     <SafeAreaView style={GlobalStyles.container}>
-      <FastImage
+      <Image
         source={Images.Applogo}
         style={GlobalStyles.logo}
         resizeMode={FastImage.resizeMode.contain}

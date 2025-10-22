@@ -5,16 +5,17 @@ import { Colors } from '../../../styles';
 import GlobalStyles from '../../../styles/GlobalStyles';
 import CustomButton from '../CustomButton/index';
 import { CustomText } from '../Text';
+import { skip,done,next } from '../../../types/constants';
 
 type SlideItem = {
-  key: number;
-  title: string;
-  text: string;
-  image: string | any;
+  key?: number;
+  title?: string;
+  text?: string;
+  image?: string | any;
 };
 
 type OnboardingSliderProps = {
-  slides: SlideItem[];
+  slides?: SlideItem[];
   onDone?: () => void;
   onSkip?: () => void;
 };
@@ -41,7 +42,7 @@ const OnboardingSlider: React.FC<OnboardingSliderProps> = ({
 
   const RenderSlide = ({ item }: { item: SlideItem }) => (
     <ImageBackground source={item.image} style={GlobalStyles.slide}>
-      <View style={GlobalStyles.slideinnerContainer}>
+      <View style={[GlobalStyles.slideinnerContainer,GlobalStyles.margin_bottom_10]}>
         <CustomText textStyle={[GlobalStyles.title]} title={item.title} />
         <CustomText textStyle={[GlobalStyles.text]} title={item.text} />
       </View>
@@ -66,11 +67,11 @@ const OnboardingSlider: React.FC<OnboardingSliderProps> = ({
 
         <View style={GlobalStyles.buttonContainer}>
           <CustomButton
-            title={index === slides.length - 1 ? 'Done' : 'Next'}
+            title={index === slides.length - 1 ? done : next}
             onPress={handleNext}
             buttonStyle={{ backgroundColor: Colors.primaryColor }}
           />
-          <CustomButton title="Skip" onPress={handleSkip} />
+          <CustomButton title={skip} onPress={handleSkip} textStyle={GlobalStyles.buttonText} />
         </View>
       </View>
     );
@@ -86,5 +87,6 @@ const OnboardingSlider: React.FC<OnboardingSliderProps> = ({
     />
   );
 };
+
 
 export default OnboardingSlider;
