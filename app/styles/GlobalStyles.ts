@@ -116,15 +116,15 @@ const GlobalStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 10,
-    maxHeight: 50,
+    height: 50,
   },
   disabledButton: {
     backgroundColor: '#A0A0A0',
   },
   buttonText: {
-    color: '#FFFFFF',
+    color: Colors.white,
     fontSize: 16,
-    fontWeight: '600',
+    fontFamily:""
   },
   buttonContainer: {
     width: width * 0.85,
