@@ -7,10 +7,11 @@ import {
 } from '@react-navigation/stack';
 import { NativeBaseProvider } from 'native-base'; 
 import { RootStackParamList } from './types';
-import SplashScreen from '../screens/SplashScreen';
 import LoginScreen from '../screens/LoginScreen';
 import OnboardingScreen  from "../screens/OnboardingScreen"
 import { login, splash,onBoarding } from '../types/constants';
+import SignupScreens from '../screens/SignupScreen';
+import SplashScreen from '../screens/SplashScreen';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -28,9 +29,38 @@ const RootNavigator = () => {
           <Stack.Screen name={splash} component={SplashScreen} />
           <Stack.Screen name={onBoarding} component={OnboardingScreen} />
           <Stack.Screen name={login} component={LoginScreen} />
+           <Stack.Screen name ={'signup'} component={SignupScreens}/>
         </Stack.Navigator>
       </NavigationContainer>
     </NativeBaseProvider>
   );
 };
 export default RootNavigator;
+// import { login, signup } from '../types/constants';
+// import SignupScreens from '../screens/SignupScreen';
+// import SplashScreen from '../screens/SplashScreen';
+
+// const Stack = createStackNavigator<RootStackParamList>();
+
+// const RootNavigator = () =>{
+
+// return(
+// <NativeBaseProvider>
+
+// <NavigationContainer>
+
+//     <Stack.Navigator
+//     screenOptions={{headerShown:false,cardStyleInterpolator:
+//         CardStyleInterpolators.forHorizontalIOS //controls how the transistion animation looks when navigating between screens
+//     }}>
+//     {/* <Stack.Screen name ='Splash' component={SplashScreen}/> */}
+//     <Stack.Screen name = {login} component={LoginScreen}/>
+//     <Stack.Screen name ={'signup'} component={SignupScreens}/>
+
+//     </Stack.Navigator>
+
+// </NavigationContainer>
+
+// </NativeBaseProvider>
+// )};
+// export default RootNavigator;
