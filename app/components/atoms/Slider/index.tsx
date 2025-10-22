@@ -4,6 +4,7 @@ import AppIntroSlider from 'react-native-app-intro-slider';
 import { Colors } from '../../../styles';
 import GlobalStyles from '../../../styles/GlobalStyles';
 import CustomButton from '../CustomButton/index';
+import { CustomText } from '../Text';
 
 type SlideItem = {
   key: number;
@@ -41,8 +42,8 @@ const OnboardingSlider: React.FC<OnboardingSliderProps> = ({
   const RenderSlide = ({ item }: { item: SlideItem }) => (
     <ImageBackground source={item.image} style={GlobalStyles.slide}>
       <View style={GlobalStyles.slideinnerContainer}>
-        <Text style={GlobalStyles.title}>{item.title}</Text>
-        <Text style={GlobalStyles.text}>{item.text}</Text>
+        <CustomText textStyle={[GlobalStyles.title]} title={item.title} />
+        <CustomText textStyle={[GlobalStyles.text]} title={item.text} />
       </View>
     </ImageBackground>
   );

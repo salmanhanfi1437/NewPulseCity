@@ -7,6 +7,7 @@ import {
   TextStyle,
 } from 'react-native';
 import GlobalStyles from '../../../styles/GlobalStyles';
+import { CustomText } from '../Text';
 type CustomButtonProps = {
   title: string;
   onPress: (event: GestureResponderEvent) => void;
@@ -33,7 +34,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
       disabled={disabled}
       activeOpacity={0.7}
     >
-      <Text style={[GlobalStyles.buttonText, textStyle]}>{title}</Text>
+      <CustomText style={[GlobalStyles.buttonText, textStyle]} title={title} />
     </TouchableOpacity>
   );
 };
