@@ -1,6 +1,7 @@
 import { StyleSheet, Platform, Dimensions } from 'react-native';
-import { Colors } from '.';
+import { Colors, Typography } from '.';
 import { ms, mvs } from 'react-native-size-matters';
+import typography from './typography';
 
 const { width, height } = Dimensions.get('window');
 const GlobalStyles = StyleSheet.create({
@@ -39,12 +40,12 @@ const GlobalStyles = StyleSheet.create({
   },
   title: {
     fontSize: 28,
-    color: '#fff',
+    color: Colors.white,
     textAlign: 'left',
   },
   text: {
     fontSize: 14,
-    color: '#fff',
+    color: Colors.white,
   },
   imagePlaceholder: {
     width: 250,
@@ -56,7 +57,7 @@ const GlobalStyles = StyleSheet.create({
     marginBottom: 40,
   },
   imageText: {
-    color: '#fff',
+    color: Colors.white,
     fontSize: 14,
     fontStyle: 'italic',
   },
@@ -124,7 +125,7 @@ const GlobalStyles = StyleSheet.create({
   buttonText: {
     color: Colors.white,
     fontSize: 16,
-    fontFamily:""
+    ...Typography.weights.boldU,
   },
   buttonContainer: {
     width: width * 0.85,
