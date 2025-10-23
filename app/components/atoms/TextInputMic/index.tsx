@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     elevation: ms(5),
     backgroundColor: Colors.white,
         justifyContent: 'center',
-        marginTop:ms(20),
+        marginTop:ms(10),
         height:ms(50),
         alignItems:'center'
   },

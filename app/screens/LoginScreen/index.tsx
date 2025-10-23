@@ -190,7 +190,7 @@ const styles = StyleSheet.create({
         color: Colors.black,
         fontWeight: '700',
         ...Typography.weights.mediumU,
-        marginTop: mvs(10),
+        marginTop: mvs(30),
     },
      mobileNumberText: {
         fontSize: ms(20),

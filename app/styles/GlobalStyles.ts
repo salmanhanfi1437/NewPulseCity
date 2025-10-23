@@ -123,7 +123,8 @@ const GlobalStyles = StyleSheet.create({
   },
   buttonText: {
     color: Colors.white,
-    fontSize: ms(16),
+    fontSize: ms(18),
+    fontWeight:'700',
     ...Typography.weights.boldU,
   },
   buttonContainer: {
@@ -132,5 +133,18 @@ const GlobalStyles = StyleSheet.create({
     justifyContent: 'space-around',
     bottom: height * ms(0),
   },
+  margin_top10 : {
+    marginTop:mvs(10),
+  },
+  margin_bottom_10:{
+    marginBottom:mvs(10),
+  },
+   headingText: {
+        fontSize: ms(20),
+        color: Colors.black,
+        fontWeight: '700',
+        ...Typography.weights.mediumU,
+        marginTop: mvs(30),
+    },
 });
 export default GlobalStyles;

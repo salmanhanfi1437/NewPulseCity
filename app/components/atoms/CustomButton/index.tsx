@@ -34,7 +34,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
       disabled={disabled}
       activeOpacity={0.7}
     >
-      <CustomText style={[GlobalStyles.buttonText, textStyle]} title={title} />
+      <CustomText textStyle={[GlobalStyles.buttonText, textStyle]} title={title} />
     </TouchableOpacity>
   );
 };

@@ -2,6 +2,7 @@ import React from 'react';
 import Images from '../../assets/images';
 import config from '../config';
 import OnboardingSlider from '../../components/atoms/Slider/index';
+import { login } from '../../types/constants';
 
 const slidesData = [
   {
@@ -24,14 +25,22 @@ const slidesData = [
   },
 ];
 
-const OnboardingScreen = () => {
+
+const OnboardingScreen = ({navigation}) => {
+
+  
+const moveToLoginScreen = () => {
+    navigation.replace(login);
+}
+
   const handleDone = () => {
     console.log('Onboarding Completed!');
-  
+    moveToLoginScreen();
   };
 
   const handleSkip = () => {
     console.log('Onboarding Skipped!');
+    moveToLoginScreen();
   };
 
   return (
