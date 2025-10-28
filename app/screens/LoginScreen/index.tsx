@@ -1,21 +1,21 @@
 import React, { useState, useRef, useEffect } from "react";
-import { StyleSheet, View, ScrollView, Platform, TextInput, PermissionsAndroid, TouchableOpacity, Text, Pressable } from "react-native";
+import { StyleSheet, View, TextInput, ScrollView } from "react-native";
 import { LoginProps } from "../../navigation/types";
 import { ms, mvs } from 'react-native-size-matters';
 import BackgroundPrimaryColor from "../../components/atoms/BackgroundPrimaryColor";
 import { Colors, Typography } from "../../styles";
 import ViewRounded10 from "../../components/atoms/ViewRounded10";
-import { change, login, loginOrSignup, mobile_number, verify, welcome_to_zuvy } from "../../types/constants";
+import { change, login, loginOrSignup, mobile_number, resendOtp, resendOtpTimer, verify, welcome_to_zuvy } from "../../types/constants";
 import { CustomText } from '../../components/atoms/Text';
 import ViewOutlined from "../../components/atoms/ViewOutlined";
 import CustomTextInput from '../../components/atoms/TextInput';
-import { MicSVG } from "../../assets/svg";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { OtpInput } from "react-native-otp-entry";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import Voice from '@react-native-voice/voice';
 import Button from "../../components/atoms/Button";
 import PressableOpacity from "../../components/atoms/PressableOpacity";
 import { useTranslation } from "react-i18next";
+import GlobalStyles from "../../styles/GlobalStyles";
+import { flexGrow, mt } from "../../utils/spaces";
 
 const LoginScreen = ({ navigation }: LoginProps) => {
     const [mobileNumber, setMobileNo] = useState('');
@@ -23,9 +23,24 @@ const LoginScreen = ({ navigation }: LoginProps) => {
     const [isOtpVerified, setOtpVerified] = useState(false);
     const [isListening, setIsListening] = useState(false);
     const inputRef = useRef<TextInput>(null);
+    const [timer, setTimer] = useState(30);
 
     const {t} = useTranslation();
 
+    // show the timer after mobile number added
+    useEffect(() => {
+    let interval = null;
+
+    if (timer > 0) {
+      interval = setInterval(() => {
+        setTimer(prev => prev - 1);
+      }, 1000);
+    } else {
+      clearInterval(interval);
+    }
+
+    return () => clearInterval(interval);
+  }, [timer]);
 
     // Focus input after OTP verification
     useEffect(() => {
@@ -44,8 +59,11 @@ const LoginScreen = ({ navigation }: LoginProps) => {
                 setOtpVerified(false);
                 setMobileNo('');
                 setOtp('');
+                setTimer(30);
             } else {
                 setOtpVerified(true);
+               
+
             }
         }
     };
@@ -60,29 +78,40 @@ const loginPress = () => {
     return (
         <BackgroundPrimaryColor title={welcome_to_zuvy}>
           
-                    <View style={styles.mainCard}>
-                        <ViewRounded10
-                            title={t("loginOrSignup")}
-                            titleStyle={styles.loginText}
-                            containerStyle={styles.viewRound}
-                            disabled={false}
-                        />
 
-                        <CustomText title={t("mobile_number")} textStyle={styles.mobileText} />
+           <KeyboardAwareScrollView
+                          style={GlobalStyles.keyboardView}
+                          contentContainerStyle={flexGrow(1)}
+                          enableOnAndroid={true}
+                          extraScrollHeight={80}
+                          keyboardShouldPersistTaps="handled"
+                          showsVerticalScrollIndicator={false}>
+
+                            <ScrollView
+                                                contentContainerStyle={flexGrow(1)}
+                                                keyboardShouldPersistTaps="handled"
+                                                showsVerticalScrollIndicator={false}>
+                        <ViewRounded10
+                            title={t(loginOrSignup)}
+                            titleStyle={styles.loginText}
+                            containerStyle={GlobalStyles.viewRound}
+                            disabled={false}/>
+
+                        <CustomText title={t(mobile_number)} textStyle={styles.mobileText} />
 
                         <ViewOutlined viewStyle={styles.viewInput}>
 
-                        <CustomText title={"+91 |"} textStyle={styles.mobileNumberText} />
+                        <CustomText title={"+91 |"} textStyle={GlobalStyles.headingText} />
 
                             <CustomTextInput
                                 ref={inputRef}
                                 value={mobileNumber}
                                 onChangeText={setMobileNo}
-                                placeholder={t("mobile_number")}
+                                placeholder={t(mobile_number)}
                                 keyboardType="phone-pad"
                                 maxLength={10}
                                 editable={!isOtpVerified}
-                                style={styles.txtinputStyle}
+                                style={GlobalStyles.txtInput}
                             />
 
                             <CustomText
@@ -109,7 +138,7 @@ const loginPress = () => {
                         </ViewOutlined>
 
                         <PressableOpacity onPress={()=>{
-                            console.log('111'),
+
                             navigation.navigate('signup')
                         }}>        
                        <CustomText title={"Sign up"} textStyle={styles.signupText} underline={true}/>
@@ -117,7 +146,7 @@ const loginPress = () => {
 
                         {isOtpVerified && (
                             <View>
-                                <CustomText title={t("enterOTP")} textStyle={styles.mobileText} />
+                                <CustomText title={t("enterOTP")} textStyle={[GlobalStyles.headingText]} />
 
                                 <OtpInput
                                     numberOfDigits={6}
@@ -135,8 +164,13 @@ const loginPress = () => {
                                     }}
                                     theme={{
                                         containerStyle: styles.otpView,
-                                    }}
-                                />
+                                    }}/>
+
+                                  {(timer > 0 && isOtpVerified) ? (
+            <CustomText textStyle={[GlobalStyles.headingText,GlobalStyles.textAlign,mt(15)]}   
+             title={t(resendOtpTimer, { time: `00:${timer < 10 ? `0${timer}` : timer}s` })}/>
+        ) : (
+                <CustomText textStyle={[GlobalStyles.headingText,GlobalStyles.flexEnd,GlobalStyles.colorPrimary,mt(10)]} onPress={() => setTimer(30)} title={t(resendOtp)} underline={true} />)}  
                             </View>
                         )}
 
@@ -147,9 +181,9 @@ const loginPress = () => {
                                 viewStyle={styles.btnLogin}
                                 disabled={otp.length === 6 ? false : true}
                             />
-                        )}
-                    </View>
-            
+                        )}     
+                        </ScrollView>
+                        </KeyboardAwareScrollView>       
         </BackgroundPrimaryColor>
     );
 };
@@ -162,10 +196,7 @@ const styles = StyleSheet.create({
         padding: mvs(15),
         height: '100%',
     },
-    viewRound: {
-        backgroundColor: Colors.color_E5E7EB,
-        justifyContent: 'center',
-    },
+    
     loginText: {
         fontSize: ms(20),
         color: Colors.black,
@@ -181,10 +212,7 @@ const styles = StyleSheet.create({
         marginTop: mvs(30),
     },
      mobileNumberText: {
-        fontSize: ms(20),
-        color: Colors.black,
-        fontWeight: '700',
-        ...Typography.weights.boldU,
+        textAlign:'center'
     },
     signupText: {
         fontSize: ms(16),
@@ -199,13 +227,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
     },
-    txtinputStyle: {
-        fontSize: ms(15),
-        color: Colors.black,
-        fontWeight: '500',
-        flex: 1,
-        ...Typography.weights.mediumU,
-    },
+   
     verifyText: {
         marginRight: mvs(5),
         color: Colors.primaryColor,
@@ -217,12 +239,7 @@ const styles = StyleSheet.create({
     otpView: {
         marginTop: mvs(10),
     },
-    keyboardView: {
-        flex: 1,
-        backgroundColor: Colors.white,
-          borderTopLeftRadius:ms(30),
-            borderTopRightRadius:ms(30)
-    },
+    
     btnLogin: {
         fontWeight: '700',
         alignSelf: 'center',

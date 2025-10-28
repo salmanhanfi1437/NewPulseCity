@@ -83,17 +83,14 @@ const styles = StyleSheet.create({
   container : {
     flexDirection:'row',
         borderRadius: mvs(30),
-    padding: mvs(15),
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: ms(2) },
-    shadowOpacity: mvs(0.15),
-    shadowRadius: mvs(4),
-    elevation: ms(5),
-    backgroundColor: Colors.white,
-        justifyContent: 'center',
-        marginTop:ms(10),
+        borderWidth:ms(1),
+        borderColor:Colors.borderColor,
+        paddingStart:ms(5),
+        paddingEnd:ms(5),
         height:ms(50),
-        alignItems:'center'
+        justifyContent:'center',
+        alignItems:'center',
+        marginTop:mvs(10)
   },
   txtinputStyle: {
           fontSize: ms(15),

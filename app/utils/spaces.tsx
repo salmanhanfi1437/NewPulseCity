@@ -2,3 +2,8 @@
 export const mt = (value : number) => {
   return { marginTop: value };
 };
+
+export const flexGrow = (value : number) =>{
+  return {flexGrow:value}
+}
+

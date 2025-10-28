@@ -17,7 +17,7 @@ const ChooseLanguages = ({navigation} : ChooseLanguagesProps) => {
 
 const languages = [
   { code: 'en', label: 'English',title:'English'},
-  { code: 'hi', label: 'हिन्दी',title:'hindi'},
+  { code: 'hi', label: 'हिन्दी',title:'Hindi'},
   { code: 'fr', label: 'Telugu',title : 'Telegu' },
   { code: 'es', label: 'Bengali',title : 'Bengali' }];
       

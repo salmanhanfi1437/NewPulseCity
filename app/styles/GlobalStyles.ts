@@ -181,6 +181,14 @@ flexOne : {
 viewRow:{
   flexDirection:'row'
 },
+bottomFooter: {
+  position: "absolute",
+  bottom: 10,
+  width: "100%",
+  flexDirection: "row",
+  justifyContent: "center",
+  alignItems: "center"
+},
 viewBorder : {
 
   width:'100%',
@@ -192,6 +200,36 @@ viewBorder : {
   paddingEnd:mvs(15),
   justifyContent:'center',
   alignItems:'center'
-}
+},
+textAlign : {
+  textAlign:'center'
+},
+flexEnd :{
+        textAlign:'right'
+    },
+    colorPrimary : {
+      color: Colors.primaryColor
+    },
+      keyboardView: {
+            flex: 1,
+            backgroundColor: Colors.white,
+            borderTopLeftRadius:ms(20),
+            borderTopRightRadius:ms(20)
+        },
+         mainCard: {
+               
+                height: '100%',
+            },
+            viewRound: {
+        backgroundColor: Colors.color_E5E7EB,
+        justifyContent: 'center',
+    },
+    txtInput :{
+        fontSize: ms(15),
+        color: Colors.black,
+        fontWeight: '500',
+        flex: 1,
+        ...Typography.weights.mediumU,
+    }
 });
 export default GlobalStyles;

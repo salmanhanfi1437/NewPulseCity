@@ -14,6 +14,10 @@
     "signup":"Sign Up",
     "name":"Name",
     "email":"Email",
-    "howtouseZuvy":"How do u want to use Zuvy?"
+    "howtouseZuvy":"How do u want to use Zuvy?",
+    "alreadyhaveAccount":"Already have an account?",
+    "sign_in":"Sign in",
+      "resendOtpTimer": "Resend OTP in {{time}}",
+      "resendOtp": "Resend OTP"
 
 }
