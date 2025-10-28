@@ -13,6 +13,7 @@ export const skip = "Skip";
 export const const_name = 'Name';
 export const const_email = 'Email';
 export const const_useOfZuvy = "How do u want to use Zuvy ?";
+export const Profile = "userProfile";
 
 
 

@@ -1,4 +1,4 @@
-import { StyleSheet, Platform, Dimensions } from 'react-native';
+import { StyleSheet, Platform, Dimensions, StatusBar } from 'react-native';
 import { Colors, Typography } from '.';
 import { ms, mvs } from 'react-native-size-matters';
 
@@ -124,7 +124,7 @@ const GlobalStyles = StyleSheet.create({
   buttonText: {
     color: Colors.white,
     fontSize: ms(18),
-    fontWeight:'700',
+    fontWeight: '700',
     ...Typography.weights.boldU,
   },
   buttonContainer: {
@@ -133,18 +133,127 @@ const GlobalStyles = StyleSheet.create({
     justifyContent: 'space-around',
     bottom: height * ms(0),
   },
-  margin_top10 : {
-    marginTop:mvs(10),
+  margin_top10: {
+    marginTop: mvs(10),
   },
-  margin_bottom_10:{
-    marginBottom:mvs(10),
+  margin_bottom_10: {
+    marginBottom: mvs(10),
   },
-   headingText: {
-        fontSize: ms(20),
-        color: Colors.black,
-        fontWeight: '700',
-        ...Typography.weights.mediumU,
-        marginTop: mvs(30),
-    },
+  headingText: {
+    fontSize: ms(20),
+    color: Colors.black,
+    fontWeight: '700',
+    ...Typography.weights.mediumU,
+    marginTop: mvs(30),
+  },
+  //header
+  headercontainer: {
+    position: 'absolute',
+    top: 10,
+    left: 0,
+    right: 0,
+    zIndex: 10,
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 50,
+    // paddingBottom: 10,
+    paddingHorizontal: 15,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: 'transparent',
+    alignContent: 'center',
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flex: 1,
+  },
+  headertitle: {
+    fontSize: ms(18),
+    fontWeight: '600',
+    textAlign: 'center',
+    flex: 1,
+    color: Colors.white,
+  },
+  iconButton: {
+    padding: ms(5),
+  },
+  placeholder: {
+    width: 30,
+  },
+  whiteHalf: {
+    height: height / 1.5,
+    width: '100%',
+    backgroundColor: '#fff',
+  },
+  whiteOverlay: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    zIndex: 0,
+    elevation: 0,
+  },
+  profileContainer: {
+    // padding: 10,
+    alignSelf: 'center',
+    top: height * 0.12,
+    alignItems: 'center',
+  },
+  imgContainer: {
+    height: ms(80),
+    width: ms(80),
+    borderRadius: 50,
+    backgroundColor: Colors.white,
+  },
+  shadowStyles: {
+    borderRadius: 16,
+    elevation: 4,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 8,
+    padding: 16,
+  },
+  scrolIndexStyle: {},
+  containerPaddings: {
+    marginVertical: 10,
+  },
+  faintText: {
+    color: Colors.semiLight_grey,
+    fontSize: ms(12),
+  },
+  textConatiner: {
+    left: 10,
+  },
+  avoidJustify: { justifyContent: 'flex-start' },
+  scrollArea: {
+    flex: 0.7, // fixed height scroll section
+    backgroundColor: 'transparent',
+    zIndex: 3,
+  },
+  cardTiltle: {
+    fontSize: ms(16),
+    fontWeight: '500',
+    flex: 1,
+    color: Colors.black,
+  },
+  topContent: {
+    flex: 0.4,
+    zIndex: 2,
+  },
+  borderStyles: {
+    borderWidth: 1,
+    borderColor: Colors.semiLight_grey,
+  },
+  logoutBorderStyles: {
+    borderWidth: 1,
+    borderColor: Colors.red,
+    backgroundColor: Colors.light_red,
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+    alignContent: 'center',
+  },
 });
 export default GlobalStyles;

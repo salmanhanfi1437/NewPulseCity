@@ -5,31 +5,39 @@ import {
   createStackNavigator,
   CardStyleInterpolators,
 } from '@react-navigation/stack';
-import { NativeBaseProvider } from 'native-base'; 
+import { NativeBaseProvider } from 'native-base';
 import { RootStackParamList } from './types';
 import LoginScreen from '../screens/LoginScreen';
-import OnboardingScreen  from "../screens/OnboardingScreen"
-import { login, splash,onBoarding } from '../types/constants';
+import OnboardingScreen from '../screens/OnboardingScreen';
+import { login, splash, onBoarding } from '../types/constants';
 import SignupScreens from '../screens/SignupScreen';
 import SplashScreen from '../screens/SplashScreen';
+import UserProfile from '../screens/UserProfile';
+import ZuvyDashBoard from '../screens/DashBoard';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
 const RootNavigator = () => {
   return (
     <NativeBaseProvider>
-      <StatusBar barStyle="default" translucent={true} backgroundColor="transparent" />
+      <StatusBar
+        barStyle="default"
+        translucent={true}
+        backgroundColor="transparent"
+      />
       <NavigationContainer>
         <Stack.Navigator
           screenOptions={{
             headerShown: false,
-            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS, 
+            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
           }}
         >
           <Stack.Screen name={splash} component={SplashScreen} />
           <Stack.Screen name={onBoarding} component={OnboardingScreen} />
           <Stack.Screen name={login} component={LoginScreen} />
-           <Stack.Screen name ={'signup'} component={SignupScreens}/>
+          <Stack.Screen name={'signup'} component={SignupScreens} />
+          <Stack.Screen name={'Profile'} component={UserProfile} />
+          <Stack.Screen name={'ZuvyDashBoard'} component={ZuvyDashBoard} />
         </Stack.Navigator>
       </NavigationContainer>
     </NativeBaseProvider>
