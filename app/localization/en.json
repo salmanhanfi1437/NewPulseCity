@@ -1,0 +1,19 @@
+{
+    "select_your_language" : "Select Your Language",
+    "choose_language_title": "Choose the language you're most comfortable with.",
+    "next" : "Next",
+    "skip" : "Skip",
+    "continue" : "Continue",
+    "done":"Done",
+    "loginOrSignup":"Login or Sign up",
+    "mobile_number":"Mobile Number",
+    "verify":"Verify",
+    "change":"Change",
+    "enterOTP":"Enter OTP",
+    "letsgetstarted":"Let’s Get Started",
+    "signup":"Sign Up",
+    "name":"Name",
+    "email":"Email",
+    "howtouseZuvy":"How do u want to use Zuvy?"
+
+}

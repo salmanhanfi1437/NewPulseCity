@@ -12,6 +12,9 @@ import OnboardingScreen  from "../screens/OnboardingScreen"
 import { login, splash,onBoarding } from '../types/constants';
 import SignupScreens from '../screens/SignupScreen';
 import SplashScreen from '../screens/SplashScreen';
+import merchantTabs from './bottomtabs/merchantTabs';
+import ChooseLanguagesScreen from '../screens/ChooseLanguagesScreen';
+import '../localization/i18n';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -27,9 +30,11 @@ const RootNavigator = () => {
           }}
         >
           <Stack.Screen name={splash} component={SplashScreen} />
+          <Stack.Screen name="ChooseLanguage" component={ChooseLanguagesScreen}/>
           <Stack.Screen name={onBoarding} component={OnboardingScreen} />
           <Stack.Screen name={login} component={LoginScreen} />
            <Stack.Screen name ={'signup'} component={SignupScreens}/>
+           <Stack.Screen name={'merchantTabs'} component={merchantTabs}/>
         </Stack.Navigator>
       </NavigationContainer>
     </NativeBaseProvider>

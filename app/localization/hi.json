@@ -1,0 +1,20 @@
+{
+    "select_your_language" : "अपनी भाषा का चयन करें",
+    "choose_language_title" : "वह भाषा चुनें जिसमें आप सबसे अधिक सहज हों।",
+    "next" : "अगला",
+    "skip" : "छोडना",
+    "continue":"जारी रखना",
+    "done":"खत्म",
+    "loginOrSignup":"लॉग इन या साइन अप",
+    "mobile_number":"मोबाइल नंबर",
+    "verify":"सत्यापित करें",
+     "change":"परिवर्तन",
+     "enterOTP":"ओटीपी दर्ज करें",
+      "letsgetstarted":"आएँ शुरू करें",
+      "signup":"साइन अप करें",
+      "name":"नाम",
+      "email":"ईमेल",
+      "howtouseZuvy":"आप ज़ूवी का उपयोग कैसे करना चाहते हैं?"
+
+    
+}

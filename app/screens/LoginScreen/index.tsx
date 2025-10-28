@@ -5,7 +5,7 @@ import { ms, mvs } from 'react-native-size-matters';
 import BackgroundPrimaryColor from "../../components/atoms/BackgroundPrimaryColor";
 import { Colors, Typography } from "../../styles";
 import ViewRounded10 from "../../components/atoms/ViewRounded10";
-import { change, login, mobile_number, verify, welcome_to_zuvy } from "../../types/constants";
+import { change, login, loginOrSignup, mobile_number, verify, welcome_to_zuvy } from "../../types/constants";
 import { CustomText } from '../../components/atoms/Text';
 import ViewOutlined from "../../components/atoms/ViewOutlined";
 import CustomTextInput from '../../components/atoms/TextInput';
@@ -15,16 +15,16 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import Voice from '@react-native-voice/voice';
 import Button from "../../components/atoms/Button";
 import PressableOpacity from "../../components/atoms/PressableOpacity";
+import { useTranslation } from "react-i18next";
 
 const LoginScreen = ({ navigation }: LoginProps) => {
     const [mobileNumber, setMobileNo] = useState('');
     const [otp, setOtp] = useState('');
     const [isOtpVerified, setOtpVerified] = useState(false);
     const [isListening, setIsListening] = useState(false);
-    
-
     const inputRef = useRef<TextInput>(null);
 
+    const {t} = useTranslation();
 
 
     // Focus input after OTP verification
@@ -54,32 +54,21 @@ const LoginScreen = ({ navigation }: LoginProps) => {
 
 const loginPress = () => {
     console.log('login Press')
+    navigation.replace('merchantTabs');
 }
 
     return (
         <BackgroundPrimaryColor title={welcome_to_zuvy}>
-            <KeyboardAwareScrollView
-                style={styles.keyboardView}
-                contentContainerStyle={{ flexGrow: 1 }}
-                enableOnAndroid={true}
-                extraScrollHeight={80}
-                keyboardShouldPersistTaps="handled"
-                showsVerticalScrollIndicator={false}
-            >
-                <ScrollView
-                    contentContainerStyle={{ flexGrow: 1 }}
-                    keyboardShouldPersistTaps="handled"
-                    showsVerticalScrollIndicator={false}
-                >
+          
                     <View style={styles.mainCard}>
                         <ViewRounded10
-                            title={login}
+                            title={t("loginOrSignup")}
                             titleStyle={styles.loginText}
                             containerStyle={styles.viewRound}
                             disabled={false}
                         />
 
-                        <CustomText title={mobile_number} textStyle={styles.mobileText} />
+                        <CustomText title={t("mobile_number")} textStyle={styles.mobileText} />
 
                         <ViewOutlined viewStyle={styles.viewInput}>
 
@@ -89,7 +78,7 @@ const loginPress = () => {
                                 ref={inputRef}
                                 value={mobileNumber}
                                 onChangeText={setMobileNo}
-                                placeholder={'Mobile Number'}
+                                placeholder={t("mobile_number")}
                                 keyboardType="phone-pad"
                                 maxLength={10}
                                 editable={!isOtpVerified}
@@ -97,7 +86,7 @@ const loginPress = () => {
                             />
 
                             <CustomText
-                                title={isOtpVerified ? change : verify}
+                                title={isOtpVerified ? t("change") : t("verify")}
                                 textStyle={[
                                     styles.verifyText,
                                     {
@@ -113,10 +102,10 @@ const loginPress = () => {
                                 onPress={() => handleVerifyChange()}
                             />
 
-                            <TouchableOpacity>
+                            {/* <TouchableOpacity>
                                 <MicSVG width={ms(30)} height={ms(30)} />
                                 {isListening && <Text style={{ color: 'green', fontSize: 12 }}>Listening...</Text>}
-                            </TouchableOpacity>
+                            </TouchableOpacity> */}
                         </ViewOutlined>
 
                         <PressableOpacity onPress={()=>{
@@ -128,10 +117,10 @@ const loginPress = () => {
 
                         {isOtpVerified && (
                             <View>
-                                <CustomText title={'Enter OTP'} textStyle={styles.mobileText} />
+                                <CustomText title={t("enterOTP")} textStyle={styles.mobileText} />
 
                                 <OtpInput
-                                    numberOfDigits={4}
+                                    numberOfDigits={6}
                                     onTextChange={(text) => setOtp(text)}
                                     focusColor={Colors.primaryColor}
                                     autoFocus={true}
@@ -151,17 +140,16 @@ const loginPress = () => {
                             </View>
                         )}
 
-                        {otp?.length === 4 && (
+                        {otp?.length === 6 && (
                             <Button
-                                title={login.toUpperCase()}
+                                title={t("continue")}
                                 onPress={loginPress}
                                 viewStyle={styles.btnLogin}
-                                disabled={otp.length === 4 ? false : true}
+                                disabled={otp.length === 6 ? false : true}
                             />
                         )}
                     </View>
-                </ScrollView>
-            </KeyboardAwareScrollView>
+            
         </BackgroundPrimaryColor>
     );
 };
@@ -175,7 +163,7 @@ const styles = StyleSheet.create({
         height: '100%',
     },
     viewRound: {
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.color_E5E7EB,
         justifyContent: 'center',
     },
     loginText: {
@@ -239,7 +227,6 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         alignSelf: 'center',
         marginTop: mvs(40),
-        backgroundColor: Colors.primaryColor,
         width: '100%',
     },
    

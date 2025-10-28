@@ -1,9 +1,14 @@
 import { StyleSheet, Platform, Dimensions } from 'react-native';
 import { Colors, Typography } from '.';
 import { ms, mvs } from 'react-native-size-matters';
+import { screenWidth } from '../utils/dimensions';
 
 const { width, height } = Dimensions.get('window');
 const GlobalStyles = StyleSheet.create({
+  main : {
+    flex: 1,
+    backgroundColor: Colors.primaryColor,
+  },
   container: {
     flex: 1,
     backgroundColor: Colors.primaryColor,
@@ -16,10 +21,10 @@ const GlobalStyles = StyleSheet.create({
     height: ms(260),
   },
   mobileText: {
-    fontSize: ms(18),
+    fontSize: ms(25),
     color: Colors.white,
-    marginTop: mvs(-25),
-    fontFamily: 'Poppins-Bold',
+    fontFamily: 'Inter-Bold',
+    
   },
   mainContent: {
     flex: 1,
@@ -140,11 +145,53 @@ const GlobalStyles = StyleSheet.create({
     marginBottom:mvs(10),
   },
    headingText: {
-        fontSize: ms(20),
+        fontSize: ms(18),
         color: Colors.black,
         fontWeight: '700',
-        ...Typography.weights.mediumU,
-        marginTop: mvs(30),
+        ...Typography.weights.boldU,
     },
+    subText: {
+        fontSize: ms(15),
+        color: Colors.black,
+        fontWeight: '500',
+        ...Typography.weights.mediumU,
+    },
+    tabsText :{
+      fontWeight:'400',
+      fontSize:ms(12),
+      ...Typography.weights.normalU,
+      textAlign:'center',
+    },
+    tabsView: {
+  flex: 1,  // ✅ Important: allows proper centering inside tab
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: ms(70),
+},
+    tabBarStyle: {
+  height: ms(60),
+  paddingTop: mvs(10),
+  backgroundColor: Colors.white,
+  borderTopWidth: 0,
+  elevation: ms(5),
+},
+flexOne : {
+  flex:1
+},
+viewRow:{
+  flexDirection:'row'
+},
+viewBorder : {
+
+  width:'100%',
+  height:ms(80),
+  borderWidth:ms(1),
+  borderColor:Colors.color_E5E7EB,
+  borderRadius:mvs(30),
+  paddingStart:mvs(15),
+  paddingEnd:mvs(15),
+  justifyContent:'center',
+  alignItems:'center'
+}
 });
 export default GlobalStyles;

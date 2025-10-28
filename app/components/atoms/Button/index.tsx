@@ -35,9 +35,8 @@ const styles = StyleSheet.create({
             letterSpacing: ms(2),
         },
         btnLogin: {
-                color: Colors.primaryColor,
+                backgroundColor: Colors.secondaryColor,
                 alignSelf: 'center',
-                backgroundColor: Colors.primaryColor,
                 width: '100%',
             },
 });

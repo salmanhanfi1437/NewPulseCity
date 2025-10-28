@@ -56,13 +56,13 @@ const CustomTextInputMic = forwardRef<TextInput, TextInputWithMicProps>(
         returnKeyType={returnKeyType}
         onSubmitEditing={onSubmitEditing}/>
 
-      {
+      {/* {
         !disabledMic  &&
       <PressableOpacity
          onPress={onMicPress}>
                                  <MicSVG width={ms(30)} height={ms(30)} />
                              </PressableOpacity>
-      }
+      } */}
 
       {
         disabledMic  &&

@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import GlobalStyles from '../../../styles/GlobalStyles';
 import { CustomText } from '../Text';
+
 type CustomButtonProps = {
   title: string;
   onPress: (event: GestureResponderEvent) => void;
