@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { Button, ScrollView, Text, View } from 'react-native';
+import {  View } from 'react-native';
 import Images from '../../assets/images';
 import { CustomText } from '../../components/atoms/Text';
 import config from '../config';
@@ -8,11 +7,17 @@ import GlobalStyles from '../../styles/GlobalStyles';
 import Image from '../../components/atoms/Image';
 import Header from '../../components/atoms/HeaderComponent';
 import withBottomWhiteOverlay from '../../components/atoms/Container';
-import CardContainer from '../../components/atoms/CardContainer';
+import LinearGradient from 'react-native-linear-gradient';
+import { Colors } from '../../styles';
 
 const UserProfile = () => {
   return (
-    <SafeAreaView style={GlobalStyles.container}>
+    <LinearGradient
+      colors={Colors.zuvyPrimaryGradient}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 2 }}
+      style={GlobalStyles.container}
+    >
       <Header
         title={'Profile'}
         showBack={true}
@@ -25,7 +30,7 @@ const UserProfile = () => {
         </View>
         <CustomText
           title={config.Profile.name}
-          textStyle={[GlobalStyles.headertitle,{ flex:0}]}
+          textStyle={[GlobalStyles.headertitle, { flex: 0 }]}
         />
         <CustomText
           title={config.Profile.position}
@@ -35,7 +40,7 @@ const UserProfile = () => {
           ]}
         />
       </View>
-    </SafeAreaView>
+    </LinearGradient>
   );
 };
 

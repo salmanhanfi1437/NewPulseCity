@@ -1,5 +1,3 @@
-import { background } from 'native-base/lib/typescript/theme/styled-system';
-
 export default {
   primaryColor: '#00AEEF',
   secondaryColor: '#333',
@@ -10,7 +8,20 @@ export default {
   borderColor: '#A1A1A1',
   green: '#00FF00',
   transparent: 'rgba(255,255,255,0.3)',
-  semiLight_grey : "#D3D3D3",
-  red : "#DC2626",
-  light_red : "#FECACA"
+  semiLight_grey: '#D3D3D3',
+  red: '#DC2626',
+  light_red: '#FECACA',
+  primaryColor1: '#0033FF',
+  primaryColor2: '#2563EB',
+  grey: '#ADADAD',
+  lightgreen: '#22C55E',
+  semiGreen: '#10B981',
+  lightWhite: 'rgba(249, 250, 251, 1)',
+  zuvyPrimaryGradient: [
+    'rgba(0, 51, 255, 1)',
+    'rgba(72, 109, 255, 1)',
+    '#FFFFFF',
+  ],
+  profileHeaderGradient: ['#22C55E', '#10B981', '#FFFFFF'],
+  semilight_red: 'rgba(254, 242, 242, 1)',
 };

@@ -36,8 +36,8 @@ const RootNavigator = () => {
           <Stack.Screen name={onBoarding} component={OnboardingScreen} />
           <Stack.Screen name={login} component={LoginScreen} />
           <Stack.Screen name={'signup'} component={SignupScreens} />
-          <Stack.Screen name={'Profile'} component={UserProfile} />
           <Stack.Screen name={'ZuvyDashBoard'} component={ZuvyDashBoard} />
+          <Stack.Screen name={'Profile'} component={UserProfile} />
         </Stack.Navigator>
       </NavigationContainer>
     </NativeBaseProvider>

@@ -21,6 +21,8 @@ import { ms } from 'react-native-size-matters';
 const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
   return (props: any) => {
     const { hideTopContent = false, hideBottomContent = false } = props;
+    console.log('hideBottomContent:', hideBottomContent, ' all props:', props);
+
     // --- Data Arrays ---
     const personalInfo = [
       {
@@ -146,16 +148,18 @@ const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
               ))}
               <TouchableOpacity>
                 <CardContainer style={GlobalStyles.logoutBorderStyles}>
-                  <FontAwesome5
-                    name="sign-out-alt"
-                    size={25}
-                    color={Colors.red}
-                    style={{ alignSelf: 'center' }}
-                  />
-                  <CustomText
-                    title={config.Profile.logout}
-                    textStyle={[GlobalStyles.cardTiltle, { color: Colors.red }]}
-                  />
+                    <FontAwesome5
+                      name="sign-out-alt"
+                      size={22}
+                      color={Colors.red}
+                    />
+                    <CustomText
+                      title={config.Profile.logout}
+                      textStyle={[
+                        GlobalStyles.cardTiltle,
+                        { color: Colors.red, textAlign: 'center' },
+                      ]}
+                    />
                 </CardContainer>
               </TouchableOpacity>
             </ScrollView>

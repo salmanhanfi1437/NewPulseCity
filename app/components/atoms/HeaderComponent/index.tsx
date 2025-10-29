@@ -44,10 +44,7 @@ const Header: React.FC<HeaderProps> = ({
         containerStyle,
       ]}
     >
-      <StatusBar
-        barStyle={textColor === '#000' ? 'dark-content' : 'light-content'}
-        backgroundColor={backgroundColor}
-      />
+      <StatusBar barStyle={'light-content'} backgroundColor={backgroundColor} />
 
       <View style={GlobalStyles.row}>
         {showBack ? (
@@ -55,7 +52,7 @@ const Header: React.FC<HeaderProps> = ({
             onPress={onBackPress}
             style={GlobalStyles.iconButton}
           >
-         <FontAwesome6 name="arrow-left" size={20} color={colors.white} />
+            <FontAwesome6 name="arrow-left" size={20} color={colors.white} />
           </TouchableOpacity>
         ) : (
           <View style={GlobalStyles.placeholder} />
@@ -73,7 +70,11 @@ const Header: React.FC<HeaderProps> = ({
             onPress={onRightPress}
             style={GlobalStyles.iconButton}
           >
-             <FontAwesome6 name="ellipsis-vertical" size={20} color={colors.white} />
+            <FontAwesome6
+              name="ellipsis-vertical"
+              size={20}
+              color={colors.white}
+            />
           </TouchableOpacity>
         ) : (
           <View style={GlobalStyles.placeholder} />

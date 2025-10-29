@@ -1,9 +1,34 @@
 import { StyleSheet, Platform, Dimensions, StatusBar } from 'react-native';
 import { Colors, Typography } from '.';
 import { ms, mvs } from 'react-native-size-matters';
+import colors from './colors';
+import ZuvyDashBoard from '../screens/DashBoard';
 
-const { width, height } = Dimensions.get('window');
+const { width, height } = Dimensions.get('screen');
 const GlobalStyles = StyleSheet.create({
+  //greyColor
+  greyColorText: {
+    color: Colors.grey,
+  },
+  //whitecolor
+  whiteColor: {
+    color: Colors.white,
+  },
+  lightwhite: {
+    backgroundColor: Colors.lightWhite,
+    color: Colors.lightWhite,
+  },
+  //blackColor
+  blackcolor: {
+    color: Colors.black,
+  },
+  avoidTopMargin: {
+    marginTop: 0,
+  },
+  itemCenterStyle: {
+    alignItems: 'center',
+    flex: 1,
+  },
   container: {
     flex: 1,
     backgroundColor: Colors.primaryColor,
@@ -58,7 +83,6 @@ const GlobalStyles = StyleSheet.create({
   imageText: {
     color: Colors.white,
     fontSize: ms(14),
-    fontStyle: 'italic',
   },
   buttonCircle: {
     width: ms(60),
@@ -154,7 +178,6 @@ const GlobalStyles = StyleSheet.create({
     right: 0,
     zIndex: 10,
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 50,
-    // paddingBottom: 10,
     paddingHorizontal: 15,
     flexDirection: 'row',
     alignItems: 'center',
@@ -228,7 +251,7 @@ const GlobalStyles = StyleSheet.create({
   },
   avoidJustify: { justifyContent: 'flex-start' },
   scrollArea: {
-    flex: 0.7, // fixed height scroll section
+    flex: 0.7,
     backgroundColor: 'transparent',
     zIndex: 3,
   },
@@ -246,14 +269,150 @@ const GlobalStyles = StyleSheet.create({
     borderWidth: 1,
     borderColor: Colors.semiLight_grey,
   },
+  //DashBoard Header
   logoutBorderStyles: {
-    borderWidth: 1,
-    borderColor: Colors.red,
-    backgroundColor: Colors.light_red,
+    borderWidth: 0.7,
+    borderColor: Colors.light_red,
+    backgroundColor: Colors.semilight_red,
     flexDirection: 'row',
     alignItems: 'center',
     flex: 1,
     alignContent: 'center',
+    justifyContent: 'center', // Horizontally center items
+  },
+  zuvyHeaderContainer: {
+    width: '100%',
+    position: 'absolute',
+    top: 0,
+    zIndex: 10,
+    paddingVertical: mvs(15),
+    paddingHorizontal: ms(16),
+    flexDirection: 'column',
+    justifyContent: 'center',
+    shadowColor: Colors.black,
+    shadowOpacity: 0.05,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 4,
+    elevation: 3,
+    alignSelf: 'center',
+  },
+  zuvyHeaderRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '100%',
+  },
+  zuvyRightIcons: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  zuvyIconBox: {
+    backgroundColor: '#F6F6F6',
+    padding: ms(6),
+    borderRadius: ms(10),
+    marginRight: ms(8),
+  },
+  zuvyProfileImg: {
+    width: ms(35),
+    height: ms(35),
+    borderRadius: ms(20),
+  },
+  //DashBoard Styles
+  gradient: {
+    ...StyleSheet.absoluteFillObject,
+    height: height,
+    zIndex: -1,
+  },
+  contentContainer: {
+    flex: 1,
+  },
+  translusantContainer: {
+    justifyContent: 'center',
+    padding: ms(20),
+    marginVertical: ms(20),
+  },
+  ZuvyDashBoardCard: {
+    marginTop: -height * 0.03,
+    width: '90%',
+  },
+  ZuvyDashBoardScrollContent: {
+    paddingBottom: ms(40),
+    alignSelf: 'center',
+  },
+  ZuvyDashBoardBtn: {
+    backgroundColor: colors.primaryColor2,
+    marginVertical: 10,
+    borderRadius: 10,
+    alignSelf: 'center',
+  },
+  ZuvyDashBoardBtnText: {
+    fontSize: ms(14),
+    paddingLeft: 8,
+    paddingRight: 8,
+    fontWeight: '400',
+  },
+  ZuvyDashBoardRowContainer: {
+    width: width - 40,
+    alignSelf: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  ZuvyDashBoardContainer: {
+    width: width - 40,
+    alignSelf: 'center',
+  },
+
+  //Play Card Styles
+  playCard: {
+    width: ms(180),
+    borderRadius: ms(12),
+    backgroundColor: Colors.white,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 3,
+    // marginHorizontal: ms(8),
+  },
+  playGradientBox: {
+    height: ms(100),
+    borderTopLeftRadius: ms(12),
+    borderTopRightRadius: ms(12),
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'relative',
+  },
+  playContainer: {
+    backgroundColor: 'rgba(255,255,255,0.3)',
+    width: ms(40),
+    height: ms(40),
+    borderRadius: ms(20),
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  playDurationBadge: {
+    position: 'absolute',
+    bottom: ms(8),
+    right: ms(8),
+    backgroundColor: 'rgba(0,0,0,0.6)',
+    borderRadius: ms(6),
+    paddingHorizontal: ms(6),
+    paddingVertical: ms(2),
+  },
+  playDurationText: {
+    color: Colors.white,
+    fontSize: ms(10),
+  },
+  playInfoContainer: {
+    padding: ms(10),
+  },
+  playName: {
+    fontSize: ms(13),
+    fontWeight: '500',
+  },
+  playRole: {
+    fontSize: ms(12),
+    color: '#666',
+    marginTop: ms(2),
   },
 });
 export default GlobalStyles;
