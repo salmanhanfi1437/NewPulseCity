@@ -10,6 +10,9 @@ export type RootStackParamList = {
   OnBoard: undefined;
   signup: undefined;
   merchantTabs: undefined; // contains bottom tabs
+  verifyIdentity:undefined;
+  kycompleted:undefined;
+  yourCart : undefined;
 }
 
 // ✅ Define Bottom Tab Param List separately
@@ -27,6 +30,9 @@ export type SplashProps = StackScreenProps<RootStackParamList, 'Splash'>
 export type ChooseLanguagesProps = StackScreenProps<RootStackParamList,'ChooseLanguage'>
 export type LoginProps = StackScreenProps<RootStackParamList, 'Login'>
 export type SignupProps = StackScreenProps<RootStackParamList, 'signup'>
+export type verifyIdentityProps = StackScreenProps<RootStackParamList, 'verifyIdentity'>
+export type kycompletedProps = StackScreenProps<RootStackParamList,'kycompleted'>
+export type yourCartProps = StackScreenProps<RootStackParamList,'yourCart'>
 
 // ✅ Tab screens props (IMPORTANT FIX)
 export type MerchantHomeScreenProps = BottomTabScreenProps<

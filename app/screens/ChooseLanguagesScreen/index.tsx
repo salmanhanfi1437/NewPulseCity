@@ -12,6 +12,7 @@ import Checkbox from "../Checkbox";
 import PressableOpacity from "../../components/atoms/PressableOpacity";
 import ViewBorder from "../../components/atoms/ViewBorder";
 import Button from "../../components/atoms/Button";
+import FontStyles from "../../styles/FontStyles";
 
 const ChooseLanguages = ({navigation} : ChooseLanguagesProps) => {
 
@@ -35,8 +36,8 @@ const languages = [
             <PressableOpacity onPress={() => handleLanguageschanges(item)}>             
                 <ViewBorder style={[GlobalStyles.viewRow,mt(20)]}>
                 <View style={GlobalStyles.flexOne}>
-                <CustomText textStyle={[GlobalStyles.headingText]} title={item?.title}/>
-                <CustomText textStyle={[GlobalStyles.subText]} title={item?.label}/>
+                <CustomText textStyle={[FontStyles.headingText]} title={item?.title}/>
+                <CustomText textStyle={[FontStyles.subText]} title={item?.label}/>
               </View>
                 <Checkbox isChecked = {item?.code === selectedLang ? true : false}/>
                 

@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { ScrollView, StyleSheet,View } from 'react-native';
 import BackgroundPrimaryColor from '../../components/atoms/BackgroundPrimaryColor';
-import { signup, welcome_to_zuvy,const_name,const_email,mobile_number, const_useOfZuvy, login, const_howtouseZuvy, alreadyhaveAccount, sign_in, letsgetstarted } from '../../types/constants';
+import { signup,const_name,const_email,login, const_howtouseZuvy, alreadyhaveAccount, sign_in, letsgetstarted } from '../../types/constants';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Colors, Typography } from '../../styles';
 import { ms, mvs } from 'react-native-size-matters';
@@ -15,6 +15,7 @@ import { SignupProps } from '../../navigation/types';
 import { useTranslation } from 'react-i18next';
 import { flexGrow, mt } from '../../utils/spaces';
 import PressableOpacity from '../../components/atoms/PressableOpacity';
+import FontStyles from '../../styles/FontStyles';
 
 
 const SignupScreens = ({navigation} : SignupProps) =>{
@@ -62,19 +63,7 @@ const SignupScreens = ({navigation} : SignupProps) =>{
 
         <BackgroundPrimaryColor title={t(letsgetstarted)}>
             <View style={GlobalStyles.flexOne}>
- <KeyboardAwareScrollView
-                style={GlobalStyles.keyboardView}
-                contentContainerStyle={flexGrow(1)}
-                enableOnAndroid={true}
-                extraScrollHeight={80}
-                keyboardShouldPersistTaps="handled"
-                showsVerticalScrollIndicator={false}
-            >
-                <ScrollView
-                    contentContainerStyle={flexGrow(1)}
-                    keyboardShouldPersistTaps="handled"
-                    showsVerticalScrollIndicator={false}>
-                    
+
 
                 <ViewRounded10
                             title={t(signup)}
@@ -82,7 +71,7 @@ const SignupScreens = ({navigation} : SignupProps) =>{
                             containerStyle={styles.viewRound}
                             disabled={false}/>
 
-            <CustomText title={t(const_name)} textStyle={[GlobalStyles.headingText,mt(20)]} />
+            <CustomText title={t(const_name)} textStyle={[FontStyles.headingText,mt(20)]} />
 
                             
                             <TextInputMic
@@ -91,12 +80,12 @@ const SignupScreens = ({navigation} : SignupProps) =>{
                                 onChangeText={setName}
                                 placeholder={t(const_name)}
                                 keyboardType="default"
-                                style={GlobalStyles.txtInput}
+                                style={FontStyles.txtInput}
                                 returnKeyType='next'
                                 onSubmitEditing={() => emailRef?.current?.focus()} />
 
 
-                                     <CustomText title={t(const_email)} textStyle={[GlobalStyles.headingText,mt(20)]} />
+                                     <CustomText title={t(const_email)} textStyle={[FontStyles.headingText,mt(20)]} />
    
 
                              <TextInputMic 
@@ -110,7 +99,7 @@ const SignupScreens = ({navigation} : SignupProps) =>{
                                 onSubmitEditing={() => mobileNumberRef?.current?.focus()}/>
 
 
-                                     <CustomText title={t(const_howtouseZuvy)} textStyle={[GlobalStyles.headingText,mt(20)]} />
+                                     <CustomText title={t(const_howtouseZuvy)} textStyle={[FontStyles.headingText,mt(20)]} />
 
                              <TextInputMic 
                                 value={"Distributor"}
@@ -126,17 +115,15 @@ const SignupScreens = ({navigation} : SignupProps) =>{
                                                                 onPress={handleRegister}
                                                                 viewStyle={styles.btnRegister}/>
 
-                    </ScrollView>
-                    </KeyboardAwareScrollView>
 
 </View>
 <View style={[GlobalStyles.viewRow,styles.alreadyAccount,GlobalStyles.bottomFooter]}>
-<CustomText title={t(alreadyhaveAccount)} textStyle={[GlobalStyles.subText,styles.alreadyAccount]}/>
+<CustomText title={t(alreadyhaveAccount)} textStyle={[FontStyles.subText,styles.alreadyAccount]}/>
 <PressableOpacity onPress={() => navigation.reset({
   index: 0,
   routes: [{ name: login }],
 })}>
-<CustomText title={t(sign_in)} textStyle={[GlobalStyles.headingText,styles.alreadyAccount,styles.signInText]} underline={true}/>
+<CustomText title={t(sign_in)} textStyle={[FontStyles.headingText,styles.alreadyAccount,styles.signInText]} underline={true}/>
 </PressableOpacity>
 </View>
         </BackgroundPrimaryColor>
@@ -146,7 +133,6 @@ const SignupScreens = ({navigation} : SignupProps) =>{
 
 const styles = StyleSheet.create({
 
-       
      singupText: {
         fontSize: ms(20),
         color: Colors.black,
@@ -186,14 +172,6 @@ const styles = StyleSheet.create({
         color:Colors.primaryColor,
         marginLeft:mvs(5)
     }
-    //      useText: {
-    //     fontSize: ms(15),
-    //     color: Colors.black,
-    //     fontWeight: '700',
-    //     ...Typography.weights.mediumU,
-    //     marginTop: mvs(20),
-    //     alignSelf:'center',
-    // },
 })
 
 export default React.memo(SignupScreens);

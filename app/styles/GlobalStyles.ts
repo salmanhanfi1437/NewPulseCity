@@ -4,6 +4,7 @@ import { ms, mvs } from 'react-native-size-matters';
 import { screenWidth } from '../utils/dimensions';
 
 const { width, height } = Dimensions.get('window');
+
 const GlobalStyles = StyleSheet.create({
   main : {
     flex: 1,
@@ -20,21 +21,13 @@ const GlobalStyles = StyleSheet.create({
     width: ms(160),
     height: ms(260),
   },
-  mobileText: {
-    fontSize: ms(25),
-    color: Colors.white,
-    fontFamily: 'Inter-Bold',
-    
-  },
+
   mainContent: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  mainText: {
-    fontSize: ms(24),
-    fontWeight: 'bold',
-  },
+ 
   slide: {
     flex: 1,
     alignItems: 'center',
@@ -42,15 +35,7 @@ const GlobalStyles = StyleSheet.create({
     backgroundColor: Colors.black,
     paddingHorizontal: ms(35),
   },
-  title: {
-    fontSize: ms(28),
-    color: Colors.white,
-    textAlign: 'left',
-  },
-  text: {
-    fontSize: ms(14),
-    color: Colors.white,
-  },
+ 
   imagePlaceholder: {
     width: ms(250),
     height: ms(250),
@@ -60,11 +45,7 @@ const GlobalStyles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: ms(40),
   },
-  imageText: {
-    color: Colors.white,
-    fontSize: ms(14),
-    fontStyle: 'italic',
-  },
+ 
   buttonCircle: {
     width: ms(60),
     height: ms(40),
@@ -126,12 +107,7 @@ const GlobalStyles = StyleSheet.create({
   disabledButton: {
     backgroundColor: '#A0A0A0',
   },
-  buttonText: {
-    color: Colors.white,
-    fontSize: ms(18),
-    fontWeight:'700',
-    ...Typography.weights.boldU,
-  },
+ 
   buttonContainer: {
     width: width * ms(0.85),
     alignItems: 'center',
@@ -144,24 +120,7 @@ const GlobalStyles = StyleSheet.create({
   margin_bottom_10:{
     marginBottom:mvs(10),
   },
-   headingText: {
-        fontSize: ms(18),
-        color: Colors.black,
-        fontWeight: '700',
-        ...Typography.weights.boldU,
-    },
-    subText: {
-        fontSize: ms(15),
-        color: Colors.black,
-        fontWeight: '500',
-        ...Typography.weights.mediumU,
-    },
-    tabsText :{
-      fontWeight:'400',
-      fontSize:ms(12),
-      ...Typography.weights.normalU,
-      textAlign:'center',
-    },
+  
     tabsView: {
   flex: 1,  // ✅ Important: allows proper centering inside tab
   alignItems: 'center',
@@ -180,6 +139,9 @@ flexOne : {
 },
 viewRow:{
   flexDirection:'row'
+},
+alignSpace:{
+  justifyContent:'space-around'
 },
 bottomFooter: {
   position: "absolute",
@@ -214,33 +176,90 @@ flexEnd :{
             flex: 1,
             backgroundColor: Colors.white,
             borderTopLeftRadius:ms(20),
-            borderTopRightRadius:ms(20)
+            borderTopRightRadius:ms(20),
+            paddingLeft:mvs(15),
+            paddingRight:mvs(15),
+            marginTop:mvs(30)
         },
          mainCard: {
-               
+             
                 height: '100%',
             },
             viewRound: {
         backgroundColor: Colors.color_E5E7EB,
         justifyContent: 'center',
     },
-    txtInput :{
-        fontSize: ms(15),
-        color: Colors.black,
-        fontWeight: '500',
-        flex: 1,
-        ...Typography.weights.mediumU,
-    },
-    zuvyLetters :{
-      fontSize: ms(15),
-    fontWeight: '700',
-    marginHorizontal: 6,
-    color: Colors.white,
-    ...Typography.weights.boldU
-    },
     viewCenter: {
     justifyContent: 'center',
     alignItems: 'center',
   },
+  cardView:{
+    width:'100%',
+     borderRadius: mvs(10),
+    padding: mvs(18),
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: ms(2) },
+    shadowOpacity: mvs(0.15),
+    shadowRadius: mvs(4),
+    elevation: ms(5),
+    backgroundColor:Colors.white
+  },
+  fullwidth: {
+     width: '100%',
+  },
+
+  headerView : {
+    backgroundColor:Colors.white,
+    height:ms(60),
+    justifyContent:'center',
+    width:'100%',
+  },
+  positionAbsoulute:{
+    position:'absolute',
+    left:0,
+    right:0
+  },
+  topParentView :{
+    paddingStart:mvs(10),
+    paddingEnd:mvs(10),
+    paddingTop:mvs(20)
+  },
+  viewRound8:{
+    height:ms(80),
+    width:ms(80),
+    borderRadius:mvs(8)
+  },
+  qtycircle:{
+    height:ms(35),
+    width:ms(35),
+    borderRadius:35/2,
+    borderColor:Colors.color_E5E7EB,
+    borderWidth:ms(1)
+  },
+
+  qtyView:{
+    height:ms(35),
+    width:ms(40),
+    borderRadius:ms(10),
+    borderColor:Colors.color_E5E7EB,
+    borderWidth:ms(1)
+  },
+  viewRound5:{
+        borderRadius:ms(7),
+        paddingStart:ms(5),
+        paddingEnd:ms(5),
+        height:ms(40)
+  },
+  alignItem:{
+    alignItems:'center'
+  },
+  alignContent:{
+    alignContent:'center'
+  },
+  viewLine : {
+    height:ms(2),
+    backgroundColor:Colors.color_E5E7EB,
+    width:'100%'
+  }
 });
 export default GlobalStyles;

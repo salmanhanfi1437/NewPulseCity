@@ -1,12 +1,15 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, ScrollView } from "react-native";
 import { ms, mvs } from "react-native-size-matters";
 import { ZuvyLogo } from "../../../assets/svg";
-import { Colors, Typography } from "../../../styles";
+import { Colors } from "../../../styles";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { CustomText } from "../Text";
 import GlobalStyles from "../../../styles/GlobalStyles";
 import { useTranslation } from "react-i18next";
+import FontStyles from "../../../styles/FontStyles";
+import { flexGrow, mt, pl, pr } from "../../../utils/spaces";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 type BgProps = {
   title?: string;
@@ -22,12 +25,26 @@ const BackgroundPrimaryColor = ({ title, subTitle, children }: BgProps) => {
       {/* HEADER AREA */}
       <View style={styles.header}>
         <ZuvyLogo height={ms(40)} />
-        <CustomText title={t(title)} textStyle={styles.title} />
-        <CustomText title={t(subTitle)} textStyle={styles.subTitle} />
+        <CustomText title={t(title)} textStyle={FontStyles.title} />
+        <CustomText title={t(subTitle)} textStyle={FontStyles.subTitle} />
       </View>
 
       {/* CONTENT AREA */}
-      <View style={styles.whiteContainer}>{children}</View>
+
+      
+         <KeyboardAwareScrollView
+                style={[GlobalStyles.keyboardView]}
+                contentContainerStyle={flexGrow(1)}
+                enableOnAndroid={true}
+                extraScrollHeight={80}
+                keyboardShouldPersistTaps="handled"
+                showsVerticalScrollIndicator={false}
+            >
+                
+        {children}
+
+
+                </KeyboardAwareScrollView>
     </SafeAreaView>
   );
 };
@@ -35,25 +52,15 @@ const BackgroundPrimaryColor = ({ title, subTitle, children }: BgProps) => {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: Colors.primaryColor },
   header: { alignItems: "center", marginTop: mvs(30) },
-  title: {
-    textAlign: "center",
-    fontSize: ms(24),
-    color: Colors.white,
-    ...Typography.weights.boldU,
-  },
-  subTitle: {
-    textAlign: "center",
-    fontSize: ms(14),
-    color: Colors.white,
-    marginTop: mvs(5),
-  },
+  
   whiteContainer: {
-    flex: 1,
-    backgroundColor: Colors.white,
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
-    marginTop: mvs(20),
-    padding: mvs(15),
+   flex: 1,
+  backgroundColor: Colors.white,
+  borderTopLeftRadius: 30,
+  borderTopRightRadius: 30,
+  marginTop: mvs(20),
+  paddingVertical: mvs(15),
+  paddingHorizontal: ms(20), // ✅ add this
   },
 });
 

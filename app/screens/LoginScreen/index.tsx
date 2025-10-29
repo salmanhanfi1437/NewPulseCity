@@ -5,7 +5,7 @@ import { ms, mvs } from 'react-native-size-matters';
 import BackgroundPrimaryColor from "../../components/atoms/BackgroundPrimaryColor";
 import { Colors, Typography } from "../../styles";
 import ViewRounded10 from "../../components/atoms/ViewRounded10";
-import { change, login, loginOrSignup, mobile_number, resendOtp, resendOtpTimer, verify, welcome_to_zuvy } from "../../types/constants";
+import { change, login, loginOrSignup, mobile_number, resendOtp, resendOtpTimer, verify, welcome_to_zuvy, welcomeZuvy } from "../../types/constants";
 import { CustomText } from '../../components/atoms/Text';
 import ViewOutlined from "../../components/atoms/ViewOutlined";
 import CustomTextInput from '../../components/atoms/TextInput';
@@ -16,6 +16,7 @@ import PressableOpacity from "../../components/atoms/PressableOpacity";
 import { useTranslation } from "react-i18next";
 import GlobalStyles from "../../styles/GlobalStyles";
 import { flexGrow, mt } from "../../utils/spaces";
+import FontStyles from "../../styles/FontStyles";
 
 const LoginScreen = ({ navigation }: LoginProps) => {
     const [mobileNumber, setMobileNo] = useState('');
@@ -76,7 +77,7 @@ const loginPress = () => {
 }
 
     return (
-        <BackgroundPrimaryColor title={welcome_to_zuvy}>
+        <BackgroundPrimaryColor title={t(welcomeZuvy)}>
           
 
            <KeyboardAwareScrollView
@@ -101,7 +102,7 @@ const loginPress = () => {
 
                         <ViewOutlined viewStyle={styles.viewInput}>
 
-                        <CustomText title={"+91 |"} textStyle={GlobalStyles.headingText} />
+                        <CustomText title={"+91 |"} textStyle={FontStyles.headingText} />
 
                             <CustomTextInput
                                 ref={inputRef}
@@ -111,7 +112,7 @@ const loginPress = () => {
                                 keyboardType="phone-pad"
                                 maxLength={10}
                                 editable={!isOtpVerified}
-                                style={GlobalStyles.txtInput}
+                                style={FontStyles.txtInput}
                             />
 
                             <CustomText
@@ -146,7 +147,7 @@ const loginPress = () => {
 
                         {isOtpVerified && (
                             <View>
-                                <CustomText title={t("enterOTP")} textStyle={[GlobalStyles.headingText]} />
+                                <CustomText title={t("enterOTP")} textStyle={[FontStyles.headingText]} />
 
                                 <OtpInput
                                     numberOfDigits={6}
@@ -167,10 +168,10 @@ const loginPress = () => {
                                     }}/>
 
                                   {(timer > 0 && isOtpVerified) ? (
-            <CustomText textStyle={[GlobalStyles.headingText,GlobalStyles.textAlign,mt(15)]}   
+            <CustomText textStyle={[FontStyles.headingText,GlobalStyles.textAlign,mt(15)]}   
              title={t(resendOtpTimer, { time: `00:${timer < 10 ? `0${timer}` : timer}s` })}/>
         ) : (
-                <CustomText textStyle={[GlobalStyles.headingText,GlobalStyles.flexEnd,GlobalStyles.colorPrimary,mt(10)]} onPress={() => setTimer(30)} title={t(resendOtp)} underline={true} />)}  
+                <CustomText textStyle={[FontStyles.headingText,GlobalStyles.flexEnd,GlobalStyles.colorPrimary,mt(10)]} onPress={() => setTimer(30)} title={t(resendOtp)} underline={true} />)}  
                             </View>
                         )}
 

@@ -4,9 +4,10 @@ import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../navigation/types';
 import GlobalStyles from "../../styles/GlobalStyles";
-import { Animated, StyleSheet,Dimensions } from 'react-native';
-import { Colors } from '../../styles';
+import { Animated } from 'react-native';
 import { screenHeight } from '../../utils/dimensions';
+import FontStyles from '../../styles/FontStyles';
+import { verifyIdentity, yourCart } from '../../types/constants';
 
 
 type SplashScreenNavigationProp = StackNavigationProp<
@@ -20,7 +21,8 @@ const SplashScreen = () => {
 
    useEffect(() => {
     const timer = setTimeout(() => {
-      navigation.replace('ChooseLanguage'); 
+      //navigation.replace('ChooseLanguage'); 
+      navigation.replace(yourCart); 
     }, 5000);
     return () => clearTimeout(timer);
   }, [navigation]);
@@ -51,7 +53,7 @@ const SplashScreen = () => {
         {letters.map((char, index) => (
           <Animated.Text
             key={index}
-            style={[GlobalStyles.zuvyLetters, {
+            style={[FontStyles.zuvyLetters, {
               transform: [{ translateY: animations[index] }],
             }]}
           >

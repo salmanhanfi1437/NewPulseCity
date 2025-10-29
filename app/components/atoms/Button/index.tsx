@@ -1,39 +1,38 @@
-import React from 'react';
-import { Pressable, StyleProp, StyleSheet,ViewStyle } from 'react-native';
+import React, { ReactNode } from 'react';
+import { ImageSourcePropType, Pressable, StyleProp, StyleSheet,TextStyle,ViewStyle } from 'react-native';
 import { ms } from 'react-native-size-matters';
-import { Colors } from '../../../styles';
+import { Colors, Typography } from '../../../styles';
 import ViewRounded10 from '../ViewRounded10';
+import FontStyles from '../../../styles/FontStyles';
+import { ml } from '../../../utils/spaces';
+import PressableOpacity from '../PressableOpacity';
 
 type ButtonProps = {
 
     title? : string,
     onPress? : () => void;
     disabled? : boolean;
-    viewStyle? : StyleProp<ViewStyle> 
+    viewStyle? : StyleProp<ViewStyle>;
+    image?: ReactNode;
+    titleStyle?: StyleProp<TextStyle>; 
 }
 
-const Button = ({title,onPress,disabled,viewStyle} : ButtonProps) => {
+const Button = ({title,onPress,disabled,viewStyle,image,titleStyle} : ButtonProps) => {
 
     return(
-        <Pressable onPress={onPress}>
+        <PressableOpacity onPress={onPress}>
         <ViewRounded10
                                         title={title}
-                                        titleStyle={[styles.loginText]}
+                                        titleStyle={[FontStyles.buttonText,titleStyle]}
                                         containerStyle={[styles.btnLogin,viewStyle]}
-                                        disabled={disabled}/>
-
-                                        </Pressable>
+                                        disabled={disabled}
+                                        image={image}/>
+                                        </PressableOpacity>
                                     );
 };
 
 const styles = StyleSheet.create({
-     loginText: {
-            fontSize: ms(20),
-            color: Colors.white,
-            fontWeight: '700',
-            alignSelf: 'center',
-            letterSpacing: ms(2),
-        },
+    
         btnLogin: {
                 backgroundColor: Colors.secondaryColor,
                 alignSelf: 'center',

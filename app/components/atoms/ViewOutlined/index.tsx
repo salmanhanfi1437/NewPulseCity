@@ -5,8 +5,8 @@ import { Colors } from '../../../styles';
 
 
 type viewOutlinedProps = {
-    children : React.ReactNode;
-    viewStyle : StyleProp<ViewStyle>
+    children? : React.ReactNode;
+    viewStyle? : StyleProp<ViewStyle>
 }
 
 const ViewOutlined : React.FC<viewOutlinedProps> = ({children,viewStyle}) =>{
