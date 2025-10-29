@@ -230,6 +230,17 @@ flexEnd :{
         fontWeight: '500',
         flex: 1,
         ...Typography.weights.mediumU,
-    }
+    },
+    zuvyLetters :{
+      fontSize: ms(15),
+    fontWeight: '700',
+    marginHorizontal: 6,
+    color: Colors.white,
+    ...Typography.weights.boldU
+    },
+    viewCenter: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
 export default GlobalStyles;

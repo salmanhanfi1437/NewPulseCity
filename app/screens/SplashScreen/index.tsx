@@ -46,12 +46,12 @@ const SplashScreen = () => {
   }, []);
 
   return (
-    <SafeAreaView style={[GlobalStyles.container,styles.center]}>
-      <Animated.View style={styles.row}>
+    <SafeAreaView style={[GlobalStyles.container,GlobalStyles.viewCenter]}>
+      <Animated.View style={GlobalStyles.viewRow}>
         {letters.map((char, index) => (
           <Animated.Text
             key={index}
-            style={[styles.letter, {
+            style={[GlobalStyles.zuvyLetters, {
               transform: [{ translateY: animations[index] }],
             }]}
           >
@@ -62,23 +62,5 @@ const SplashScreen = () => {
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  center: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  row: {
-    flexDirection: 'row',
-  },
-  letter: {
-    fontSize: 50,
-    fontWeight: '700',
-    marginHorizontal: 6,
-    color: Colors.white,
-  },
-});
-
-
 
 export default SplashScreen;
