@@ -227,6 +227,7 @@ const ZuvyDashBoard = () => {
             ]}
             textStyles={GlobalStyles.ZuvyDashBoardBtnText}
             commingSoon
+            BadgeText={config.ZuvyDashBoard.commingSoon}
             leftIcon={<VectorSVG fill="#fff" />}
           />
           <CustomButton

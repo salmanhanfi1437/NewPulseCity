@@ -10,6 +10,7 @@ import {
 import GlobalStyles from '../../../styles/GlobalStyles';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import colors from '../../../styles/colors';
+import { Colors } from '../../../styles';
 
 interface HeaderProps {
   title?: string;
@@ -20,8 +21,9 @@ interface HeaderProps {
   backgroundColor?: string;
   textColor?: string;
   showBack?: boolean;
-  containerStyle?: ViewStyle;
-  titleStyle?: TextStyle;
+  containerStyle?: ViewStyle | ViewStyle[];
+  titleStyle?: TextStyle | TextStyle[];
+  IconColor?: string ;
 }
 
 const Header: React.FC<HeaderProps> = ({
@@ -35,6 +37,7 @@ const Header: React.FC<HeaderProps> = ({
   showBack = true,
   containerStyle,
   titleStyle,
+  IconColor = Colors.white ,
 }) => {
   return (
     <View
@@ -44,15 +47,19 @@ const Header: React.FC<HeaderProps> = ({
         containerStyle,
       ]}
     >
-      <StatusBar barStyle={'light-content'} backgroundColor={backgroundColor} />
+      <StatusBar
+        barStyle="default"
+        translucent={true}
+        backgroundColor="transparent"
+      />
 
-      <View style={GlobalStyles.row}>
+      <View style={[GlobalStyles.row, GlobalStyles.viewCenter]}>
         {showBack ? (
           <TouchableOpacity
             onPress={onBackPress}
             style={GlobalStyles.iconButton}
           >
-            <FontAwesome6 name="arrow-left" size={20} color={colors.white} />
+            <FontAwesome6 name="arrow-left" size={20} color={IconColor} />
           </TouchableOpacity>
         ) : (
           <View style={GlobalStyles.placeholder} />
@@ -84,4 +91,4 @@ const Header: React.FC<HeaderProps> = ({
   );
 };
 
-export default Header;
+export default React.memo(Header);

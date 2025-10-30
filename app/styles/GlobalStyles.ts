@@ -2,8 +2,6 @@ import { StyleSheet, Platform, Dimensions, StatusBar } from 'react-native';
 import { Colors, Typography } from '.';
 import { ms, mvs } from 'react-native-size-matters';
 import colors from './colors';
-import ZuvyDashBoard from '../screens/DashBoard';
-import { screenWidth } from '../utils/dimensions';
 
 const { width, height } = Dimensions.get('window');
 const GlobalStyles = StyleSheet.create({
@@ -73,7 +71,7 @@ const GlobalStyles = StyleSheet.create({
     color: Colors.white,
     fontSize: ms(14),
   },
-
+  mobileText: { fontSize: ms(18), color: Colors.white, marginTop: mvs(-25) },
   buttonCircle: {
     width: ms(60),
     height: ms(40),
@@ -257,7 +255,7 @@ const GlobalStyles = StyleSheet.create({
     zIndex: 2,
   },
   borderStyles: {
-    borderWidth: 0.1,
+    borderWidth: 0.5,
     borderColor: Colors.semiLight_grey,
   },
   //DashBoard Header
@@ -543,6 +541,41 @@ const GlobalStyles = StyleSheet.create({
     height: ms(2),
     backgroundColor: Colors.color_E5E7EB,
     width: '100%',
+  },
+  Full_widthLine: {
+    // height: ms(1),
+    width: '100%',
+    alignSelf: 'center',
+    borderBottomWidth: 0.4,
+  },
+  // Modal Styles
+  modalDropdownButton: {
+    padding: 12,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    borderRadius: 10,
+  },
+  modalSelectedText: {
+    fontSize: 14,
+    color: '#000',
+  },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: 'rgba(0,0,0,0.3)',
+  },
+  modalDropdownList: {
+    backgroundColor: '#fff',
+    marginHorizontal: 20,
+    borderRadius: 10,
+    paddingVertical: 10,
+  },
+  modalItem: {
+    padding: 12,
+  },
+  modalItemText: {
+    fontSize: 14,
+    color: '#333',
   },
 });
 export default GlobalStyles;

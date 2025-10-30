@@ -13,6 +13,7 @@ import { CustomText } from '../Text';
 import { ms } from 'react-native-size-matters';
 import config from '../../../screens/config';
 import { Colors } from '../../../styles';
+import Badge from '../Badge';
 
 type CustomButtonProps = {
   title: string;
@@ -24,6 +25,8 @@ type CustomButtonProps = {
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
   commingSoon?: boolean;
+  BadgeText? : string
+
 };
 
 const CustomButton: React.FC<CustomButtonProps> = ({
@@ -36,6 +39,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
   leftIcon,
   rightIcon,
   commingSoon = false,
+  BadgeText
 }) => {
   return (
     <TouchableOpacity onPress={onPress} disabled={disabled} activeOpacity={0.7}>
@@ -56,19 +60,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
             title={title}
           />
           {commingSoon && (
-            <View
-              style={{
-                backgroundColor: 'rgba(255, 255, 255, 0.2)',
-                padding: 5,
-                borderRadius: 15,
-              }}
-            >
-              <Text
-                style={[GlobalStyles.playDurationText, { fontSize: ms(8) }]}
-              >
-                {config.ZuvyDashBoard.commingSoon}
-              </Text>
-            </View>
+            <Badge text={BadgeText} />
           )}
           {rightIcon}
         </View>

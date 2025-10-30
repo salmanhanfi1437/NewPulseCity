@@ -1,19 +1,20 @@
 import React, { ReactNode } from 'react';
-import { View, StyleSheet, Dimensions } from 'react-native';
+import { View, Dimensions, ViewStyle } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import GlobalStyles from '../../../styles/GlobalStyles';
-import ZuvyHeader from '../DashboardHeaderComponent';
 import { Colors } from '../../../styles';
 const { height } = Dimensions.get('window');
 
 interface BlueWhiteBackgroundProps {
   children: ReactNode;
   headerHeight?: number;
+  BlueWhiteBackgroundStyle?: ViewStyle;
 }
 
 const BlueWhiteBackground = ({
   children,
   headerHeight = 80,
+  BlueWhiteBackgroundStyle,
 }: BlueWhiteBackgroundProps) => {
   return (
     <View style={{ flex: 1 }}>
@@ -23,7 +24,11 @@ const BlueWhiteBackground = ({
         style={GlobalStyles.gradient}
       />
       <View
-        style={[GlobalStyles.contentContainer, { paddingTop: headerHeight }]}
+        style={[
+          GlobalStyles.contentContainer,
+          { paddingTop: headerHeight },
+          BlueWhiteBackgroundStyle,
+        ]}
       >
         {children}
       </View>
