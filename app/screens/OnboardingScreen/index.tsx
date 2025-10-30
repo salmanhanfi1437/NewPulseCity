@@ -25,13 +25,10 @@ const slidesData = [
   },
 ];
 
-
-const OnboardingScreen = ({navigation}) => {
-
-  
-const moveToLoginScreen = () => {
+const OnboardingScreen = ({ navigation }: any) => {
+  const moveToLoginScreen = () => {
     navigation.replace(login);
-}
+  };
 
   const handleDone = () => {
     console.log('Onboarding Completed!');

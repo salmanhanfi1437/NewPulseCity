@@ -266,7 +266,7 @@ const GlobalStyles = StyleSheet.create({
     zIndex: 2,
   },
   borderStyles: {
-    borderWidth: 1,
+    borderWidth: 0.1,
     borderColor: Colors.semiLight_grey,
   },
   //DashBoard Header
