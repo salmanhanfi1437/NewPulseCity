@@ -1,6 +1,5 @@
 import React from "react";
 import { View } from "react-native";
-import TabStyles from "../../../screens/NotificationScreen/styles";
 import { TickCircleSVG } from "../../../assets/svg";
 import { ml, mr, mt, textColor } from "../../../utils/spaces";
 import { CustomText } from "../Text";
@@ -8,7 +7,6 @@ import GlobalStyles from "../../../styles/GlobalStyles";
 import FontStyles from "../../../styles/FontStyles";
 import CartStyles from "../../../screens/YourCartScreen/styles";
 import NotificationStyles from "../../../screens/NotificationScreen/styles";
-import { Colors } from "../../../styles";
 
 
 type NotificationItemProps = {

@@ -3,7 +3,7 @@ import { View, TouchableOpacity, ScrollView, StyleSheet } from "react-native";
 import { Colors } from "../../../styles";
 import { CustomText } from "../Text";
 import GlobalStyles from "../../../styles/GlobalStyles";
-import TabStyles from "../../../screens/NotificationScreen/styles";
+import NotificationStyles from "../../../screens/NotificationScreen/styles";
 
 
 export type RouteType = {
@@ -46,7 +46,7 @@ const CustomTabView = ({
             <TouchableOpacity
               key={route.key}
               onPress={() => handleTabPress(index)}
-              style={TabStyles.tabs}
+              style={NotificationStyles.tabs}
             >
               <CustomText
                 title={route.title}
@@ -58,7 +58,7 @@ const CustomTabView = ({
               {isActive && (
                 <View
                   style={[
-                    TabStyles.tabIndicator,
+                    NotificationStyles.tabIndicator,
                     { backgroundColor: indicatorColor },
                   ]}
                 />
