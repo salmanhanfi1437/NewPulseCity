@@ -32,21 +32,25 @@
   "contactSupport": "सपोर्ट से संपर्क करें",
   "KYCcompleted": "केवाईसी पूरा हो गया",
   "ThankUKYC": "अपना दस्तावेज़ सबमिट करने के लिए धन्यवाद, हम इसे सत्यापित करेंगे और जल्द से जल्द आपका KYC पूरा करेंगे",
-  "backToDashboard":"डैशबोर्ड पर वापस जाएँ",
-  "yourCart":"आपका कार्ट",
-  "quantity":"मात्रा",
-    "itemTotal":"कुल राशि",
-      "pricebreakdown":"मूल्य विभाजन",
-      "subTotal":"उप-योग",
-  "total":"कुल",
-  "gst":"जीएसटी",
-    "whatincluded":"क्या शामिल है",
-      "instantCode":"• त्वरित क्यूआर कोड जनरेशन",
-       "oneyearvalidity":"• 1 वर्ष की वैधता",
-  "analyticDashboard":"• एनालिटिक्स डैशबोर्ड",
-  "alltimesupport":"• 24/7 सहायता"
-
-
-
-
+  "backToDashboard": "डैशबोर्ड पर वापस जाएँ",
+  "yourCart": "आपका कार्ट",
+  "quantity": "मात्रा",
+  "itemTotal": "कुल राशि",
+  "pricebreakdown": "मूल्य विभाजन",
+  "subTotal": "उप-योग",
+  "total": "कुल",
+  "gst": "जीएसटी",
+  "whatincluded": "क्या शामिल है",
+  "instantCode": "• त्वरित क्यूआर कोड जनरेशन",
+  "oneyearvalidity": "• 1 वर्ष की वैधता",
+  "analyticDashboard": "• एनालिटिक्स डैशबोर्ड",
+  "alltimesupport": "• 24/7 सहायता",
+  "totalAmount": "कुल राशि",
+  "buynow": "अभी खरीदें",
+  "securePayment": "सुरक्षित भुगतान • 30-दिन की धन-वापसी गारंटी",
+  "notifications": "अधिसूचना",
+   "all":"सभी",
+  "orders":"ऑर्डर",
+  "payments":"भुगतान",
+  "updates":"अपडेट"
 }

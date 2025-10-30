@@ -56,7 +56,7 @@ const VerificationIdentity = ({navigation} : verifyIdentityProps) =>{
 
             <View style={[GlobalStyles.viewRow,GlobalStyles.viewCenter,mt(10)]}>
                 <CustomText title={needHelp} textStyle={[FontStyles.subText,fontColor(Colors.color_6B7280)]}/>
-                 <CustomText title={contactSupport} textStyle={[FontStyles.subText,fontColor(Colors.color_6B7280),ml(mvs(2))]} underline={true}/>
+                 <CustomText title={contactSupport} textStyle={[FontStyles.subText,fontColor(Colors.color_6B7280),ml(2)]} underline={true}/>
 
             </View>
 

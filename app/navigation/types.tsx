@@ -13,6 +13,7 @@ export type RootStackParamList = {
   verifyIdentity:undefined;
   kycompleted:undefined;
   yourCart : undefined;
+  notifications: undefined;
 }
 
 // ✅ Define Bottom Tab Param List separately
@@ -33,6 +34,7 @@ export type SignupProps = StackScreenProps<RootStackParamList, 'signup'>
 export type verifyIdentityProps = StackScreenProps<RootStackParamList, 'verifyIdentity'>
 export type kycompletedProps = StackScreenProps<RootStackParamList,'kycompleted'>
 export type yourCartProps = StackScreenProps<RootStackParamList,'yourCart'>
+export type NotificationsProps = StackScreenProps<RootStackParamList,'notifications'>
 
 // ✅ Tab screens props (IMPORTANT FIX)
 export type MerchantHomeScreenProps = BottomTabScreenProps<

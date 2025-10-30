@@ -10,4 +10,7 @@ export default {
     stayOnTrackTitle: 'Stay on Track and Never Miss money',
     stayOnTrackSubtext:'Set reminders, track progress, and celebrate every milestone',
   },
+
+
+  
 };

@@ -199,7 +199,7 @@ flexEnd :{
     padding: mvs(18),
     shadowColor: '#000',
     shadowOffset: { width: 0, height: ms(2) },
-    shadowOpacity: mvs(0.15),
+    shadowOpacity: mvs(0.10),
     shadowRadius: mvs(4),
     elevation: ms(5),
     backgroundColor:Colors.white
@@ -260,6 +260,10 @@ flexEnd :{
     height:ms(2),
     backgroundColor:Colors.color_E5E7EB,
     width:'100%'
-  }
+  },
+  btnPrimary : {
+    borderRadius:ms(10),
+    backgroundColor:Colors.primaryColor
+  },
 });
 export default GlobalStyles;

@@ -9,7 +9,7 @@ import { NativeBaseProvider } from 'native-base';
 import { RootStackParamList } from './types';
 import LoginScreen from '../screens/LoginScreen';
 import OnboardingScreen  from "../screens/OnboardingScreen"
-import { login, splash,onBoarding, verifyIdentity, kycompleted, yourCart } from '../types/constants';
+import { login, splash,onBoarding, verifyIdentity, kycompleted, yourCart, notifications } from '../types/constants';
 import SignupScreens from '../screens/SignupScreen';
 import SplashScreen from '../screens/SplashScreen';
 import merchantTabs from './bottomtabs/merchantTabs';
@@ -18,6 +18,7 @@ import '../localization/i18n';
 import VerificationIdentityScreens from '../screens/VerificationIdentityScreens';
 import VerificationCompleteScreen from '../screens/VerificationCompleteScreen';
 import YourCartScreen from '../screens/YourCartScreen';
+import NotificationScreen from '../screens/NotificationScreen';
 
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -42,6 +43,7 @@ const RootNavigator = () => {
            <Stack.Screen name={verifyIdentity} component={VerificationIdentityScreens}/>
            <Stack.Screen name={kycompleted} component={VerificationCompleteScreen}/>
            <Stack.Screen name={yourCart} component={YourCartScreen}/>
+           <Stack.Screen name={notifications} component={NotificationScreen}/>
         </Stack.Navigator>
       </NavigationContainer>
     </NativeBaseProvider>

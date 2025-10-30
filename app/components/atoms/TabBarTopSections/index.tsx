@@ -7,6 +7,7 @@ import GlobalStyles from "../../../styles/GlobalStyles";
 import { CustomText } from "../Text";
 import Image from "../Image";
 import FastImage from "react-native-fast-image";
+import FontStyles from "../../../styles/FontStyles";
 
 
 type TabBarTopSectionsProps = {
@@ -26,8 +27,8 @@ const TabBarTopSections = ({title,subTitle,notificationCount,profilePic,bgColor,
         <DashBoardSVG width={ms(40)} height={ms(40)} />    
 
         <View style={[styles.marginLeft,GlobalStyles.flexOne]}> 
-        <CustomText title={title} textStyle={GlobalStyles.buttonText}/>
-        <CustomText title={subTitle + ' salman'} textStyle={[GlobalStyles.tabsText,styles.subtitle]}/>
+        <CustomText title={title} textStyle={FontStyles.buttonText}/>
+        <CustomText title={subTitle + ' salman'} textStyle={[FontStyles.tabsText,styles.subtitle]}/>
         </View>
 
 

@@ -3,7 +3,6 @@ import {View,StyleSheet, StyleProp,Pressable,ViewStyle,GestureResponderEvent, Te
 import { ms, mvs } from 'react-native-size-matters';
 import { CustomText } from '../Text';
 import { useTranslation } from 'react-i18next';
-import Image from '../Image';
 
 
 type viewround10Props = {

@@ -7,13 +7,10 @@ import GlobalStyles from "../../styles/GlobalStyles";
 import { Animated } from 'react-native';
 import { screenHeight } from '../../utils/dimensions';
 import FontStyles from '../../styles/FontStyles';
-import { verifyIdentity, yourCart } from '../../types/constants';
+import { login, notifications, verifyIdentity, yourCart } from '../../types/constants';
 
 
-type SplashScreenNavigationProp = StackNavigationProp<
-  RootStackParamList,
-  'Splash'
->;
+type SplashScreenNavigationProp = StackNavigationProp<RootStackParamList,'Splash'>;
 
 const SplashScreen = () => {
   const letters = ['Z', 'U', 'V', 'Y'];
@@ -22,7 +19,7 @@ const SplashScreen = () => {
    useEffect(() => {
     const timer = setTimeout(() => {
       //navigation.replace('ChooseLanguage'); 
-      navigation.replace(yourCart); 
+      navigation.replace(notifications); 
     }, 5000);
     return () => clearTimeout(timer);
   }, [navigation]);

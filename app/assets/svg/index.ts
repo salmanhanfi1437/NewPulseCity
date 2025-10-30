@@ -15,7 +15,8 @@ import QRCodeSVG from './qrcode.svg';
 import MinusSVG from './minus.svg';
 import PlusSVG from './plus.svg';
 import PriceBreakDownSVG from './pricebreakdown.svg';
-import TickWhiteSVG from './tickwhite.svg'
+import TickWhiteSVG from './tickwhite.svg';
+import CartSVG from './cart.svg';
 
 export {
     MicSVG,
@@ -35,5 +36,6 @@ export {
     MinusSVG,
     PlusSVG, 
     PriceBreakDownSVG,
-    TickWhiteSVG
+    TickWhiteSVG,
+    CartSVG
 }
