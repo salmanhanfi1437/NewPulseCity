@@ -1,14 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useEffect,useRef  } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import FastImage from 'react-native-fast-image';
-import Images from '../../assets/images';
-import { CustomText } from '../../components/atoms/Text';
-import config from '../config';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../navigation/types';
 import GlobalStyles from "../../styles/GlobalStyles";
-import Image from '../../components/atoms/Image';
+import { Animated } from 'react-native';
+import { screenHeight } from '../../utils/dimensions';
+import FontStyles from '../../styles/FontStyles';
+import { verifyIdentity, yourCart } from '../../types/constants';
+
 
 type SplashScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -16,30 +16,53 @@ type SplashScreenNavigationProp = StackNavigationProp<
 >;
 
 const SplashScreen = () => {
+  const letters = ['Z', 'U', 'V', 'Y'];
   const navigation = useNavigation<SplashScreenNavigationProp>();
 
-  useEffect(() => {
+   useEffect(() => {
     const timer = setTimeout(() => {
-      navigation.replace('OnBoard'); 
-    }, 3000);
+      //navigation.replace('ChooseLanguage'); 
+      navigation.replace(yourCart); 
+    }, 5000);
     return () => clearTimeout(timer);
   }, [navigation]);
 
+  // Start letters fully off screen
+  const animations = useRef([
+    new Animated.Value(-screenHeight), // Z from top
+    new Animated.Value(screenHeight),  // U from bottom
+    new Animated.Value(-screenHeight), // V from top
+    new Animated.Value(screenHeight),  // Y from bottom
+  ]).current;
+
+ useEffect(() => {
+    const animationsSequence = letters.map((_, index) =>
+      Animated.timing(animations[index], {
+        toValue: 0,
+        duration: 800,
+        useNativeDriver: true,
+      })
+    );
+
+    Animated.sequence(animationsSequence).start();
+  }, []);
+
   return (
-    <SafeAreaView style={GlobalStyles.container}>
-      <Image
-        source={Images.Applogo}
-        style={GlobalStyles.logo}
-        resizeMode={FastImage.resizeMode.contain}
-      />
-      <CustomText
-        title={config.appName}
-        textStyle={GlobalStyles.mobileText}
-      ></CustomText>
+    <SafeAreaView style={[GlobalStyles.container,GlobalStyles.viewCenter]}>
+      <Animated.View style={GlobalStyles.viewRow}>
+        {letters.map((char, index) => (
+          <Animated.Text
+            key={index}
+            style={[FontStyles.zuvyLetters, {
+              transform: [{ translateY: animations[index] }],
+            }]}
+          >
+            {char}
+          </Animated.Text>
+        ))}
+      </Animated.View>
     </SafeAreaView>
   );
 };
-
-
 
 export default SplashScreen;

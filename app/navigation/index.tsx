@@ -9,11 +9,24 @@ import { NativeBaseProvider } from 'native-base';
 import { RootStackParamList } from './types';
 import LoginScreen from '../screens/LoginScreen';
 import OnboardingScreen from '../screens/OnboardingScreen';
-import { login, splash, onBoarding } from '../types/constants';
 import SignupScreens from '../screens/SignupScreen';
 import SplashScreen from '../screens/SplashScreen';
 import UserProfile from '../screens/UserProfile';
 import ZuvyDashBoard from '../screens/DashBoard';
+import {
+  login,
+  splash,
+  onBoarding,
+  verifyIdentity,
+  kycompleted,
+  yourCart,
+} from '../types/constants';
+import merchantTabs from './bottomtabs/merchantTabs';
+import ChooseLanguagesScreen from '../screens/ChooseLanguagesScreen';
+import '../localization/i18n';
+import VerificationIdentityScreens from '../screens/VerificationIdentityScreens';
+import VerificationCompleteScreen from '../screens/VerificationCompleteScreen';
+import YourCartScreen from '../screens/YourCartScreen';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -32,12 +45,27 @@ const RootNavigator = () => {
             cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
           }}
         >
-          <Stack.Screen name={'ZuvyDashBoard'} component={ZuvyDashBoard} />
           <Stack.Screen name={splash} component={SplashScreen} />
+          <Stack.Screen
+            name="ChooseLanguage"
+            component={ChooseLanguagesScreen}
+          />
           <Stack.Screen name={onBoarding} component={OnboardingScreen} />
           <Stack.Screen name={login} component={LoginScreen} />
           <Stack.Screen name={'signup'} component={SignupScreens} />
           <Stack.Screen name={'Profile'} component={UserProfile} />
+          <Stack.Screen name={'signup'} component={SignupScreens} />
+          <Stack.Screen name={'merchantTabs'} component={merchantTabs} />
+          <Stack.Screen name={'ZuvyDashBoard'} component={ZuvyDashBoard} />
+          <Stack.Screen
+            name={verifyIdentity}
+            component={VerificationIdentityScreens}
+          />
+          <Stack.Screen
+            name={kycompleted}
+            component={VerificationCompleteScreen}
+          />
+          <Stack.Screen name={yourCart} component={YourCartScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </NativeBaseProvider>

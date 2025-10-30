@@ -1,6 +1,6 @@
 export default {
-  primaryColor: '#00AEEF',
-  secondaryColor: '#333',
+  primaryColor: '#0033FF',
+  secondaryColor: '#FFD51C',
   white: '#ffffff',
   black: '#000000',
   background: '#ECEAE2',
@@ -24,4 +24,13 @@ export default {
   ],
   profileHeaderGradient: ['#22C55E', '#10B981', '#FFFFFF'],
   semilight_red: 'rgba(254, 242, 242, 1)',
+  color_E5E7EB : '#E5E7EB',
+  color_6B7280 : '#6B7280',
+  color_2563EB : '#2563EB',
+  color_FFD51C : '#FFD51C',
+  color_4B5563 : '#4B5563',
+  color_EFF6FF : "#EFF6FF",
+  color_BBF7D0 : "#BBF7D0",
+  color_F0FDF4 : "#F0FDF4",
+  color_22C55E : "#22C55E",
 };

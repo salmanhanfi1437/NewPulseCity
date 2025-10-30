@@ -1,6 +1,6 @@
 //Easy to change text in one place.
 export default {
-  appName: 'Agentic AI Kirana',
+  appName: 'Zuvy',
   welcomeMessage: 'Welcome to Agentic AI Kirana!',
   CustomCarousel: {
     welcomeTitle: 'Welcome to Your Agentic AI Kirana',

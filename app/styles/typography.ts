@@ -1,10 +1,10 @@
 import { s, vs, ms, mvs } from 'react-native-size-matters';
 
 // english font family
-const UE_FONT_LIGHT = 'Poppins-Light';
-const UE_FONT_MEDIUM = 'Poppins-Medium';
-const UE_FONT_REGULAR = 'Poppins-Regular';
-const UE_FONT_BOLD = 'Poppins-Bold';
+const UE_FONT_LIGHT = 'Inter-Light';
+const UE_FONT_MEDIUM = 'Inter-Medium';
+const UE_FONT_REGULAR = 'Inter-Regular';
+const UE_FONT_BOLD = 'Inter-Bold';
 
 // sizes
 
