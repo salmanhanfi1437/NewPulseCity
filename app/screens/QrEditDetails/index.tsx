@@ -153,7 +153,7 @@ const EditQR = () => {
             ]}
           >
             <Dropdown
-              data={[]}
+              data={['test1', 'test2', 'test3']}
               selectedValue={''}
               placeholder={config.ZuvyQrEdit.Security}
               onSelect={() => {}}
@@ -268,8 +268,8 @@ const EditQR = () => {
               buttonStyle={[
                 GlobalStyles.shadowStyles,
                 GlobalStyles.borderStyles,
+                GlobalStyles.halfwidth,
                 {
-                  width: width / 2.5,
                   borderRadius: GlobalStyles.modalDropdownList.borderRadius,
                 },
               ]}
@@ -287,8 +287,8 @@ const EditQR = () => {
               buttonStyle={[
                 GlobalStyles.shadowStyles,
                 GlobalStyles.borderStyles,
+                GlobalStyles.halfwidth,
                 {
-                  width: width / 2.5,
                   borderRadius: GlobalStyles.modalDropdownList.borderRadius,
                 },
               ]}
@@ -317,8 +317,8 @@ const EditQR = () => {
             buttonStyle={[
               GlobalStyles.shadowStyles,
               GlobalStyles.borderStyles,
+              GlobalStyles.halfwidth,
               {
-                width: width / 2.5,
                 borderRadius: GlobalStyles.modalDropdownList.borderRadius,
               },
             ]}
@@ -336,8 +336,8 @@ const EditQR = () => {
             buttonStyle={[
               GlobalStyles.shadowStyles,
               GlobalStyles.borderStyles,
+              GlobalStyles.halfwidth,
               {
-                width: width / 2.5,
                 borderRadius: GlobalStyles.modalDropdownList.borderRadius,
               },
             ]}

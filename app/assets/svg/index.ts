@@ -20,32 +20,11 @@ import InfoSVG from './i.svg';
 import RightArrowSVG from './FaintrightArrow.svg';
 import VectorSVG from './Vector.svg';
 import QrplassholderSVG from './Qrplassholder.svg';
-export {
-  Bell,
-  Globe,
-  BagSVG,
-  Shield,
-  PhoneSVG,
-  ContactSVG,
-  LocationSVG,
-  ZuvyLogoSVG,
-  CalendarSVG,
-  ShieldSVG,
-  HumburgerSVG,
-  RightSVG,
-  PlaySVG,
-  GreenbagSVG,
-  WechatSVG,
-  InfoSVG,
-  RightArrowSVG,
-  VectorSVG,
-  QrplassholderSVG,
-};
 import HomeSVG from './home.svg';
 import HomeActiveSVG from './homeactive.svg';
 import DashBoardSVG from './dashboard.svg';
 import NotificationSVG from './notification.svg';
-import ZuvyLogo from './zuvylogo.svg';
+import ZuvyLogo from "./zuvylogo.svg"
 import VerifyKYCSVG from './verifykyc.svg';
 import TickCircleSVG from './tickcircle.svg';
 import DigiLockerSVG from './digilocker_verify.svg';
@@ -76,4 +55,23 @@ export {
   PlusSVG,
   PriceBreakDownSVG,
   TickWhiteSVG,
+  Bell,
+  Globe,
+  BagSVG,
+  Shield,
+  PhoneSVG,
+  ContactSVG,
+  LocationSVG,
+  ZuvyLogoSVG,
+  CalendarSVG,
+  ShieldSVG,
+  HumburgerSVG,
+  RightSVG,
+  PlaySVG,
+  GreenbagSVG,
+  WechatSVG,
+  InfoSVG,
+  RightArrowSVG,
+  VectorSVG,
+  QrplassholderSVG,
 };

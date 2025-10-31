@@ -25,8 +25,8 @@ type CustomButtonProps = {
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
   commingSoon?: boolean;
-  BadgeText? : string
-
+  BadgeText?: string;
+  badgeTextColor?: string;
 };
 
 const CustomButton: React.FC<CustomButtonProps> = ({
@@ -39,7 +39,8 @@ const CustomButton: React.FC<CustomButtonProps> = ({
   leftIcon,
   rightIcon,
   commingSoon = false,
-  BadgeText
+  BadgeText,
+  badgeTextColor,
 }) => {
   return (
     <TouchableOpacity onPress={onPress} disabled={disabled} activeOpacity={0.7}>
@@ -59,9 +60,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
             textStyle={[GlobalStyles.buttonText, textStyles]}
             title={title}
           />
-          {commingSoon && (
-            <Badge text={BadgeText} />
-          )}
+          {commingSoon && <Badge text={BadgeText} textcolor={badgeTextColor} />}
           {rightIcon}
         </View>
       </LinearGradient>

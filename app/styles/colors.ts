@@ -36,4 +36,8 @@ export default {
   color_22C55E: '#22C55E',
   darkGreen: 'rgba(22, 101, 52, 1)',
   whiteGradient: ['white', 'white', 'white'],
+  qrbg1: 'rgba(219, 234, 254, 1)',
+  faintgreenRGB: 'rgba(220, 252, 231, 1)',
+  borderBottomColor: 'rgba(229, 231, 235, 1)',
+  faintblueColorRBG: 'rgba(99, 102, 241, 1)',
 };

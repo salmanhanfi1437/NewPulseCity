@@ -28,6 +28,7 @@ import VerificationIdentityScreens from '../screens/VerificationIdentityScreens'
 import VerificationCompleteScreen from '../screens/VerificationCompleteScreen';
 import YourCartScreen from '../screens/YourCartScreen';
 import EditQR from '../screens/QrEditDetails';
+import QRManageMent from '../screens/QrManagement';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -46,7 +47,10 @@ const RootNavigator = () => {
             cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
           }}
         >
+          <Stack.Screen name={'ZuvyDashBoard'} component={ZuvyDashBoard} />
           <Stack.Screen name={'EditQRDetails'} component={EditQR} />
+          <Stack.Screen name={'QRManageMent'} component={QRManageMent} />
+          <Stack.Screen name={'Profile'} component={UserProfile} />
           <Stack.Screen name={splash} component={SplashScreen} />
           <Stack.Screen
             name="ChooseLanguage"
@@ -55,8 +59,6 @@ const RootNavigator = () => {
           <Stack.Screen name={onBoarding} component={OnboardingScreen} />
           <Stack.Screen name={login} component={LoginScreen} />
           <Stack.Screen name={'signup'} component={SignupScreens} />
-          <Stack.Screen name={'Profile'} component={UserProfile} />
-          <Stack.Screen name={'ZuvyDashBoard'} component={ZuvyDashBoard} />
           <Stack.Screen name={'merchantTabs'} component={merchantTabs} />
           <Stack.Screen
             name={verifyIdentity}

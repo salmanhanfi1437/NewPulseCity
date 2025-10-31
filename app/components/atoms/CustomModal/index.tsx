@@ -5,7 +5,8 @@ import {
   TouchableOpacity,
   Modal,
   FlatList,
-  StyleSheet,
+  StyleProp,
+  TextStyle,
 } from 'react-native';
 import GlobalStyles from '../../../styles/GlobalStyles';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -16,6 +17,10 @@ interface DropdownProps {
   selectedValue: string;
   onSelect: (value: string) => void;
   placeholder?: string;
+  textStyle?: StyleProp<TextStyle> | TextStyle[];
+  icon?: React.ReactNode;
+  activeIcon?: React.ReactNode;
+  style?: object;
 }
 
 const Dropdown: React.FC<DropdownProps> = ({
@@ -23,16 +28,21 @@ const Dropdown: React.FC<DropdownProps> = ({
   selectedValue,
   onSelect,
   placeholder = 'Select an option',
+  textStyle,
+  icon,
+  activeIcon,
+  style,
 }) => {
   const [visible, setVisible] = useState(false);
 
   return (
-    <View >
+    <View>
       <TouchableOpacity
-        style={GlobalStyles.modalDropdownButton}
+        style={[GlobalStyles.modalDropdownButton, style]}
         onPress={() => setVisible(true)}
       >
-        <Text style={GlobalStyles.modalSelectedText}>
+        {visible ? activeIcon : icon}
+        <Text style={[GlobalStyles.modalSelectedText, textStyle]}>
           {selectedValue || placeholder}
         </Text>
         <MaterialIcons

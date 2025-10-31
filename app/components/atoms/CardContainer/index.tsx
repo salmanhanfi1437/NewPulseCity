@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, memo } from 'react';
 import { View, StyleSheet, Dimensions } from 'react-native';
 import { Colors } from '../../../styles';
 
@@ -7,10 +7,19 @@ const { width, height } = Dimensions.get('window');
 interface CardContainerProps {
   children: ReactNode;
   style?: object;
+  showShadow?: boolean;
 }
 
-const CardContainer: React.FC<CardContainerProps> = ({ children, style }) => {
-  return <View style={[styles.card, style]}>{children}</View>;
+const CardContainer: React.FC<CardContainerProps> = ({
+  children,
+  style,
+  showShadow = true,
+}) => {
+  return (
+    <View style={[styles.card, style, !showShadow && styles.noShadow]}>
+      {children}
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
@@ -27,6 +36,13 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 3 },
     elevation: 3,
   },
+  noShadow: {
+    shadowColor: 'transparent',
+    shadowOpacity: 0,
+    shadowRadius: 0,
+    shadowOffset: { width: 0, height: 0 },
+    elevation: 0,
+  },
 });
 
-export default CardContainer;
+export default memo(CardContainer);

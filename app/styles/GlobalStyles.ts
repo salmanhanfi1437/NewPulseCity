@@ -2,9 +2,20 @@ import { StyleSheet, Platform, Dimensions, StatusBar } from 'react-native';
 import { Colors, Typography } from '.';
 import { ms, mvs } from 'react-native-size-matters';
 import colors from './colors';
+import QRManageMent from '../screens/QrManagement';
 
 const { width, height } = Dimensions.get('window');
 const GlobalStyles = StyleSheet.create({
+  //halfScreen2.5 width
+  halfwidth: {
+    width: width / 2.5,
+  },
+  semihalfwidth: {
+    width: width / 2.3,
+  },
+  width50: {
+    width: width - 50,
+  },
   //greyColor
   greyColorText: {
     color: Colors.grey,
@@ -240,7 +251,7 @@ const GlobalStyles = StyleSheet.create({
   },
   avoidJustify: { justifyContent: 'flex-start' },
   scrollArea: {
-    flex: 0.7,
+    flex: 0.78,
     backgroundColor: 'transparent',
     zIndex: 3,
   },
@@ -265,7 +276,6 @@ const GlobalStyles = StyleSheet.create({
     backgroundColor: Colors.semilight_red,
     flexDirection: 'row',
     alignItems: 'center',
-    flex: 1,
     alignContent: 'center',
     justifyContent: 'center', // Horizontally center items
   },
@@ -321,7 +331,7 @@ const GlobalStyles = StyleSheet.create({
     marginVertical: ms(20),
   },
   ZuvyDashBoardCard: {
-    marginTop: -height * 0.03,
+    marginTop: -height * 0.05,
     width: '90%',
   },
   ZuvyDashBoardScrollContent: {
@@ -547,13 +557,14 @@ const GlobalStyles = StyleSheet.create({
     width: '100%',
     alignSelf: 'center',
     borderBottomWidth: 0.4,
+    borderBottomColor: colors.borderBottomColor,
   },
   // Modal Styles
   modalDropdownButton: {
     padding: 12,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    borderRadius: 10,
+    borderRadius: ms(10),
   },
   modalSelectedText: {
     fontSize: 14,
@@ -576,6 +587,13 @@ const GlobalStyles = StyleSheet.create({
   modalItemText: {
     fontSize: 14,
     color: '#333',
+  },
+  // QRManageMentStyles
+  qrInputfield: {
+    backgroundColor: Colors.white,
+    borderWidth: ms(1),
+    borderColor: Colors.grey_50,
+    borderRadius: ms(10),
   },
 });
 export default GlobalStyles;

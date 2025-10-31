@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import {  View } from 'react-native';
+import { View, Dimensions } from 'react-native';
 import Images from '../../assets/images';
 import { CustomText } from '../../components/atoms/Text';
 import config from '../config';
@@ -9,7 +9,7 @@ import Header from '../../components/atoms/HeaderComponent';
 import withBottomWhiteOverlay from '../../components/atoms/Container';
 import LinearGradient from 'react-native-linear-gradient';
 import { Colors } from '../../styles';
-
+const { width, height } = Dimensions.get('window');
 const UserProfile = () => {
   return (
     <LinearGradient
@@ -21,10 +21,10 @@ const UserProfile = () => {
       <Header
         title={'Profile'}
         showBack={true}
-        rightIcon={true}
+        rightIcon={false}
         titleStyle={GlobalStyles.headertitle}
       />
-      <View style={GlobalStyles.profileContainer}>
+      <View style={[GlobalStyles.profileContainer, { top: height * 0.14 }]}>
         <View style={[GlobalStyles.imgContainer]}>
           <Image source={Images.profile} style={GlobalStyles.imgContainer} />
         </View>

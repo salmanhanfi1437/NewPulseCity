@@ -13,7 +13,8 @@ export type RootStackParamList = {
   yourCart: undefined;
   ZuvyDashBoard: undefined;
   Profile: undefined;
-  EditQRDetails:undefined
+  EditQRDetails: undefined;
+  QRManageMent: undefined;
 };
 
 // ✅ Define Bottom Tab Param List separately
@@ -26,7 +27,11 @@ export type MerchantTabParamList = {
 };
 
 // Stack screens props
-export type EditQRDetails = StackScreenProps<RootStackParamList,"EditQRDetails" >
+export type QRManageMent = StackScreenProps<RootStackParamList, 'QRManageMent'>;
+export type EditQRDetails = StackScreenProps<
+  RootStackParamList,
+  'EditQRDetails'
+>;
 export type onBoarding = StackScreenProps<RootStackParamList, 'OnBoard'>;
 export type SplashProps = StackScreenProps<RootStackParamList, 'Splash'>;
 export type ChooseLanguagesProps = StackScreenProps<

@@ -21,7 +21,8 @@ import { ms } from 'react-native-size-matters';
 const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
   return (props: any) => {
     const { hideTopContent = false, hideBottomContent = false } = props;
-    console.log('hideBottomContent:', hideBottomContent, ' all props:', props);
+    const { paddingRight, paddingLeft, ...restFont } =
+      GlobalStyles.ZuvyDashBoardBtnText;
 
     // --- Data Arrays ---
     const personalInfo = [
@@ -55,26 +56,22 @@ const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
           GlobalStyles.avoidJustify,
         ]}
       >
-        <Icon width={ms(40)} height={ms(40)} />
+        <Icon width={ms(40)} height={ms(40)} fill={Colors.white} />
         <View style={GlobalStyles.textConatiner}>
-          <CustomText title={label} textStyle={GlobalStyles.faintText} />
+          <CustomText title={label} textStyle={[GlobalStyles.faintText]} />
           <CustomText title={value} />
         </View>
       </View>
     );
 
     const SettingItem = ({ Icon, label, value }: any) => (
-      <TouchableOpacity
-        style={[
-          GlobalStyles.row,
-          GlobalStyles.avoidJustify,
-          // { marginVertical: -10 },
-        ]}
-      >
+      <TouchableOpacity style={[GlobalStyles.row, GlobalStyles.avoidJustify]}>
         <Icon width={ms(40)} height={ms(40)} />
-        <View style={GlobalStyles.textConatiner}>
-          <CustomText title={label} textStyle={GlobalStyles.faintText} />
-          <CustomText title={value} />
+        <View
+          style={[GlobalStyles.textConatiner, { height: ms(60), padding: 5 }]}
+        >
+          <CustomText title={label} textStyle={[restFont]} />
+          <CustomText title={value} textStyle={[GlobalStyles.faintText]} />
         </View>
       </TouchableOpacity>
     );
@@ -98,25 +95,28 @@ const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
               contentContainerStyle={GlobalStyles.scrolIndexStyle}
             >
               {/* Personal Info Card */}
-              <CardContainer style={GlobalStyles.borderStyles}>
+              <CardContainer
+                style={GlobalStyles.borderStyles}
+                showShadow={false}
+              >
                 <View style={GlobalStyles.row}>
                   <CustomText
                     title={config.Profile.PersonalInfoTitle}
                     textStyle={GlobalStyles.cardTiltle}
                   />
                   <TouchableOpacity
-                    style={[GlobalStyles.row, { flex: 0, width: 45 }]}
+                    style={[GlobalStyles.row, { flex: 0, width: 50 }]}
                   >
                     <FontAwesome5
                       name="pen"
                       size={12}
-                      color={colors.primaryColor}
+                      color={colors.faintblueColorRBG}
                     />
                     <CustomText
                       title={config.Profile.edit}
                       textStyle={[
                         GlobalStyles.faintText,
-                        { color: Colors.primaryColor },
+                        { color: Colors.faintblueColorRBG },
                       ]}
                     />
                   </TouchableOpacity>
@@ -134,10 +134,13 @@ const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
               {/* Settings Card */}
               <CustomText
                 title={config.Profile.setting}
-                textStyle={[GlobalStyles.cardTiltle, { left: 20 }]}
+                textStyle={[GlobalStyles.cardTiltle, { left: ms(22) }]}
               />
               {settings.map((item, index) => (
-                <CardContainer style={GlobalStyles.borderStyles}>
+                <CardContainer
+                  style={[GlobalStyles.borderStyles, { height: ms(60) }]}
+                  showShadow={false}
+                >
                   <SettingItem
                     key={index}
                     Icon={item.icon}
@@ -147,19 +150,23 @@ const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
                 </CardContainer>
               ))}
               <TouchableOpacity>
-                <CardContainer style={GlobalStyles.logoutBorderStyles}>
-                    <FontAwesome5
-                      name="sign-out-alt"
-                      size={22}
-                      color={Colors.red}
-                    />
-                    <CustomText
-                      title={config.Profile.logout}
-                      textStyle={[
-                        GlobalStyles.cardTiltle,
-                        { color: Colors.red, textAlign: 'center' },
-                      ]}
-                    />
+                <CardContainer
+                  style={GlobalStyles.logoutBorderStyles}
+                  showShadow={false}
+                >
+                  <FontAwesome5
+                    name="sign-out-alt"
+                    size={22}
+                    color={Colors.red}
+                  />
+                  <CustomText
+                    title={config.Profile.logout}
+                    textStyle={[
+                      restFont,
+                      GlobalStyles.textConatiner,
+                      { color: Colors.red },
+                    ]}
+                  />
                 </CardContainer>
               </TouchableOpacity>
             </ScrollView>

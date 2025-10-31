@@ -30,7 +30,7 @@ const ZuvyDashBoard = () => {
   const navigation = useNavigation<any>();
   const { borderRadius, ...shadowWithoutRadius } = GlobalStyles.shadowStyles;
   return (
-    <BlueWhiteBackground headerHeight={90}>
+    <BlueWhiteBackground headerHeight={80}>
       <ZuvyHeader onProfilePress={() => navigation.navigate('Profile')} />
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -227,6 +227,7 @@ const ZuvyDashBoard = () => {
             ]}
             textStyles={GlobalStyles.ZuvyDashBoardBtnText}
             commingSoon
+            badgeTextColor={colors.white}
             BadgeText={config.ZuvyDashBoard.commingSoon}
             leftIcon={<VectorSVG fill="#fff" />}
           />
