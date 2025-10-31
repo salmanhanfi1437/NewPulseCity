@@ -20,11 +20,13 @@ const VerificationCompleted = () => {
 
            <CustomText title={thankuKYC} textStyle={[FontStyles.subText,mt(30),GlobalStyles.textAlign]}/>
 
-           
+                   <View style={GlobalStyles.fullwidth}>
+
            <Button
         onPress={() => console.log('Press')}
         viewStyle={[mt(40),GlobalStyles.viewRow,GlobalStyles.viewCenter]} 
         title={backToDashboard}/>
+        </View>
 
         </View>
     )

@@ -6,7 +6,6 @@ import GlobalStyles from '../../../styles/GlobalStyles';
 import CustomButton from '../CustomButton/index';
 import { CustomText } from '../Text';
 import { skip,done,next } from '../../../types/constants';
-import { useTranslation } from 'react-i18next';
 import FontStyles from '../../../styles/FontStyles';
 
 type SlideItem = {
@@ -29,9 +28,7 @@ const OnboardingSlider: React.FC<OnboardingSliderProps> = ({
 }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const sliderRef = useRef<AppIntroSlider>(null);
-    const { t } = useTranslation();
 
-  
   const handleSkip = () => {
     if (onSkip) onSkip();
   };
@@ -71,11 +68,11 @@ const OnboardingSlider: React.FC<OnboardingSliderProps> = ({
 
         <View style={GlobalStyles.buttonContainer}>
           <CustomButton
-            title={index === slides.length - 1 ? t(done) : t(next)}
+            title={index === slides.length - 1 ? done : next}
             onPress={handleNext}
             buttonStyle={{ backgroundColor: Colors.primaryColor }}
           />
-          <CustomButton title={t(skip)} onPress={handleSkip} textStyle={FontStyles.buttonText} />
+          <CustomButton title={skip} onPress={handleSkip} textStyle={FontStyles.buttonText} buttonStyle={GlobalStyles.disabledButton}/>
         </View>
       </View>
     );

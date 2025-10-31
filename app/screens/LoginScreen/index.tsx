@@ -31,6 +31,7 @@ import {
   resendOtpTimer,
   welcomeZuvy,
 } from "../../types/constants";
+import CustomButton from "../../components/atoms/CustomButton";
 
 const RESEND_TIMER = 30;
 
@@ -170,9 +171,7 @@ const LoginScreen = ({ navigation }: LoginProps) => {
               {timer > 0 ? (
                 <CustomText
                   textStyle={[
-                    FontStyles.headingText,
-                    GlobalStyles.textAlign,
-                    mt(15),
+                    styles.txtTimer
                   ]}
                   title={t(resendOtpTimer, {
                     time: `00:${timer < 10 ? `0${timer}` : timer}s`,
@@ -199,7 +198,8 @@ const LoginScreen = ({ navigation }: LoginProps) => {
             <Button
               title={const_continue}
               onPress={handleLogin}
-              viewStyle={[styles.btnLogin,GlobalStyles.viewCenter]}
+              titleStyle={[FontStyles.headingText]}
+              viewStyle={styles.btnLogin}
             />
           )}
     </BackgroundPrimaryColor>
@@ -222,6 +222,11 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     ...Typography.weights.mediumU,
     marginTop: mvs(30),
+  },
+  txtTimer:{
+    ...FontStyles.headingText,
+    ...GlobalStyles.textAlign,
+    marginTop:mvs(20)
   },
   signupText: {
     fontSize: ms(16),
@@ -248,9 +253,7 @@ const styles = StyleSheet.create({
     marginTop: mvs(10),
   },
   btnLogin: {
-    fontWeight: "700",
-    alignSelf: "center",
-    marginTop: mvs(40),
-    width: "100%",
+    ...GlobalStyles.alignItem,
+    marginTop:mvs(30)
   },
 });

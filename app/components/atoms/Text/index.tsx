@@ -14,7 +14,5 @@ interface CustomTextProps extends TextProps {
 export const CustomText: React.FC<CustomTextProps> = ({ title, textStyle,underline,onPress }) => {
   const {t} = useTranslation();
   return <Text  onPress={onPress} style={[textStyle, underline && { textDecorationLine: 'underline' },
-
-
-  ]}>{t(title)}</Text>;
+]}>{t(title)}</Text>;
 };

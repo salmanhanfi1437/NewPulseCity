@@ -19,6 +19,7 @@ import VerificationIdentityScreens from '../screens/VerificationIdentityScreens'
 import VerificationCompleteScreen from '../screens/VerificationCompleteScreen';
 import YourCartScreen from '../screens/YourCartScreen';
 import NotificationScreen from '../screens/NotificationScreen';
+import { navigationRef } from './NavigationService';
 
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -27,8 +28,8 @@ const RootNavigator = () => {
   return (
     <NativeBaseProvider>
       <StatusBar barStyle="default" translucent={true} backgroundColor="transparent" />
-      <NavigationContainer>
-        <Stack.Navigator
+        <NavigationContainer ref={navigationRef}>
+          <Stack.Navigator
           screenOptions={{
             headerShown: false,
             cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS, 

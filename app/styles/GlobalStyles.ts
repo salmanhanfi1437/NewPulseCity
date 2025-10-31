@@ -1,7 +1,6 @@
-import { StyleSheet, Platform, Dimensions } from 'react-native';
-import { Colors, Typography } from '.';
+import { StyleSheet, Dimensions } from 'react-native';
+import { Colors } from '.';
 import { ms, mvs } from 'react-native-size-matters';
-import { screenWidth } from '../utils/dimensions';
 
 const { width, height } = Dimensions.get('window');
 
@@ -9,6 +8,10 @@ const GlobalStyles = StyleSheet.create({
   main : {
     flex: 1,
     backgroundColor: Colors.primaryColor,
+  },
+  zuvyRightIcons: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   container: {
     flex: 1,
@@ -67,7 +70,7 @@ const GlobalStyles = StyleSheet.create({
   },
 
   activeDot: {
-    backgroundColor: Colors.primaryColor,
+    backgroundColor: Colors.secondaryColor,
     width: ms(60),
   },
   // Style for all inactive dots
@@ -95,8 +98,8 @@ const GlobalStyles = StyleSheet.create({
     bottom: '30%',
   },
   Custombutton: {
-    backgroundColor: Colors.transparent,
-    width: width / ms(1.2),
+    backgroundColor: Colors.secondaryColor,
+    width: '100%',
     padding: ms(10),
     borderRadius: ms(25),
     alignItems: 'center',
@@ -104,8 +107,9 @@ const GlobalStyles = StyleSheet.create({
     marginBottom: ms(10),
     height: ms(50),
   },
+
   disabledButton: {
-    backgroundColor: '#A0A0A0',
+    backgroundColor: Colors.transparent,
   },
  
   buttonContainer: {
@@ -113,6 +117,10 @@ const GlobalStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-around',
     bottom: height * ms(0),
+  },
+   btnLogin: {
+        alignItems:'center',
+    marginTop:mvs(30)
   },
   margin_top10 : {
     marginTop:mvs(10),
@@ -201,7 +209,7 @@ flexEnd :{
     shadowOffset: { width: 0, height: ms(2) },
     shadowOpacity: mvs(0.10),
     shadowRadius: mvs(4),
-    elevation: ms(5),
+    elevation: ms(3),
     backgroundColor:Colors.white
   },
   fullwidth: {
@@ -265,5 +273,7 @@ flexEnd :{
     borderRadius:ms(10),
     backgroundColor:Colors.primaryColor
   },
+
+
 });
 export default GlobalStyles;

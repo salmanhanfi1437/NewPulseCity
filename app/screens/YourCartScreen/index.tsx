@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {View} from 'react-native';
 import HeaderWithBackButton from "../../components/atoms/HeaderWithBackButton";
-import { alltimesupport, analyticDashboard, buynow, const_totalAmount, instantCode, itemTotal, minus, notifications, oneyearvalidity, plus, pricebreakdown, quantity, securePayment, subTotal, total, totalamount, whatincluded, yourCart } from "../../types/constants";
+import { alltimesupport, analyticDashboard, buynow, const_totalAmount, instantCode, itemTotal, minus, notifications, oneyearvalidity, plus, pricebreakdown, quantity, securePayment, subTotal, total, totalamount, verifyIdentity, whatincluded, yourCart } from "../../types/constants";
 import { yourCartProps } from "../../navigation/types";
 import Header from "../../components/atoms/Header";
 import { useTranslation } from "react-i18next";
@@ -18,6 +18,7 @@ import ViewOutlined from "../../components/atoms/ViewOutlined";
 import CartStyles from "./styles";
 import { ScrollView } from "react-native-gesture-handler";
 import Button from "../../components/atoms/Button";
+import VerificationIdentityScreens from "../VerificationIdentityScreens";
 
 const YourCart = ({navigation} : yourCartProps) => {
 
@@ -169,7 +170,7 @@ const YourCart = ({navigation} : yourCartProps) => {
 
             
   <Button 
-        onPress={() => navigation.navigate(notifications) }
+        onPress={() => navigation.navigate(verifyIdentity) }
         image={<CartSVG/>} 
         viewStyle={[CartStyles.btnBuyNow]} 
         title={buynow} titleStyle={[ml(10),textColor(Colors.white)]}/>

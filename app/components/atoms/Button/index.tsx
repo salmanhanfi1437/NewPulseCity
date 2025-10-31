@@ -12,9 +12,9 @@ type ButtonProps = {
     title? : string,
     onPress? : () => void;
     disabled? : boolean;
-    viewStyle? : StyleProp<ViewStyle>;
+    viewStyle? : StyleProp<ViewStyle> | ViewStyle[];
     image?: ReactNode;
-    titleStyle?: StyleProp<TextStyle>; 
+    titleStyle?: StyleProp<TextStyle>;
 }
 
 const Button = ({title,onPress,disabled,viewStyle,image,titleStyle} : ButtonProps) => {
@@ -37,6 +37,7 @@ const styles = StyleSheet.create({
                 backgroundColor: Colors.secondaryColor,
                 alignSelf: 'center',
                 width: '100%',
+                alignItems:'center'
             },
 });
 

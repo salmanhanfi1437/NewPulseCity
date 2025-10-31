@@ -15,6 +15,8 @@ type BgProps = {
   title?: string;
   subTitle?: string;
   children?: React.ReactNode;
+  enableKeyboardScroll?: boolean; // 👈 new prop
+
 };
 
 const BackgroundPrimaryColor = ({ title, subTitle, children }: BgProps) => {

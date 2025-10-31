@@ -65,3 +65,5 @@ export const all="all";
 export const payments="payments";
 export const orders="orders";
 export const updates="updates";
+export const select_your_language="select_your_language";
+export const choose_language_title="choose_language_title";

@@ -19,5 +19,6 @@ export default {
   color_BBF7D0 : "#BBF7D0",
   color_F0FDF4 : "#F0FDF4",
   color_22C55E : "#22C55E",
-  color_DBEAFE : "#DBEAFE"
+  color_DBEAFE : "#DBEAFE",
+  color_A0A0A0 : "#A0A0A0",
 };

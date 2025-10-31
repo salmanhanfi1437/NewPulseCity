@@ -4,9 +4,12 @@ import GlobalStyles from '../../../styles/GlobalStyles';
 
 interface CustomPressableOpacityProps extends PressableProps {
   children?: ReactNode;
+
 }
 
 const PressableOpacity = ({ children, onPress, onLongPress, delayLongPress, style }: CustomPressableOpacityProps) => {
+  
+
   const scale = new Animated.Value(1);
 
   const onPressIn = () => {

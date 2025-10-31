@@ -40,6 +40,7 @@ const ViewRounded10 : React.FC<viewround10Props> = ({title,containerStyle,titleS
 const styles = StyleSheet.create({
 
 container: {
+    
     borderRadius: mvs(30),
     padding: mvs(15),
     shadowColor: '#000',
