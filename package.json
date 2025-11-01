@@ -65,6 +65,6 @@
   },
   "codegenConfig": {
     "name": "ZuvyStore",
-    "namespace": "com.zuvy.app"
+    "namespace": "ai.zuvystore.com"
   }
 }
