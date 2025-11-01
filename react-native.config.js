@@ -4,7 +4,6 @@ module.exports = {
   dependencies: {
     'react-native-svg': {
       root: path.resolve(__dirname, 'node_modules/react-native-svg'),
-      sourceDir: path.resolve(__dirname, 'node_modules/react-native-svg', 'android'),
     },
   },
   project: {
