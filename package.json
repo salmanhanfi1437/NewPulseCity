@@ -25,7 +25,7 @@
     "moment": "^2.30.1",
     "native-base": "^3.4.28",
     "prop-types": "^15.8.1",
-    "react": "19.1.0",
+    "react": "19.2.0",
     "react-dom": "^19.2.0",
     "react-i18next": "^16.2.1",
     "react-native": "0.80.0",
@@ -73,5 +73,9 @@
   },
   "engines": {
     "node": ">=18"
+  },
+  "codegenConfig": {
+    "name": "ZuvyStore",
+    "namespace": "ai.zuvystore.com"
   }
 }
