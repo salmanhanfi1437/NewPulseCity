@@ -3,15 +3,16 @@ const path = require('path');
 module.exports = {
   dependencies: {
     'react-native-svg': {
-      root: path.join(__dirname, 'node_modules', 'react-native-svg'),
+      root: path.resolve(__dirname, 'node_modules/react-native-svg'),
+      sourceDir: path.resolve(__dirname, 'node_modules/react-native-svg', 'android'),
     },
   },
   project: {
     android: {
-      sourceDir: './android',
+      sourceDir: path.resolve(__dirname, 'android'),
     },
     ios: {
-      sourceDir: './ios',
+      sourceDir: path.resolve(__dirname, 'ios'),
     },
   },
   codegenConfig: {
