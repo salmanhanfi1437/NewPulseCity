@@ -9,6 +9,8 @@ import { analytics, home, network, qr_code, settings } from "../../../types/cons
 import TabIcons from "../../../components/atoms/TabIcons";
 import GlobalStyles from "../../../styles/GlobalStyles";
 import { SafeAreaView } from 'react-native-safe-area-context';
+import ZuvyDashBoard from "../../../screens/DashBoard";
+import QRManageMent from "../../../screens/QrManagement";
 
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -26,8 +28,8 @@ const MerchantTabs = () => {
         tabBarStyle: GlobalStyles.tabBarStyle}}
     >
       <Tab.Screen
-        name={'merchantHomeScreen'}
-        component={HomeScreen}
+        name={'Home'}
+        component={ZuvyDashBoard}
         options={{
           tabBarIcon: ({ focused }) => (
             <TabIcons focused={focused} title={home} ActiveIcon={HomeActiveSVG} InActiveIcon={HomeSVG}/>),
@@ -35,7 +37,7 @@ const MerchantTabs = () => {
 
       <Tab.Screen
         name="Analytics"
-        component={HomeScreen}
+        component={QRManageMent}
         options={{
           tabBarIcon: ({ focused }) => (
                        <TabIcons focused={focused} title={analytics} ActiveIcon={HomeActiveSVG} InActiveIcon={HomeSVG}/>

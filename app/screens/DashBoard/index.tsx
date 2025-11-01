@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react';
-import { ScrollView, TouchableOpacity, View } from 'react-native';
+import { FlatList, ScrollView, TouchableOpacity, View } from 'react-native';
 import { CustomText } from '../../components/atoms/Text';
 import config from '../config';
-import GlobalStyles from '../../styles/GlobalStyles';
+import GlobalStyles, {
+  getShadowWithElevation,
+} from '../../styles/GlobalStyles';
 import ZuvyHeader from '../../components/atoms/DashboardHeaderComponent';
 import BlueWhiteBackground from '../../components/atoms/DashBoardBG';
 import VerticalLine from '../../components/atoms/VerticalineComponent';
@@ -15,9 +17,11 @@ import {
   GreenbagSVG,
   HumburgerSVG,
   InfoSVG,
+  LockSvg,
   RightArrowSVG,
   RightSVG,
   ShieldSVG,
+  TransportSvg,
   VectorSVG,
   WechatSVG,
 } from '../../assets/svg';
@@ -28,7 +32,27 @@ import colors from '../../styles/colors';
 
 const ZuvyDashBoard = () => {
   const navigation = useNavigation<any>();
-  const { borderRadius, ...shadowWithoutRadius } = GlobalStyles.shadowStyles;
+  const { borderRadius, elevation, ...shadowWithoutRadius } =
+    GlobalStyles.shadowStyles;
+  const DistributorsArr = [
+    {
+      title: 'Verified QR Ownership',
+      description: 'Every kit you buy is legally \n registered to your name.',
+      icon: GreenbagSVG,
+    },
+    {
+      title: 'Guaranteed Activation Timeline',
+      description:
+        'Your investment is protected \n with a clear refund window.',
+      icon: LockSvg,
+    },
+    {
+      title: 'Transparent Delivery Tracking',
+      description: 'Track your kit delivery \n from dispatch to doorstep.',
+      icon: TransportSvg,
+    },
+  ];
+
   return (
     <BlueWhiteBackground headerHeight={80}>
       <ZuvyHeader onProfilePress={() => navigation.navigate('Profile')} />
@@ -96,7 +120,10 @@ const ZuvyDashBoard = () => {
           </View>
           <HorizontalLine />
           <View
-            style={[GlobalStyles.zuvyRightIcons, { alignItems: 'flex-start' }]}
+            style={[
+              GlobalStyles.zuvyRightIcons,
+              { alignItems: GlobalStyles.avoidJustify.justifyContent },
+            ]}
           >
             <CalendarSVG width={ms(30)} height={ms(30)} />
             <View style={GlobalStyles.textConatiner}>
@@ -112,7 +139,7 @@ const ZuvyDashBoard = () => {
             style={[
               GlobalStyles.zuvyRightIcons,
               GlobalStyles.containerPaddings,
-              { alignItems: 'flex-start' },
+              { alignItems: GlobalStyles.avoidJustify.justifyContent },
             ]}
           >
             <ShieldSVG width={ms(25)} height={ms(25)} />
@@ -197,25 +224,30 @@ const ZuvyDashBoard = () => {
               },
             ]}
           />
-          <CardContainer>
-            <GreenbagSVG />
-            <CustomText
-              title={config.ZuvyDashBoard.verifyOwner}
-              textStyle={[
-                GlobalStyles.headingText,
-                GlobalStyles.containerPaddings,
-                { marginTop: 8, fontSize: ms(14) },
-              ]}
-            />
-            <CustomText
-              title={config.ZuvyDashBoard.legalkit}
-              textStyle={GlobalStyles.greyColorText}
-            />
-            <CustomText
-              title={config.ZuvyDashBoard.registerName}
-              textStyle={GlobalStyles.greyColorText}
-            />
-          </CardContainer>
+
+          <FlatList
+            data={DistributorsArr}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            renderItem={({ item }) => {
+              return (
+                <CardContainer style={[ GlobalStyles.width70,{margin:GlobalStyles.iconButton.padding}]}>
+                  {<item.icon />}
+                  <CustomText
+                    title={item.title}
+                    textStyle={[
+                      GlobalStyles.headingText,
+                      { fontSize:GlobalStyles.faintText.fontSize },
+                    ]}
+                  />
+                  <CustomText
+                    title={item.description}
+                    textStyle={[GlobalStyles.greyColorText,GlobalStyles.faintText,]}
+                  />
+                </CardContainer>
+              );
+            }}
+          />
 
           <CustomButton
             gradientColors={colors.profileHeaderGradient}
@@ -229,16 +261,17 @@ const ZuvyDashBoard = () => {
             commingSoon
             badgeTextColor={colors.white}
             BadgeText={config.ZuvyDashBoard.commingSoon}
-            leftIcon={<VectorSVG fill="#fff" />}
+            leftIcon={<VectorSVG fill={Colors.white} />}
           />
           <CustomButton
-            gradientColors={['#FFF', '#FFF', '#FFFFFF']}
+            gradientColors={[Colors.white, Colors.white, Colors.white]}
             title={config.ZuvyDashBoard.customerSuport}
             onPress={() => {}}
             buttonStyle={[
               GlobalStyles.ZuvyDashBoardBtn,
               GlobalStyles.ZuvyDashBoardContainer,
-              shadowWithoutRadius,
+              GlobalStyles.borderStyles,
+              getShadowWithElevation(1),
             ]}
             textStyles={[
               GlobalStyles.ZuvyDashBoardBtnText,
@@ -248,13 +281,14 @@ const ZuvyDashBoard = () => {
             rightIcon={<RightArrowSVG fill={Colors.white} />}
           />
           <CustomButton
-            gradientColors={['#FFF', '#FFF', '#FFF']}
+            gradientColors={[Colors.white, Colors.white, Colors.white]}
             title={config.ZuvyDashBoard.legalZuvy}
             onPress={() => {}}
             buttonStyle={[
-              GlobalStyles.ZuvyDashBoardBtn,
               GlobalStyles.ZuvyDashBoardContainer,
-              shadowWithoutRadius,
+              GlobalStyles.ZuvyDashBoardBtn,
+              GlobalStyles.borderStyles,
+              getShadowWithElevation(1),
             ]}
             textStyles={[
               GlobalStyles.ZuvyDashBoardBtnText,

@@ -17,6 +17,7 @@ import {
   Bell,
 } from '../../../assets/svg';
 import { ms } from 'react-native-size-matters';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
   return (props: any) => {
@@ -59,20 +60,32 @@ const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
         <Icon width={ms(40)} height={ms(40)} fill={Colors.white} />
         <View style={GlobalStyles.textConatiner}>
           <CustomText title={label} textStyle={[GlobalStyles.faintText]} />
-          <CustomText title={value} />
+          <CustomText title={value} style={[restFont]} />
         </View>
       </View>
     );
 
     const SettingItem = ({ Icon, label, value }: any) => (
-      <TouchableOpacity style={[GlobalStyles.row, GlobalStyles.avoidJustify]}>
-        <Icon width={ms(40)} height={ms(40)} />
+      <TouchableOpacity style={[GlobalStyles.width50, GlobalStyles.row]}>
         <View
-          style={[GlobalStyles.textConatiner, { height: ms(60), padding: 5 }]}
+          style={[
+            GlobalStyles.avoidJustify,
+            GlobalStyles.viewRow,
+            { justifyContent: GlobalStyles.row.alignItems },
+          ]}
         >
-          <CustomText title={label} textStyle={[restFont]} />
-          <CustomText title={value} textStyle={[GlobalStyles.faintText]} />
+          <Icon width={ms(40)} height={ms(40)} />
+          <View style={[GlobalStyles.textConatiner, { height: ms(22) }]}>
+            <CustomText title={label} textStyle={[restFont]} />
+            <CustomText title={value} textStyle={[GlobalStyles.faintText]} />
+          </View>
         </View>
+        <MaterialIcons
+          name="chevron-right"
+          size={32}
+          color={Colors.grey_50}
+          style={{ right: GlobalStyles.playDurationBadge.right }}
+        />
       </TouchableOpacity>
     );
 
@@ -102,7 +115,9 @@ const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
                 <View style={GlobalStyles.row}>
                   <CustomText
                     title={config.Profile.PersonalInfoTitle}
-                    textStyle={GlobalStyles.cardTiltle}
+                    textStyle={[
+                      GlobalStyles.cardTiltle,
+                    ]}
                   />
                   <TouchableOpacity
                     style={[GlobalStyles.row, { flex: 0, width: 50 }]}
@@ -151,12 +166,12 @@ const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
               ))}
               <TouchableOpacity>
                 <CardContainer
-                  style={GlobalStyles.logoutBorderStyles}
+                  style={[GlobalStyles.logoutBorderStyles, { height: ms(55) }]}
                   showShadow={false}
                 >
                   <FontAwesome5
                     name="sign-out-alt"
-                    size={22}
+                    size={20}
                     color={Colors.red}
                   />
                   <CustomText

@@ -29,6 +29,7 @@ import VerificationCompleteScreen from '../screens/VerificationCompleteScreen';
 import YourCartScreen from '../screens/YourCartScreen';
 import EditQR from '../screens/QrEditDetails';
 import QRManageMent from '../screens/QrManagement';
+import { LogBox } from 'react-native';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -48,9 +49,7 @@ const RootNavigator = () => {
           }}
         >
           <Stack.Screen name={'ZuvyDashBoard'} component={ZuvyDashBoard} />
-          <Stack.Screen name={'EditQRDetails'} component={EditQR} />
-          <Stack.Screen name={'QRManageMent'} component={QRManageMent} />
-          <Stack.Screen name={'Profile'} component={UserProfile} />
+          <Stack.Screen name={'merchantTabs'} component={merchantTabs} />
           <Stack.Screen name={splash} component={SplashScreen} />
           <Stack.Screen
             name="ChooseLanguage"
@@ -59,7 +58,9 @@ const RootNavigator = () => {
           <Stack.Screen name={onBoarding} component={OnboardingScreen} />
           <Stack.Screen name={login} component={LoginScreen} />
           <Stack.Screen name={'signup'} component={SignupScreens} />
-          <Stack.Screen name={'merchantTabs'} component={merchantTabs} />
+          <Stack.Screen name={'QRManageMent'} component={QRManageMent} />
+          <Stack.Screen name={'EditQRDetails'} component={EditQR} />
+          <Stack.Screen name={'Profile'} component={UserProfile} />
           <Stack.Screen
             name={verifyIdentity}
             component={VerificationIdentityScreens}
@@ -74,4 +75,11 @@ const RootNavigator = () => {
     </NativeBaseProvider>
   );
 };
+
 export default RootNavigator;
+
+LogBox.ignoreAllLogs();
+LogBox.ignoreLogs([
+  'Warning: Each child in a list should have a unique "key" prop',
+  'Require cycle:',
+]);

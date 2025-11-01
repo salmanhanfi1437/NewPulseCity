@@ -22,7 +22,7 @@ import Badge from '../../components/atoms/Badge';
 import ViewOutlined from '../../components/atoms/ViewOutlined';
 import Dropdown from '../../components/atoms/CustomModal';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-const { width, height } = Dimensions.get('window');
+import getDynamicTextStyle from "../../styles/DynamicTextStyles";
 interface DynamicViewStyleProps {
   marginVertical?: number;
   justifyContent?: ViewStyle['justifyContent'];
@@ -39,17 +39,7 @@ const QRManageMent = () => {
   const navigation = useNavigation<any>();
   const { color, flex, textAlign, ...rest } = GlobalStyles.headertitle;
   const { borderRadius, padding, ...restShadow } = GlobalStyles.shadowStyles;
-  const getDynamicTextStyle = (
-    size?: number,
-    color?: string,
-    marginVertical?: number,
-    margin?: number,
-  ) => ({
-    fontSize: size,
-    color,
-    marginVertical,
-    margin,
-  });
+
   const getDynamicViewStyle = ({
     marginVertical,
     justifyContent,
@@ -168,7 +158,7 @@ const QRManageMent = () => {
             />
             <CustomText
               title={'+12% this month'}
-              textStyle={[getDynamicTextStyle(12, colors.lightgreen)]}
+              textStyle={[getDynamicTextStyle(12, colors.lightgreen,)]}
             />
           </CardContainer>
           <CardContainer

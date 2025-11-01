@@ -2,7 +2,6 @@ import { StyleSheet, Platform, Dimensions, StatusBar } from 'react-native';
 import { Colors, Typography } from '.';
 import { ms, mvs } from 'react-native-size-matters';
 import colors from './colors';
-import QRManageMent from '../screens/QrManagement';
 
 const { width, height } = Dimensions.get('window');
 const GlobalStyles = StyleSheet.create({
@@ -15,6 +14,9 @@ const GlobalStyles = StyleSheet.create({
   },
   width50: {
     width: width - 50,
+  },
+  width70:{
+     width: width /1.5
   },
   //greyColor
   greyColorText: {
@@ -597,3 +599,10 @@ const GlobalStyles = StyleSheet.create({
   },
 });
 export default GlobalStyles;
+export const getShadowWithElevation = (elevationValue: number) => {
+  const { borderRadius, elevation, ...shadowWithoutRadius } = GlobalStyles.shadowStyles;
+  return {
+    ...shadowWithoutRadius,
+    elevation: elevationValue,
+  };
+};

@@ -24,7 +24,7 @@ import HomeSVG from './home.svg';
 import HomeActiveSVG from './homeactive.svg';
 import DashBoardSVG from './dashboard.svg';
 import NotificationSVG from './notification.svg';
-import ZuvyLogo from "./zuvylogo.svg"
+import ZuvyLogo from './zuvylogo.svg';
 import VerifyKYCSVG from './verifykyc.svg';
 import TickCircleSVG from './tickcircle.svg';
 import DigiLockerSVG from './digilocker_verify.svg';
@@ -35,6 +35,8 @@ import MinusSVG from './minus.svg';
 import PlusSVG from './plus.svg';
 import PriceBreakDownSVG from './pricebreakdown.svg';
 import TickWhiteSVG from './tickwhite.svg';
+import LockSvg from './lock.svg';
+import TransportSvg from './transport.svg';
 
 export {
   MicSVG,
@@ -74,4 +76,6 @@ export {
   RightArrowSVG,
   VectorSVG,
   QrplassholderSVG,
+  LockSvg,
+  TransportSvg,
 };

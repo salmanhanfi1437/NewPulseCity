@@ -22,7 +22,7 @@ export default function TabIcons({focused,title,ActiveIcon,InActiveIcon} : TabIc
       <Text
        ellipsizeMode="clip"
         style={[GlobalStyles.tabsText,{
-          color: focused ? Colors.primaryColor : Colors.black,marginTop: mvs(3)}]}>
+          color: focused ? Colors.primaryColor : Colors.grey_50,marginTop: mvs(3)}]}>
         {title}
       </Text>
     </View>
