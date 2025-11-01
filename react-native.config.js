@@ -1,25 +1,21 @@
-module.exports = {
-    project: {
-        ios : {},
-        andorid : {},
-    },
-    assets: ['./app/assets/fonts']
-}
-// react-native.config.js
 const path = require('path');
 
 module.exports = {
-  dependencies: {},
+  dependencies: {
+    'react-native-svg': {
+      root: path.join(__dirname, 'node_modules', 'react-native-svg'),
+    },
+  },
   project: {
     android: {
-      sourceDir: path.join(__dirname, 'android'),
+      sourceDir: './android',
     },
     ios: {
-      sourceDir: path.join(__dirname, 'ios'),
+      sourceDir: './ios',
     },
   },
   codegenConfig: {
     name: 'ZuvyStore',
-    namespace: 'ai.zuvystore.com', // Must match AndroidManifest.xml
+    namespace: 'ai.zuvystore.com',
   },
 };
