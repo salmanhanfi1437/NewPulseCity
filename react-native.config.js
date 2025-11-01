@@ -4,7 +4,7 @@ const path = require('path');
 module.exports = {
   dependencies: {},
   project: {
-    android: { sourceDir: './android' },
+    android: { sourceDir: './android',packageName: 'ai.zuvystore.com' },
     ios: { sourceDir: './ios' },
   },
   codegenConfig: {
