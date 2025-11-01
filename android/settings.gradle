@@ -12,3 +12,8 @@ plugins {
 rootProject.name = "ZuvyStore"
 include ':app'
 
+
+com.facebook.react.ReactSettingsExtension.apply(rootProject) {
+    autolinkLibrariesFromCommand()
+}
+
