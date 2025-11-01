@@ -11,6 +11,6 @@ module.exports = {
   },
   codegenConfig: {
     name: 'ZuvyStore',
-    namespace: ai.zuvystore.com', // Must match your Android appId (see AndroidManifest.xml)
+    namespace: 'ai.zuvystore.com', // Must match your Android appId (see AndroidManifest.xml)
   },
 };
