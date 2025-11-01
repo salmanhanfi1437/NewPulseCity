@@ -64,7 +64,7 @@
     "node": ">=18"
   },
   "codegenConfig": {
-    "name": "Zuvy",
+    "name": "ZuvyStore",
     "namespace": "com.zuvy.app"
   }
 }
