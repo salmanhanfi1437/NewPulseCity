@@ -62,5 +62,9 @@
   },
   "engines": {
     "node": ">=18"
+  },
+  "codegenConfig": {
+    "name": "Zuvy",
+    "namespace": "com.zuvy.app"
   }
 }
