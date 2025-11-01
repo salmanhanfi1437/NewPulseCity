@@ -4,12 +4,11 @@ const path = require('path');
 module.exports = {
   dependencies: {},
   project: {
-    android: { 
+    android: {
       sourceDir: './android',
-      packageName: 'ai.zuvystore.com', 
+      packageName: 'ai.zuvystore.com', // correct format
     },
-    ios: { sourceDir: './ios' },
-  },
+  };
   codegenConfig: {
     name: 'ZuvyStore',
     namespace: 'ai.zuvystore.com',
