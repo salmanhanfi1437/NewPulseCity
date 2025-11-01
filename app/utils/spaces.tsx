@@ -1,3 +1,6 @@
+import { ms, mvs } from "react-native-size-matters";
+import CartStyles from "../screens/YourCartScreen/styles";
+
 // this  will provide us  margin top styles
 export const mt = (value : number) => {
   return { marginTop: value };
@@ -8,32 +11,32 @@ export const flexGrow = (value : number) =>{
 }
 
 export const ml = (value : number) => {
-  return { marginLeft: value };
+  return { marginLeft: mvs(value) };
 };
 
 export const mr = (value : number) => {
-  return { marginRight: value };
+  return { marginRight: mvs(value) };
 };
 
 export const mb = (value : number) => {
-  return { marginBottom: value };
+  return { marginBottom: mvs(value) };
 };
 
 
 export const pt = (value : number) => {
-  return { paddingTop: value };
+  return { paddingTop: mvs(value) };
 };
 
 export const pl = (value : number) => {
-  return { paddingLeft: value };
+  return { paddingLeft: mvs(value) };
 };
 
 export const pr = (value : number) => {
-  return { paddingRight: value };
+  return { paddingRight: mvs(value) };
 };
 
 export const pb = (value : number) => {
-  return { paddingBottom: value };
+  return { paddingBottom: mvs(value) };
 };
 
 export const fontColor = (value : string) => {
@@ -46,9 +49,17 @@ export const bgColor = (value : string) => {
 }
 
 export const borderWidth = (value : number) => {
-  return {borderWidth : value}
+  return {borderWidth : ms(value)}
 }
 
 export const padding = (value : number) => {
-  return {padding : value}
+  return {padding : mvs(value)}
 }
+
+export const textColor = (value : string) => {
+  return {color : value}
+}
+
+export const textIncludedStyle = (marginTop: number) => {
+  return [CartStyles.textincluded, mt(mvs(marginTop))];
+};

@@ -45,6 +45,10 @@ const GlobalStyles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.primaryColor,
   },
+  zuvyRightIcons: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   container: {
     flex: 1,
     backgroundColor: Colors.primaryColor,
@@ -106,7 +110,7 @@ const GlobalStyles = StyleSheet.create({
   },
 
   activeDot: {
-    backgroundColor: Colors.primaryColor,
+    backgroundColor: Colors.secondaryColor,
     width: ms(60),
   },
   // Style for all inactive dots
@@ -134,8 +138,8 @@ const GlobalStyles = StyleSheet.create({
     bottom: '30%',
   },
   Custombutton: {
-    backgroundColor: Colors.transparent,
-    width: width / ms(1.2),
+    backgroundColor: Colors.secondaryColor,
+    width: '100%',
     padding: ms(10),
     borderRadius: ms(25),
     alignItems: 'center',
@@ -143,8 +147,9 @@ const GlobalStyles = StyleSheet.create({
     marginBottom: ms(10),
     height: ms(50),
   },
+
   disabledButton: {
-    backgroundColor: '#A0A0A0',
+    backgroundColor: Colors.transparent,
   },
   buttonText: {
     color: Colors.white,
@@ -159,8 +164,12 @@ const GlobalStyles = StyleSheet.create({
     justifyContent: 'space-around',
     bottom: height * ms(0),
   },
-  margin_top10: {
-    marginTop: mvs(10),
+   btnLogin: {
+        alignItems:'center',
+    marginTop:mvs(30)
+  },
+  margin_top10 : {
+    marginTop:mvs(10),
   },
   margin_bottom_10: {
     marginBottom: mvs(10),
@@ -492,10 +501,10 @@ const GlobalStyles = StyleSheet.create({
     padding: mvs(18),
     shadowColor: '#000',
     shadowOffset: { width: 0, height: ms(2) },
-    shadowOpacity: mvs(0.15),
+    shadowOpacity: mvs(0.10),
     shadowRadius: mvs(4),
-    elevation: ms(5),
-    backgroundColor: Colors.white,
+    elevation: ms(3),
+    backgroundColor:Colors.white
   },
   fullwidth: {
     width: '100%',
@@ -597,6 +606,12 @@ const GlobalStyles = StyleSheet.create({
     borderColor: Colors.grey_50,
     borderRadius: ms(10),
   },
+  btnPrimary : {
+    borderRadius:ms(10),
+    backgroundColor:Colors.primaryColor
+  },
+
+
 });
 export default GlobalStyles;
 export const getShadowWithElevation = (elevationValue: number) => {

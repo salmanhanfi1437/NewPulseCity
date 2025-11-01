@@ -40,4 +40,6 @@ export default {
   faintgreenRGB: 'rgba(220, 252, 231, 1)',
   borderBottomColor: 'rgba(229, 231, 235, 1)',
   faintblueColorRBG: 'rgba(99, 102, 241, 1)',
+  color_DBEAFE : "#DBEAFE",
+  color_A0A0A0 : "#A0A0A0",
 };

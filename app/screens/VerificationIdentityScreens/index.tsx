@@ -31,13 +31,13 @@ const VerificationIdentity = ({navigation} : verifyIdentityProps) =>{
          <View style={[GlobalStyles.viewRow]}>
             <TickCircleSVG/>
 
-            <CustomText title={verifyIdentitySecurely} textStyle={[GlobalStyles.viewCenter,ml(10),FontStyles.subText]}/>
+            <CustomText title={verifyIdentitySecurely} textStyle={[GlobalStyles.viewCenter,ml(5),FontStyles.subText]}/>
         </View>
 
         <View style={[GlobalStyles.viewRow,mt(15)]}>
             <TickCircleSVG/>
 
-            <CustomText title={protectAccount} textStyle={[GlobalStyles.viewCenter,ml(10),FontStyles.subText]}/>
+            <CustomText title={protectAccount} textStyle={[GlobalStyles.viewCenter,ml(5),FontStyles.subText]}/>
         </View>
 
         <View style={[GlobalStyles.viewRow,mt(15)]}>
@@ -49,14 +49,15 @@ const VerificationIdentity = ({navigation} : verifyIdentityProps) =>{
            <CustomText title={learnMore} textStyle={[GlobalStyles.viewCenter,mt(10),FontStyles.headingText,fontColor(Colors.primaryColor),GlobalStyles.textAlign]}/>
          </Card>
 
+        <View style={GlobalStyles.fullwidth}>
         <Button 
         onPress={handleDigilockerPress}
-        image={<DigiLockerSVG/>} viewStyle={[mt(20),GlobalStyles.viewRow,GlobalStyles.viewCenter]} 
-        title={proceedDigiLocker} titleStyle={[ml(10)]}/>
+        image={<DigiLockerSVG/>} viewStyle={[mt(25),GlobalStyles.viewRow,GlobalStyles.viewCenter]} 
+        title={proceedDigiLocker} titleStyle={[ml(10)]}/></View>
 
             <View style={[GlobalStyles.viewRow,GlobalStyles.viewCenter,mt(10)]}>
                 <CustomText title={needHelp} textStyle={[FontStyles.subText,fontColor(Colors.color_6B7280)]}/>
-                 <CustomText title={contactSupport} textStyle={[FontStyles.subText,fontColor(Colors.color_6B7280),ml(mvs(2))]} underline={true}/>
+                 <CustomText title={contactSupport} textStyle={[FontStyles.subText,fontColor(Colors.color_6B7280),ml(2)]} underline={true}/>
 
             </View>
 

@@ -25,7 +25,7 @@ const FontStyles = StyleSheet.create({
     ...Typography.weights.boldU
   },
   text: {
-    fontSize: ms(14),
+    fontSize: ms(16),
     color: Colors.white,
     ...Typography.weights.mediumU
   },

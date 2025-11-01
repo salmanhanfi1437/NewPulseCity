@@ -15,6 +15,7 @@ export type RootStackParamList = {
   Profile: undefined;
   EditQRDetails: undefined;
   QRManageMent: undefined;
+  notifications: undefined;
 };
 
 // ✅ Define Bottom Tab Param List separately
@@ -32,28 +33,20 @@ export type EditQRDetails = StackScreenProps<
   RootStackParamList,
   'EditQRDetails'
 >;
-export type onBoarding = StackScreenProps<RootStackParamList, 'OnBoard'>;
-export type SplashProps = StackScreenProps<RootStackParamList, 'Splash'>;
-export type ChooseLanguagesProps = StackScreenProps<
-  RootStackParamList,
-  'ChooseLanguage'
->;
-export type LoginProps = StackScreenProps<RootStackParamList, 'Login'>;
-export type SignupProps = StackScreenProps<RootStackParamList, 'signup'>;
-export type verifyIdentityProps = StackScreenProps<
-  RootStackParamList,
-  'verifyIdentity'
->;
-export type kycompletedProps = StackScreenProps<
-  RootStackParamList,
-  'kycompleted'
->;
-export type yourCartProps = StackScreenProps<RootStackParamList, 'yourCart'>;
 export type ZuvyDashBoard = StackScreenProps<
   RootStackParamList,
   'ZuvyDashBoard'
 >;
 export type ProfileProps = StackScreenProps<RootStackParamList, 'Profile'>;
+export type onBoarding = StackScreenProps<RootStackParamList, 'OnBoard'>
+export type SplashProps = StackScreenProps<RootStackParamList, 'Splash'>
+export type ChooseLanguagesProps = StackScreenProps<RootStackParamList,'ChooseLanguage'>
+export type LoginProps = StackScreenProps<RootStackParamList, 'Login'>
+export type SignupProps = StackScreenProps<RootStackParamList, 'signup'>
+export type verifyIdentityProps = StackScreenProps<RootStackParamList, 'verifyIdentity'>
+export type kycompletedProps = StackScreenProps<RootStackParamList,'kycompleted'>
+export type yourCartProps = StackScreenProps<RootStackParamList,'yourCart'>
+export type NotificationsProps = StackScreenProps<RootStackParamList,'notifications'>
 
 // ✅ Tab screens props (IMPORTANT FIX)
 export type MerchantHomeScreenProps = BottomTabScreenProps<

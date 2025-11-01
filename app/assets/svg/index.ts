@@ -37,6 +37,7 @@ import PriceBreakDownSVG from './pricebreakdown.svg';
 import TickWhiteSVG from './tickwhite.svg';
 import LockSvg from './lock.svg';
 import TransportSvg from './transport.svg';
+import CartSVG from './cart.svg';
 
 export {
   MicSVG,
@@ -78,4 +79,6 @@ export {
   QrplassholderSVG,
   LockSvg,
   TransportSvg,
+  CartSVG
 };
+

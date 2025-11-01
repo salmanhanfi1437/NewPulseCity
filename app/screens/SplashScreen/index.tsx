@@ -1,65 +1,39 @@
-import React, { useEffect,useRef  } from 'react';
+import React, { useEffect, useRef } from 'react';
+import { Animated } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../navigation/types';
-import GlobalStyles from "../../styles/GlobalStyles";
-import { Animated } from 'react-native';
-import { screenHeight } from '../../utils/dimensions';
-import FontStyles from '../../styles/FontStyles';
-import { verifyIdentity, yourCart } from '../../types/constants';
+import GlobalStyles from '../../styles/GlobalStyles';
+import { ZuvyLogo } from '../../assets/svg';
+import { ms, mvs } from 'react-native-size-matters';
 
-
-type SplashScreenNavigationProp = StackNavigationProp<
-  RootStackParamList,
-  'Splash'
->;
+type SplashScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Splash'>;
 
 const SplashScreen = () => {
-  const letters = ['Z', 'U', 'V', 'Y'];
   const navigation = useNavigation<SplashScreenNavigationProp>();
 
-   useEffect(() => {
+  // Fade-in animation for logo
+  const imageOpacity = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    Animated.timing(imageOpacity, {
+      toValue: 1,
+      duration: mvs(1500),
+      useNativeDriver: true,
+    }).start();
+
     const timer = setTimeout(() => {
-      //navigation.replace('ChooseLanguage'); 
-      navigation.replace(yourCart); 
-    }, 5000);
+     navigation.replace("ChooseLanguage");
+    }, 3000);
+
     return () => clearTimeout(timer);
   }, [navigation]);
 
-  // Start letters fully off screen
-  const animations = useRef([
-    new Animated.Value(-screenHeight), // Z from top
-    new Animated.Value(screenHeight),  // U from bottom
-    new Animated.Value(-screenHeight), // V from top
-    new Animated.Value(screenHeight),  // Y from bottom
-  ]).current;
-
- useEffect(() => {
-    const animationsSequence = letters.map((_, index) =>
-      Animated.timing(animations[index], {
-        toValue: 0,
-        duration: 800,
-        useNativeDriver: true,
-      })
-    );
-
-    Animated.sequence(animationsSequence).start();
-  }, []);
-
   return (
-    <SafeAreaView style={[GlobalStyles.container,GlobalStyles.viewCenter]}>
-      <Animated.View style={GlobalStyles.viewRow}>
-        {letters.map((char, index) => (
-          <Animated.Text
-            key={index}
-            style={[FontStyles.zuvyLetters, {
-              transform: [{ translateY: animations[index] }],
-            }]}
-          >
-            {char}
-          </Animated.Text>
-        ))}
+    <SafeAreaView style={[GlobalStyles.container, GlobalStyles.viewCenter]}>
+      <Animated.View style={{ opacity: imageOpacity }}>
+        <ZuvyLogo width={ms(180)} height={ms(180)} />
       </Animated.View>
     </SafeAreaView>
   );

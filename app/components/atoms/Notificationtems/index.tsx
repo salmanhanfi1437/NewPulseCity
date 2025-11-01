@@ -1,0 +1,49 @@
+import React from "react";
+import { View } from "react-native";
+import { TickCircleSVG } from "../../../assets/svg";
+import { ml, mr, mt, textColor } from "../../../utils/spaces";
+import { CustomText } from "../Text";
+import GlobalStyles from "../../../styles/GlobalStyles";
+import FontStyles from "../../../styles/FontStyles";
+import CartStyles from "../../../screens/YourCartScreen/styles";
+import NotificationStyles from "../../../screens/NotificationScreen/styles";
+
+
+type NotificationItemProps = {
+    data?: string
+}
+
+const NotificationItems =({data}: NotificationItemProps) =>{
+
+    return(
+        <View style={[NotificationStyles.itemViews]}>
+
+          <View style={[GlobalStyles.viewRow,GlobalStyles.alignContent]}>  
+
+            <View style={[mt(3)]}>
+         <TickCircleSVG/>
+              </View>
+         <View style={[ml(5)]}>
+                
+            <View style={[GlobalStyles.viewRow]}>    
+            <CustomText title={data?.title} textStyle={[FontStyles.buttonText]}/>
+            {
+                data?.isNew &&
+
+                <View style={[NotificationStyles.viewNew,mr(20),GlobalStyles.viewCenter]}>
+                      <CustomText title="New" textStyle={[NotificationStyles.newText]}/>  
+                    </View>
+            }
+            </View>
+            <CustomText title={data?.msg} textStyle={[CartStyles.subTitleText]}/>
+            <CustomText title={data?.dateTime} textStyle={[CartStyles.subTitleText]}/>
+
+         
+         </View>
+         </View>
+            <View style={[GlobalStyles.viewLine,mt(10)]}/>
+        </View>
+    )
+}
+
+export default React.memo(NotificationItems);
