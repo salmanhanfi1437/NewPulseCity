@@ -1,15 +1,18 @@
+// 1️⃣ Plugin management must come first
 pluginManagement {
     includeBuild("../node_modules/@react-native/gradle-plugin")
 }
 
-rootProject.name = 'ZuvyStore'
-include ':app'
-
-// Apply the React Native plugin
+// 2️⃣ Plugins block comes immediately after pluginManagement
 plugins {
     id("com.facebook.react.settings") version "20.0.1" apply false
 }
 
+// 3️⃣ Other settings after plugins
+rootProject.name = "ZuvyStore"
+include ':app'
+
+// 4️⃣ Apply autolink libraries from the CLI
 com.facebook.react.ReactSettingsExtension.apply(rootProject) {
     autolinkLibrariesFromCommand()
 }
