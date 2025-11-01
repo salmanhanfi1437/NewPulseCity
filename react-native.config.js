@@ -6,7 +6,7 @@ module.exports = {
   project: {
     android: { 
       sourceDir: './android',
-      packageName: 'ai.zuvystore.com' 
+      packageName: 'ai.zuvystore.com', 
     },
     ios: { sourceDir: './ios' },
   },
