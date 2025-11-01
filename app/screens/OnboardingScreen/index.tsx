@@ -3,6 +3,7 @@ import Images from '../../assets/images';
 import config from '../config';
 import OnboardingSlider from '../../components/atoms/Slider/index';
 import { login } from '../../types/constants';
+import NavigationService from '../../navigation/NavigationService';
 
 const slidesData = [
   {
@@ -30,7 +31,7 @@ const OnboardingScreen = ({navigation}) => {
 
   
 const moveToLoginScreen = () => {
-    navigation.replace(login);
+    NavigationService.replace(login)
 }
 
   const handleDone = () => {

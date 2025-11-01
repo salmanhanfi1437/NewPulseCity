@@ -6,6 +6,7 @@ import GlobalStyles from '../../../styles/GlobalStyles';
 import CustomButton from '../CustomButton/index';
 import { CustomText } from '../Text';
 import { skip,done,next } from '../../../types/constants';
+import FontStyles from '../../../styles/FontStyles';
 
 type SlideItem = {
   key?: number;
@@ -43,8 +44,8 @@ const OnboardingSlider: React.FC<OnboardingSliderProps> = ({
   const RenderSlide = ({ item }: { item: SlideItem }) => (
     <ImageBackground source={item.image} style={GlobalStyles.slide}>
       <View style={[GlobalStyles.slideinnerContainer,GlobalStyles.margin_bottom_10]}>
-        <CustomText textStyle={[GlobalStyles.title]} title={item.title} />
-        <CustomText textStyle={[GlobalStyles.text]} title={item.text} />
+        <CustomText textStyle={[FontStyles.title]} title={item.title} />
+        <CustomText textStyle={[FontStyles.text]} title={item.text} />
       </View>
     </ImageBackground>
   );
@@ -71,7 +72,7 @@ const OnboardingSlider: React.FC<OnboardingSliderProps> = ({
             onPress={handleNext}
             buttonStyle={{ backgroundColor: Colors.primaryColor }}
           />
-          <CustomButton title={skip} onPress={handleSkip} textStyle={GlobalStyles.buttonText} />
+          <CustomButton title={skip} onPress={handleSkip} textStyle={FontStyles.buttonText} buttonStyle={GlobalStyles.disabledButton}/>
         </View>
       </View>
     );

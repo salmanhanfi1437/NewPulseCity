@@ -1,52 +1,39 @@
-import React, { Children, ReactElement } from 'react';
-import { Animated,Pressable,PressableProps,StyleSheet } from 'react-native';
-import PropTypes from 'prop-types';
-import useAnimation from '../../../hooks/useAnimation';
+import React, { ReactNode } from 'react';
+import { Animated, Pressable, PressableProps } from 'react-native';
+import GlobalStyles from '../../../styles/GlobalStyles';
 
 interface CustomPressableOpacityProps extends PressableProps {
+  children?: ReactNode;
 
-    children? : ReactElement;
-    onPress?: () => void;
-    onLongPress?: () => void; //Optional Long press handler
-    delayLongPress?: number; //optional delay for long press
 }
 
-const PressableOpacity = ({children,onPress,onLongPress,delayLongPress} : CustomPressableOpacityProps) =>{
+const PressableOpacity = ({ children, onPress, onLongPress, delayLongPress, style }: CustomPressableOpacityProps) => {
+  
 
-    const {fadeIn,fadeOut,opacityValue} = useAnimation();
+  const scale = new Animated.Value(1);
 
-    return (
-        <Pressable
-        onPressIn={fadeIn}
-        onPressOut={fadeOut}
-        onLongPress={onLongPress}
-        onPress={onPress}>
+  const onPressIn = () => {
+    Animated.spring(scale, { toValue: 0.97, useNativeDriver: true }).start();
+  };
 
+  const onPressOut = () => {
+    Animated.spring(scale, { toValue: 1, useNativeDriver: true }).start();
+  };
+
+  return (
+    <Pressable
+      onPressIn={onPressIn}
+      onPressOut={onPressOut}
+      onPress={onPress}
+      onLongPress={onLongPress}
+      delayLongPress={delayLongPress}
+      // style={GlobalStyles.fullwidth} // ✅ this allows full width
+    >
+      <Animated.View style={{ transform: [{ scale }], width: '100%' }}>
         {children}
-        <Animated.View style = {styles(opacityValue).animationEffect}/>
-        </Pressable>
-    );
-};
-
-const styles = (opacityValue) =>
-    StyleSheet.create({
-        animationEffect: {
-          opacity: opacityValue,
-  position: 'absolute',
-  top: 0,
-  left: 0,
-  bottom: 0,
-  right: 0,
-  flex: 1,
-  backgroundColor: 'white',
-        },
-    });
-
-PressableOpacity.propTypes = {
-    children: PropTypes.node.isRequired,
-    onPress: PropTypes.func.isRequired,
-    onLongPress: PropTypes.func,
-    delayLongPress: PropTypes.number,
+      </Animated.View>
+    </Pressable>
+  );
 };
 
 export default React.memo(PressableOpacity);

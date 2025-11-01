@@ -1,3 +1,10 @@
+module.exports = {
+    project: {
+        ios : {},
+        andorid : {},
+    },
+    assets: ['./app/assets/fonts']
+}
 // react-native.config.js
 const path = require('path');
 
