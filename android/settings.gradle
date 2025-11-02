@@ -1,17 +1,6 @@
-// 1️⃣ Plugin management must come first
-pluginManagement {
-    includeBuild("../node_modules/@react-native/gradle-plugin")
-}
-
-// 2️⃣ Plugins block comes immediately after pluginManagement
-plugins {
-    id("com.facebook.react.settings")
-}
-
-// 3️⃣ Other settings after plugins
-rootProject.name = "ZuvyStore"
+pluginManagement { includeBuild("../node_modules/@react-native/gradle-plugin") }
+plugins { id("com.facebook.react.settings") }
+extensions.configure(com.facebook.react.ReactSettingsExtension){ ex -> ex.autolinkLibrariesFromCommand() }
+rootProject.name = 'ZuvyStore'
 include ':app'
-
-// No manual call to ReactSettingsExtension.apply()
-// Autolinking is now automatic in RN 0.80+
 includeBuild('../node_modules/@react-native/gradle-plugin')
