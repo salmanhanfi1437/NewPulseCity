@@ -3,21 +3,24 @@ import { StyleSheet,View,Text } from "react-native";
 import { ms, mvs } from "react-native-size-matters";
 import GlobalStyles from "../../../styles/GlobalStyles";
 import { Colors } from "../../../styles";
+import colors from "../../../styles/colors";
+
 
 interface TabIconsProps {
     focused? : boolean;
     title? : string;
     ActiveIcon? : any;
     InActiveIcon? : any;
+    // ActiveIconColor? : string 
 }
 
-export default function TabIcons({focused,title,ActiveIcon,InActiveIcon} : TabIconsProps) {
+export default function TabIcons({focused,title,ActiveIcon,InActiveIcon,} : TabIconsProps) {
     return(
       <View style={[GlobalStyles.tabsView]}>
       {focused ? (
-        <ActiveIcon width={ms(20)} height={ms(20)} />
+        <ActiveIcon width={ms(20)} height={ms(20)} color={colors.primaryColor}   />
       ) : (
-        <InActiveIcon width={ms(20)} height={ms(24)} />
+        <InActiveIcon width={ms(20)} height={ms(24)} color={colors.grey}  />
       )}
       <Text
        ellipsizeMode="clip"

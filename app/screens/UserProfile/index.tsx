@@ -9,7 +9,7 @@ import Header from '../../components/atoms/HeaderComponent';
 import withBottomWhiteOverlay from '../../components/atoms/Container';
 import LinearGradient from 'react-native-linear-gradient';
 import { Colors } from '../../styles';
-const { width, height } = Dimensions.get('window');
+const { width, height } = Dimensions.get('screen');
 const UserProfile = () => {
   return (
     <LinearGradient
@@ -23,8 +23,9 @@ const UserProfile = () => {
         showBack={true}
         rightIcon={false}
         titleStyle={GlobalStyles.headertitle}
+        containerStyle={{ paddingTop: GlobalStyles.tabBarStyle.paddingTop }}
       />
-      <View style={[GlobalStyles.profileContainer, { top: height * 0.14 }]}>
+      <View style={[GlobalStyles.profileContainer, { top: height * 0.08 }]}>
         <View style={[GlobalStyles.imgContainer]}>
           <Image source={Images.profile} style={GlobalStyles.imgContainer} />
         </View>

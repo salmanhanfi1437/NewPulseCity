@@ -6,13 +6,10 @@ import {
   ViewStyle,
   TextStyle,
   View,
-  Text,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import GlobalStyles from '../../../styles/GlobalStyles';
 import { CustomText } from '../Text';
-import { ms } from 'react-native-size-matters';
-import config from '../../../screens/config';
 import { Colors } from '../../../styles';
 import Badge from '../Badge';
 

@@ -36,8 +36,6 @@ const ZuvyHeader: React.FC<ZuvyHeaderProps> = ({
           GlobalStyles.zuvyHeaderContainer,
           {
             backgroundColor: headerBgColor,
-            paddingTop:
-              Platform.OS === 'android' ? StatusBar.currentHeight : 50,
           },
         ]}
       >

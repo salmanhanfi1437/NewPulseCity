@@ -8,7 +8,7 @@ import { CustomText } from "../Text";
 import GlobalStyles from "../../../styles/GlobalStyles";
 import { useTranslation } from "react-i18next";
 import FontStyles from "../../../styles/FontStyles";
-import { flexGrow, mt, pl, pr } from "../../../utils/spaces";
+import { flexGrow,} from "../../../utils/spaces";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 type BgProps = {

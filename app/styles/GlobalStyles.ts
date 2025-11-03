@@ -15,8 +15,8 @@ const GlobalStyles = StyleSheet.create({
   width50: {
     width: width - 50,
   },
-  width70:{
-     width: width /1.5
+  width70: {
+    width: width / 1.5,
   },
   //greyColor
   greyColorText: {
@@ -65,6 +65,11 @@ const GlobalStyles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  tabsText: {
+    fontSize: ms(12),
+    ...Typography.weights.normalU,
+    textAlign: 'center',
   },
 
   slide: {
@@ -145,7 +150,6 @@ const GlobalStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: ms(10),
-    height: ms(50),
   },
 
   disabledButton: {
@@ -164,12 +168,12 @@ const GlobalStyles = StyleSheet.create({
     justifyContent: 'space-around',
     bottom: height * ms(0),
   },
-   btnLogin: {
-        alignItems:'center',
-    marginTop:mvs(30)
+  btnLogin: {
+    alignItems: 'center',
+    marginTop: mvs(30),
   },
-  margin_top10 : {
-    marginTop:mvs(10),
+  margin_top10: {
+    marginTop: mvs(10),
   },
   margin_bottom_10: {
     marginBottom: mvs(10),
@@ -312,10 +316,7 @@ const GlobalStyles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
   },
-  zuvyRightIcons: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
+
   zuvyIconBox: {
     backgroundColor: '#F6F6F6',
     padding: ms(6),
@@ -432,7 +433,7 @@ const GlobalStyles = StyleSheet.create({
     width: ms(70),
   },
   tabBarStyle: {
-    height: ms(60),
+    height: ms(55),
     paddingTop: mvs(10),
     backgroundColor: Colors.white,
     borderTopWidth: 0,
@@ -501,10 +502,10 @@ const GlobalStyles = StyleSheet.create({
     padding: mvs(18),
     shadowColor: '#000',
     shadowOffset: { width: 0, height: ms(2) },
-    shadowOpacity: mvs(0.10),
+    shadowOpacity: mvs(0.1),
     shadowRadius: mvs(4),
     elevation: ms(3),
-    backgroundColor:Colors.white
+    backgroundColor: Colors.white,
   },
   fullwidth: {
     width: '100%',
@@ -606,16 +607,15 @@ const GlobalStyles = StyleSheet.create({
     borderColor: Colors.grey_50,
     borderRadius: ms(10),
   },
-  btnPrimary : {
-    borderRadius:ms(10),
-    backgroundColor:Colors.primaryColor
+  btnPrimary: {
+    borderRadius: ms(10),
+    backgroundColor: Colors.primaryColor,
   },
-
-
 });
 export default GlobalStyles;
 export const getShadowWithElevation = (elevationValue: number) => {
-  const { borderRadius, elevation, ...shadowWithoutRadius } = GlobalStyles.shadowStyles;
+  const { borderRadius, elevation, ...shadowWithoutRadius } =
+    GlobalStyles.shadowStyles;
   return {
     ...shadowWithoutRadius,
     elevation: elevationValue,

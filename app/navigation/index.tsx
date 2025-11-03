@@ -9,7 +9,15 @@ import { NativeBaseProvider } from 'native-base';
 import { RootStackParamList } from './types';
 import LoginScreen from '../screens/LoginScreen';
 import OnboardingScreen from '../screens/OnboardingScreen';
-import { login, splash,onBoarding, verifyIdentity, kycompleted, yourCart, notifications } from '../types/constants';
+import {
+  login,
+  splash,
+  onBoarding,
+  verifyIdentity,
+  kycompleted,
+  yourCart,
+  notifications,
+} from '../types/constants';
 import SignupScreens from '../screens/SignupScreen';
 import SplashScreen from '../screens/SplashScreen';
 import UserProfile from '../screens/UserProfile';
@@ -26,22 +34,23 @@ import { LogBox } from 'react-native';
 import NotificationScreen from '../screens/NotificationScreen';
 import { navigationRef } from './NavigationService';
 
-
 const Stack = createStackNavigator<RootStackParamList>();
 
 const RootNavigator = () => {
   return (
     <NativeBaseProvider>
-      <StatusBar barStyle="default" translucent={true} backgroundColor="transparent" />
-        <NavigationContainer ref={navigationRef}>
-          <Stack.Navigator
+      <StatusBar
+        barStyle="default"
+        translucent={true}
+        backgroundColor="transparent"
+      />
+      <NavigationContainer ref={navigationRef}>
+        <Stack.Navigator
           screenOptions={{
             headerShown: false,
             cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
           }}
         >
-          <Stack.Screen name={'ZuvyDashBoard'} component={ZuvyDashBoard} />
-          <Stack.Screen name={'merchantTabs'} component={merchantTabs} />
           <Stack.Screen name={splash} component={SplashScreen} />
           <Stack.Screen
             name="ChooseLanguage"
@@ -50,9 +59,12 @@ const RootNavigator = () => {
           <Stack.Screen name={onBoarding} component={OnboardingScreen} />
           <Stack.Screen name={login} component={LoginScreen} />
           <Stack.Screen name={'signup'} component={SignupScreens} />
+          <Stack.Screen name={'merchantTabs'} component={merchantTabs} />
           <Stack.Screen name={'QRManageMent'} component={QRManageMent} />
           <Stack.Screen name={'EditQRDetails'} component={EditQR} />
           <Stack.Screen name={'Profile'} component={UserProfile} />
+          <Stack.Screen name={'ZuvyDashBoard'} component={ZuvyDashBoard} />
+          <Stack.Screen name={notifications} component={NotificationScreen} />
           <Stack.Screen
             name={verifyIdentity}
             component={VerificationIdentityScreens}
@@ -62,12 +74,6 @@ const RootNavigator = () => {
             component={VerificationCompleteScreen}
           />
           <Stack.Screen name={yourCart} component={YourCartScreen} />
-           <Stack.Screen name ={'signup'} component={SignupScreens}/>
-           <Stack.Screen name={'merchantTabs'} component={merchantTabs}/>
-           <Stack.Screen name={verifyIdentity} component={VerificationIdentityScreens}/>
-           <Stack.Screen name={kycompleted} component={VerificationCompleteScreen}/>
-           <Stack.Screen name={yourCart} component={YourCartScreen}/>
-           <Stack.Screen name={notifications} component={NotificationScreen}/>
         </Stack.Navigator>
       </NavigationContainer>
     </NativeBaseProvider>

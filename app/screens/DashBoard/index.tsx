@@ -18,7 +18,6 @@ import {
   HumburgerSVG,
   InfoSVG,
   LockSvg,
-  RightArrowSVG,
   RightSVG,
   ShieldSVG,
   TransportSvg,
@@ -29,11 +28,14 @@ import CustomButton from '../../components/atoms/CustomButton';
 import VideoCard from '../../components/atoms/VideoCard';
 import { useNavigation } from '@react-navigation/native';
 import colors from '../../styles/colors';
+import HoverButton from '../../components/atoms/HoverButton';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const ZuvyDashBoard = () => {
   const navigation = useNavigation<any>();
-  const { borderRadius, elevation, ...shadowWithoutRadius } =
-    GlobalStyles.shadowStyles;
+  const { backgroundColor, ...restZuvyDashBoardBtn } =
+    GlobalStyles.ZuvyDashBoardBtn;
+
   const DistributorsArr = [
     {
       title: 'Verified QR Ownership',
@@ -55,7 +57,10 @@ const ZuvyDashBoard = () => {
 
   return (
     <BlueWhiteBackground headerHeight={80}>
-      <ZuvyHeader onProfilePress={() => navigation.navigate('Profile')} />
+      <ZuvyHeader
+        onProfilePress={() => navigation.navigate('Profile')}
+        onNotificationPress={() => navigation.navigate('notifications')}
+      />
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={GlobalStyles.ZuvyDashBoardScrollContent}
@@ -81,7 +86,9 @@ const ZuvyDashBoard = () => {
             />
           </View>
         </View>
-        <CardContainer style={GlobalStyles.ZuvyDashBoardCard}>
+        <CardContainer
+          style={[GlobalStyles.ZuvyDashBoardCard, GlobalStyles.width50]}
+        >
           <CustomText
             title={config.ZuvyDashBoard.QRsummary}
             textStyle={[
@@ -100,7 +107,7 @@ const ZuvyDashBoard = () => {
               textStyle={[
                 GlobalStyles.headingText,
                 GlobalStyles.avoidTopMargin,
-                GlobalStyles.greyColorText,
+                { color: colors.primaryColor1 },
               ]}
             />
           </View>
@@ -231,18 +238,26 @@ const ZuvyDashBoard = () => {
             showsHorizontalScrollIndicator={false}
             renderItem={({ item }) => {
               return (
-                <CardContainer style={[ GlobalStyles.width70,{margin:GlobalStyles.iconButton.padding}]}>
+                <CardContainer
+                  style={[
+                    GlobalStyles.width70,
+                    { margin: GlobalStyles.iconButton.padding },
+                  ]}
+                >
                   {<item.icon />}
                   <CustomText
                     title={item.title}
                     textStyle={[
                       GlobalStyles.headingText,
-                      { fontSize:GlobalStyles.faintText.fontSize },
+                      { fontSize: GlobalStyles.faintText.fontSize },
                     ]}
                   />
                   <CustomText
                     title={item.description}
-                    textStyle={[GlobalStyles.greyColorText,GlobalStyles.faintText,]}
+                    textStyle={[
+                      GlobalStyles.greyColorText,
+                      GlobalStyles.faintText,
+                    ]}
                   />
                 </CardContainer>
               );
@@ -254,8 +269,9 @@ const ZuvyDashBoard = () => {
             title={'Refer & Earn'}
             onPress={() => {}}
             buttonStyle={[
-              GlobalStyles.ZuvyDashBoardBtn,
+              restZuvyDashBoardBtn,
               GlobalStyles.ZuvyDashBoardContainer,
+              getShadowWithElevation(1),
             ]}
             textStyles={GlobalStyles.ZuvyDashBoardBtnText}
             commingSoon
@@ -268,7 +284,7 @@ const ZuvyDashBoard = () => {
             title={config.ZuvyDashBoard.customerSuport}
             onPress={() => {}}
             buttonStyle={[
-              GlobalStyles.ZuvyDashBoardBtn,
+              restZuvyDashBoardBtn,
               GlobalStyles.ZuvyDashBoardContainer,
               GlobalStyles.borderStyles,
               getShadowWithElevation(1),
@@ -278,7 +294,13 @@ const ZuvyDashBoard = () => {
               { color: Colors.black },
             ]}
             leftIcon={<WechatSVG />}
-            rightIcon={<RightArrowSVG fill={Colors.white} />}
+            rightIcon={
+              <MaterialIcons
+                name="arrow-forward"
+                size={25}
+                color={colors.grey_50}
+              />
+            }
           />
           <CustomButton
             gradientColors={[Colors.white, Colors.white, Colors.white]}
@@ -286,7 +308,7 @@ const ZuvyDashBoard = () => {
             onPress={() => {}}
             buttonStyle={[
               GlobalStyles.ZuvyDashBoardContainer,
-              GlobalStyles.ZuvyDashBoardBtn,
+              restZuvyDashBoardBtn,
               GlobalStyles.borderStyles,
               getShadowWithElevation(1),
             ]}
@@ -294,11 +316,18 @@ const ZuvyDashBoard = () => {
               GlobalStyles.ZuvyDashBoardBtnText,
               { color: Colors.black },
             ]}
-            rightIcon={<RightArrowSVG fill={Colors.white} />}
+            rightIcon={
+              <MaterialIcons
+                name="arrow-forward"
+                size={25}
+                color={colors.grey_50}
+              />
+            }
             leftIcon={<InfoSVG />}
           />
         </View>
       </ScrollView>
+      <HoverButton onPress={() => navigation.navigate('EditQRDetails')} />
     </BlueWhiteBackground>
   );
 };

@@ -38,6 +38,11 @@ import TickWhiteSVG from './tickwhite.svg';
 import LockSvg from './lock.svg';
 import TransportSvg from './transport.svg';
 import CartSVG from './cart.svg';
+import NotificationTabSVG from './notificationTab.svg';
+import QrTabSVG from './QrTab.svg';
+import ProfileTabSVG from './profileTab.svg';
+import ActiveNotificationSVG from './activeNotificationTab.svg';
+import ActiveQrSVG from './activeQRTab.svg';
 
 export {
   MicSVG,
@@ -79,6 +84,10 @@ export {
   QrplassholderSVG,
   LockSvg,
   TransportSvg,
-  CartSVG
+  CartSVG,
+  NotificationTabSVG,
+  QrTabSVG,
+  ProfileTabSVG,
+  ActiveNotificationSVG,
+  ActiveQrSVG,
 };
-

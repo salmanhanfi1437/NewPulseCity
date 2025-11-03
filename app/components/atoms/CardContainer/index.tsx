@@ -2,7 +2,7 @@ import React, { ReactNode, memo } from 'react';
 import { View, StyleSheet, Dimensions } from 'react-native';
 import { Colors } from '../../../styles';
 
-const { width, height } = Dimensions.get('window');
+const { width, } = Dimensions.get('window');
 
 interface CardContainerProps {
   children: ReactNode;

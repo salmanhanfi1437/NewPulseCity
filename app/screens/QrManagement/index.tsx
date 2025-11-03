@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import {
   Dimensions,
   FlatList,
-  GestureResponderEvent,
   ScrollView,
   TouchableOpacity,
   View,
@@ -22,7 +21,8 @@ import Badge from '../../components/atoms/Badge';
 import ViewOutlined from '../../components/atoms/ViewOutlined';
 import Dropdown from '../../components/atoms/CustomModal';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import getDynamicTextStyle from "../../styles/DynamicTextStyles";
+import getDynamicTextStyle from '../../styles/DynamicTextStyles';
+import HoverButton from '../../components/atoms/HoverButton';
 interface DynamicViewStyleProps {
   marginVertical?: number;
   justifyContent?: ViewStyle['justifyContent'];
@@ -96,7 +96,7 @@ const QRManageMent = () => {
   );
   return (
     <BlueWhiteBackground
-      headerHeight={100}
+      headerHeight={70}
       BlueWhiteBackgroundStyle={GlobalStyles.lightwhite}
     >
       <Header
@@ -107,7 +107,10 @@ const QRManageMent = () => {
         titleStyle={[GlobalStyles.headertitle, GlobalStyles.blackcolor]}
         containerStyle={[
           GlobalStyles.Full_widthLine,
-          { paddingBottom: GlobalStyles.margin_top10.marginTop },
+          {
+            paddingBottom: GlobalStyles.margin_top10.marginTop,
+            paddingTop: 10,
+          },
         ]}
       />
       <ScrollView
@@ -158,7 +161,7 @@ const QRManageMent = () => {
             />
             <CustomText
               title={'+12% this month'}
-              textStyle={[getDynamicTextStyle(12, colors.lightgreen,)]}
+              textStyle={[getDynamicTextStyle(12, colors.lightgreen)]}
             />
           </CardContainer>
           <CardContainer
@@ -390,6 +393,7 @@ const QRManageMent = () => {
           }}
         />
       </ScrollView>
+      <HoverButton />
     </BlueWhiteBackground>
   );
 };

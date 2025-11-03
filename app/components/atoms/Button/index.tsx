@@ -7,11 +7,8 @@ import {
   ViewStyle,
 } from 'react-native';
 import { ms } from 'react-native-size-matters';
-import { Colors, Typography } from '../../../styles';
+import { Colors, } from '../../../styles';
 import ViewRounded10 from '../ViewRounded10';
-import FontStyles from '../../../styles/FontStyles';
-import { ml } from '../../../utils/spaces';
-import PressableOpacity from '../PressableOpacity';
 
 type ButtonProps = {
   title?: string;
@@ -35,7 +32,7 @@ const Button = ({
         title={title}
         titleStyle={[styles.loginText]}
         containerStyle={[styles.btnLogin, viewStyle]}
-        image
+        image={image}
         disabled={disabled}
       />
     </Pressable>
