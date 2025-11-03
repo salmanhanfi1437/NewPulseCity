@@ -7,7 +7,7 @@ export default {
   grey_50: '#EBEBEB',
   borderColor: '#A1A1A1',
   green: '#00FF00',
-  transparent: 'rgba(255,255,255,0.3)',
+  transparent: 'rgba(120, 110, 110, 0.6)',
   semiLight_grey: '#D3D3D3',
   red: '#DC2626',
   light_red: '#FECACA',

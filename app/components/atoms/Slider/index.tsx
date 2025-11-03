@@ -1,12 +1,14 @@
 import React, { useRef, useState } from 'react';
-import { View, Text, ImageBackground } from 'react-native';
+import { View, Text, ImageBackground, Dimensions } from 'react-native';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import { Colors } from '../../../styles';
 import GlobalStyles from '../../../styles/GlobalStyles';
 import CustomButton from '../CustomButton/index';
 import { CustomText } from '../Text';
-import { skip,done,next } from '../../../types/constants';
+import { skip, done, next } from '../../../types/constants';
 import FontStyles from '../../../styles/FontStyles';
+import colors from '../../../styles/colors';
+const { width, height } = Dimensions.get('screen');
 
 type SlideItem = {
   key?: number;
@@ -43,7 +45,12 @@ const OnboardingSlider: React.FC<OnboardingSliderProps> = ({
 
   const RenderSlide = ({ item }: { item: SlideItem }) => (
     <ImageBackground source={item.image} style={GlobalStyles.slide}>
-      <View style={[GlobalStyles.slideinnerContainer,GlobalStyles.margin_bottom_10]}>
+      <View
+        style={[
+          GlobalStyles.slideinnerContainer,
+          GlobalStyles.margin_bottom_10,
+        ]}
+      >
         <CustomText textStyle={[FontStyles.title]} title={item.title} />
         <CustomText textStyle={[FontStyles.text]} title={item.text} />
       </View>
@@ -70,9 +77,15 @@ const OnboardingSlider: React.FC<OnboardingSliderProps> = ({
           <CustomButton
             title={index === slides.length - 1 ? done : next}
             onPress={handleNext}
-            buttonStyle={{ backgroundColor: Colors.primaryColor }}
+            textStyles={[FontStyles.subTitle, { color: colors.white }]}
           />
-          <CustomButton title={skip} onPress={handleSkip} textStyle={FontStyles.buttonText} buttonStyle={GlobalStyles.disabledButton}/>
+          <CustomButton
+            isTransparent={true}
+            title={skip}
+            onPress={handleSkip}
+            textStyles={[FontStyles.subTitle, { color: colors.white }]}
+            buttonStyle={[GlobalStyles.borderStyles]}
+          />
         </View>
       </View>
     );
@@ -88,6 +101,5 @@ const OnboardingSlider: React.FC<OnboardingSliderProps> = ({
     />
   );
 };
-
 
 export default OnboardingSlider;

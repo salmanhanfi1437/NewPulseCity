@@ -3,7 +3,7 @@ import { Colors, Typography } from '.';
 import { ms, mvs } from 'react-native-size-matters';
 import colors from './colors';
 
-const { width, height } = Dimensions.get('window');
+const { width, height } = Dimensions.get('screen');
 const GlobalStyles = StyleSheet.create({
   //halfScreen2.5 width
   halfwidth: {
@@ -136,17 +136,17 @@ const GlobalStyles = StyleSheet.create({
     position: 'absolute',
     left: ms(0),
     paddingHorizontal: ms(35),
-    bottom: height * ms(0.2),
+    bottom: height * ms(0.18),
   },
   slideinnerContainer: {
     position: 'absolute',
-    bottom: '30%',
+    bottom: '35%',
   },
   Custombutton: {
     backgroundColor: Colors.secondaryColor,
-    width: '100%',
+    width: width -40,
     padding: ms(10),
-    borderRadius: ms(25),
+    borderRadius: ms(10),
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: ms(10),
@@ -163,7 +163,7 @@ const GlobalStyles = StyleSheet.create({
   },
 
   buttonContainer: {
-    width: width * ms(0.85),
+    // width: width * ms(0.85),
     alignItems: 'center',
     justifyContent: 'space-around',
     bottom: height * ms(0),

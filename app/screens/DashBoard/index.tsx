@@ -160,7 +160,10 @@ const ZuvyDashBoard = () => {
           </View>
           <CustomButton
             title={config.ZuvyDashBoard.viewKit}
-            buttonStyle={GlobalStyles.ZuvyDashBoardBtn}
+            buttonStyle={[
+              GlobalStyles.ZuvyDashBoardBtn,
+              {width:GlobalStyles.width70.width * 1.2},
+            ]}
             textStyles={GlobalStyles.ZuvyDashBoardBtnText}
             onPress={() => {}}
             leftIcon={<HumburgerSVG />}
