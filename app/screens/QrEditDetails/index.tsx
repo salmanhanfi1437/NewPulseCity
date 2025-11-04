@@ -29,7 +29,7 @@ const EditQR = () => {
   return (
     <BlueWhiteBackground
       headerHeight={100}
-      BlueWhiteBackgroundStyle={GlobalStyles.lightwhite}
+      BlueWhiteBackgroundStyle={{ backgroundColor: colors.white }}
     >
       <Header
         title={config.ZuvyQrEdit.H1}

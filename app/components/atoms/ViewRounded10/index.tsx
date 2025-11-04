@@ -41,8 +41,8 @@ const styles = StyleSheet.create({
 
 container: {
     
-    borderRadius: mvs(30),
-    padding: mvs(15),
+    borderRadius: mvs(20),
+    padding: mvs(10),
     shadowColor: '#000',
     shadowOffset: { width: 0, height: ms(2) },
     shadowOpacity: mvs(0.15),

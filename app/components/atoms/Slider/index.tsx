@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, memo } from 'react';
 import { View, Text, ImageBackground, Dimensions } from 'react-native';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import { Colors } from '../../../styles';
@@ -8,6 +8,9 @@ import { CustomText } from '../Text';
 import { skip, done, next } from '../../../types/constants';
 import FontStyles from '../../../styles/FontStyles';
 import colors from '../../../styles/colors';
+import { fontColor, fS } from '../../../utils/spaces';
+import { ms } from 'react-native-size-matters';
+
 const { width, height } = Dimensions.get('screen');
 
 type SlideItem = {
@@ -52,7 +55,10 @@ const OnboardingSlider: React.FC<OnboardingSliderProps> = ({
         ]}
       >
         <CustomText textStyle={[FontStyles.title]} title={item.title} />
-        <CustomText textStyle={[FontStyles.text]} title={item.text} />
+        <CustomText
+          textStyle={[fS(ms(10)), fontColor(colors.white)]}
+          title={item.text}
+        />
       </View>
     </ImageBackground>
   );
@@ -73,18 +79,19 @@ const OnboardingSlider: React.FC<OnboardingSliderProps> = ({
           ))}
         </View>
 
-        <View style={GlobalStyles.buttonContainer}>
+        <View style={[GlobalStyles.buttonContainer]}>
           <CustomButton
             title={index === slides.length - 1 ? done : next}
             onPress={handleNext}
-            textStyles={[FontStyles.subTitle, { color: colors.white }]}
+            textStyles={[FontStyles.subTitle, fontColor(colors.white)]}
+            buttonStyle={[GlobalStyles.width50]}
           />
           <CustomButton
             isTransparent={true}
             title={skip}
             onPress={handleSkip}
-            textStyles={[FontStyles.subTitle, { color: colors.white }]}
-            buttonStyle={[GlobalStyles.borderStyles]}
+            textStyles={[FontStyles.subTitle, fontColor(colors.white)]}
+            buttonStyle={[GlobalStyles.borderStyles, GlobalStyles.width50]}
           />
         </View>
       </View>
@@ -102,4 +109,4 @@ const OnboardingSlider: React.FC<OnboardingSliderProps> = ({
   );
 };
 
-export default OnboardingSlider;
+export default React.memo(OnboardingSlider);

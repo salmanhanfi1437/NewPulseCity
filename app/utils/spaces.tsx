@@ -1,64 +1,93 @@
-import { ms, mvs } from "react-native-size-matters";
-import CartStyles from "../screens/YourCartScreen/styles";
+import { ms, mvs } from 'react-native-size-matters';
+import CartStyles from '../screens/YourCartScreen/styles';
+import { DimensionValue } from 'react-native';
 
 // this  will provide us  margin top styles
-export const mt = (value : number) => {
+export const mt = (value: number) => {
   return { marginTop: value };
 };
 
-export const flexGrow = (value : number) =>{
-  return {flexGrow:value}
-}
+export const flexGrow = (value: number) => {
+  return { flexGrow: value };
+};
 
-export const ml = (value : number) => {
+export const ml = (value: number) => {
   return { marginLeft: mvs(value) };
 };
 
-export const mr = (value : number) => {
+export const mr = (value: number) => {
   return { marginRight: mvs(value) };
 };
 
-export const mb = (value : number) => {
+export const height = (value: number) => {
+  return { height: value };
+};
+
+export const mb = (value: number) => {
   return { marginBottom: mvs(value) };
 };
 
-
-export const pt = (value : number) => {
+export const pt = (value: number) => {
   return { paddingTop: mvs(value) };
 };
 
-export const pl = (value : number) => {
+export const pl = (value: number) => {
   return { paddingLeft: mvs(value) };
 };
 
-export const pr = (value : number) => {
+export const pr = (value: number) => {
   return { paddingRight: mvs(value) };
 };
 
-export const pb = (value : number) => {
+export const pb = (value: number) => {
   return { paddingBottom: mvs(value) };
 };
 
-export const fontColor = (value : string) => {
-  return {color : value}
-}
+export const fontColor = (value: string) => {
+  return { color: value };
+};
+export const fS = (value: number) => {
+  return { fontSize: value };
+};
 
+export const borderRadius = (value: number) => {
+  return { borderRadius: value };
+};
 
-export const bgColor = (value : string) => {
-  return {backgroundColor : value}
-}
+export const bgColor = (value: string) => {
+  return { backgroundColor: value };
+};
 
-export const borderWidth = (value : number) => {
-  return {borderWidth : ms(value)}
-}
+export const borderWidth = (value: number) => {
+  return { borderWidth: ms(value) };
+};
 
-export const padding = (value : number) => {
-  return {padding : mvs(value)}
-}
+export const padding = (value: number) => {
+  return { padding: mvs(value) };
+};
 
-export const textColor = (value : string) => {
-  return {color : value}
-}
+export const textColor = (value: string) => {
+  return { color: value };
+};
+
+export const tAlign = (value: string) => {
+  return { textAlign: value };
+};
+
+export const bR = (value: number) => {
+  return { borderRadius: value };
+};
+
+export const width = (value: number) => {
+  return { width: value };
+};
+
+export const Left = (value: number) => {
+  return { left: value };
+};
+export const Top = (value: DimensionValue) => {
+  return { top: value };
+};
 
 export const textIncludedStyle = (marginTop: number) => {
   return [CartStyles.textincluded, mt(mvs(marginTop))];

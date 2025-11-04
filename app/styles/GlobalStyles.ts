@@ -67,7 +67,7 @@ const GlobalStyles = StyleSheet.create({
     justifyContent: 'center',
   },
   tabsText: {
-    fontSize: ms(12),
+    fontSize: ms(10),
     ...Typography.weights.normalU,
     textAlign: 'center',
   },
@@ -126,7 +126,7 @@ const GlobalStyles = StyleSheet.create({
   paginationContainer: {
     position: 'absolute',
     alignSelf: 'center',
-    bottom: height * ms(0.1),
+    bottom: height * ms(0.04),
     width: width,
     alignItems: 'center',
   },
@@ -136,15 +136,15 @@ const GlobalStyles = StyleSheet.create({
     position: 'absolute',
     left: ms(0),
     paddingHorizontal: ms(35),
-    bottom: height * ms(0.18),
+    bottom: height * ms(0.22),
   },
   slideinnerContainer: {
     position: 'absolute',
-    bottom: '35%',
+    bottom: '30%',
   },
   Custombutton: {
     backgroundColor: Colors.secondaryColor,
-    width: width -40,
+    width: width - 40,
     padding: ms(10),
     borderRadius: ms(10),
     alignItems: 'center',
@@ -163,7 +163,6 @@ const GlobalStyles = StyleSheet.create({
   },
 
   buttonContainer: {
-    // width: width * ms(0.85),
     alignItems: 'center',
     justifyContent: 'space-around',
     bottom: height * ms(0),
@@ -610,6 +609,12 @@ const GlobalStyles = StyleSheet.create({
   btnPrimary: {
     borderRadius: ms(10),
     backgroundColor: Colors.primaryColor,
+  },
+  bottomButton: {
+    position: 'absolute',
+    bottom: height * 0.1, // ✅ responsive bottom spacing (~4% of screen height)
+    alignSelf: 'center',
+    width: '90%', // ✅ responsive width
   },
 });
 export default GlobalStyles;

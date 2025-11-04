@@ -43,9 +43,8 @@ const FontStyles = StyleSheet.create({
     ...Typography.weights.boldU,
   },
    headingText: {
-        fontSize: ms(18),
+        fontSize: ms(14),
         color: Colors.black,
-        fontWeight: '700',
         ...Typography.weights.boldU,
     },
     subText: {
@@ -62,9 +61,8 @@ const FontStyles = StyleSheet.create({
     },
 
     txtInput :{
-        fontSize: ms(15),
+        fontSize: ms(14),
         color: Colors.black,
-        fontWeight: '500',
         flex: 1,
         ...Typography.weights.mediumU,
     },

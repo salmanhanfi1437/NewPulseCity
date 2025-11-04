@@ -43,8 +43,11 @@ import QrTabSVG from './QrTab.svg';
 import ProfileTabSVG from './profileTab.svg';
 import ActiveNotificationSVG from './activeNotificationTab.svg';
 import ActiveQrSVG from './activeQRTab.svg';
+import GrillSVG from './Grills.svg';
+import DivSVG from './div.svg';
 
 export {
+  DivSVG,
   MicSVG,
   AppLogoSVG,
   DropDownSVG,
@@ -90,4 +93,5 @@ export {
   ProfileTabSVG,
   ActiveNotificationSVG,
   ActiveQrSVG,
+  GrillSVG,
 };

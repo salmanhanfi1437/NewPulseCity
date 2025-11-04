@@ -25,12 +25,13 @@ const Button = ({
   disabled,
   viewStyle,
   image,
+  titleStyle
 }: ButtonProps) => {
   return (
     <Pressable onPress={onPress}>
       <ViewRounded10
         title={title}
-        titleStyle={[styles.loginText]}
+        titleStyle={[styles.loginText,titleStyle]}
         containerStyle={[styles.btnLogin, viewStyle]}
         image={image}
         disabled={disabled}
@@ -45,7 +46,7 @@ const styles = StyleSheet.create({
     color: Colors.white,
     fontWeight: '700',
     alignSelf: 'center',
-    letterSpacing: ms(2),
+    letterSpacing: ms(1),
   },
   btnLogin: {
     color: Colors.primaryColor,
