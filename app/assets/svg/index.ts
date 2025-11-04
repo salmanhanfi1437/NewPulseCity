@@ -17,6 +17,7 @@ import PlusSVG from './plus.svg';
 import PriceBreakDownSVG from './pricebreakdown.svg';
 import TickWhiteSVG from './tickwhite.svg';
 import CartSVG from './cart.svg';
+import NotificationIconSVG from './notificationicon.svg'
 
 export {
     MicSVG,
@@ -37,5 +38,6 @@ export {
     PlusSVG, 
     PriceBreakDownSVG,
     TickWhiteSVG,
-    CartSVG
+    CartSVG,
+    NotificationIconSVG
 }

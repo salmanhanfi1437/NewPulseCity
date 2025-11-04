@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View, FlatList, KeyboardAvoidingView, Platform } from "react-native";
+import { StyleSheet, View, FlatList, KeyboardAvoidingView, Platform, Alert,PermissionsAndroid } from "react-native";
 import { mvs } from "react-native-size-matters";
 import { ChooseLanguagesProps } from "../../navigation/types";
 import BackgroundPrimaryColor from "../../components/atoms/BackgroundPrimaryColor";
@@ -19,6 +19,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/rootReducer";
 import { fetchLanguagesRequest } from "./chooseLanguageSlice";
 import Button from "../../components/atoms/Button";
+import { getMessaging } from "@react-native-firebase/messaging";
+import messaging from '@react-native-firebase/messaging';
+import crashlytics from '@react-native-firebase/crashlytics';
 
 const ChooseLanguages = ({ navigation }: ChooseLanguagesProps) => {
   const languages = [
@@ -33,6 +36,65 @@ const ChooseLanguages = ({ navigation }: ChooseLanguagesProps) => {
   const dispatch = useDispatch();
 
   const { language, error } = useSelector((state: RootState) => state.chooseLanguage);
+
+  async function requestNotificationPermission() {
+  try {
+    if (Platform.OS === 'android' && Platform.Version >= 33) {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS
+      );
+
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        console.log('✅ Notification permission granted');
+      } else {
+        Alert.alert('Permission denied', 'You won’t receive notifications.');
+        console.log('❌ Notification permission denied');
+        return false;
+      }
+    } else {
+      console.log('✅ Android version < 13, no need to request POST_NOTIFICATIONS');
+    }
+
+    const authStatus = await messaging().requestPermission();
+    const enabled =
+      authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+      authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+
+    return enabled;
+  } catch (err) {
+    console.error('Permission error:', err);
+    return false;
+  }
+}
+
+
+
+useEffect(() => {
+  const checkFCM = async () => {
+    // Enable crash reporting for debug mode
+crashlytics().setCrashlyticsCollectionEnabled(true);
+
+
+    const permissionGranted = await requestNotificationPermission();
+    if (!permissionGranted) return;
+
+    try {
+      const token = await messaging().getToken();
+      console.log('✅ FCM Token:', token);
+      if (token) {
+        Alert.alert('FCM Works!', `Token: ${token.substring(0, 10)}...`);
+      } else {
+        Alert.alert('❌ No FCM token retrieved');
+      }
+    } catch (error) {
+      console.error('❌ FCM Error:', error);
+      Alert.alert('FCM Error', error.message);
+    }
+  };
+
+  checkFCM();
+}, []);
+
 
   useEffect(() => {
     dispatch(fetchLanguagesRequest());
@@ -57,7 +119,10 @@ const ChooseLanguages = ({ navigation }: ChooseLanguagesProps) => {
   );
 
   const onHandleOnPress = () => {
-    navigation.navigate("OnBoard");
+  
+    crashlytics().log('Crashlytics debug test started');
+crashlytics().crash(); // Force a crash
+    //navigation.navigate("OnBoard");
   };
 
   return (

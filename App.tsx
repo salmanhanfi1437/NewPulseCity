@@ -3,20 +3,15 @@ import {Provider} from 'react-redux';
 //import RNScreenshotPrevent from 'react-native-screenshot-prevent';
 import RootNavigator from './app/navigation';
 import { store } from './app/redux/store';
+import { NotificationService } from './app/services/notification';
 
 
 const App = () => {
 
-  useEffect(() =>{
-
-    //RNScreenshotPrevent.enabled(true); // Enable ScreenShot blocking
-
-    return () =>{
-
-      //RNScreenshotPrevent.enabled(false); // Disable when unmout
-    }
-
-  },[])
+  useEffect(() => {
+    NotificationService.requestUserPermission();
+    NotificationService.listenForMessages();
+  }, []);
 
   return(
         <Provider store={store}>   {/* ✅ Wrap your app in Redux Provider */}
