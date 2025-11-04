@@ -1,20 +1,22 @@
-// navigation/types.ts
-
-import { StackScreenProps } from '@react-navigation/stack'
-import { BottomTabScreenProps } from '@react-navigation/bottom-tabs'
+import { StackScreenProps } from '@react-navigation/stack';
+import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 
 export type RootStackParamList = {
   Splash: undefined;
-  ChooseLanguage : undefined;
+  ChooseLanguage: undefined;
   Login: undefined;
   OnBoard: undefined;
   signup: undefined;
   merchantTabs: undefined; // contains bottom tabs
-  verifyIdentity:undefined;
-  kycompleted:undefined;
-  yourCart : undefined;
+  verifyIdentity: undefined;
+  kycompleted: undefined;
+  yourCart: undefined;
+  ZuvyDashBoard: undefined;
+  Profile: undefined;
+  EditQRDetails: undefined;
+  QRManageMent: undefined;
   notifications: undefined;
-}
+};
 
 // ✅ Define Bottom Tab Param List separately
 export type MerchantTabParamList = {
@@ -23,9 +25,19 @@ export type MerchantTabParamList = {
   AnalyticsScreen: undefined;
   NetworkScreen: undefined;
   SettingsScreen: undefined;
-}
+};
 
 // Stack screens props
+export type QRManageMent = StackScreenProps<RootStackParamList, 'QRManageMent'>;
+export type EditQRDetails = StackScreenProps<
+  RootStackParamList,
+  'EditQRDetails'
+>;
+export type ZuvyDashBoard = StackScreenProps<
+  RootStackParamList,
+  'ZuvyDashBoard'
+>;
+export type ProfileProps = StackScreenProps<RootStackParamList, 'Profile'>;
 export type onBoarding = StackScreenProps<RootStackParamList, 'OnBoard'>
 export type SplashProps = StackScreenProps<RootStackParamList, 'Splash'>
 export type ChooseLanguagesProps = StackScreenProps<RootStackParamList,'ChooseLanguage'>
@@ -40,4 +52,4 @@ export type NotificationsProps = StackScreenProps<RootStackParamList,'notificati
 export type MerchantHomeScreenProps = BottomTabScreenProps<
   MerchantTabParamList,
   'merchantHomeScreen'
->
+>;

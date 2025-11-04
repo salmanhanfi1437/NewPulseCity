@@ -27,7 +27,7 @@ const slidesData = [
 ];
 
 
-const OnboardingScreen = ({navigation}) => {
+const OnboardingScreen = ({}) => {
 
   
 const moveToLoginScreen = () => {

@@ -1,11 +1,47 @@
-import { StyleSheet, Dimensions } from 'react-native';
-import { Colors } from '.';
+import { StyleSheet, Platform, Dimensions, StatusBar } from 'react-native';
+import { Colors, Typography } from '.';
 import { ms, mvs } from 'react-native-size-matters';
+import colors from './colors';
 
-const { width, height } = Dimensions.get('window');
-
+const { width, height } = Dimensions.get('screen');
 const GlobalStyles = StyleSheet.create({
-  main : {
+  //halfScreen2.5 width
+  halfwidth: {
+    width: width / 2.5,
+  },
+  semihalfwidth: {
+    width: width / 2.3,
+  },
+  width50: {
+    width: width - 50,
+  },
+  width70: {
+    width: width / 1.5,
+  },
+  //greyColor
+  greyColorText: {
+    color: Colors.grey,
+  },
+  //whitecolor
+  whiteColor: {
+    color: Colors.white,
+  },
+  lightwhite: {
+    backgroundColor: Colors.lightWhite,
+    color: Colors.lightWhite,
+  },
+  //blackColor
+  blackcolor: {
+    color: Colors.black,
+  },
+  avoidTopMargin: {
+    marginTop: 0,
+  },
+  itemCenterStyle: {
+    alignItems: 'center',
+    flex: 1,
+  },
+  main: {
     flex: 1,
     backgroundColor: Colors.primaryColor,
   },
@@ -30,7 +66,12 @@ const GlobalStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
- 
+  tabsText: {
+    fontSize: ms(12),
+    ...Typography.weights.normalU,
+    textAlign: 'center',
+  },
+
   slide: {
     flex: 1,
     alignItems: 'center',
@@ -38,7 +79,7 @@ const GlobalStyles = StyleSheet.create({
     backgroundColor: Colors.black,
     paddingHorizontal: ms(35),
   },
- 
+
   imagePlaceholder: {
     width: ms(250),
     height: ms(250),
@@ -48,7 +89,11 @@ const GlobalStyles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: ms(40),
   },
- 
+  imageText: {
+    color: Colors.white,
+    fontSize: ms(14),
+  },
+  mobileText: { fontSize: ms(18), color: Colors.white, marginTop: mvs(-25) },
   buttonCircle: {
     width: ms(60),
     height: ms(40),
@@ -91,189 +136,488 @@ const GlobalStyles = StyleSheet.create({
     position: 'absolute',
     left: ms(0),
     paddingHorizontal: ms(35),
-    bottom: height * ms(0.2),
+    bottom: height * ms(0.18),
   },
   slideinnerContainer: {
     position: 'absolute',
-    bottom: '30%',
+    bottom: '35%',
   },
   Custombutton: {
     backgroundColor: Colors.secondaryColor,
-    width: '100%',
+    width: width -40,
     padding: ms(10),
-    borderRadius: ms(25),
+    borderRadius: ms(10),
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: ms(10),
-    height: ms(50),
   },
 
   disabledButton: {
     backgroundColor: Colors.transparent,
   },
- 
+  buttonText: {
+    color: Colors.white,
+    fontSize: ms(18),
+    fontWeight: '700',
+    ...Typography.weights.boldU,
+  },
+
   buttonContainer: {
-    width: width * ms(0.85),
+    // width: width * ms(0.85),
     alignItems: 'center',
     justifyContent: 'space-around',
     bottom: height * ms(0),
   },
-   btnLogin: {
-        alignItems:'center',
-    marginTop:mvs(30)
+  btnLogin: {
+    alignItems: 'center',
+    marginTop: mvs(30),
   },
-  margin_top10 : {
-    marginTop:mvs(10),
+  margin_top10: {
+    marginTop: mvs(10),
   },
-  margin_bottom_10:{
-    marginBottom:mvs(10),
+  margin_bottom_10: {
+    marginBottom: mvs(10),
   },
-  
-    tabsView: {
-  flex: 1,  // ✅ Important: allows proper centering inside tab
-  alignItems: 'center',
-  justifyContent: 'center',
-  width: ms(70),
-},
-    tabBarStyle: {
-  height: ms(60),
-  paddingTop: mvs(10),
-  backgroundColor: Colors.white,
-  borderTopWidth: 0,
-  elevation: ms(5),
-},
-flexOne : {
-  flex:1
-},
-viewRow:{
-  flexDirection:'row'
-},
-alignSpace:{
-  justifyContent:'space-around'
-},
-bottomFooter: {
-  position: "absolute",
-  bottom: 10,
-  width: "100%",
-  flexDirection: "row",
-  justifyContent: "center",
-  alignItems: "center"
-},
-viewBorder : {
+  headingText: {
+    fontSize: ms(20),
+    color: Colors.black,
+    fontWeight: '700',
+    ...Typography.weights.mediumU,
+    marginTop: mvs(30),
+  },
+  //header
+  headercontainer: {
+    position: 'absolute',
+    top: 10,
+    left: 0,
+    right: 0,
+    zIndex: 10,
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 50,
+    paddingHorizontal: 15,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: 'transparent',
+    alignContent: 'center',
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flex: 1,
+  },
+  headertitle: {
+    fontSize: ms(18),
+    fontWeight: '600',
+    textAlign: 'center',
+    flex: 1,
+    color: Colors.white,
+  },
+  iconButton: {
+    padding: ms(5),
+  },
+  placeholder: {
+    width: 30,
+  },
+  whiteHalf: {
+    height: height / 1.5,
+    width: '100%',
+    backgroundColor: '#fff',
+  },
+  whiteOverlay: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    zIndex: 0,
+    elevation: 0,
+  },
+  profileContainer: {
+    // padding: 10,
+    alignSelf: 'center',
+    top: height * 0.12,
+    alignItems: 'center',
+  },
+  imgContainer: {
+    height: ms(80),
+    width: ms(80),
+    borderRadius: 50,
+    backgroundColor: Colors.white,
+  },
+  shadowStyles: {
+    borderRadius: 16,
+    elevation: 4,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 8,
+    padding: 16,
+  },
+  scrolIndexStyle: {},
+  containerPaddings: {
+    marginVertical: 10,
+  },
+  faintText: {
+    color: Colors.semiLight_grey,
+    fontSize: ms(12),
+  },
+  textConatiner: {
+    left: 10,
+  },
+  avoidJustify: { justifyContent: 'flex-start' },
+  scrollArea: {
+    flex: 0.78,
+    backgroundColor: 'transparent',
+    zIndex: 3,
+  },
+  cardTiltle: {
+    fontSize: ms(16),
+    fontWeight: '500',
+    flex: 1,
+    color: Colors.black,
+  },
+  topContent: {
+    flex: 0.4,
+    zIndex: 2,
+  },
+  borderStyles: {
+    borderWidth: 0.5,
+    borderColor: Colors.semiLight_grey,
+  },
+  //DashBoard Header
+  logoutBorderStyles: {
+    borderWidth: 0.7,
+    borderColor: Colors.light_red,
+    backgroundColor: Colors.semilight_red,
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignContent: 'center',
+    justifyContent: 'center', // Horizontally center items
+  },
+  zuvyHeaderContainer: {
+    width: '100%',
+    position: 'absolute',
+    top: 0,
+    zIndex: 10,
+    paddingVertical: mvs(15),
+    paddingHorizontal: ms(16),
+    flexDirection: 'column',
+    justifyContent: 'center',
+    shadowColor: Colors.black,
+    shadowOpacity: 0.05,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 4,
+    elevation: 3,
+    alignSelf: 'center',
+  },
+  zuvyHeaderRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '100%',
+  },
 
-  width:'100%',
-  height:ms(80),
-  borderWidth:ms(1),
-  borderColor:Colors.color_E5E7EB,
-  borderRadius:mvs(30),
-  paddingStart:mvs(15),
-  paddingEnd:mvs(15),
-  justifyContent:'center',
-  alignItems:'center'
-},
-textAlign : {
-  textAlign:'center'
-},
-flexEnd :{
-        textAlign:'right'
-    },
-    colorPrimary : {
-      color: Colors.primaryColor
-    },
-      keyboardView: {
-            flex: 1,
-            backgroundColor: Colors.white,
-            borderTopLeftRadius:ms(20),
-            borderTopRightRadius:ms(20),
-            paddingLeft:mvs(15),
-            paddingRight:mvs(15),
-            marginTop:mvs(30)
-        },
-         mainCard: {
-             
-                height: '100%',
-            },
-            viewRound: {
-        backgroundColor: Colors.color_E5E7EB,
-        justifyContent: 'center',
-    },
-    viewCenter: {
+  zuvyIconBox: {
+    backgroundColor: '#F6F6F6',
+    padding: ms(6),
+    borderRadius: ms(10),
+    marginRight: ms(8),
+  },
+  zuvyProfileImg: {
+    width: ms(35),
+    height: ms(35),
+    borderRadius: ms(20),
+  },
+  //DashBoard Styles
+  gradient: {
+    ...StyleSheet.absoluteFillObject,
+    height: height,
+    zIndex: -1,
+  },
+  contentContainer: {
+    flex: 1,
+  },
+  translusantContainer: {
+    justifyContent: 'center',
+    padding: ms(20),
+    marginVertical: ms(20),
+  },
+  ZuvyDashBoardCard: {
+    marginTop: -height * 0.05,
+    width: '90%',
+  },
+  ZuvyDashBoardScrollContent: {
+    paddingBottom: ms(40),
+    alignSelf: 'center',
+  },
+  ZuvyDashBoardBtn: {
+    backgroundColor: colors.primaryColor2,
+    marginVertical: 10,
+    borderRadius: 10,
+    alignSelf: 'center',
+  },
+  ZuvyDashBoardBtnText: {
+    fontSize: ms(14),
+    paddingLeft: 8,
+    paddingRight: 8,
+    fontWeight: '400',
+  },
+  ZuvyDashBoardRowContainer: {
+    width: width - 40,
+    alignSelf: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  ZuvyDashBoardContainer: {
+    width: width - 40,
+    alignSelf: 'center',
+  },
+
+  //Play Card Styles
+  playCard: {
+    width: ms(180),
+    borderRadius: ms(12),
+    backgroundColor: Colors.white,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 3,
+    // marginHorizontal: ms(8),
+  },
+  playGradientBox: {
+    height: ms(100),
+    borderTopLeftRadius: ms(12),
+    borderTopRightRadius: ms(12),
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'relative',
+  },
+  playContainer: {
+    backgroundColor: 'rgba(255,255,255,0.3)',
+    width: ms(40),
+    height: ms(40),
+    borderRadius: ms(20),
     justifyContent: 'center',
     alignItems: 'center',
   },
-  cardView:{
-    width:'100%',
-     borderRadius: mvs(10),
+  playDurationBadge: {
+    position: 'absolute',
+    bottom: ms(8),
+    right: ms(8),
+    backgroundColor: 'rgba(0,0,0,0.6)',
+    borderRadius: ms(6),
+    paddingHorizontal: ms(6),
+    paddingVertical: ms(2),
+  },
+  playDurationText: {
+    color: Colors.white,
+    fontSize: ms(10),
+  },
+  playInfoContainer: {
+    padding: ms(10),
+  },
+  playName: {
+    fontSize: ms(13),
+    fontWeight: '500',
+  },
+  playRole: {
+    fontSize: ms(12),
+    color: '#666',
+    marginTop: ms(2),
+  },
+
+  tabsView: {
+    flex: 1, // ✅ Important: allows proper centering inside tab
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: ms(70),
+  },
+  tabBarStyle: {
+    height: ms(55),
+    paddingTop: mvs(10),
+    backgroundColor: Colors.white,
+    borderTopWidth: 0,
+    elevation: ms(5),
+  },
+  flexOne: {
+    flex: 1,
+  },
+  viewRow: {
+    flexDirection: 'row',
+  },
+  alignSpace: {
+    justifyContent: 'space-around',
+  },
+  bottomFooter: {
+    position: 'absolute',
+    bottom: 10,
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  viewBorder: {
+    width: '100%',
+    height: ms(80),
+    borderWidth: ms(1),
+    borderColor: Colors.color_E5E7EB,
+    borderRadius: mvs(30),
+    paddingStart: mvs(15),
+    paddingEnd: mvs(15),
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  textAlign: {
+    textAlign: 'center',
+  },
+  flexEnd: {
+    textAlign: 'right',
+  },
+  colorPrimary: {
+    color: Colors.primaryColor,
+  },
+  keyboardView: {
+    flex: 1,
+    backgroundColor: Colors.white,
+    borderTopLeftRadius: ms(20),
+    borderTopRightRadius: ms(20),
+    paddingLeft: mvs(15),
+    paddingRight: mvs(15),
+    marginTop: mvs(30),
+  },
+  mainCard: {
+    height: '100%',
+  },
+  viewRound: {
+    backgroundColor: Colors.color_E5E7EB,
+    justifyContent: 'center',
+  },
+  viewCenter: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  cardView: {
+    width: '100%',
+    borderRadius: mvs(10),
     padding: mvs(18),
     shadowColor: '#000',
     shadowOffset: { width: 0, height: ms(2) },
-    shadowOpacity: mvs(0.10),
+    shadowOpacity: mvs(0.1),
     shadowRadius: mvs(4),
     elevation: ms(3),
-    backgroundColor:Colors.white
+    backgroundColor: Colors.white,
   },
   fullwidth: {
-     width: '100%',
+    width: '100%',
   },
 
-  headerView : {
-    backgroundColor:Colors.white,
-    height:ms(60),
-    justifyContent:'center',
-    width:'100%',
+  headerView: {
+    backgroundColor: Colors.white,
+    height: ms(60),
+    justifyContent: 'center',
+    width: '100%',
   },
-  positionAbsoulute:{
-    position:'absolute',
-    left:0,
-    right:0
+  positionAbsoulute: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
   },
-  topParentView :{
-    paddingStart:mvs(10),
-    paddingEnd:mvs(10),
-    paddingTop:mvs(20)
+  topParentView: {
+    paddingStart: mvs(10),
+    paddingEnd: mvs(10),
+    paddingTop: mvs(20),
   },
-  viewRound8:{
-    height:ms(80),
-    width:ms(80),
-    borderRadius:mvs(8)
+  viewRound8: {
+    height: ms(80),
+    width: ms(80),
+    borderRadius: mvs(8),
   },
-  qtycircle:{
-    height:ms(35),
-    width:ms(35),
-    borderRadius:35/2,
-    borderColor:Colors.color_E5E7EB,
-    borderWidth:ms(1)
-  },
-
-  qtyView:{
-    height:ms(35),
-    width:ms(40),
-    borderRadius:ms(10),
-    borderColor:Colors.color_E5E7EB,
-    borderWidth:ms(1)
-  },
-  viewRound5:{
-        borderRadius:ms(7),
-        paddingStart:ms(5),
-        paddingEnd:ms(5),
-        height:ms(40)
-  },
-  alignItem:{
-    alignItems:'center'
-  },
-  alignContent:{
-    alignContent:'center'
-  },
-  viewLine : {
-    height:ms(2),
-    backgroundColor:Colors.color_E5E7EB,
-    width:'100%'
-  },
-  btnPrimary : {
-    borderRadius:ms(10),
-    backgroundColor:Colors.primaryColor
+  qtycircle: {
+    height: ms(35),
+    width: ms(35),
+    borderRadius: 35 / 2,
+    borderColor: Colors.color_E5E7EB,
+    borderWidth: ms(1),
   },
 
-
+  qtyView: {
+    height: ms(35),
+    width: ms(40),
+    borderRadius: ms(10),
+    borderColor: Colors.color_E5E7EB,
+    borderWidth: ms(1),
+  },
+  viewRound5: {
+    borderRadius: ms(7),
+    paddingStart: ms(5),
+    paddingEnd: ms(5),
+    height: ms(40),
+  },
+  alignItem: {
+    alignItems: 'center',
+  },
+  alignContent: {
+    alignContent: 'center',
+  },
+  viewLine: {
+    height: ms(2),
+    backgroundColor: Colors.color_E5E7EB,
+    width: '100%',
+  },
+  Full_widthLine: {
+    // height: ms(1),
+    width: '100%',
+    alignSelf: 'center',
+    borderBottomWidth: 0.4,
+    borderBottomColor: colors.borderBottomColor,
+  },
+  // Modal Styles
+  modalDropdownButton: {
+    padding: 12,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    borderRadius: ms(10),
+  },
+  modalSelectedText: {
+    fontSize: 14,
+    color: '#000',
+  },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: 'rgba(0,0,0,0.3)',
+  },
+  modalDropdownList: {
+    backgroundColor: '#fff',
+    marginHorizontal: 20,
+    borderRadius: 10,
+    paddingVertical: 10,
+  },
+  modalItem: {
+    padding: 12,
+  },
+  modalItemText: {
+    fontSize: 14,
+    color: '#333',
+  },
+  // QRManageMentStyles
+  qrInputfield: {
+    backgroundColor: Colors.white,
+    borderWidth: ms(1),
+    borderColor: Colors.grey_50,
+    borderRadius: ms(10),
+  },
+  btnPrimary: {
+    borderRadius: ms(10),
+    backgroundColor: Colors.primaryColor,
+  },
 });
 export default GlobalStyles;
+export const getShadowWithElevation = (elevationValue: number) => {
+  const { borderRadius, elevation, ...shadowWithoutRadius } =
+    GlobalStyles.shadowStyles;
+  return {
+    ...shadowWithoutRadius,
+    elevation: elevationValue,
+  };
+};

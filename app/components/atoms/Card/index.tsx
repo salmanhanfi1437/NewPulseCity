@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleProp, StyleSheet,View, ViewStyle } from "react-native";
+import { StyleProp, View, ViewStyle } from "react-native";
 import GlobalStyles from "../../../styles/GlobalStyles";
 
 
