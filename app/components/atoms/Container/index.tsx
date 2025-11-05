@@ -15,6 +15,7 @@ import {
   Globe,
   Shield,
   Bell,
+  ShippmentSVG,
 } from '../../../assets/svg';
 import { ms } from 'react-native-size-matters';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -39,7 +40,7 @@ const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
         label: config.Profile.contact,
         value: '+91-7776006787',
       },
-      { icon: PhoneSVG, label: config.Profile.Details, value: 'Shipping' },
+      { icon: ShippmentSVG, label: config.Profile.Details, value: 'Shipping' },
     ];
 
     const settings = [

@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     height: ms(50),
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: mvs(10),
+    // marginTop: mvs(10),
   },
   txtinputStyle: {
     fontSize: ms(15),

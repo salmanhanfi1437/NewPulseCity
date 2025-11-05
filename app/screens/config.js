@@ -126,5 +126,16 @@ export default {
       actions: ['Renew'],
     },
   ],
-
+  PromoScree: {
+    skipButton: 'Skip',
+  },
+  CheckOutDetailsScreen: {
+    title: 'Checkout Details',
+    panCard: 'PAN Card Number',
+    gstNo: 'GST Number',
+    legalCoName: 'Legal Company Name',
+    Address: 'Address',
+    optional: '(Optional)',
+    Proceed: 'Proceed to Payment',
+  },
 };

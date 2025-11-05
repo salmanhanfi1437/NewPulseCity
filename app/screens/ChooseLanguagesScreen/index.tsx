@@ -6,13 +6,23 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
-import { mvs } from 'react-native-size-matters';
+import { ms, mvs } from 'react-native-size-matters';
 import { ChooseLanguagesProps } from '../../navigation/types';
 import BackgroundPrimaryColor from '../../components/atoms/BackgroundPrimaryColor';
 import { useTranslation } from 'react-i18next';
 import GlobalStyles from '../../styles/GlobalStyles';
 import { CustomText } from '../../components/atoms/Text';
-import { mt, borderRadius } from '../../utils/spaces';
+import {
+  mt,
+  borderRadius,
+  fS,
+  height,
+  bR,
+  tAlign,
+  fontColor,
+  pl,
+  pr,
+} from '../../utils/spaces';
 import Checkbox from '../Checkbox';
 import ViewBorder from '../../components/atoms/ViewBorder';
 import FontStyles from '../../styles/FontStyles';
@@ -52,7 +62,7 @@ const ChooseLanguages = ({ navigation }: ChooseLanguagesProps) => {
     i18n.changeLanguage(item.code);
   };
 
-  const renderItem = ({ item }) => (
+  const renderItem = ({ item }: any) => (
     <ViewBorder
       style={[GlobalStyles.viewRow, mt(15), borderRadius(10)]}
       onPress={() => handleLanguageschanges(item)}
@@ -76,13 +86,14 @@ const ChooseLanguages = ({ navigation }: ChooseLanguagesProps) => {
     <BackgroundPrimaryColor
       title={select_your_language}
       subTitle={choose_language_title}
+      GrillVisible={false}
     >
       <KeyboardAvoidingView
         style={GlobalStyles.flexOne}
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         keyboardVerticalOffset={mvs(60)} // adjust if needed
       >
-        <View style={GlobalStyles.flexOne}>
+        <View style={[GlobalStyles.flexOne, GlobalStyles.ZuvyDashBoardContainer]}>
           <View style={styles.headerClin} />
           <FlatList
             data={languages}
@@ -98,7 +109,8 @@ const ChooseLanguages = ({ navigation }: ChooseLanguagesProps) => {
           <Button
             title={const_continue}
             onPress={onHandleOnPress}
-            viewStyle={[borderRadius(10), GlobalStyles.Custombutton]}
+            titleStyle={[fS(ms(16)), fontColor(colors.black)]}
+            viewStyle={[GlobalStyles.Custombutton, mt(65), bR(10),height(60)]}
           />
         </View>
       </KeyboardAvoidingView>
@@ -123,6 +135,7 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     alignSelf: 'center',
     justifyContent: 'center',
+    marginTop:ms(15)
   },
 });
 

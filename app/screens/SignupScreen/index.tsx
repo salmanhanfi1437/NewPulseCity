@@ -107,7 +107,7 @@ const SignupScreens = ({ navigation }: SignupProps) => {
           keyboardType="default"
           editable={false}
           disabledMic={true}
-          style={FontStyles.txtInput}
+          style={[FontStyles.txtInput,]}
         />
 
         <Button

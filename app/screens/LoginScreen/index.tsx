@@ -49,13 +49,14 @@ import colors from '../../styles/colors';
 const RESEND_TIMER = 30;
 
 const LoginScreen = ({ navigation }: LoginProps) => {
-  const { marginTop, color, ...loginOrSignupStyle } = GlobalStyles.mobileText;
+  const { marginBottom, ...restBTNStyle } = GlobalStyles.Custombutton;
 
   const { t } = useTranslation();
 
   const [mobileNumber, setMobileNo] = useState('');
   const [otp, setOtp] = useState('');
   const [isOtpVerified, setOtpVerified] = useState(false);
+  const [showOtp, setShowOtp] = useState(false);
   const [timer, setTimer] = useState(RESEND_TIMER);
 
   const inputRef = useRef<TextInput>(null);
@@ -80,25 +81,37 @@ const LoginScreen = ({ navigation }: LoginProps) => {
   }, [isOtpVerified]);
 
   // ✅ Toggle between verify/change state
+  // const handleVerifyToggle = useCallback(() => {
+  //   if (mobileNumber.length !== 10) return;
+
+  //   if (isOtpVerified) {
+  //     // Reset to initial state
+  //     setOtpVerified(false);
+  //     setMobileNo('');
+  //     setOtp('');
+  //     setTimer(RESEND_TIMER);
+  //   } else {
+  //     setOtpVerified(true);
+  //     setTimer(RESEND_TIMER);
+  //   }
+  // }, [mobileNumber, isOtpVerified]);
+
   const handleVerifyToggle = useCallback(() => {
-    if (mobileNumber.length !== 10) return;
-
-    if (isOtpVerified) {
-      // Reset to initial state
-      setOtpVerified(false);
-      setMobileNo('');
-      setOtp('');
-      setTimer(RESEND_TIMER);
+    if (!isOtpVerified) {
+      // When pressing Continue → show OTP input
+      if (mobileNumber.length === 10) {
+        setOtpVerified(true);
+        setTimer(RESEND_TIMER);
+      }
     } else {
-      setOtpVerified(true);
-      setTimer(RESEND_TIMER);
+      // When pressing Verify → proceed next
+      if (otp.length === 6) {
+        navigation.replace('verifyIdentity');
+      }
     }
-  }, [mobileNumber, isOtpVerified]);
+  }, [isOtpVerified, mobileNumber, otp, navigation]);
 
-  const handleLogin = useCallback(() => {
-    console.log('Login pressed');
-    navigation.replace('verifyIdentity');
-  }, [navigation]);
+
 
   const handleResendOtp = useCallback(() => {
     setTimer(RESEND_TIMER);
@@ -140,24 +153,6 @@ const LoginScreen = ({ navigation }: LoginProps) => {
           maxLength={10}
           editable={!isOtpVerified}
           style={FontStyles.txtInput}
-        />
-
-        <CustomText
-          title={isOtpVerified ? t('change') : t('verify')}
-          textStyle={[
-            styles.verifyText,
-            fS(ms(13)),
-            pr(5),
-            {
-              color:
-                mobileNumber.length !== 10
-                  ? Colors.grey_50
-                  : isOtpVerified
-                  ? Colors.green
-                  : Colors.primaryColor,
-            },
-          ]}
-          onPress={handleVerifyToggle}
         />
       </ViewOutlined>
 
@@ -214,17 +209,24 @@ const LoginScreen = ({ navigation }: LoginProps) => {
       )}
 
       {/* 🔹 Continue Button */}
-      {otp.length === 6 && (
-        <Button
-          title={verify}
-          onPress={handleLogin}
-          titleStyle={[
-            fS(ms(16)),
-            fontColor(colors.black),
-          ]}
-          viewStyle={[GlobalStyles.Custombutton, mt(65),bR(20)]}
-        />
-      )}
+
+      <Button
+        disabledBtn={
+          (!isOtpVerified && mobileNumber.length !== 10) ||
+          (isOtpVerified && otp.length !== 6)
+        }
+        title={isOtpVerified ? t('verify') : 'Continue'}
+        onPress={handleVerifyToggle}
+        titleStyle={[fS(ms(16)), fontColor(colors.black)]}
+        viewStyle={[
+          restBTNStyle,
+          mt('30%'),
+          bR(10),
+          height(60),
+          ((!isOtpVerified && mobileNumber.length !== 10) ||
+            (isOtpVerified && otp.length !== 6)) && { opacity: 0.5 },
+        ]}
+      />
     </BackgroundPrimaryColor>
   );
 };

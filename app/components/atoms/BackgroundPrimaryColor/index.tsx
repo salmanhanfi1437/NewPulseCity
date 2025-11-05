@@ -19,6 +19,7 @@ type BgProps = {
   enableKeyboardScroll?: boolean; // 👈 new prop
   div?: boolean;
   KeyboardAwareScrollViewStyles?: ViewStyle | ViewStyle[];
+  GrillVisible?: boolean;
 };
 
 const BackgroundPrimaryColor = ({
@@ -27,6 +28,7 @@ const BackgroundPrimaryColor = ({
   children,
   div,
   KeyboardAwareScrollViewStyles,
+  GrillVisible = true,
 }: BgProps) => {
   const { t } = useTranslation();
   const { bottom, alignItems, alignSelf, width, ...restStyles } =
@@ -61,7 +63,7 @@ const BackgroundPrimaryColor = ({
         </View>
       ) : (
         <View style={styles.header}>
-          <View>
+          <View style={[!GrillVisible && styles.grillVisableStyle]}>
             <ZuvyLogo height={ms(70)} width={ms(180)} style={{ right: 12 }} />
             <CustomText
               title={t(title)}
@@ -75,14 +77,16 @@ const BackgroundPrimaryColor = ({
               title={t(subTitle)}
               textStyle={[
                 FontStyles.imageText,
-                fontColor(colors.white),
+                fontColor('rgba(255, 255, 255, 0.8)'),
                 { textAlign: FontStyles.subTitle.textAlign },
               ]}
             />
           </View>
-          <GrillSVG
-            style={[restStyles, GlobalStyles.textConatiner, Left(100)]}
-          />
+          {GrillVisible && (
+            <GrillSVG
+              style={[restStyles, GlobalStyles.textConatiner, Left(100)]}
+            />
+          )}
         </View>
       )}
 
@@ -114,11 +118,16 @@ const styles = StyleSheet.create({
   whiteContainer: {
     flex: 1,
     backgroundColor: Colors.white,
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
+    borderTopLeftRadius: 50,
+    borderTopRightRadius: 50,
     marginTop: mvs(20),
     paddingVertical: mvs(15),
     paddingHorizontal: ms(20), // ✅ add this
+  },
+  grillVisableStyle: {
+    alignSelf: 'center',
+    alignItems: 'center',
+    width: GlobalStyles.width50.width,
   },
 });
 

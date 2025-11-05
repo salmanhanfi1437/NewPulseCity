@@ -6,7 +6,7 @@ import Header from '../../components/atoms/Header';
 import HeaderWithBackButton from '../../components/atoms/HeaderWithBackButton';
 import { notifications } from '../../types/constants';
 import GlobalStyles from '../../styles/GlobalStyles';
-import { bgColor, mt } from '../../utils/spaces';
+import { mt } from '../../utils/spaces';
 import { NotificationData, NotificationTabs } from '../../types/strings'; // 👈 imported reusable routes
 import NotificationItems from '../../components/atoms/Notificationtems/index';
 import HeaderComponent from '../../components/atoms/HeaderComponent';
@@ -16,7 +16,7 @@ import colors from '../../styles/colors';
 const Notifications = () => {
   const [index, setIndex] = useState(0);
 
-  const renderItem = ({ item }) => {
+  const renderItem = ({ item }:any) => {
     return <NotificationItems data={item} />;
   };
 

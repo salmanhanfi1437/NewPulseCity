@@ -281,7 +281,7 @@ const GlobalStyles = StyleSheet.create({
   },
   borderStyles: {
     borderWidth: 0.5,
-    borderColor: Colors.semiLight_grey,
+    borderColor: Colors.borderBottomColor,
   },
   //DashBoard Header
   logoutBorderStyles: {
@@ -380,8 +380,8 @@ const GlobalStyles = StyleSheet.create({
     shadowColor: '#000',
     shadowOpacity: 0.1,
     shadowRadius: 5,
-    elevation: 3,
-    // marginHorizontal: ms(8),
+    elevation: 1,
+
   },
   playGradientBox: {
     height: ms(100),
@@ -478,8 +478,8 @@ const GlobalStyles = StyleSheet.create({
   keyboardView: {
     flex: 1,
     backgroundColor: Colors.white,
-    borderTopLeftRadius: ms(20),
-    borderTopRightRadius: ms(20),
+    borderTopLeftRadius: ms(40),
+    borderTopRightRadius: ms(40),
     paddingLeft: mvs(15),
     paddingRight: mvs(15),
     marginTop: mvs(30),
@@ -615,6 +615,55 @@ const GlobalStyles = StyleSheet.create({
     bottom: height * 0.1, // ✅ responsive bottom spacing (~4% of screen height)
     alignSelf: 'center',
     width: '90%', // ✅ responsive width
+  },
+
+  //promoScreen
+  skipButton: {
+    position: 'absolute',
+    top: height * 0.02, // 5% from top (adjusts with screen)
+    right: width * 0.05, // 5% from right (adjusts with screen)
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    borderRadius: width * 0.05,
+    padding: 5,
+    paddingHorizontal: 15,
+  },
+  fullScreenContent: {
+    flex: 1,
+  },
+  fullScreenGradient: {
+    ...StyleSheet.absoluteFillObject, // 👈 fills full screen automatically
+    zIndex: -1,
+  },
+  Promologo: {
+    position: 'absolute',
+    top: 60,
+    fontSize: 40,
+    fontWeight: 'bold',
+    color: '#fff',
+    alignSelf: 'center',
+  },
+  videoWrapper: {
+    width: width - 40,
+    height: height * 0.75,
+    borderRadius: 20,
+    overflow: 'hidden',
+    marginTop: 130,
+    position: 'relative',
+    alignSelf: 'center',
+    // padding:20
+  },
+  video: {
+    width: '100%',
+    height: '100%',
+  },
+  skipButtonPromo: {
+    position: 'absolute',
+    top: 20,
+    right: 15,
+    backgroundColor: 'rgba(255,255,255,0.4)',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 20,
   },
 });
 export default GlobalStyles;

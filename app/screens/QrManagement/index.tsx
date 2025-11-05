@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { CustomText } from '../../components/atoms/Text';
 import config from '../config';
-import GlobalStyles from '../../styles/GlobalStyles';
+import GlobalStyles, { getShadowWithElevation } from '../../styles/GlobalStyles';
 import BlueWhiteBackground from '../../components/atoms/DashBoardBG';
 import CardContainer from '../../components/atoms/CardContainer';
 import { Colors } from '../../styles';
@@ -38,7 +38,7 @@ interface DynamicViewStyleProps {
 const QRManageMent = () => {
   const navigation = useNavigation<any>();
   const { color, flex, textAlign, ...rest } = GlobalStyles.headertitle;
-  const { borderRadius, padding, ...restShadow } = GlobalStyles.shadowStyles;
+  const { borderRadius, padding,elevation, ...restShadow } = GlobalStyles.shadowStyles;
 
   const getDynamicViewStyle = ({
     marginVertical,
@@ -123,7 +123,7 @@ const QRManageMent = () => {
         <View style={[GlobalStyles.ZuvyDashBoardRowContainer]}>
           <CardContainer
             style={[
-              GlobalStyles.semihalfwidth,
+              GlobalStyles.semihalfwidth,getShadowWithElevation(1),
               { borderRadius: GlobalStyles.ZuvyDashBoardBtn.borderRadius },
             ]}
           >
@@ -166,7 +166,7 @@ const QRManageMent = () => {
           </CardContainer>
           <CardContainer
             style={[
-              GlobalStyles.semihalfwidth,
+              GlobalStyles.semihalfwidth,getShadowWithElevation(1),
               { borderRadius: GlobalStyles.ZuvyDashBoardBtn.borderRadius },
             ]}
           >
@@ -209,7 +209,7 @@ const QRManageMent = () => {
           </CardContainer>
         </View>
         <CardContainer
-          style={{ padding: GlobalStyles.zuvyIconBox.padding + 2 }}
+          style={[getShadowWithElevation(1),{ padding: GlobalStyles.zuvyIconBox.padding + 2 }]}
         >
           <View style={[GlobalStyles.zuvyHeaderRow]}>
             {config.ZuvyQrManagement.qrfilter.map(item => {
@@ -260,13 +260,13 @@ const QRManageMent = () => {
                   <Dropdown
                     data={[]}
                     selectedValue={item.label}
-                    textStyle={[getDynamicTextStyle(9, colors.grey, 0, 6), {}]}
+                    textStyle={[getDynamicTextStyle(10, colors.grey, 0, 6), {}]}
                     style={[
                       getDynamicViewStyle({
                         backgroundColor: GlobalStyles.whiteColor.color,
                       }),
                       GlobalStyles.alignItem,
-                      restShadow,
+                      restShadow,getShadowWithElevation(1),
                       { margin: 5 },
                     ]}
                     onSelect={() => {}}
@@ -310,7 +310,7 @@ const QRManageMent = () => {
                   GlobalStyles.lightwhite.backgroundColor,
                   GlobalStyles.width50,
                   GlobalStyles.paginationContainer.alignSelf,
-                  GlobalStyles.containerPaddings,
+                  GlobalStyles.containerPaddings,getShadowWithElevation(1),
                 ]}
               >
                 <View style={GlobalStyles.row}>

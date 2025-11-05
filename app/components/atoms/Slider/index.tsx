@@ -8,10 +8,8 @@ import { CustomText } from '../Text';
 import { skip, done, next } from '../../../types/constants';
 import FontStyles from '../../../styles/FontStyles';
 import colors from '../../../styles/colors';
-import { fontColor, fS } from '../../../utils/spaces';
+import { fontColor, fS, height } from '../../../utils/spaces';
 import { ms } from 'react-native-size-matters';
-
-const { width, height } = Dimensions.get('screen');
 
 type SlideItem = {
   key?: number;
@@ -83,15 +81,19 @@ const OnboardingSlider: React.FC<OnboardingSliderProps> = ({
           <CustomButton
             title={index === slides.length - 1 ? done : next}
             onPress={handleNext}
-            textStyles={[FontStyles.subTitle, fontColor(colors.white)]}
-            buttonStyle={[GlobalStyles.width50]}
+            textStyles={[FontStyles.subTitle, fontColor(colors.white),fS(16)]}
+            buttonStyle={[GlobalStyles.width50, height(60)]}
           />
           <CustomButton
             isTransparent={true}
             title={skip}
             onPress={handleSkip}
-            textStyles={[FontStyles.subTitle, fontColor(colors.white)]}
-            buttonStyle={[GlobalStyles.borderStyles, GlobalStyles.width50]}
+            textStyles={[FontStyles.subTitle, fontColor(colors.white),fS(16)]}
+            buttonStyle={[
+              GlobalStyles.borderStyles,
+              GlobalStyles.width50,
+              height(60),
+            ]}
           />
         </View>
       </View>

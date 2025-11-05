@@ -10,6 +10,7 @@ import {
   ml,
   fS,
   Top,
+  height,
 } from '../../utils/spaces';
 import { Colors } from '../../styles';
 import { KYCompletedSVG } from '../../assets/svg';
@@ -49,12 +50,13 @@ const VerificationCompleted = ({ navigation }: kycompletedProps) => {
 
       <View style={[GlobalStyles.fullwidth, GlobalStyles.bottomButton]}>
         <Button
-          onPress={() => navigation.replace('merchantTabs')}
+          onPress={() => navigation.replace('PromoScreen')}
           viewStyle={[
             Top('70%'),
             GlobalStyles.viewRow,
             GlobalStyles.viewCenter,
             GlobalStyles.Custombutton,
+            height(60),
           ]}
           titleStyle={[ml(10), fS(14), fontColor(colors.black)]}
           title={backToDashboard}

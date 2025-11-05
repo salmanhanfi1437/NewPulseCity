@@ -1,9 +1,10 @@
 import { ms, mvs } from 'react-native-size-matters';
 import CartStyles from '../screens/YourCartScreen/styles';
 import { DimensionValue } from 'react-native';
+import { position } from 'native-base/lib/typescript/theme/styled-system';
 
 // this  will provide us  margin top styles
-export const mt = (value: number) => {
+export const mt = (value: DimensionValue) => {
   return { marginTop: value };
 };
 
@@ -47,11 +48,11 @@ export const fontColor = (value: string) => {
   return { color: value };
 };
 export const fS = (value: number) => {
-  return { fontSize: value };
+  return { fontSize: ms(value) };
 };
 
 export const borderRadius = (value: number) => {
-  return { borderRadius: value };
+  return { borderRadius: ms(value) };
 };
 
 export const bgColor = (value: string) => {
@@ -75,7 +76,7 @@ export const tAlign = (value: string) => {
 };
 
 export const bR = (value: number) => {
-  return { borderRadius: value };
+  return { borderRadius: ms(value) };
 };
 
 export const width = (value: number) => {
@@ -87,6 +88,38 @@ export const Left = (value: number) => {
 };
 export const Top = (value: DimensionValue) => {
   return { top: value };
+};
+
+export const bottom = (value: DimensionValue) => {
+  return { bottom: value };
+};
+export const marginVertical = (value: number) => {
+  return { marginVertical: value };
+};
+
+export const paddingH = (value: number) => {
+  return { paddingHorizontal: ms(value) };
+};
+
+export const fontW = (
+  value:
+    | 'normal'
+    | 'bold'
+    | '100'
+    | '200'
+    | '300'
+    | '400'
+    | '500'
+    | '600'
+    | '700'
+    | '800'
+    | '900',
+) => {
+  return { fontWeight: value };
+};
+
+export const viewPostion = (value: 'absolute' | 'relative' | 'static') => {
+  return { position: value };
 };
 
 export const textIncludedStyle = (marginTop: number) => {
