@@ -24,7 +24,9 @@ import {
 import { yourCartProps } from '../../navigation/types';
 import Header from '../../components/atoms/Header';
 import { useTranslation } from 'react-i18next';
-import GlobalStyles from '../../styles/GlobalStyles';
+import GlobalStyles, {
+  getShadowWithElevation,
+} from '../../styles/GlobalStyles';
 import {
   fontColor,
   mb,
@@ -37,10 +39,11 @@ import {
   paddingH,
   fontW,
   pl,
+  pb,
 } from '../../utils/spaces';
 import Card from '../../components/atoms/Card';
 import LinearGradient from '../../components/atoms/LinearGradient';
-import { Colors } from '../../styles';
+import { Colors, Typography } from '../../styles';
 import {
   CartSVG,
   MinusSVG,
@@ -101,6 +104,7 @@ const YourCart = ({ navigation }: yourCartProps) => {
     });
   };
 
+  const { marginTop, ...restSubTitleText } = CartStyles.subTitleText;
   return (
     <BlueWhiteBackground
       headerHeight={90}
@@ -129,7 +133,7 @@ const YourCart = ({ navigation }: yourCartProps) => {
         contentContainerStyle={[{ backgroundColor: colors.white }]}
       >
         <View style={[GlobalStyles.topParentView]}>
-          <Card>
+          <Card style={[getShadowWithElevation(1)]}>
             <View style={[GlobalStyles.viewRow]}>
               <LinearGradient
                 style={CartStyles.viewLinearGradient}
@@ -146,9 +150,9 @@ const YourCart = ({ navigation }: yourCartProps) => {
                 <CustomText
                   title={'Digital QR Code Solution'}
                   textStyle={[
-                    CartStyles.subTitleText,
-                    textColor(colors.grey),
-                    fS(13),
+                    Typography.style.smallTextU(),
+                    textColor(colors.fadeTextColor),
+                    pb(10),
                   ]}
                 />
                 <View
@@ -156,13 +160,17 @@ const YourCart = ({ navigation }: yourCartProps) => {
                 >
                   <CustomText
                     title={'₹1,600'}
-                    textStyle={[FontStyles.headingText, GlobalStyles.flexOne]}
+                    textStyle={[
+                      FontStyles.headingText,
+                      GlobalStyles.flexOne,
+                      fontW('600'),
+                    ]}
                   />
                   <CustomText
                     title={'per unit'}
                     textStyle={[
                       FontStyles.subText,
-                      textColor(colors.grey),
+                      textColor(colors.fadeTextColor),
                       fS(13),
                     ]}
                   />
@@ -177,7 +185,10 @@ const YourCart = ({ navigation }: yourCartProps) => {
               ]}
             />
             <View style={[CartStyles.viewQty, mt(-1)]}>
-              <CustomText title={quantity} textStyle={CartStyles.qtyText} />
+              <CustomText
+                title={quantity}
+                textStyle={[CartStyles.qtyText, Typography.style.subTextU()]}
+              />
 
               <View style={[GlobalStyles.viewRow]}>
                 <PressableOpacity onPress={() => updateQty(minus)}>
@@ -208,7 +219,9 @@ const YourCart = ({ navigation }: yourCartProps) => {
                 textStyle={[
                   CartStyles.itemTotalText,
                   fS(13),
-                  textColor(colors.grey),
+                  textColor(colors.fadeTextColor),
+                  Typography.style.subTextU(),
+                  pl(8),
                 ]}
               />
               <CustomText
@@ -218,7 +231,7 @@ const YourCart = ({ navigation }: yourCartProps) => {
             </ViewOutlined>
           </Card>
 
-          <Card style={[mt(15)]}>
+          <Card style={[mt(15), getShadowWithElevation(1)]}>
             <View style={[CartStyles.viewTotal]}>
               <PriceBreakDownSVG />
               <CustomText
@@ -232,8 +245,8 @@ const YourCart = ({ navigation }: yourCartProps) => {
                 title={subTotal}
                 textStyle={[
                   CartStyles.itemTotalText,
-                  fS(13),
-                  textColor(colors.grey),
+                  textColor(colors.fadeTextColor),
+                  Typography.style.smallTextU(),
                 ]}
               />
               <CustomText
@@ -247,8 +260,8 @@ const YourCart = ({ navigation }: yourCartProps) => {
                 title={'GST (18%)'}
                 textStyle={[
                   CartStyles.itemTotalText,
-                  fS(13),
-                  textColor(colors.grey),
+                  textColor(colors.fadeTextColor),
+                  Typography.style.smallTextU(),
                 ]}
               />
               <CustomText
@@ -290,8 +303,8 @@ const YourCart = ({ navigation }: yourCartProps) => {
                 title={instantCode}
                 textStyle={[
                   textIncludedStyle(5),
-                  fS(13),
-                  textColor(colors.grey),
+                  textColor(colors.fadeTextColor),
+                  Typography.style.smallTextU(),
                 ]}
               />
 
@@ -299,24 +312,24 @@ const YourCart = ({ navigation }: yourCartProps) => {
                 title={oneyearvalidity}
                 textStyle={[
                   textIncludedStyle(5),
-                  fS(13),
-                  textColor(colors.grey),
+                  Typography.style.smallTextU(),
+                  textColor(colors.fadeTextColor),
                 ]}
               />
               <CustomText
                 title={analyticDashboard}
                 textStyle={[
                   textIncludedStyle(5),
-                  fS(13),
-                  textColor(colors.grey),
+                  Typography.style.smallTextU(),
+                  textColor(colors.fadeTextColor),
                 ]}
               />
               <CustomText
                 title={alltimesupport}
                 textStyle={[
                   textIncludedStyle(5),
-                  fS(13),
-                  textColor(colors.grey),
+                  Typography.style.smallTextU(),
+                  textColor(colors.fadeTextColor),
                 ]}
               />
             </View>
@@ -334,8 +347,9 @@ const YourCart = ({ navigation }: yourCartProps) => {
               title={const_totalAmount}
               textStyle={[
                 CartStyles.itemTotalText,
-                fS(13),
-                textColor(colors.grey),
+                fS(11),
+                textColor(colors.fadeTextColor),
+                Typography.style.subTextU(),
               ]}
             />
             <CustomText
@@ -343,18 +357,20 @@ const YourCart = ({ navigation }: yourCartProps) => {
               textStyle={[
                 FontStyles.headingText,
                 fontColor(Colors.primaryColor),
+                fontW('600'),
               ]}
             />
           </View>
           <CustomButton
             leftIcon={<CartSVG />}
             title={buynow}
-            textStyles={[fS(14), pl(5)]}
+            textStyles={[fS(14), pl(10)]}
             onPress={() => navigation.navigate('CheckOutDetail')}
             buttonStyle={[
               GlobalStyles.ZuvyDashBoardContainer,
               mb(0),
               GlobalStyles.containerPaddings,
+              height(50),
             ]}
           />
 
@@ -364,8 +380,9 @@ const YourCart = ({ navigation }: yourCartProps) => {
               CartStyles.itemTotalText,
               GlobalStyles.containerPaddings,
               mb(10),
-              fS(12),
-              textColor(colors.grey),
+              fS(11),
+              fontW('100'),
+              textColor(colors.fadeTextColor),
             ]}
           />
         </View>

@@ -42,7 +42,7 @@ import {
 } from '../../utils/spaces';
 import Card from '../../components/atoms/Card';
 import LinearGradient from '../../components/atoms/LinearGradient';
-import { Colors } from '../../styles';
+import { Colors, Typography } from '../../styles';
 import {
   CartSVG,
   MinusSVG,
@@ -205,11 +205,10 @@ const CheckOutDetail = ({ navigation }: CheckOutDetailProps) => {
             ]}
           >
             <CustomText
-              title={const_totalAmount}
+              title={config.CheckOutDetailsScreen.totalPayable}
               textStyle={[
                 CartStyles.itemTotalText,
-                fS(13),
-                textColor(colors.grey),
+                Typography.style.subTextU(),
               ]}
             />
             <CustomText
@@ -223,7 +222,6 @@ const CheckOutDetail = ({ navigation }: CheckOutDetailProps) => {
             />
           </View>
           <CustomButton
-            leftIcon={<CartSVG />}
             title={config.CheckOutDetailsScreen.Proceed}
             textStyles={[fS(14), pl(5)]}
             onPress={() => navigation.navigate('merchantTabs')}
@@ -231,17 +229,7 @@ const CheckOutDetail = ({ navigation }: CheckOutDetailProps) => {
               GlobalStyles.ZuvyDashBoardContainer,
               mb(0),
               GlobalStyles.containerPaddings,
-            ]}
-          />
-
-          <CustomText
-            title={securePayment}
-            textStyle={[
-              CartStyles.itemTotalText,
-              GlobalStyles.containerPaddings,
-              mb(10),
-              fS(12),
-              textColor(colors.grey),
+              height(50)
             ]}
           />
         </View>

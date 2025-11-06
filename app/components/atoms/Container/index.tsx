@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import GlobalStyles from '../../../styles/GlobalStyles';
-import { Colors } from '../../../styles';
+import { Colors, Typography } from '../../../styles';
 import CardContainer from '../CardContainer';
 import { CustomText } from '../Text';
 import config from '../../../screens/config';
@@ -60,7 +60,12 @@ const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
       >
         <Icon width={ms(40)} height={ms(40)} fill={Colors.white} />
         <View style={GlobalStyles.textConatiner}>
-          <CustomText title={label} textStyle={[GlobalStyles.faintText]} />
+          <CustomText
+            title={label}
+            textStyle={[
+              Typography.size.dynamic(10, 'medium', colors.fadeTextColor),
+            ]}
+          />
           <CustomText title={value} style={[restFont]} />
         </View>
       </View>
@@ -78,7 +83,12 @@ const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
           <Icon width={ms(40)} height={ms(40)} />
           <View style={[GlobalStyles.textConatiner, { height: ms(22) }]}>
             <CustomText title={label} textStyle={[restFont]} />
-            <CustomText title={value} textStyle={[GlobalStyles.faintText]} />
+            <CustomText
+              title={value}
+              textStyle={[
+                Typography.size.dynamic(10, 'medium', colors.fadeTextColor),
+              ]}
+            />
           </View>
         </View>
         <MaterialIcons
@@ -116,9 +126,7 @@ const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
                 <View style={GlobalStyles.row}>
                   <CustomText
                     title={config.Profile.PersonalInfoTitle}
-                    textStyle={[
-                      GlobalStyles.cardTiltle,
-                    ]}
+                    textStyle={[GlobalStyles.cardTiltle]}
                   />
                   <TouchableOpacity
                     style={[GlobalStyles.row, { flex: 0, width: 50 }]}

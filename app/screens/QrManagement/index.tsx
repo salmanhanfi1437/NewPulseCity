@@ -9,10 +9,12 @@ import {
 } from 'react-native';
 import { CustomText } from '../../components/atoms/Text';
 import config from '../config';
-import GlobalStyles, { getShadowWithElevation } from '../../styles/GlobalStyles';
+import GlobalStyles, {
+  getShadowWithElevation,
+} from '../../styles/GlobalStyles';
 import BlueWhiteBackground from '../../components/atoms/DashBoardBG';
 import CardContainer from '../../components/atoms/CardContainer';
-import { Colors } from '../../styles';
+import { Colors, Typography } from '../../styles';
 import CustomTextInput from '../../components/atoms/TextInput';
 import { useNavigation } from '@react-navigation/native';
 import colors from '../../styles/colors';
@@ -23,6 +25,7 @@ import Dropdown from '../../components/atoms/CustomModal';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import getDynamicTextStyle from '../../styles/DynamicTextStyles';
 import HoverButton from '../../components/atoms/HoverButton';
+import { bgColor, pb, pl, pr, pt } from '../../utils/spaces';
 interface DynamicViewStyleProps {
   marginVertical?: number;
   justifyContent?: ViewStyle['justifyContent'];
@@ -38,7 +41,8 @@ interface DynamicViewStyleProps {
 const QRManageMent = () => {
   const navigation = useNavigation<any>();
   const { color, flex, textAlign, ...rest } = GlobalStyles.headertitle;
-  const { borderRadius, padding,elevation, ...restShadow } = GlobalStyles.shadowStyles;
+  const { borderRadius, padding, elevation, ...restShadow } =
+    GlobalStyles.shadowStyles;
 
   const getDynamicViewStyle = ({
     marginVertical,
@@ -67,7 +71,7 @@ const QRManageMent = () => {
       case 'Dummy':
         return Colors.borderBottomColor;
       case 'Active':
-        return Colors.green;
+        return Colors.color_BBF7D0;
       case 'Assigned':
         return Colors.primaryColor2;
       case 'Retired':
@@ -97,7 +101,9 @@ const QRManageMent = () => {
   return (
     <BlueWhiteBackground
       headerHeight={70}
-      BlueWhiteBackgroundStyle={GlobalStyles.lightwhite}
+      BlueWhiteBackgroundStyle={[
+        { backgroundColor: GlobalStyles.lightwhite.backgroundColor },
+      ]}
     >
       <Header
         title={config.ZuvyQrManagement.H1}
@@ -123,7 +129,8 @@ const QRManageMent = () => {
         <View style={[GlobalStyles.ZuvyDashBoardRowContainer]}>
           <CardContainer
             style={[
-              GlobalStyles.semihalfwidth,getShadowWithElevation(1),
+              GlobalStyles.semihalfwidth,
+              getShadowWithElevation(1),
               { borderRadius: GlobalStyles.ZuvyDashBoardBtn.borderRadius },
             ]}
           >
@@ -145,7 +152,9 @@ const QRManageMent = () => {
               </View>
               <CustomText
                 title={config.ZuvyQrManagement.Total}
-                textStyle={[GlobalStyles.greyColorText]}
+                textStyle={[
+                  Typography.size.dynamic(12, 'regular', colors.fadeTextColor),
+                ]}
               />
             </View>
             <CustomText
@@ -166,7 +175,8 @@ const QRManageMent = () => {
           </CardContainer>
           <CardContainer
             style={[
-              GlobalStyles.semihalfwidth,getShadowWithElevation(1),
+              GlobalStyles.semihalfwidth,
+              getShadowWithElevation(1),
               { borderRadius: GlobalStyles.ZuvyDashBoardBtn.borderRadius },
             ]}
           >
@@ -188,7 +198,9 @@ const QRManageMent = () => {
               </View>
               <CustomText
                 title={config.ZuvyQrManagement.Active}
-                textStyle={[GlobalStyles.greyColorText]}
+                textStyle={[
+                  Typography.size.dynamic(12, 'regular', colors.fadeTextColor),
+                ]}
               />
             </View>
             <CustomText
@@ -209,7 +221,10 @@ const QRManageMent = () => {
           </CardContainer>
         </View>
         <CardContainer
-          style={[getShadowWithElevation(1),{ padding: GlobalStyles.zuvyIconBox.padding + 2 }]}
+          style={[
+            getShadowWithElevation(1),
+            { padding: GlobalStyles.zuvyIconBox.padding + 2 },
+          ]}
         >
           <View style={[GlobalStyles.zuvyHeaderRow]}>
             {config.ZuvyQrManagement.qrfilter.map(item => {
@@ -260,13 +275,14 @@ const QRManageMent = () => {
                   <Dropdown
                     data={[]}
                     selectedValue={item.label}
-                    textStyle={[getDynamicTextStyle(10, colors.grey, 0, 6), {}]}
+                    textStyle={[Typography.size.dynamic(10), pr(5), pl(5)]}
                     style={[
                       getDynamicViewStyle({
                         backgroundColor: GlobalStyles.whiteColor.color,
                       }),
                       GlobalStyles.alignItem,
-                      restShadow,getShadowWithElevation(1),
+                      restShadow,
+                      getShadowWithElevation(1),
                       { margin: 5 },
                     ]}
                     onSelect={() => {}}
@@ -305,95 +321,163 @@ const QRManageMent = () => {
           keyExtractor={item => item.id}
           renderItem={({ item }) => {
             return (
-              <CardContainer
-                style={[
-                  GlobalStyles.lightwhite.backgroundColor,
-                  GlobalStyles.width50,
-                  GlobalStyles.paginationContainer.alignSelf,
-                  GlobalStyles.containerPaddings,getShadowWithElevation(1),
-                ]}
+              <TouchableOpacity
+                activeOpacity={0.95}
+                onPress={() => {
+                  navigation.navigate('EditQRDetails');
+                }}
               >
-                <View style={GlobalStyles.row}>
-                  <View
-                    style={[GlobalStyles.viewRow, GlobalStyles.itemCenterStyle]}
-                  >
-                    <MaterialIcons
-                      name="qr-code"
-                      size={30}
-                      color={Colors.primaryColor2}
+                <CardContainer
+                  style={[
+                    // GlobalStyles.lightwhite.backgroundColor,
+                    GlobalStyles.width50,
+                    GlobalStyles.paginationContainer.alignSelf,
+                    GlobalStyles.containerPaddings,
+                    getShadowWithElevation(1),
+                    bgColor(GlobalStyles.lightwhite.backgroundColor),
+                  ]}
+                >
+                  <View style={GlobalStyles.row}>
+                    <View
+                      style={[
+                        GlobalStyles.viewRow,
+                        GlobalStyles.itemCenterStyle,
+                      ]}
+                    >
+                      <MaterialIcons
+                        name="qr-code"
+                        size={30}
+                        color={Colors.primaryColor2}
+                      />
+                      <View style={[getDynamicViewStyle({ left: 20 })]}>
+                        <CustomText
+                          title={item.id}
+                          textStyle={[Typography.size.dynamic(12, 'medium')]}
+                        />
+                        <CustomText
+                          title={'Created : ' + item.createdDate}
+                          textStyle={[
+                            Typography.size.dynamic(
+                              11,
+                              'regular',
+                              colors.textColorGrey,
+                            ),
+                          ]}
+                        />
+                      </View>
+                    </View>
+                    <Badge
+                      text={item.status}
+                      backgroundColor={getStatusColor(item.status)}
+                      textcolor={getStatusTextColor(item.status)}
+                      padding={8}
                     />
-                    <View style={[getDynamicViewStyle({ left: 20 })]}>
-                      <CustomText title={item.id} />
-                      <CustomText title={item.createdDate} />
+                  </View>
+                  <View style={[GlobalStyles.row, pt(10), pb(5)]}>
+                    <View style={GlobalStyles.halfwidth}>
+                      <CustomText
+                        title={'Sub-agent'}
+                        textStyle={[
+                          Typography.size.dynamic(
+                            12,
+                            'regular',
+                            colors.textColorGrey,
+                          ),
+                        ]}
+                      />
+                    </View>
+                    <View style={GlobalStyles.halfwidth}>
+                      <CustomText
+                        title={'Plan'}
+                        textStyle={[
+                          Typography.size.dynamic(
+                            12,
+                            'regular',
+                            colors.textColorGrey,
+                          ),
+                        ]}
+                      />
                     </View>
                   </View>
-                  <Badge
-                    text={item.status}
-                    backgroundColor={getStatusColor(item.status)}
-                    textcolor={getStatusTextColor(item.status)}
-                    padding={8}
+                  <View style={[GlobalStyles.row, pt(1), pb(2)]}>
+                    <View style={[GlobalStyles.halfwidth]}>
+                      <CustomText
+                        title={item.merchant}
+                        textStyle={[Typography.size.dynamic(12, 'medium')]}
+                      />
+                    </View>
+                    <View style={GlobalStyles.halfwidth}>
+                      <CustomText
+                        title={item.plan}
+                        textStyle={[Typography.size.dynamic(12, 'medium')]}
+                      />
+                    </View>
+                  </View>
+                  <View style={[GlobalStyles.row, pt(5)]}>
+                    <View style={GlobalStyles.halfwidth}>
+                      <CustomText
+                        title={'Retired Date'}
+                        textStyle={[
+                          Typography.size.dynamic(
+                            11,
+                            'regular',
+                            colors.textColorGrey,
+                          ),
+                        ]}
+                      />
+                    </View>
+                    <View style={GlobalStyles.halfwidth}>
+                      <CustomText
+                        title={'Reason'}
+                        textStyle={[
+                          Typography.size.dynamic(
+                            11,
+                            'regular',
+                            colors.textColorGrey,
+                          ),
+                        ]}
+                      />
+                    </View>
+                  </View>
+                  <View style={[GlobalStyles.row, pt(5), pb(5)]}>
+                    <View style={GlobalStyles.halfwidth}>
+                      <CustomText
+                        title={item.lastPayment}
+                        textStyle={[Typography.size.dynamic(12, 'medium')]}
+                      />
+                    </View>
+                    <View style={GlobalStyles.halfwidth}>
+                      <CustomText
+                        title={item.reason}
+                        textStyle={[Typography.size.dynamic(12, 'medium')]}
+                      />
+                    </View>
+                  </View>
+                  <View
+                    style={[
+                      GlobalStyles.viewLine,
+                      GlobalStyles.containerPaddings,
+                    ]}
                   />
-                </View>
-                <View style={GlobalStyles.row}>
-                  <View style={GlobalStyles.halfwidth}>
-                    <CustomText
-                      title={'Sub-agent'}
-                      textStyle={[GlobalStyles.greyColorText]}
+                  <View style={GlobalStyles.row}>
+                    {item.actions.map(item => (
+                      <>
+                        <CustomText title={item} />
+                      </>
+                    ))}
+                    <MaterialIcons
+                      name="chevron-right"
+                      size={32}
+                      color={Colors.grey_50}
                     />
                   </View>
-                  <View style={GlobalStyles.halfwidth}>
-                    <CustomText
-                      title={'Plan'}
-                      textStyle={[GlobalStyles.greyColorText]}
-                    />
-                  </View>
-                </View>
-                <View style={GlobalStyles.row}>
-                  <View style={GlobalStyles.halfwidth}>
-                    <CustomText title={item.merchant} />
-                  </View>
-                  <View style={GlobalStyles.halfwidth}>
-                    <CustomText title={item.plan} />
-                  </View>
-                </View>
-                <View style={GlobalStyles.row}>
-                  <View style={GlobalStyles.halfwidth}>
-                    <CustomText
-                      title={'Retired Date'}
-                      textStyle={[GlobalStyles.greyColorText]}
-                    />
-                  </View>
-                  <View style={GlobalStyles.halfwidth}>
-                    <CustomText title={'Reason'} />
-                  </View>
-                </View>
-                <View style={GlobalStyles.row}>
-                  <View style={GlobalStyles.halfwidth}>
-                    <CustomText title={item.lastPayment} />
-                  </View>
-                  <View style={GlobalStyles.halfwidth}>
-                    <CustomText title={item.reason} />
-                  </View>
-                </View>
-                <View style={GlobalStyles.viewLine} />
-                <View style={GlobalStyles.row}>
-                  {item.actions.map(item => (
-                    <>
-                      <CustomText title={item} />
-                    </>
-                  ))}
-                  <MaterialIcons
-                    name="chevron-right"
-                    size={32}
-                    color={Colors.grey_50}
-                  />
-                </View>
-              </CardContainer>
+                </CardContainer>
+              </TouchableOpacity>
             );
           }}
         />
       </ScrollView>
-      <HoverButton />
+      <HoverButton onPress={() => navigation.navigate('yourCart')} />
     </BlueWhiteBackground>
   );
 };

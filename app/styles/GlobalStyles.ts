@@ -6,8 +6,8 @@ import colors from './colors';
 const { width, height } = Dimensions.get('screen');
 const GlobalStyles = StyleSheet.create({
   //halfScreen2.5 width
-  authBtn:{
-    backgroundColor:Colors.buttonColorforAuth
+  authBtn: {
+    backgroundColor: Colors.buttonColorforAuth,
   },
   halfwidth: {
     width: width / 2.5,
@@ -21,6 +21,9 @@ const GlobalStyles = StyleSheet.create({
   width70: {
     width: width / 1.5,
   },
+  fadeText: {
+    color: colors.fadeTextColor,
+  },
   //greyColor
   greyColorText: {
     color: Colors.grey,
@@ -30,7 +33,7 @@ const GlobalStyles = StyleSheet.create({
     color: Colors.white,
   },
   lightwhite: {
-    backgroundColor: Colors.lightWhite,
+    backgroundColor: Colors.white,
     color: Colors.lightWhite,
   },
   //blackColor
@@ -260,8 +263,8 @@ const GlobalStyles = StyleSheet.create({
     marginVertical: 10,
   },
   faintText: {
-    color: Colors.semiLight_grey,
-    fontSize: ms(12),
+    color: Colors.textColorGrey,
+    ...Typography.style.smallTextU(),
   },
   textConatiner: {
     left: 10,
@@ -384,7 +387,6 @@ const GlobalStyles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 5,
     elevation: 1,
-
   },
   playGradientBox: {
     height: ms(100),
@@ -561,7 +563,7 @@ const GlobalStyles = StyleSheet.create({
     alignContent: 'center',
   },
   viewLine: {
-    height: ms(2),
+    height: ms(1),
     backgroundColor: Colors.color_E5E7EB,
     width: '100%',
   },
@@ -638,7 +640,7 @@ const GlobalStyles = StyleSheet.create({
   },
   Promologo: {
     position: 'absolute',
-    top: 60,
+    top: 40,
     fontSize: 40,
     fontWeight: 'bold',
     color: '#fff',

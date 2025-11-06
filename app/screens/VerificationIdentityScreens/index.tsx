@@ -63,7 +63,7 @@ const VerificationIdentity = ({ navigation }: verifyIdentityProps) => {
           height={ms(120)}
           style={[
             marginVertical(20),
-            { borderWidth: 0, borderColor: Colors.transparent },
+            { borderWidth: 1, borderColor: Colors.white },
           ]}
         />
 

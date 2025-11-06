@@ -8,7 +8,8 @@ import Image from '../../components/atoms/Image';
 import Header from '../../components/atoms/HeaderComponent';
 import withBottomWhiteOverlay from '../../components/atoms/Container';
 import LinearGradient from 'react-native-linear-gradient';
-import { Colors } from '../../styles';
+import { Colors, Typography } from '../../styles';
+import colors from '../../styles/colors';
 const { width, height } = Dimensions.get('screen');
 const UserProfile = () => {
   return (
@@ -37,7 +38,8 @@ const UserProfile = () => {
           title={config.Profile.position}
           textStyle={[
             GlobalStyles.headertitle,
-            { fontWeight: '400', fontSize: 14 },
+            Typography.size.dynamic(14,'regular',colors.white)
+            // { fontWeight: '400', fontSize: 14 },
           ]}
         />
       </View>

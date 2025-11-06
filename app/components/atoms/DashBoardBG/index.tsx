@@ -8,7 +8,7 @@ const { height } = Dimensions.get('window');
 interface BlueWhiteBackgroundProps {
   children: ReactNode;
   headerHeight?: number;
-  BlueWhiteBackgroundStyle?: ViewStyle;
+  BlueWhiteBackgroundStyle?: ViewStyle | ViewStyle[];
   LinearView?: boolean;
   LinearViewStyles?: ViewStyle | ViewStyle[];
   linearLocation ?:number[]

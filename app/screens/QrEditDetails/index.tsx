@@ -7,10 +7,12 @@ import {
 } from 'react-native';
 import { CustomText } from '../../components/atoms/Text';
 import config from '../config';
-import GlobalStyles from '../../styles/GlobalStyles';
+import GlobalStyles, {
+  getShadowWithElevation,
+} from '../../styles/GlobalStyles';
 import BlueWhiteBackground from '../../components/atoms/DashBoardBG';
 import CardContainer from '../../components/atoms/CardContainer';
-import { Colors } from '../../styles';
+import { Colors, Typography } from '../../styles';
 import CustomTextInput from '../../components/atoms/TextInput';
 import { useNavigation } from '@react-navigation/native';
 import colors from '../../styles/colors';
@@ -21,6 +23,7 @@ import Dropdown from '../../components/atoms/CustomModal';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { QrplassholderSVG } from '../../assets/svg';
 import CustomButton from '../../components/atoms/CustomButton';
+import { fontW, pb } from '../../utils/spaces';
 const { width, height } = Dimensions.get('window');
 
 const EditQR = () => {
@@ -66,23 +69,31 @@ const EditQR = () => {
             backgroundColor={colors.greenBadgeColor}
             text={'Purchased'}
             textcolor={Colors.darkGreen}
+            textStyle={[Typography.size.dynamic(8, 'medium')]}
+            padding={8}
           />
         </View>
         <CustomText
           title={config.ZuvyQrEdit.qrlabel1}
           textStyle={[
-            GlobalStyles.faintText,
-            avoidcolor,
-            GlobalStyles.greyColorText,
-            GlobalStyles.containerPaddings,
+            Typography.size.dynamic(
+              11,
+              'regular',
+              GlobalStyles.greyColorText.color,
+            ),
+            pb(5),
           ]}
         />
 
-        <CardContainer>
+        <CardContainer style={[getShadowWithElevation(1)]}>
           <CustomText title={config.ZuvyQrEdit.basicsDetails} />
           <CustomText
             title={config.ZuvyQrEdit.kitname}
-            textStyle={[GlobalStyles.greyColorText, GlobalStyles.margin_top10]}
+            textStyle={[
+              GlobalStyles.fadeText,
+              GlobalStyles.margin_top10,
+              Typography.size.dynamic(12),
+            ]}
           />
           <ViewOutlined
             viewStyle={[
@@ -98,7 +109,11 @@ const EditQR = () => {
           </ViewOutlined>
           <CustomText
             title={config.ZuvyQrEdit.Description}
-            textStyle={[GlobalStyles.greyColorText, GlobalStyles.margin_top10]}
+            textStyle={[
+              GlobalStyles.fadeText,
+              GlobalStyles.margin_top10,
+              Typography.size.dynamic(12),
+            ]}
           />
           <ViewOutlined
             viewStyle={[
@@ -121,7 +136,11 @@ const EditQR = () => {
           </ViewOutlined>
           <CustomText
             title={config.ZuvyQrEdit.location}
-            textStyle={[GlobalStyles.greyColorText, GlobalStyles.margin_top10]}
+            textStyle={[
+              GlobalStyles.fadeText,
+              GlobalStyles.margin_top10,
+              Typography.size.dynamic(12),
+            ]}
           />
           <ViewOutlined
             viewStyle={[
@@ -140,7 +159,11 @@ const EditQR = () => {
           </ViewOutlined>
           <CustomText
             title={config.ZuvyQrEdit.Category}
-            textStyle={[GlobalStyles.greyColorText, GlobalStyles.margin_top10]}
+            textStyle={[
+              GlobalStyles.fadeText,
+              GlobalStyles.margin_top10,
+              Typography.size.dynamic(12),
+            ]}
           />
           <ViewOutlined
             viewStyle={[
@@ -160,11 +183,18 @@ const EditQR = () => {
             />
           </ViewOutlined>
         </CardContainer>
-        <CardContainer>
-          <CustomText title={config.ZuvyQrEdit.contactInfo} />
+        <CardContainer style={[getShadowWithElevation(1)]}>
+          <CustomText
+            title={config.ZuvyQrEdit.contactInfo}
+            textStyle={[fontW('500')]}
+          />
           <CustomText
             title={config.ZuvyQrEdit.emergencyContact}
-            textStyle={[GlobalStyles.greyColorText, GlobalStyles.margin_top10]}
+            textStyle={[
+              GlobalStyles.fadeText,
+              GlobalStyles.margin_top10,
+              Typography.size.dynamic(12),
+            ]}
           />
           <ViewOutlined
             viewStyle={[
@@ -181,7 +211,11 @@ const EditQR = () => {
 
           <CustomText
             title={config.ZuvyQrEdit.Email}
-            textStyle={[GlobalStyles.greyColorText, GlobalStyles.margin_top10]}
+            textStyle={[
+              GlobalStyles.fadeText,
+              GlobalStyles.margin_top10,
+              Typography.size.dynamic(12),
+            ]}
           />
           <ViewOutlined
             viewStyle={[
@@ -196,60 +230,72 @@ const EditQR = () => {
             <CustomTextInput placeholder={''} value={'john.doe@email.com'} />
           </ViewOutlined>
         </CardContainer>
-        <CardContainer>
+        <CardContainer style={[getShadowWithElevation(1)]}>
           <View style={[GlobalStyles.zuvyRightIcons]}>
             <CustomText
               title={config.ZuvyQrEdit.readOnlyinfo}
               textStyle={[
-                GlobalStyles.greyColorText,
+                GlobalStyles.fadeText,
                 { paddingRight: GlobalStyles.textConatiner.left },
               ]}
             />
-            <MaterialIcons name="lock" size={18} color={colors.grey_50} />
+            <MaterialIcons name="lock" size={18} color={colors.color_6B7280} />
           </View>
           <View style={[GlobalStyles.row, GlobalStyles.margin_top10]}>
             <CustomText
               title={config.ZuvyQrEdit.Owner}
-              textStyle={[GlobalStyles.greyColorText]}
+              textStyle={[GlobalStyles.fadeText, Typography.size.dynamic(12)]}
             />
             <CustomText
               title={'Test Name'}
-              textStyle={[GlobalStyles.greyColorText]}
+              textStyle={[
+                GlobalStyles.fadeText,
+                Typography.size.dynamic(12, 'medium'),
+              ]}
             />
           </View>
           <View style={[GlobalStyles.row, GlobalStyles.margin_top10]}>
             <CustomText
               title={config.ZuvyQrEdit.Purchase_Date}
-              textStyle={[GlobalStyles.greyColorText]}
+              textStyle={[GlobalStyles.fadeText, Typography.size.dynamic(12)]}
             />
             <CustomText
               title={'******'}
-              textStyle={[GlobalStyles.greyColorText]}
+              textStyle={[
+                GlobalStyles.fadeText,
+                Typography.size.dynamic(12, 'medium'),
+              ]}
             />
           </View>
           <View style={[GlobalStyles.row, GlobalStyles.margin_top10]}>
             <CustomText
               title={config.ZuvyQrEdit.Payment_Method}
-              textStyle={[GlobalStyles.greyColorText]}
+              textStyle={[GlobalStyles.fadeText, Typography.size.dynamic(12)]}
             />
             <CustomText
               title={'*****'}
-              textStyle={[GlobalStyles.greyColorText]}
+              textStyle={[
+                GlobalStyles.fadeText,
+                Typography.size.dynamic(12, 'medium'),
+              ]}
             />
           </View>
           <View style={[GlobalStyles.row, GlobalStyles.margin_top10]}>
             <CustomText
               title={config.ZuvyQrEdit.Amount_Paid}
-              textStyle={[GlobalStyles.greyColorText]}
+              textStyle={[GlobalStyles.fadeText, Typography.size.dynamic(12)]}
             />
             <CustomText
               title={'*****'}
-              textStyle={[GlobalStyles.greyColorText]}
+              textStyle={[
+                GlobalStyles.fadeText,
+                Typography.size.dynamic(12, 'medium'),
+              ]}
             />
           </View>
         </CardContainer>
-        <CardContainer>
-          <CustomText title={config.ZuvyQrEdit.readOnlyinfo} />
+        <CardContainer style={[getShadowWithElevation(1)]}>
+          <CustomText title={config.ZuvyQrEdit.qrPreview} />
           <QrplassholderSVG
             style={[
               { alignSelf: GlobalStyles.paginationContainer.alignSelf },
@@ -261,36 +307,28 @@ const EditQR = () => {
               gradientColors={colors.whiteGradient}
               title={config.ZuvyQrEdit.downloadQr}
               onPress={() => {}}
-              textStyles={[
-                GlobalStyles.greyColorText,
-                { fontSize: GlobalStyles.playDurationText.fontSize },
-              ]}
+              textStyles={[GlobalStyles.fadeText, Typography.size.dynamic(10)]}
               buttonStyle={[
-                GlobalStyles.shadowStyles,
                 GlobalStyles.borderStyles,
                 GlobalStyles.halfwidth,
                 {
                   borderRadius: GlobalStyles.modalDropdownList.borderRadius,
                 },
+                getShadowWithElevation(0),
               ]}
             />
             <CustomButton
               gradientColors={colors.whiteGradient}
               title={config.ZuvyQrEdit.share}
               onPress={() => {}}
-              textStyles={[
-                GlobalStyles.greyColorText,
-                {
-                  fontSize: GlobalStyles.playDurationText.fontSize,
-                },
-              ]}
+              textStyles={[GlobalStyles.fadeText, Typography.size.dynamic(10)]}
               buttonStyle={[
-                GlobalStyles.shadowStyles,
                 GlobalStyles.borderStyles,
                 GlobalStyles.halfwidth,
                 {
                   borderRadius: GlobalStyles.modalDropdownList.borderRadius,
                 },
+                getShadowWithElevation(0),
               ]}
             />
           </View>
@@ -310,12 +348,9 @@ const EditQR = () => {
             gradientColors={colors.whiteGradient}
             title={'Cancel'}
             onPress={() => {}}
-            textStyles={[
-              GlobalStyles.greyColorText,
-              { fontSize: GlobalStyles.playDurationText.fontSize },
-            ]}
+            textStyles={[GlobalStyles.fadeText, Typography.size.dynamic(10)]}
             buttonStyle={[
-              GlobalStyles.shadowStyles,
+              getShadowWithElevation(1),
               GlobalStyles.borderStyles,
               GlobalStyles.halfwidth,
               {
@@ -327,14 +362,9 @@ const EditQR = () => {
             gradientColors={colors.whiteGradient}
             title={'Delete'}
             onPress={() => {}}
-            textStyles={[
-              GlobalStyles.greyColorText,
-              {
-                fontSize: GlobalStyles.playDurationText.fontSize,
-              },
-            ]}
+            textStyles={[GlobalStyles.fadeText, Typography.size.dynamic(10)]}
             buttonStyle={[
-              GlobalStyles.shadowStyles,
+              getShadowWithElevation(1),
               GlobalStyles.borderStyles,
               GlobalStyles.halfwidth,
               {

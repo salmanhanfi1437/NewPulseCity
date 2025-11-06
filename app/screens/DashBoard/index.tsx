@@ -10,7 +10,7 @@ import BlueWhiteBackground from '../../components/atoms/DashBoardBG';
 import VerticalLine from '../../components/atoms/VerticalineComponent';
 import { ms } from 'react-native-size-matters';
 import CardContainer from '../../components/atoms/CardContainer';
-import { Colors } from '../../styles';
+import { Colors, Typography } from '../../styles';
 import HorizontalLine from '../../components/atoms/HorizontalLine';
 import {
   CalendarSVG,
@@ -30,6 +30,7 @@ import { useNavigation } from '@react-navigation/native';
 import colors from '../../styles/colors';
 import HoverButton from '../../components/atoms/HoverButton';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { bgColor, fS } from '../../utils/spaces';
 
 const ZuvyDashBoard = () => {
   const navigation = useNavigation<any>();
@@ -39,32 +40,34 @@ const ZuvyDashBoard = () => {
   const DistributorsArr = [
     {
       title: 'Verified QR Ownership',
-      description: 'Every kit you buy is legally \n registered to your name.',
+      description: 'Every kit you buy is legally \nregistered to your name.',
       icon: GreenbagSVG,
     },
     {
       title: 'Guaranteed Activation Timeline',
-      description:
-        'Your investment is protected \n with a clear refund window.',
+      description: 'Your investment is protected \nwith a clear refund window.',
       icon: LockSvg,
     },
     {
       title: 'Transparent Delivery Tracking',
-      description: 'Track your kit delivery \n from dispatch to doorstep.',
+      description: 'Track your kit delivery \nfrom dispatch to doorstep.',
       icon: TransportSvg,
     },
   ];
 
   return (
-    <BlueWhiteBackground headerHeight={80}>
-      <ZuvyHeader
-        onProfilePress={() => navigation.navigate('Profile')}
-        onNotificationPress={() => navigation.navigate('notifications')}
-      />
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={GlobalStyles.ZuvyDashBoardScrollContent}
-      >
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={[
+        GlobalStyles.ZuvyDashBoardScrollContent,
+        { backgroundColor: GlobalStyles.whiteColor.color },
+      ]}
+    >
+      <BlueWhiteBackground headerHeight={80}>
+        <ZuvyHeader
+          onProfilePress={() => navigation.navigate('Profile')}
+          onNotificationPress={() => navigation.navigate('notifications')}
+        />
         <View style={GlobalStyles.translusantContainer}>
           <CustomText
             title={config.ZuvyDashBoard.welcomeTitle}
@@ -87,7 +90,11 @@ const ZuvyDashBoard = () => {
           </View>
         </View>
         <CardContainer
-          style={[GlobalStyles.ZuvyDashBoardCard, GlobalStyles.width50,getShadowWithElevation(1)]}
+          style={[
+            GlobalStyles.ZuvyDashBoardCard,
+            GlobalStyles.width50,
+            getShadowWithElevation(1),
+          ]}
         >
           <CustomText
             title={config.ZuvyDashBoard.QRsummary}
@@ -100,7 +107,10 @@ const ZuvyDashBoard = () => {
           <View style={[GlobalStyles.row, GlobalStyles.containerPaddings]}>
             <CustomText
               title={config.ZuvyDashBoard.QRpurchased}
-              textStyle={{ color: Colors.grey }}
+              textStyle={[
+                Typography.size.dynamic(13),
+                { color: Colors.textColorGrey },
+              ]}
             />
             <CustomText
               title={'15 kits'}
@@ -114,7 +124,10 @@ const ZuvyDashBoard = () => {
           <View style={[GlobalStyles.row]}>
             <CustomText
               title={config.ZuvyDashBoard.activekit}
-              textStyle={{ color: Colors.grey }}
+              textStyle={[
+                Typography.size.dynamic(13),
+                { color: Colors.textColorGrey },
+              ]}
             />
             <CustomText
               title={'0'}
@@ -132,14 +145,20 @@ const ZuvyDashBoard = () => {
               { alignItems: GlobalStyles.avoidJustify.justifyContent },
             ]}
           >
-            <CalendarSVG width={ms(30)} height={ms(30)} />
+            <CalendarSVG width={ms(20)} height={ms(30)} />
             <View style={GlobalStyles.textConatiner}>
               <CustomText
                 title={config.ZuvyDashBoard.date}
-                textStyle={GlobalStyles.greyColorText}
+                textStyle={[Typography.size.dynamic(12), GlobalStyles.fadeText]}
               />
-              <CustomText title={config.ZuvyDashBoard.activationDate} />
-              <CustomText title={'15/12/2024'} />
+              <CustomText
+                title={config.ZuvyDashBoard.activationDate}
+                textStyle={[Typography.size.dynamic(13)]}
+              />
+              <CustomText
+                title={'15/12/2024'}
+                textStyle={[Typography.size.dynamic(13)]}
+              />
             </View>
           </View>
           <View
@@ -153,19 +172,24 @@ const ZuvyDashBoard = () => {
             <View style={GlobalStyles.textConatiner}>
               <CustomText
                 title={config.ZuvyDashBoard.refund}
-                textStyle={GlobalStyles.greyColorText}
+                textStyle={[Typography.size.dynamic(12), GlobalStyles.fadeText]}
               />
-              <CustomText title={config.ZuvyDashBoard.refunddate} />
+              <CustomText
+                title={config.ZuvyDashBoard.refunddate}
+                textStyle={[Typography.size.dynamic(13)]}
+              />
             </View>
           </View>
           <CustomButton
             title={config.ZuvyDashBoard.viewKit}
             buttonStyle={[
               GlobalStyles.ZuvyDashBoardBtn,
-              {width:GlobalStyles.width70.width * 1.2},
+              { width: GlobalStyles.width70.width * 1.2 },
             ]}
             textStyles={GlobalStyles.ZuvyDashBoardBtnText}
-            onPress={() => {}}
+            onPress={() => {
+              navigation.navigate('QRManageMent');
+            }}
             leftIcon={<HumburgerSVG />}
             rightIcon={<RightSVG />}
           />
@@ -205,11 +229,16 @@ const ZuvyDashBoard = () => {
             <VideoCard name={'Rajesh Kumar'} role={'Delhi Distributor'} />
           </ScrollView>
           <CardContainer
-            style={[GlobalStyles.itemCenterStyle, GlobalStyles.lightwhite,getShadowWithElevation(1)]}
+            style={[
+              GlobalStyles.itemCenterStyle,
+              GlobalStyles.lightwhite,
+              getShadowWithElevation(1),
+              bgColor(colors.watchTestimonial),
+            ]}
           >
-            <TouchableOpacity>
-              <CustomText title={config.ZuvyDashBoard.moreTestimonial} />
-            </TouchableOpacity>
+            {/* <TouchableOpacity> */}
+            <CustomText title={config.ZuvyDashBoard.moreTestimonial} />
+            {/* </TouchableOpacity> */}
           </CardContainer>
 
           <CustomText
@@ -232,24 +261,19 @@ const ZuvyDashBoard = () => {
               return (
                 <CardContainer
                   style={[
-                    GlobalStyles.width70,getShadowWithElevation(1),
+                    GlobalStyles.width70,
+                    getShadowWithElevation(1),
                     { margin: GlobalStyles.iconButton.padding },
                   ]}
                 >
                   {<item.icon />}
                   <CustomText
                     title={item.title}
-                    textStyle={[
-                      GlobalStyles.headingText,
-                      { fontSize: GlobalStyles.faintText.fontSize },
-                    ]}
+                    textStyle={[GlobalStyles.headingText, fS(12)]}
                   />
                   <CustomText
                     title={item.description}
-                    textStyle={[
-                      GlobalStyles.greyColorText,
-                      GlobalStyles.faintText,
-                    ]}
+                    textStyle={[GlobalStyles.faintText]}
                   />
                 </CardContainer>
               );
@@ -318,9 +342,9 @@ const ZuvyDashBoard = () => {
             leftIcon={<InfoSVG />}
           />
         </View>
-      </ScrollView>
-      <HoverButton onPress={() => navigation.navigate('EditQRDetails')} />
-    </BlueWhiteBackground>
+        <HoverButton onPress={() => navigation.navigate('yourCart')} />
+      </BlueWhiteBackground>
+    </ScrollView>
   );
 };
 

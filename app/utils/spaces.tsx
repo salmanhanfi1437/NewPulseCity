@@ -122,6 +122,10 @@ export const viewPostion = (value: 'absolute' | 'relative' | 'static') => {
   return { position: value };
 };
 
+export const alignCenter = (value:string)=>{
+  return {alignCenter:value}
+}
+
 export const textIncludedStyle = (marginTop: number) => {
   return [CartStyles.textincluded, mt(mvs(marginTop))];
 };

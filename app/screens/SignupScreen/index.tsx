@@ -25,7 +25,6 @@ import FontStyles from '../../styles/FontStyles';
 import Button from '../../components/atoms/Button';
 import { fS, fontColor, bR } from '../../utils/spaces';
 import colors from '../../styles/colors';
-import CheckBox from '@react-native-community/checkbox';
 import RememberMe from '../../components/atoms/CheckBox';
 
 const SignupScreens = ({ navigation }: SignupProps) => {
@@ -63,7 +62,13 @@ const SignupScreens = ({ navigation }: SignupProps) => {
 
   return (
     <BackgroundPrimaryColor title={letsgetstarted}>
-      <View style={[GlobalStyles.flexOne, mt(20)]}>
+      <View
+        style={[
+          GlobalStyles.flexOne,
+          mt(20),
+          GlobalStyles.ZuvyDashBoardContainer,
+        ]}
+      >
         <CustomText
           title={const_name}
           textStyle={[FontStyles.headingText, mt(10)]}
@@ -110,7 +115,7 @@ const SignupScreens = ({ navigation }: SignupProps) => {
           disabledMic={true}
           style={[FontStyles.txtInput]}
         />
-       <RememberMe />
+        <RememberMe label={' Agree with the Zuvy'} />
 
         <Button
           title={signup}
@@ -120,7 +125,7 @@ const SignupScreens = ({ navigation }: SignupProps) => {
             GlobalStyles.Custombutton,
             mt(65),
             bR(10),
-            
+
             GlobalStyles.authBtn,
             height(60),
           ]}

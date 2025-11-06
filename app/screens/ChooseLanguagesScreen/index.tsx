@@ -22,6 +22,8 @@ import {
   fontColor,
   pl,
   pr,
+  paddingH,
+  alignCenter,
 } from '../../utils/spaces';
 import Checkbox from '../Checkbox';
 import ViewBorder from '../../components/atoms/ViewBorder';
@@ -36,6 +38,7 @@ import { RootState } from '../../redux/rootReducer';
 import { fetchLanguagesRequest } from './chooseLanguageSlice';
 import Button from '../../components/atoms/Button';
 import colors from '../../styles/colors';
+import { Colors } from '../../styles';
 
 const ChooseLanguages = ({ navigation }: ChooseLanguagesProps) => {
   const languages = [
@@ -67,10 +70,15 @@ const ChooseLanguages = ({ navigation }: ChooseLanguagesProps) => {
       style={[GlobalStyles.viewRow, mt(15), borderRadius(10)]}
       onPress={() => handleLanguageschanges(item)}
     >
-      <View style={GlobalStyles.flexOne}>
+      <View style={[GlobalStyles.flexOne, paddingH(20)]}>
         <CustomText textStyle={[FontStyles.subText]} title={item.label} />
         <CustomText
-          textStyle={[FontStyles.subText, { color: colors.semiLight_grey }]}
+          textStyle={[
+            FontStyles.subText,
+            { color: colors.semiLight_grey },
+            fS(11),
+            fontColor(Colors.textColorGrey),
+          ]}
           title={item.title}
         />
       </View>

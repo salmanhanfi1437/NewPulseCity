@@ -33,6 +33,7 @@ import {
   fontColor,
   pl,
   pr,
+  fontW,
 } from '../../utils/spaces';
 import {
   const_continue,
@@ -112,6 +113,7 @@ const LoginScreen = ({ navigation }: LoginProps) => {
             GlobalStyles.viewRound,
             GlobalStyles.viewCenter,
             mt(15),
+            bgColor(Colors.fadeWhite),
           ]}
         />
       </TouchableOpacity>
@@ -122,7 +124,7 @@ const LoginScreen = ({ navigation }: LoginProps) => {
       <ViewOutlined viewStyle={styles.viewInput}>
         <CustomText
           title="+91 |"
-          textStyle={[FontStyles.headingText, fS(ms(15)), pl(5)]}
+          textStyle={[FontStyles.headingText, fS(ms(15)), pl(12),fontW('600')]}
         />
 
         <CustomTextInput
@@ -133,7 +135,7 @@ const LoginScreen = ({ navigation }: LoginProps) => {
           keyboardType="phone-pad"
           maxLength={10}
           editable={!isOtpVerified}
-          style={FontStyles.txtInput}
+          style={[FontStyles.txtInput,fS(15)]}
         />
       </ViewOutlined>
 
@@ -168,9 +170,9 @@ const LoginScreen = ({ navigation }: LoginProps) => {
 
           {timer > 0 ? (
             <CustomText
-              textStyle={[styles.txtTimer, fS(ms(15))]}
+              textStyle={[styles.txtTimer, fS(ms(12))]}
               title={t(resendOtpTimer, {
-                time: `00:${timer < 10 ? `0${timer}` : timer}s`,
+                time: `00:${timer < 10 ? `0${timer}` : timer}`,
               })}
             />
           ) : (

@@ -73,6 +73,7 @@ export default {
     Security: 'Security',
     downloadQr: 'Download QR Code',
     share: 'Share',
+    qrPreview: "QR Code Preview"
   },
   ZuvyQrManagement: {
     H1: 'QR Management',
@@ -137,5 +138,6 @@ export default {
     Address: 'Address',
     optional: '(Optional)',
     Proceed: 'Proceed to Payment',
+    totalPayable: 'Total Payable',
   },
 };
