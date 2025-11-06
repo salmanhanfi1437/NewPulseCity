@@ -24,7 +24,7 @@ import HomeSVG from './home.svg';
 import HomeActiveSVG from './homeactive.svg';
 import DashBoardSVG from './dashboard.svg';
 import NotificationSVG from './notification.svg';
-import ZuvyLogo from './zuvylogo.svg';
+import ZuvyLogo from './ZuvyLogo.svg';
 import VerifyKYCSVG from './verifykyc.svg';
 import TickCircleSVG from './tickcircle.svg';
 import DigiLockerSVG from './digilocker_verify.svg';

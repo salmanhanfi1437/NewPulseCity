@@ -33,6 +33,7 @@ import QRManageMent from '../screens/QrManagement';
 import { LogBox, DevSettings } from 'react-native';
 import NotificationScreen from '../screens/NotificationScreen';
 import { navigationRef } from './NavigationService';
+import Checkout from '../screens/Checkout';
 
 
 if (__DEV__) {
@@ -78,6 +79,7 @@ const RootNavigator = () => {
           <Stack.Screen name={'EditQRDetails'} component={EditQR} />
           <Stack.Screen name={'Profile'} component={UserProfile} />
           <Stack.Screen name={'ZuvyDashBoard'} component={ZuvyDashBoard} />
+            <Stack.Screen name={'CheckOutDetail'} component={Checkout} />
           <Stack.Screen name={notifications} component={NotificationScreen} />
           <Stack.Screen
             name={verifyIdentity}

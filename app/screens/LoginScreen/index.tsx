@@ -26,6 +26,7 @@ import FontStyles from "../../styles/FontStyles";
 import {
     const_continue,
   const_fcmToken,
+  login,
   loginOrSignup,
   mobile_number,
   resendOtp,
@@ -33,12 +34,14 @@ import {
   signup,
   verifyIdentity,
   welcomeZuvy,
+  yourCart,
 } from "../../types/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/rootReducer";
 import { sendOTPFailure, sendOTPRequest,verifyOTPRequest } from "./loginSlice";
 import secureStorage from "../../utils/secureStorage";
 import { showAlert } from "../../components/atoms/AlertBox/showAlert";
+import { mt } from "../../utils/spaces";
 
 const RESEND_TIMER = 30;
 
@@ -99,14 +102,15 @@ useEffect(() => {
 
     if(verifyOTPData?.success === true)
     {
-      //Alert.alert(otpData?.data)
+     
       showAlert(verifyOTPData?.message);
       if(verifyOTPData?.data?.isRegistered === false)
       {
-         navigation.navigate(signup,{mobile:mobileNumber}); //just for testimng added navigation
+         
+    navigation.navigate(signup,{mobile:mobileNumber}); //just for testimng added navigation
       }
       else{
-           navigation.navigate(verifyIdentity); //just for testimng added navigation
+           navigation.navigate(yourCart); //just for testimng added navigation
       }
     }
     else if(otpError?.message){
@@ -145,7 +149,7 @@ dispatch(sendOTPRequest(mobileNumber)); // ✅ only send the mobile
  const verifyOTP = async () => {
   try {
     const fcmToken = await secureStorage.getItem(const_fcmToken);
-dispatch(verifyOTPRequest({ mobile: mobileNumber, otp,fcmToken,deviceType:Platform.OS,purpose : purpose }));
+dispatch(verifyOTPRequest({ mobile: mobileNumber, otp,fcmToken,deviceType:Platform.OS.toUpperCase(),purpose : login.toUpperCase() }));
   } catch (error: any) {
     dispatch(sendOTPFailure('Failed to send OTP'));
     Alert.alert('Failed to send OTP, please try again');

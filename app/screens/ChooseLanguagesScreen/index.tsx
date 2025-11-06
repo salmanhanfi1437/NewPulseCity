@@ -12,9 +12,11 @@ import ViewBorder from "../../components/atoms/ViewBorder";
 import FontStyles from "../../styles/FontStyles";
 import {
   choose_language_title,
+  const_authToken,
   const_continue,
   const_fcmToken,
   select_your_language,
+  yourCart,
 } from "../../types/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/rootReducer";
@@ -29,8 +31,6 @@ const ChooseLanguages = ({ navigation }: ChooseLanguagesProps) => {
   const languages = [
     { code: "en", label: "English", title: "English" },
     { code: "hi", label: "हिन्दी", title: "Hindi" },
-    { code: "te", label: "తెలుగు", title: "Telugu" },
-    { code: "bn", label: "বাংলা", title: "Bengali" },
   ];
 
   const [selectedLang, setSelectedLang] = useState("en");
@@ -120,10 +120,14 @@ crashlytics().setCrashlyticsCollectionEnabled(true);
     </ViewBorder>
   );
 
-  const onHandleOnPress = () => {
+  const onHandleOnPress = async() => {
   
 //     crashlytics().log('Crashlytics debug test started');
 // crashlytics().crash(); // Force a crash
+    const token = await secureStorage.getItem(const_authToken);
+    if(token)
+      navigation.replace(yourCart)
+    else
     navigation.navigate("OnBoard");
   };
 

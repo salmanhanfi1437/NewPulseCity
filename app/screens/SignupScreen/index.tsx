@@ -21,7 +21,7 @@ import { showAlert } from '../../components/atoms/AlertBox/showAlert';
 import { useTranslation } from 'react-i18next';
 import { RoleRequest, SignupRequest } from './signupSlice';
 import secureStorage from '../../utils/secureStorage';
-import { SelectionModal } from '../../components/atoms/SelectionModal';
+
 import config from '../config';
 import DropdownAtom from '../../components/atoms/DropDown';
 
@@ -31,16 +31,14 @@ const SignupScreens = ({ navigation,route }: SignupProps) => {
         console.log("Routes "+JSON.stringify(mobile))
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
-    const [role, setRole] = useState('Distributor');
-      const [visible, setVisible] = useState(false);
-    const [isFocus, setIsFocus] = useState(false);
+    const [role, setRole] = useState('DISTRIBUTOR');
+    const [rolesArray,setRolesArray] = useState([]);
     const {t} = useTranslation();
     const nameRef = useRef<TextInput>(null);
     const emailRef = useRef<TextInput>(null);
     const mobileNumberRef = useRef<TextInput>(null);
     const dispatch = useDispatch();
     
-
     const { error,singupData,roleData } = useSelector((state: RootState) => state.signup);
 
 
@@ -55,6 +53,9 @@ const SignupScreens = ({ navigation,route }: SignupProps) => {
         if(roleData || error)
         {
             console.log('RolesDara '+roleData);
+            if(roleData?.success)
+            {
+            }
         }
     },[roleData,error])
 
@@ -62,8 +63,10 @@ const SignupScreens = ({ navigation,route }: SignupProps) => {
         if(singupData || error)
         {
             console.log('SignupResponse'+singupData);
-
-            if(error?.message)
+             if(singupData?.success)
+                {
+                   navigation.replace(yourCart);             
+                }else if(error?.message)
             {
                 showAlert(error?.message)
             }
@@ -82,7 +85,7 @@ const SignupScreens = ({ navigation,route }: SignupProps) => {
     
         if (validation()) {
             console.log('Api Called')
-            dispatch(SignupRequest({mobile,name,email,role,password:'123456',fcmToken,deviceType:Platform.OS}))
+            dispatch(SignupRequest({mobile,name,email,role,password:'123456',fcmToken,deviceType:Platform.OS.toUpperCase()}))
             //navigation.replace(yourCart)
         }
     }
@@ -122,7 +125,7 @@ const SignupScreens = ({ navigation,route }: SignupProps) => {
                     ref={nameRef}
                     value={name}
                     onChangeText={setName}
-                    placeholder={const_name}
+                    placeholder={t(const_name)}
                     keyboardType="default"
                     style={FontStyles.txtInput}
                     returnKeyType='next'
@@ -136,7 +139,7 @@ const SignupScreens = ({ navigation,route }: SignupProps) => {
                     ref={emailRef}
                     value={email}
                     onChangeText={setEmail}
-                    placeholder={const_email}
+                    placeholder={t(const_email)}
                     keyboardType="email-address"
                     style={FontStyles.txtInput}
                     returnKeyType='next'
@@ -145,30 +148,14 @@ const SignupScreens = ({ navigation,route }: SignupProps) => {
 
                 <CustomText title={const_howtouseZuvy} textStyle={[FontStyles.headingText, mt(20)]} />
 
-                    {/* <DropdownAtom
-        label="Select Role"
-        data={config.zuvyRoles}
-        onSelect={handleSelect}
-        placeholder="Choose one"
-        iconName="appstore1"
-      /> */}
+        <DropdownAtom
+  data={roleData?.data}
+  placeholder={const_howtouseZuvy}
+  selectedValue={role}               // ✅ show current value
+  onSelect={(val) => setRole(val)}   // ✅ update state on select
+/>
                 
-                <TextInputMic
-                    value={"Distributor"}
-                    onChangeText={setRole}
-                    placeholder={const_howtouseZuvy}
-                    keyboardType="default"
-                    editable={false}
-                    disabledMic={true}
-                    style={FontStyles.txtInput} />
                 
-
-                 <SelectionModal
-        visible={visible}
-        data={config.zuvyRoles}
-        onClose={() => setVisible(false)}
-        onSelect={(item) => setRole(item.value)}
-      />
                 <Button
                     title={signup}
                     onPress={handleRegister}

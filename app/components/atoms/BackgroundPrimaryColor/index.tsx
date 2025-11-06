@@ -38,7 +38,7 @@ const BackgroundPrimaryColor = ({ title, subTitle, children }: BgProps) => {
                 style={[GlobalStyles.keyboardView]}
                 contentContainerStyle={flexGrow(1)}
                 enableOnAndroid={true}
-                extraScrollHeight={80}
+                extraScrollHeight={mvs(80)} 
                 keyboardShouldPersistTaps="handled"
                 showsVerticalScrollIndicator={false}
             >

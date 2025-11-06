@@ -41,7 +41,8 @@ const App = () => {
 
 
   return(
-        <Provider store={store}>   {/* ✅ Wrap your app in Redux Provider */}
+    
+    <Provider store={store}>   {/* ✅ Wrap your app in Redux Provider */}
     <RootNavigator/>
     <GlobalLoader/> 
     </Provider>

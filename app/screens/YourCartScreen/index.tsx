@@ -19,31 +19,73 @@ import CartStyles from "./styles";
 import { ScrollView } from "react-native-gesture-handler";
 import Button from "../../components/atoms/Button";
 import VerificationIdentityScreens from "../VerificationIdentityScreens";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../redux/rootReducer";
+import { MasterQrRequest, OrderQrRequest } from "./yourCartSlice";
+import { showAlert } from "../../components/atoms/AlertBox/showAlert";
 
 const YourCart = ({navigation} : yourCartProps) => {
 
     const {t} = useTranslation();
 
-    const [qrCodeName,setQrCodeName] = useState('Zuvy Smart QR');
+    
     const [qty,setQty] = useState(1);
-    const [qtyPrice,setQtyPrice] = useState(1600);
+    const [qtyPrice,setQtyPrice] = useState(0);
     const [gstAmount,setGSTAmout] = useState(0);
     const [totalAmount,setTotalAmount] = useState(0)
+    const [gst,setGst] = useState(0);
+    const dispatch = useDispatch();
+
+        const { error,mastertQrData } = useSelector((state: RootState) => state.masterQr);
+        const { qrCodeError,orderQrData } = useSelector((state: RootState) => state.masterQr);
+
+    
+    useEffect(() => {
+
+      if(mastertQrData || error)
+      {
+          if(mastertQrData)
+          {
+            const data = mastertQrData?.data;
+          
+          setGst(data?.gst); // ✅ ensure it’s a number
+          console.log('GST '+data?.gst)
+            setQtyPrice(data?.perUnitPrice);
+          }else{
+            console.log('MasterQrError '+error)
+          }
+      }
+
+    },[mastertQrData,error])
+
+
+    useEffect(() =>{
+
+      if(orderQrData)
+      {
+        console.log('OrderData '+JSON.stringify(orderQrData))
+      }else{
+        showAlert(qrCodeError?.message)
+      }
+
+    },[qrCodeError,orderQrData])
+
+
+    useEffect(() =>{
+      dispatch(MasterQrRequest())
+    },[])
 
     useEffect(() => {
-      console.log('Qty' +qty);  
-        const pricePerItem = 1600;
-      const totalPrice = qty * pricePerItem;
-        setQtyPrice(totalPrice);
-      setQtyPrice(qty * 1600)
+      const totalPrice = qty * qtyPrice;
+     console.log('Total '+totalPrice);
+  const gstPrice = totalPrice * (gst / 100);
+  console.log('GSTT'+gstPrice);
+  setGSTAmout(gstPrice);
 
-      // GST 18%
-  const gst = totalPrice * 0.18;
-  setGSTAmout(gst);
-
-     // Total   
-
-     setTotalAmount(gst + totalPrice);
+  
+const totalAmount = Number(totalPrice) + gstPrice;
+console.log(totalAmount.toFixed(2)); // ✅ 21.08
+      setTotalAmount(totalAmount);
     },[qty])
 
     const handleBackPress = () => {
@@ -53,7 +95,6 @@ const YourCart = ({navigation} : yourCartProps) => {
   const updateQty = (type: 'plus'| 'minus') =>  {
      setQty(prev =>{ if(type === plus) 
         { 
-          //setQtyPrice((prev + 1) & qtyPrice) 
             return prev + 1;
          }
   else if(type === minus && prev != 1) 
@@ -61,6 +102,11 @@ const YourCart = ({navigation} : yourCartProps) => {
         return prev - 1 
 
     } return prev; }) 
+}
+
+const HandleBuyNow = () => {
+  navigation?.replace('CheckOutDetail');
+//dispatch(OrderQrRequest({quantity:qty}))
 }
 
     return(
@@ -78,10 +124,10 @@ const YourCart = ({navigation} : yourCartProps) => {
                 </LinearGradient>
 
           <View style={[ml(10),GlobalStyles.flexOne]}>
-            <CustomText title={qrCodeName} textStyle={[FontStyles.headingText]}/>
-            <CustomText title={"Digital QR Code Solution"} textStyle={CartStyles.subTitleText}/>
+            <CustomText title={mastertQrData?.data?.qrName} textStyle={[FontStyles.headingText]}/>
+            <CustomText title={mastertQrData?.data?.description} textStyle={CartStyles.subTitleText}/>
             <View style={[GlobalStyles.viewRow,mt(5),GlobalStyles.viewCenter]}>
-            <CustomText title={"₹1,600"} textStyle={[FontStyles.headingText,GlobalStyles.flexOne]}/>
+            <CustomText title={mastertQrData?.data?.perUnitPrice} textStyle={[FontStyles.headingText,GlobalStyles.flexOne]}/>
             <CustomText title={"per unit"} textStyle={[FontStyles.subText,fontColor(Colors.color_4B5563)]}/>
             </View>
             </View>
@@ -112,7 +158,7 @@ const YourCart = ({navigation} : yourCartProps) => {
             <ViewOutlined viewStyle={CartStyles.viewitemTotal}>
                 
               <CustomText title={itemTotal} textStyle={CartStyles.itemTotalText}/>
-            <CustomText title={`₹${qtyPrice}`} textStyle={[FontStyles.headingText]}/>
+            <CustomText title={`₹${qtyPrice * qty}`} textStyle={[FontStyles.headingText]}/>
             </ViewOutlined>
         </Card>
 
@@ -125,18 +171,19 @@ const YourCart = ({navigation} : yourCartProps) => {
 
             <View style={CartStyles.viewSubTotal}>  
               <CustomText title={subTotal} textStyle={CartStyles.itemTotalText}/>
-            <CustomText title={`₹${qtyPrice}`} textStyle={[FontStyles.headingText]}/>
+            <CustomText title={`₹${qtyPrice * qty}`} textStyle={[FontStyles.headingText]}/>
             </View>
 
 
             <View style={CartStyles.viewSubTotal}>  
-              <CustomText title={'GST (18%)'} textStyle={CartStyles.itemTotalText}/>
-            <CustomText title={`₹${gstAmount}`} textStyle={[FontStyles.headingText]}/>
+              <CustomText title={`GST ${mastertQrData?.data?.gst}`} textStyle={CartStyles.itemTotalText}/>
+            
+            <CustomText title={`₹${Number(gstAmount).toFixed(2)}`} textStyle={[FontStyles.headingText]}/>
             </View>
             <View style={[GlobalStyles.viewLine,mt(15)]}/>
              <View style={CartStyles.viewSubTotal}>  
               <CustomText title={total} textStyle={CartStyles.itemTotalText}/>
-            <CustomText title={`₹${totalAmount}`} textStyle={[FontStyles.headingText,fontColor(Colors.primaryColor)]}/>
+            <CustomText title={`₹${Number(totalAmount).toFixed(2)}`} textStyle={[FontStyles.headingText,fontColor(Colors.primaryColor)]}/>
             </View>
         </Card>
 
@@ -147,15 +194,15 @@ const YourCart = ({navigation} : yourCartProps) => {
                 <TickWhiteSVG/>
                 </View>
 
-                <View style={[ml(15)]}>
+                <View style={[ml(15),GlobalStyles.flexOne]}>
                  
                  <CustomText title={whatincluded} textStyle={[FontStyles.headingText]}/>
 
-                <CustomText title={instantCode} textStyle={[textIncludedStyle(5)]} />\
+                 <CustomText title={mastertQrData?.data?.whatInclude} textStyle={[textIncludedStyle(5)]} />
 
-                 <CustomText title={oneyearvalidity} textStyle={[textIncludedStyle(5)]} />
+                 {/* <CustomText title={oneyearvalidity} textStyle={[textIncludedStyle(5)]} />
                  <CustomText title={analyticDashboard} textStyle={[textIncludedStyle(5)]} />
-                 <CustomText title={alltimesupport} textStyle={[textIncludedStyle(5)]} />
+                 <CustomText title={alltimesupport} textStyle={[textIncludedStyle(5)]} />  */}
 
                 </View>
                 </LinearGradient>
@@ -165,12 +212,12 @@ const YourCart = ({navigation} : yourCartProps) => {
 
                <View style={CartStyles.viewSubTotal}>  
               <CustomText title={const_totalAmount} textStyle={CartStyles.itemTotalText}/>
-            <CustomText title={`₹${totalAmount}`} textStyle={[FontStyles.headingText,fontColor(Colors.primaryColor)]}/>
+            <CustomText title={`₹${Number(totalAmount).toFixed(2)}`} textStyle={[FontStyles.headingText,fontColor(Colors.primaryColor)]}/>
             </View>
 
             
   <Button 
-        onPress={() => navigation.navigate(verifyIdentity) }
+        onPress={() => HandleBuyNow() }
         image={<CartSVG/>} 
         viewStyle={[CartStyles.btnBuyNow]} 
         title={buynow} titleStyle={[ml(10),textColor(Colors.white)]}/>

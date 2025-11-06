@@ -611,6 +611,18 @@ const GlobalStyles = StyleSheet.create({
     borderRadius: ms(10),
     backgroundColor: Colors.primaryColor,
   },
+  viewRoundBorder : {
+    flexDirection:'row',
+        borderRadius: mvs(30),
+        borderWidth:ms(1),
+        borderColor:Colors.borderColor,
+        paddingStart:ms(5),
+        paddingEnd:ms(5),
+        height:ms(50),
+        justifyContent:'center',
+        alignItems:'center',
+        marginTop:mvs(10)
+  }
 });
 export default GlobalStyles;
 export const getShadowWithElevation = (elevationValue: number) => {
