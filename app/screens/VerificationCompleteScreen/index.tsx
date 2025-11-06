@@ -57,6 +57,7 @@ const VerificationCompleted = ({ navigation }: kycompletedProps) => {
             GlobalStyles.viewCenter,
             GlobalStyles.Custombutton,
             height(60),
+            GlobalStyles.authBtn
           ]}
           titleStyle={[ml(10), fS(14), fontColor(colors.black)]}
           title={backToDashboard}

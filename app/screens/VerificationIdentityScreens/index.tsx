@@ -142,6 +142,7 @@ const VerificationIdentity = ({ navigation }: verifyIdentityProps) => {
               padding(15),
               getShadowWithElevation(1),
               height(60),
+              GlobalStyles.authBtn
             ]}
           />
         </View>

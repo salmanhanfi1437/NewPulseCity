@@ -43,7 +43,6 @@ import {
   verify,
   welcomeZuvy,
 } from '../../types/constants';
-import CustomButton from '../../components/atoms/CustomButton';
 import colors from '../../styles/colors';
 
 const RESEND_TIMER = 30;
@@ -80,22 +79,6 @@ const LoginScreen = ({ navigation }: LoginProps) => {
     }
   }, [isOtpVerified]);
 
-  // ✅ Toggle between verify/change state
-  // const handleVerifyToggle = useCallback(() => {
-  //   if (mobileNumber.length !== 10) return;
-
-  //   if (isOtpVerified) {
-  //     // Reset to initial state
-  //     setOtpVerified(false);
-  //     setMobileNo('');
-  //     setOtp('');
-  //     setTimer(RESEND_TIMER);
-  //   } else {
-  //     setOtpVerified(true);
-  //     setTimer(RESEND_TIMER);
-  //   }
-  // }, [mobileNumber, isOtpVerified]);
-
   const handleVerifyToggle = useCallback(() => {
     if (!isOtpVerified) {
       // When pressing Continue → show OTP input
@@ -110,8 +93,6 @@ const LoginScreen = ({ navigation }: LoginProps) => {
       }
     }
   }, [isOtpVerified, mobileNumber, otp, navigation]);
-
-
 
   const handleResendOtp = useCallback(() => {
     setTimer(RESEND_TIMER);
@@ -225,6 +206,7 @@ const LoginScreen = ({ navigation }: LoginProps) => {
           height(60),
           ((!isOtpVerified && mobileNumber.length !== 10) ||
             (isOtpVerified && otp.length !== 6)) && { opacity: 0.5 },
+          GlobalStyles.authBtn,
         ]}
       />
     </BackgroundPrimaryColor>

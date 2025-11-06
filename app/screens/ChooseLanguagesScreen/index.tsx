@@ -93,7 +93,9 @@ const ChooseLanguages = ({ navigation }: ChooseLanguagesProps) => {
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         keyboardVerticalOffset={mvs(60)} // adjust if needed
       >
-        <View style={[GlobalStyles.flexOne, GlobalStyles.ZuvyDashBoardContainer]}>
+        <View
+          style={[GlobalStyles.flexOne, GlobalStyles.ZuvyDashBoardContainer]}
+        >
           <View style={styles.headerClin} />
           <FlatList
             data={languages}
@@ -110,7 +112,13 @@ const ChooseLanguages = ({ navigation }: ChooseLanguagesProps) => {
             title={const_continue}
             onPress={onHandleOnPress}
             titleStyle={[fS(ms(16)), fontColor(colors.black)]}
-            viewStyle={[GlobalStyles.Custombutton, mt(65), bR(10),height(60)]}
+            viewStyle={[
+              GlobalStyles.Custombutton,
+              mt(65),
+              bR(10),
+              height(60),
+              GlobalStyles.authBtn,
+            ]}
           />
         </View>
       </KeyboardAvoidingView>
@@ -135,7 +143,7 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     alignSelf: 'center',
     justifyContent: 'center',
-    marginTop:ms(15)
+    marginTop: ms(15),
   },
 });
 

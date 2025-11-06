@@ -6,6 +6,9 @@ import colors from './colors';
 const { width, height } = Dimensions.get('screen');
 const GlobalStyles = StyleSheet.create({
   //halfScreen2.5 width
+  authBtn:{
+    backgroundColor:Colors.buttonColorforAuth
+  },
   halfwidth: {
     width: width / 2.5,
   },
@@ -448,7 +451,6 @@ const GlobalStyles = StyleSheet.create({
     justifyContent: 'space-around',
   },
   bottomFooter: {
-    position: 'absolute',
     bottom: 10,
     width: '100%',
     flexDirection: 'row',
