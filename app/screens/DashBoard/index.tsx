@@ -87,7 +87,7 @@ const ZuvyDashBoard = () => {
           </View>
         </View>
         <CardContainer
-          style={[GlobalStyles.ZuvyDashBoardCard, GlobalStyles.width50]}
+          style={[GlobalStyles.ZuvyDashBoardCard, GlobalStyles.width50,getShadowWithElevation(1)]}
         >
           <CustomText
             title={config.ZuvyDashBoard.QRsummary}
@@ -182,17 +182,6 @@ const ZuvyDashBoard = () => {
               { fontSize: GlobalStyles.ZuvyDashBoardBtnText.fontSize },
             ]}
           />
-          <TouchableOpacity>
-            <CustomText
-              title={config.ZuvyDashBoard.viewAll}
-              textStyle={[
-                {
-                  fontSize: GlobalStyles.ZuvyDashBoardBtnText.fontSize,
-                  color: Colors.primaryColor2,
-                },
-              ]}
-            />
-          </TouchableOpacity>
         </View>
         <View
           style={[
@@ -216,7 +205,7 @@ const ZuvyDashBoard = () => {
             <VideoCard name={'Rajesh Kumar'} role={'Delhi Distributor'} />
           </ScrollView>
           <CardContainer
-            style={[GlobalStyles.itemCenterStyle, GlobalStyles.lightwhite]}
+            style={[GlobalStyles.itemCenterStyle, GlobalStyles.lightwhite,getShadowWithElevation(1)]}
           >
             <TouchableOpacity>
               <CustomText title={config.ZuvyDashBoard.moreTestimonial} />
@@ -243,7 +232,7 @@ const ZuvyDashBoard = () => {
               return (
                 <CardContainer
                   style={[
-                    GlobalStyles.width70,
+                    GlobalStyles.width70,getShadowWithElevation(1),
                     { margin: GlobalStyles.iconButton.padding },
                   ]}
                 >

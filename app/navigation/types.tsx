@@ -17,6 +17,7 @@ export type RootStackParamList = {
   QRManageMent: undefined;
   notifications: undefined;
   CheckOutDetail:undefined;
+  PromoScreen:undefined;
 };
 
 // ✅ Define Bottom Tab Param List separately
@@ -49,6 +50,7 @@ export type kycompletedProps = StackScreenProps<RootStackParamList,'kycompleted'
 export type yourCartProps = StackScreenProps<RootStackParamList,'yourCart'>
 export type NotificationsProps = StackScreenProps<RootStackParamList,'notifications'>
 export type CheckOutDetailProps = StackScreenProps<RootStackParamList,'CheckOutDetail'>
+export type PromoScreenProps = StackScreenProps<RootStackParamList,'PromoScreen'>
 
 // ✅ Tab screens props (IMPORTANT FIX)
 export type MerchantHomeScreenProps = BottomTabScreenProps<

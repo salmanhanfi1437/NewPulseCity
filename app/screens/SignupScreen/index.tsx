@@ -1,190 +1,204 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Platform, StyleSheet, View } from 'react-native';
+
+import React, { useRef, useState } from 'react';
+import { StyleSheet, View, Text } from 'react-native';
 import BackgroundPrimaryColor from '../../components/atoms/BackgroundPrimaryColor';
-import { signup, const_name, const_email, login, const_howtouseZuvy, alreadyhaveAccount, sign_in, letsgetstarted, yourCart, enter, const_fcmToken } from '../../types/constants';
+import {
+  signup,
+  const_name,
+  const_email,
+  login,
+  const_howtouseZuvy,
+  alreadyhaveAccount,
+  sign_in,
+  letsgetstarted,
+  yourCart,
+} from '../../types/constants';
 import { Colors, Typography } from '../../styles';
 import { ms, mvs } from 'react-native-size-matters';
-import ViewRounded10 from '../../components/atoms/ViewRounded10';
 import TextInputMic from '../../components/atoms/TextInputMic';
 import { CustomText } from '../../components/atoms/Text';
 import { TextInput } from 'react-native-gesture-handler';
 import GlobalStyles from '../../styles/GlobalStyles';
 import { SignupProps } from '../../navigation/types';
-import { mt } from '../../utils/spaces';
+import { fontW, height, mb, mt } from '../../utils/spaces';
 import PressableOpacity from '../../components/atoms/PressableOpacity';
 import FontStyles from '../../styles/FontStyles';
-import CustomButton from '../../components/atoms/CustomButton';
 import Button from '../../components/atoms/Button';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../redux/rootReducer';
-import { showAlert } from '../../components/atoms/AlertBox/showAlert';
-import { useTranslation } from 'react-i18next';
-import { RoleRequest, SignupRequest } from './signupSlice';
-import secureStorage from '../../utils/secureStorage';
+import { fS, fontColor, bR } from '../../utils/spaces';
+import colors from '../../styles/colors';
+import CheckBox from '@react-native-community/checkbox';
+import RememberMe from '../../components/atoms/CheckBox';
 
-import config from '../config';
-import DropdownAtom from '../../components/atoms/DropDown';
+const SignupScreens = ({ navigation }: SignupProps) => {
+  const { fontSize, ...restFontStyle } = FontStyles.mainText;
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [useZuvy, setZuvyUse] = useState('Distributor');
 
+  const nameRef = useRef<TextInput>(null);
+  const emailRef = useRef<TextInput>(null);
+  const mobileNumberRef = useRef<TextInput>(null);
+  const [remember, setRemember] = useState(false);
+  const onMicPress = () => {
+    console.log('Mic Press');
+  };
 
-const SignupScreens = ({ navigation,route }: SignupProps) => {
-    const {mobile} = route?.params
-        console.log("Routes "+JSON.stringify(mobile))
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [role, setRole] = useState('DISTRIBUTOR');
-    const [rolesArray,setRolesArray] = useState([]);
-    const {t} = useTranslation();
-    const nameRef = useRef<TextInput>(null);
-    const emailRef = useRef<TextInput>(null);
-    const mobileNumberRef = useRef<TextInput>(null);
-    const dispatch = useDispatch();
-    
-    const { error,singupData,roleData } = useSelector((state: RootState) => state.signup);
+  const handleRegister = () => {
+    console.log('HandlePress');
 
+    if (validation()) {
+      console.log('Api Called');
+      navigation.replace(yourCart);
+    }
+  };
 
-    useEffect(() => {
-        console.log('111')
-    dispatch(RoleRequest());
-
-    },[]);
-
-
-    useEffect(() =>{
-        if(roleData || error)
-        {
-            console.log('RolesDara '+roleData);
-            if(roleData?.success)
-            {
-            }
-        }
-    },[roleData,error])
-
-    useEffect(() =>{
-        if(singupData || error)
-        {
-            console.log('SignupResponse'+singupData);
-             if(singupData?.success)
-                {
-                   navigation.replace(yourCart);             
-                }else if(error?.message)
-            {
-                showAlert(error?.message)
-            }
-        }
-
-    },[singupData,error])
-
-    
-    const onMicPress = () => {
-        console.log('Mic Press')
+  const validation = () => {
+    if (name == '') {
+      return false;
+    } else if (email === '') {
+      return false;
     }
 
-    const handleRegister = async() => {
-        console.log('HandlePress');
-        const fcmToken = await secureStorage.getItem(const_fcmToken);
-    
-        if (validation()) {
-            console.log('Api Called')
-            dispatch(SignupRequest({mobile,name,email,role,password:'123456',fcmToken,deviceType:Platform.OS.toUpperCase()}))
-            //navigation.replace(yourCart)
-        }
-    }
+    return true;
+  };
 
-    const validation = () => {
-        if (name == '') {
+  return (
+    <BackgroundPrimaryColor title={letsgetstarted}>
+      <View style={[GlobalStyles.flexOne, mt(20)]}>
+        <CustomText
+          title={const_name}
+          textStyle={[FontStyles.headingText, mt(10)]}
+        />
 
-            showAlert((`${t(const_name)} ${t(enter)}`))
-            return false;
-        }
+        <TextInputMic
+          ref={nameRef}
+          value={name}
+          onChangeText={setName}
+          placeholder={const_name}
+          keyboardType="default"
+          style={FontStyles.txtInput}
+          returnKeyType="next"
+          onSubmitEditing={() => emailRef?.current?.focus()}
+        />
 
-        else if (email === '') {
+        <CustomText
+          title={const_email}
+          textStyle={[FontStyles.headingText, mt(10)]}
+        />
 
-            showAlert(`${t(const_email)} ${t(enter)}`)
-            return false;
-        }
-        
-        return true;
-    }
+        <TextInputMic
+          ref={emailRef}
+          value={email}
+          onChangeText={setEmail}
+          placeholder={const_email}
+          keyboardType="email-address"
+          style={FontStyles.txtInput}
+          returnKeyType="next"
+          onSubmitEditing={() => mobileNumberRef?.current?.focus()}
+        />
 
-    return (
+        <CustomText
+          title={const_howtouseZuvy}
+          textStyle={[FontStyles.headingText, mt(10)]}
+        />
 
-        <BackgroundPrimaryColor title={letsgetstarted}>
-            <View style={[GlobalStyles.flexOne, mt(15)]}>
+        <TextInputMic
+          //   value={'Distributor'}
+          onChangeText={setZuvyUse}
+          placeholder={const_howtouseZuvy}
+          keyboardType="default"
+          editable={false}
+          disabledMic={true}
+          style={[FontStyles.txtInput]}
+        />
+       <RememberMe />
 
-                <ViewRounded10
-                    title={signup}
-                    titleStyle={FontStyles.headingText}
-                    containerStyle={[GlobalStyles.viewRound, GlobalStyles.viewCenter, mt(15)]}
-
-                    disabled={false} />
-
-                <CustomText title={const_name} textStyle={[FontStyles.headingText, mt(20)]} />
-
-
-                <TextInputMic
-                    ref={nameRef}
-                    value={name}
-                    onChangeText={setName}
-                    placeholder={t(const_name)}
-                    keyboardType="default"
-                    style={FontStyles.txtInput}
-                    returnKeyType='next'
-                    onSubmitEditing={() => emailRef?.current?.focus()} />
-
-
-                <CustomText title={const_email} textStyle={[FontStyles.headingText, mt(20)]} />
-
-
-                <TextInputMic
-                    ref={emailRef}
-                    value={email}
-                    onChangeText={setEmail}
-                    placeholder={t(const_email)}
-                    keyboardType="email-address"
-                    style={FontStyles.txtInput}
-                    returnKeyType='next'
-                    onSubmitEditing={() => mobileNumberRef?.current?.focus()} />
-
-
-                <CustomText title={const_howtouseZuvy} textStyle={[FontStyles.headingText, mt(20)]} />
-
-        <DropdownAtom
-  data={roleData?.data}
-  placeholder={const_howtouseZuvy}
-  selectedValue={role}               // ✅ show current value
-  onSelect={(val) => setRole(val)}   // ✅ update state on select
-/>
-                
-                
-                <Button
-                    title={signup}
-                    onPress={handleRegister}
-                    viewStyle={[mt(30)]} />
-
-            </View>
-            <View style={[GlobalStyles.viewRow,  GlobalStyles.bottomFooter]}>
-                <CustomText title={alreadyhaveAccount} textStyle={[FontStyles.subText,GlobalStyles.viewCenter,]} />
-                <PressableOpacity onPress={() => navigation.reset({
-                    index: 0,
-                    routes: [{ name: login }],
-                })}>
-                    <CustomText title={sign_in} textStyle={[FontStyles.headingText, GlobalStyles.viewCenter, styles.signInText]} underline={true} />
-                </PressableOpacity>
-            </View>
-        </BackgroundPrimaryColor>
-
-    )
-}
+        <Button
+          title={signup}
+          onPress={handleRegister}
+          titleStyle={[fS(ms(15)), fontColor(colors.black), fontW('500')]}
+          viewStyle={[
+            GlobalStyles.Custombutton,
+            mt(65),
+            bR(10),
+            
+            GlobalStyles.authBtn,
+            height(60),
+          ]}
+        />
+        <View style={styles.orContainer}>
+          <View style={styles.line} />
+          <CustomText title={'Or'} textStyle={[styles.orText]} />
+          <View style={styles.line} />
+        </View>
+      </View>
+      <View style={[GlobalStyles.viewRow, GlobalStyles.bottomFooter]}>
+        <CustomText
+          title={alreadyhaveAccount}
+          textStyle={[
+            FontStyles.headingText,
+            GlobalStyles.viewCenter,
+            fontColor(Colors.grey),
+          ]}
+        />
+        <PressableOpacity
+          onPress={() =>
+            navigation.reset({
+              index: 0,
+              routes: [{ name: login }],
+            })
+          }
+        >
+          <CustomText
+            title={sign_in}
+            textStyle={[
+              FontStyles.headingText,
+              GlobalStyles.viewCenter,
+              styles.signInText,
+            ]}
+            underline={true}
+          />
+        </PressableOpacity>
+      </View>
+    </BackgroundPrimaryColor>
+  );
+};
 
 const styles = StyleSheet.create({
-
-    
-
-    signInText: {
-        ...Typography.weights.boldU,
-        color: Colors.primaryColor,
-        marginLeft: mvs(5)
-    }
-})
+  signInText: {
+    ...Typography.weights.boldU,
+    color: Colors.primaryColor,
+    marginLeft: mvs(5),
+  },
+  orContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 20,
+    width: '100%',
+  },
+  line: {
+    flex: 1,
+    height: 1,
+    backgroundColor: '#D8D8D8',
+  },
+  orText: {
+    marginHorizontal: 10,
+    fontSize: 14,
+    color: '#999',
+  },
+  button: {
+    backgroundColor: '#FFD700',
+    paddingVertical: 15,
+    borderRadius: 50,
+    width: '100%',
+    alignItems: 'center',
+    elevation: 3,
+  },
+  buttonText: {
+    fontSize: 18,
+    color: '#000',
+    fontWeight: '600',
+  },
+});
 
 export default React.memo(SignupScreens);

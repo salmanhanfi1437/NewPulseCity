@@ -1,35 +1,70 @@
-import React from "react";
-import {View} from 'react-native';
-import GlobalStyles from "../../styles/GlobalStyles";
-import { bgColor, fontColor, mt, pl, pr } from "../../utils/spaces";
-import { Colors } from "../../styles";
-import { KYCompletedSVG } from "../../assets/svg";
-import { CustomText } from "../../components/atoms/Text";
-import { backToDashboard, const_kyc_completed, thankuKYC } from "../../types/constants";
-import FontStyles from "../../styles/FontStyles";
-import Button from "../../components/atoms/Button";
+import React from 'react';
+import { View } from 'react-native';
+import GlobalStyles from '../../styles/GlobalStyles';
+import {
+  bgColor,
+  fontColor,
+  mt,
+  pl,
+  pr,
+  ml,
+  fS,
+  Top,
+  height,
+} from '../../utils/spaces';
+import { Colors } from '../../styles';
+import { KYCompletedSVG } from '../../assets/svg';
+import { CustomText } from '../../components/atoms/Text';
+import {
+  backToDashboard,
+  const_kyc_completed,
+  thankuKYC,
+} from '../../types/constants';
+import FontStyles from '../../styles/FontStyles';
+import Button from '../../components/atoms/Button';
+import { kycompletedProps } from '../../navigation/types';
+import colors from '../../styles/colors';
 
-const VerificationCompleted = () => {
+const VerificationCompleted = ({ navigation }: kycompletedProps) => {
+  return (
+    <View
+      style={[
+        GlobalStyles.flexOne,
+        bgColor(Colors.white),
+        GlobalStyles.viewCenter,
+        pl(15),
+        pr(15),
+      ]}
+    >
+      <KYCompletedSVG />
 
-    return(
-        <View style={[GlobalStyles.flexOne,bgColor(Colors.white),GlobalStyles.viewCenter,pl(15),pr(15)]}>
+      <CustomText
+        title={const_kyc_completed}
+        textStyle={[FontStyles.headingText, mt(20)]}
+      />
 
-            <KYCompletedSVG/>
+      <CustomText
+        title={thankuKYC}
+        textStyle={[FontStyles.subText, mt(30), GlobalStyles.textAlign, fS(12)]}
+      />
 
-            <CustomText title={const_kyc_completed} textStyle={[FontStyles.headingText,mt(20)]}/>
-
-           <CustomText title={thankuKYC} textStyle={[FontStyles.subText,mt(30),GlobalStyles.textAlign]}/>
-
-                   <View style={GlobalStyles.fullwidth}>
-
-           <Button
-        onPress={() => console.log('Press')}
-        viewStyle={[mt(40),GlobalStyles.viewRow,GlobalStyles.viewCenter]} 
-        title={backToDashboard}/>
-        </View>
-
-        </View>
-    )
-}
+      <View style={[GlobalStyles.fullwidth, GlobalStyles.bottomButton]}>
+        <Button
+          onPress={() => navigation.replace('PromoScreen')}
+          viewStyle={[
+            Top('70%'),
+            GlobalStyles.viewRow,
+            GlobalStyles.viewCenter,
+            GlobalStyles.Custombutton,
+            height(60),
+            GlobalStyles.authBtn
+          ]}
+          titleStyle={[ml(10), fS(14), fontColor(colors.black)]}
+          title={backToDashboard}
+        />
+      </View>
+    </View>
+  );
+};
 
 export default React.memo(VerificationCompleted);

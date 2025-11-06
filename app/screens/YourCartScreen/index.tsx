@@ -105,7 +105,7 @@ console.log(totalAmount.toFixed(2)); // ✅ 21.08
 }
 
 const HandleBuyNow = () => {
-  navigation?.replace('CheckOutDetail');
+  navigation?.replace('CheckOutDetail')
 //dispatch(OrderQrRequest({quantity:qty}))
 }
 
@@ -196,13 +196,13 @@ const HandleBuyNow = () => {
 
                 <View style={[ml(15),GlobalStyles.flexOne]}>
                  
-                 <CustomText title={whatincluded} textStyle={[FontStyles.headingText]}/>
+                 <CustomText title={mastertQrData?.data?.whatInclude} textStyle={[textIncludedStyle(5)]}/>
 
-                 <CustomText title={mastertQrData?.data?.whatInclude} textStyle={[textIncludedStyle(5)]} />
+                {/* <CustomText title={instantCode} textStyle={[textIncludedStyle(5)]} />\
 
-                 {/* <CustomText title={oneyearvalidity} textStyle={[textIncludedStyle(5)]} />
+                 <CustomText title={oneyearvalidity} textStyle={[textIncludedStyle(5)]} />
                  <CustomText title={analyticDashboard} textStyle={[textIncludedStyle(5)]} />
-                 <CustomText title={alltimesupport} textStyle={[textIncludedStyle(5)]} />  */}
+                 <CustomText title={alltimesupport} textStyle={[textIncludedStyle(5)]} /> */}
 
                 </View>
                 </LinearGradient>
@@ -217,7 +217,7 @@ const HandleBuyNow = () => {
 
             
   <Button 
-        onPress={() => HandleBuyNow() }
+        onPress={() => handlebuyNow() }
         image={<CartSVG/>} 
         viewStyle={[CartStyles.btnBuyNow]} 
         title={buynow} titleStyle={[ml(10),textColor(Colors.white)]}/>

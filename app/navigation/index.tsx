@@ -48,6 +48,8 @@ if (__DEV__) {
 
   LogBox.ignoreAllLogs(true);
 }
+import PromoScreen from '../screens/PromotionScreen';
+import CheckOutDetail from '../screens/CheckoutDetails';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -67,13 +69,15 @@ const RootNavigator = () => {
           }}
         >
           <Stack.Screen name={splash} component={SplashScreen} />
-          <Stack.Screen
-            name="ChooseLanguage"
-            component={ChooseLanguagesScreen}
-          />
+          <Stack.Screen  name="ChooseLanguage"  component={ChooseLanguagesScreen}  />
           <Stack.Screen name={onBoarding} component={OnboardingScreen} />
           <Stack.Screen name={login} component={LoginScreen} />
           <Stack.Screen name={'signup'} component={SignupScreens} />
+          <Stack.Screen  name={verifyIdentity}  component={VerificationIdentityScreens} />
+          <Stack.Screen  name={kycompleted} component={VerificationCompleteScreen}/>
+          <Stack.Screen name={'PromoScreen'} component={PromoScreen} />
+          <Stack.Screen name={yourCart} component={YourCartScreen} />
+          <Stack.Screen name={'CheckOutDetail'} component={CheckOutDetail} />
           <Stack.Screen name={'merchantTabs'} component={merchantTabs} />
           <Stack.Screen name={'QRManageMent'} component={QRManageMent} />
           <Stack.Screen name={'EditQRDetails'} component={EditQR} />
@@ -81,15 +85,6 @@ const RootNavigator = () => {
           <Stack.Screen name={'ZuvyDashBoard'} component={ZuvyDashBoard} />
             <Stack.Screen name={'CheckOutDetail'} component={Checkout} />
           <Stack.Screen name={notifications} component={NotificationScreen} />
-          <Stack.Screen
-            name={verifyIdentity}
-            component={VerificationIdentityScreens}
-          />
-          <Stack.Screen
-            name={kycompleted}
-            component={VerificationCompleteScreen}
-          />
-          <Stack.Screen name={yourCart} component={YourCartScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </NativeBaseProvider>

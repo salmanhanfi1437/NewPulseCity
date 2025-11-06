@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { ms } from 'react-native-size-matters';
 import { PlaySVG } from '../../../assets/svg';
-import GlobalStyles from '../../../styles/GlobalStyles';
+import GlobalStyles, { getShadowWithElevation } from '../../../styles/GlobalStyles';
 
 type DistributorCardProps = {
   name: string;
@@ -22,7 +22,7 @@ const VideoCard: React.FC<DistributorCardProps> = ({
 }) => {
   return (
     <TouchableOpacity
-      style={GlobalStyles.playCard}
+      style={[GlobalStyles.playCard,]}
       activeOpacity={0.9}
       onPress={onPress}
     >
@@ -30,7 +30,7 @@ const VideoCard: React.FC<DistributorCardProps> = ({
         colors={gradientColors}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
-        style={GlobalStyles.playGradientBox}
+        style={[GlobalStyles.playGradientBox,getShadowWithElevation(1)]}
       >
         <View style={GlobalStyles.playContainer}>
           <PlaySVG width={ms(24)} height={ms(24)} />

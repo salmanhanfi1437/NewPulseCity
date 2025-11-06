@@ -1,15 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, View, FlatList, KeyboardAvoidingView, Platform, Alert,PermissionsAndroid } from "react-native";
-import { mvs } from "react-native-size-matters";
+import { ms, mvs } from "react-native-size-matters";
 import { ChooseLanguagesProps } from "../../navigation/types";
 import BackgroundPrimaryColor from "../../components/atoms/BackgroundPrimaryColor";
 import { useTranslation } from "react-i18next";
 import GlobalStyles from "../../styles/GlobalStyles";
 import { CustomText } from "../../components/atoms/Text";
-import { mt } from "../../utils/spaces";
 import Checkbox from "../Checkbox";
 import ViewBorder from "../../components/atoms/ViewBorder";
 import FontStyles from "../../styles/FontStyles";
+
+import {
+  mt,
+  borderRadius,
+  fS,
+  height,
+  bR,
+  tAlign,
+  fontColor,
+  pl,
+  pr,
+} from '../../utils/spaces';
 import {
   choose_language_title,
   const_authToken,
@@ -26,18 +37,24 @@ import { getMessaging } from "@react-native-firebase/messaging";
 import messaging from '@react-native-firebase/messaging';
 import crashlytics from '@react-native-firebase/crashlytics';
 import secureStorage from "../../utils/secureStorage";
+import colors from "../../styles/colors";
+
 
 const ChooseLanguages = ({ navigation }: ChooseLanguagesProps) => {
   const languages = [
-    { code: "en", label: "English", title: "English" },
-    { code: "hi", label: "हिन्दी", title: "Hindi" },
+    { code: 'en', label: 'English', title: 'English' },
+    { code: 'hi', label: 'हिन्दी', title: 'Hindi' },
+    { code: 'te', label: 'తెలుగు', title: 'Telugu' },
+    { code: 'bn', label: 'বাংলা', title: 'Bengali' },
   ];
 
-  const [selectedLang, setSelectedLang] = useState("en");
+  const [selectedLang, setSelectedLang] = useState('en');
   const { i18n } = useTranslation();
   const dispatch = useDispatch();
 
-  const { language, error } = useSelector((state: RootState) => state.chooseLanguage);
+  const { language, error } = useSelector(
+    (state: RootState) => state.chooseLanguage,
+  );
 
   async function requestNotificationPermission() {
   try {
@@ -108,13 +125,17 @@ crashlytics().setCrashlyticsCollectionEnabled(true);
     i18n.changeLanguage(item.code);
   };
 
-  const renderItem = ({ item }) => (
+  const renderItem = ({ item }: any) => (
     <ViewBorder
-      style={[GlobalStyles.viewRow, mt(20)]}
-      onPress={() => handleLanguageschanges(item)}>
+      style={[GlobalStyles.viewRow, mt(15), borderRadius(10)]}
+      onPress={() => handleLanguageschanges(item)}
+    >
       <View style={GlobalStyles.flexOne}>
-        <CustomText textStyle={[FontStyles.headingText]} title={item.title} />
         <CustomText textStyle={[FontStyles.subText]} title={item.label} />
+        <CustomText
+          textStyle={[FontStyles.subText, { color: colors.semiLight_grey }]}
+          title={item.title}
+        />
       </View>
       <Checkbox isChecked={item.code === selectedLang} />
     </ViewBorder>
@@ -135,17 +156,21 @@ crashlytics().setCrashlyticsCollectionEnabled(true);
     <BackgroundPrimaryColor
       title={select_your_language}
       subTitle={choose_language_title}
+      GrillVisible={false}
     >
       <KeyboardAvoidingView
         style={GlobalStyles.flexOne}
-        behavior={Platform.OS === "ios" ? "padding" : undefined}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         keyboardVerticalOffset={mvs(60)} // adjust if needed
       >
-        <View style={GlobalStyles.flexOne}>
+        <View
+          style={[GlobalStyles.flexOne, GlobalStyles.ZuvyDashBoardContainer]}
+        >
+          <View style={styles.headerClin} />
           <FlatList
             data={languages}
             renderItem={renderItem}
-            keyExtractor={(item) => item.code}
+            keyExtractor={item => item.code}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={styles.listContainer}
           />
@@ -153,7 +178,18 @@ crashlytics().setCrashlyticsCollectionEnabled(true);
 
         {/* ✅ Fixed Bottom Button */}
         <View style={styles.bottomButtonContainer}>
-          <Button title={const_continue} onPress={onHandleOnPress} />
+          <Button
+            title={const_continue}
+            onPress={onHandleOnPress}
+            titleStyle={[fS(ms(16)), fontColor(colors.black)]}
+            viewStyle={[
+              GlobalStyles.Custombutton,
+              mt(65),
+              bR(10),
+              height(60),
+              GlobalStyles.authBtn,
+            ]}
+          />
         </View>
       </KeyboardAvoidingView>
     </BackgroundPrimaryColor>
@@ -165,10 +201,19 @@ const styles = StyleSheet.create({
     paddingBottom: mvs(100), // space for button
   },
   bottomButtonContainer: {
-    position: "absolute",
+    position: 'absolute',
     bottom: mvs(20),
     left: mvs(5),
     right: mvs(5),
+  },
+  headerClin: {
+    width: 40,
+    height: 2,
+    borderRadius: 2,
+    borderColor: 'black',
+    alignSelf: 'center',
+    justifyContent: 'center',
+    marginTop: ms(15),
   },
 });
 

@@ -7,7 +7,7 @@ import {
   ViewStyle,
 } from 'react-native';
 import { ms } from 'react-native-size-matters';
-import { Colors, } from '../../../styles';
+import { Colors } from '../../../styles';
 import ViewRounded10 from '../ViewRounded10';
 
 type ButtonProps = {
@@ -17,6 +17,7 @@ type ButtonProps = {
   viewStyle?: StyleProp<ViewStyle> | ViewStyle[];
   image?: ReactNode;
   titleStyle?: StyleProp<TextStyle>;
+  disabledBtn?:boolean
 };
 
 const Button = ({
@@ -25,12 +26,14 @@ const Button = ({
   disabled,
   viewStyle,
   image,
+  titleStyle,
+  disabledBtn
 }: ButtonProps) => {
   return (
-    <Pressable onPress={onPress}>
+    <Pressable onPress={onPress} disabled={disabledBtn}>
       <ViewRounded10
         title={title}
-        titleStyle={[styles.loginText]}
+        titleStyle={[styles.loginText, titleStyle]}
         containerStyle={[styles.btnLogin, viewStyle]}
         image={image}
         disabled={disabled}
@@ -43,9 +46,8 @@ const styles = StyleSheet.create({
   loginText: {
     fontSize: ms(20),
     color: Colors.white,
-    fontWeight: '700',
+    fontWeight: '500',
     alignSelf: 'center',
-    letterSpacing: ms(2),
   },
   btnLogin: {
     color: Colors.primaryColor,
