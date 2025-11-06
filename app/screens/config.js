@@ -127,4 +127,9 @@ export default {
     },
   ],
 
+  zuvyRoles :[
+  { label: "Distributor", value: "Distributor" },
+  { label: "Admin", value: "Admin" }
+]
+
 };

@@ -3,7 +3,8 @@ import {
   StyleSheet,
   View,
   TextInput,
-  ScrollView,
+  Platform,
+  Alert,
 } from "react-native";
 import { LoginProps } from "../../navigation/types";
 import { ms, mvs } from "react-native-size-matters";
@@ -25,13 +26,20 @@ import FontStyles from "../../styles/FontStyles";
 import { flexGrow, mt } from "../../utils/spaces";
 import {
     const_continue,
+  const_fcmToken,
   loginOrSignup,
   mobile_number,
   resendOtp,
   resendOtpTimer,
+  signup,
+  verifyIdentity,
   welcomeZuvy,
 } from "../../types/constants";
-import CustomButton from "../../components/atoms/CustomButton";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../redux/rootReducer";
+import { sendOTPFailure, sendOTPRequest,verifyOTPRequest,verifyOTPFailure } from "./loginSlice";
+import secureStorage from "../../utils/secureStorage";
+import { showAlert } from "../../components/atoms/AlertBox/showAlert";
 
 const RESEND_TIMER = 30;
 
@@ -42,8 +50,9 @@ const LoginScreen = ({ navigation }: LoginProps) => {
   const [otp, setOtp] = useState("");
   const [isOtpVerified, setOtpVerified] = useState(false);
   const [timer, setTimer] = useState(RESEND_TIMER);
-
+  const { otpData, error,verifyOTPData,otpError } = useSelector((state: RootState) => state.sendOtp);
   const inputRef = useRef<TextInput>(null);
+  const dispatch = useDispatch();
 
   // 🔁 Countdown timer logic
   useEffect(() => {
@@ -64,10 +73,51 @@ const LoginScreen = ({ navigation }: LoginProps) => {
     }
   }, [isOtpVerified]);
 
+
+  useEffect(() => {
+  if (otpData || error) {
+    console.log("OTPData changed: ", otpData, "Error:", error);
+
+    if(otpData?.success === true)
+    {
+      Alert.alert(otpData?.message)
+      setOtpVerified(true);
+      setTimer(RESEND_TIMER);
+      //Alert.alert(otpData?.data)
+    }
+  }
+}, [otpData, error]);
+
+
+useEffect(() => {
+  
+  if (verifyOTPData || otpError != null) {
+    console.log("MainverifyOTPResponse: ", verifyOTPData, "Error:", otpError);
+
+    if(verifyOTPData?.success === true)
+    {
+      //Alert.alert(otpData?.data)
+      showAlert(verifyOTPData?.message);
+      if(verifyOTPData?.data?.isRegistered === false)
+      {
+         navigation.navigate(signup,{mobile:mobileNumber}); //just for testimng added navigation
+      }
+      else{
+           navigation.navigate(verifyIdentity); //just for testimng added navigation
+      }
+    }
+    else if(otpError?.message){
+            console.log('4')
+         showAlert(otpError.message);
+    }
+  }
+}, [verifyOTPData, otpError]);
+
   // ✅ Toggle between verify/change state
   const handleVerifyToggle = useCallback(() => {
+    
     if (mobileNumber.length !== 10) return;
-
+   
     if (isOtpVerified) {
       // Reset to initial state
       setOtpVerified(false);
@@ -75,18 +125,35 @@ const LoginScreen = ({ navigation }: LoginProps) => {
       setOtp("");
       setTimer(RESEND_TIMER);
     } else {
-      setOtpVerified(true);
-      setTimer(RESEND_TIMER);
+      
+       sendOTP()
     }
   }, [mobileNumber, isOtpVerified]);
 
-  const handleLogin = useCallback(() => {
-    console.log("Login pressed");
-    navigation.replace("merchantTabs");
-  }, [navigation]);
+ const sendOTP = async () => {
+  try {
+dispatch(sendOTPRequest(mobileNumber)); // ✅ only send the mobile
+  } catch (error: any) {
+    dispatch(sendOTPFailure('Failed to send OTP'));
+    Alert.alert('Failed to send OTP, please try again');
+  }
+};
+
+ const verifyOTP = async () => {
+  try {
+    const fcmToken = await secureStorage.getItem(const_fcmToken);
+dispatch(verifyOTPRequest({ mobile: mobileNumber, otp,fcmToken,deviceType:Platform.OS }));
+  } catch (error: any) {
+    dispatch(sendOTPFailure('Failed to send OTP'));
+    Alert.alert('Failed to send OTP, please try again');
+  }
+};
+
+
 
   const handleResendOtp = useCallback(() => {
     setTimer(RESEND_TIMER);
+    sendOTP()
   }, []);
 
   return (
@@ -98,7 +165,7 @@ const LoginScreen = ({ navigation }: LoginProps) => {
             titleStyle={[FontStyles.headingText]}
             containerStyle={[GlobalStyles.viewRound,GlobalStyles.viewCenter,mt(15)]}
           />
-
+        
           {/* 🔹 Mobile Input */}
           <CustomText title={t(mobile_number)} textStyle={styles.mobileText} />
 
@@ -135,20 +202,20 @@ const LoginScreen = ({ navigation }: LoginProps) => {
           </ViewOutlined>
 
           {/* 🔹 Sign up redirect */}
-          <PressableOpacity onPress={() => navigation.navigate("signup")}>
+          {/* <PressableOpacity onPress={() => verifyOTP()}>
             <CustomText
               title="Sign up"
               textStyle={styles.signupText}
               underline
             />
-          </PressableOpacity>
+          </PressableOpacity> */}
 
           {/* 🔹 OTP Section */}
           {isOtpVerified && (
             <View>
               <CustomText
                 title={t("enterOTP")}
-                textStyle={FontStyles.headingText}
+                textStyle={[FontStyles.headingText,mt(20)]}
               />
 
               <OtpInput
@@ -197,7 +264,7 @@ const LoginScreen = ({ navigation }: LoginProps) => {
           {otp.length === 6 && (
             <Button
               title={const_continue}
-              onPress={handleLogin}
+              onPress={verifyOTP}
               titleStyle={[FontStyles.headingText]}
               viewStyle={styles.btnLogin}
             />

@@ -6,7 +6,7 @@ export type RootStackParamList = {
   ChooseLanguage: undefined;
   Login: undefined;
   OnBoard: undefined;
-  signup: undefined;
+    signup: { mobile: string }; // ✅ Add expected param type here
   merchantTabs: undefined; // contains bottom tabs
   verifyIdentity: undefined;
   kycompleted: undefined;

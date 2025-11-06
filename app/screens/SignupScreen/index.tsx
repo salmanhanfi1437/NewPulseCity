@@ -1,7 +1,7 @@
-import React, { useRef, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { Platform, StyleSheet, View } from 'react-native';
 import BackgroundPrimaryColor from '../../components/atoms/BackgroundPrimaryColor';
-import { signup, const_name, const_email, login, const_howtouseZuvy, alreadyhaveAccount, sign_in, letsgetstarted, yourCart } from '../../types/constants';
+import { signup, const_name, const_email, login, const_howtouseZuvy, alreadyhaveAccount, sign_in, letsgetstarted, yourCart, enter, const_fcmToken } from '../../types/constants';
 import { Colors, Typography } from '../../styles';
 import { ms, mvs } from 'react-native-size-matters';
 import ViewRounded10 from '../../components/atoms/ViewRounded10';
@@ -15,42 +15,90 @@ import PressableOpacity from '../../components/atoms/PressableOpacity';
 import FontStyles from '../../styles/FontStyles';
 import CustomButton from '../../components/atoms/CustomButton';
 import Button from '../../components/atoms/Button';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../redux/rootReducer';
+import { showAlert } from '../../components/atoms/AlertBox/showAlert';
+import { useTranslation } from 'react-i18next';
+import { RoleRequest, SignupRequest } from './signupSlice';
+import secureStorage from '../../utils/secureStorage';
+import { SelectionModal } from '../../components/atoms/SelectionModal';
+import config from '../config';
 
 
-const SignupScreens = ({ navigation }: SignupProps) => {
-
+const SignupScreens = ({ navigation,route }: SignupProps) => {
+    const {mobile} = route?.params
+        console.log("Routes "+JSON.stringify(mobile))
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
-    const [useZuvy, setZuvyUse] = useState('Distributor');
+    const [role, setRole] = useState('Distributor');
+      const [visible, setVisible] = useState(false);
 
+    const {t} = useTranslation();
     const nameRef = useRef<TextInput>(null);
     const emailRef = useRef<TextInput>(null);
     const mobileNumberRef = useRef<TextInput>(null);
+    const dispatch = useDispatch();
+    
 
+    const { error,singupData,roleData } = useSelector((state: RootState) => state.signup);
+
+
+    useEffect(() => {
+        console.log('111')
+    dispatch(RoleRequest());
+
+    },[]);
+
+
+    useEffect(() =>{
+        if(roleData || error)
+        {
+            console.log('RolesDara '+roleData);
+        }
+    },[roleData,error])
+
+    useEffect(() =>{
+        if(singupData || error)
+        {
+            console.log('SignupResponse'+singupData);
+
+            if(error?.message)
+            {
+                showAlert(error?.message)
+            }
+        }
+
+    },[singupData,error])
+
+    
     const onMicPress = () => {
         console.log('Mic Press')
     }
 
-    const handleRegister = () => {
+    const handleRegister = async() => {
         console.log('HandlePress');
-
+        const fcmToken = await secureStorage.getItem(const_fcmToken);
+    
         if (validation()) {
             console.log('Api Called')
-            navigation.replace(yourCart)
+            dispatch(SignupRequest({mobile,name,email,role,password:'123456',fcmToken,deviceType:Platform.OS}))
+            //navigation.replace(yourCart)
         }
     }
 
     const validation = () => {
         if (name == '') {
 
+            showAlert((`${t(const_name)} ${t(enter)}`))
             return false;
         }
 
         else if (email === '') {
 
+            showAlert(`${t(const_email)} ${t(enter)}`)
             return false;
         }
-
+        
         return true;
     }
 
@@ -96,15 +144,23 @@ const SignupScreens = ({ navigation }: SignupProps) => {
 
                 <CustomText title={const_howtouseZuvy} textStyle={[FontStyles.headingText, mt(20)]} />
 
+                <PressableOpacity >
                 <TextInputMic
                     value={"Distributor"}
-                    onChangeText={setZuvyUse}
+                    onChangeText={setRole}
                     placeholder={const_howtouseZuvy}
                     keyboardType="default"
                     editable={false}
                     disabledMic={true}
                     style={FontStyles.txtInput} />
+                </PressableOpacity>
 
+                 <SelectionModal
+        visible={visible}
+        data={config.zuvyRoles}
+        onClose={() => setVisible(false)}
+        onSelect={(item) => setRole(item.value)}
+      />
                 <Button
                     title={signup}
                     onPress={handleRegister}

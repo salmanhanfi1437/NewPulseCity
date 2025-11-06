@@ -13,6 +13,7 @@ import FontStyles from "../../styles/FontStyles";
 import {
   choose_language_title,
   const_continue,
+  const_fcmToken,
   select_your_language,
 } from "../../types/constants";
 import { useDispatch, useSelector } from "react-redux";
@@ -22,6 +23,7 @@ import Button from "../../components/atoms/Button";
 import { getMessaging } from "@react-native-firebase/messaging";
 import messaging from '@react-native-firebase/messaging';
 import crashlytics from '@react-native-firebase/crashlytics';
+import secureStorage from "../../utils/secureStorage";
 
 const ChooseLanguages = ({ navigation }: ChooseLanguagesProps) => {
   const languages = [
@@ -82,7 +84,8 @@ crashlytics().setCrashlyticsCollectionEnabled(true);
       const token = await messaging().getToken();
       console.log('✅ FCM Token:', token);
       if (token) {
-        Alert.alert('FCM Works!', `Token: ${token.substring(0, 10)}...`);
+        secureStorage.setItem(const_fcmToken,token);
+        //Alert.alert('FCM Works!', `Token: ${token.substring(0, 10)}...`);
       } else {
         Alert.alert('❌ No FCM token retrieved');
       }
@@ -108,8 +111,7 @@ crashlytics().setCrashlyticsCollectionEnabled(true);
   const renderItem = ({ item }) => (
     <ViewBorder
       style={[GlobalStyles.viewRow, mt(20)]}
-      onPress={() => handleLanguageschanges(item)}
-    >
+      onPress={() => handleLanguageschanges(item)}>
       <View style={GlobalStyles.flexOne}>
         <CustomText textStyle={[FontStyles.headingText]} title={item.title} />
         <CustomText textStyle={[FontStyles.subText]} title={item.label} />
@@ -120,9 +122,9 @@ crashlytics().setCrashlyticsCollectionEnabled(true);
 
   const onHandleOnPress = () => {
   
-    crashlytics().log('Crashlytics debug test started');
-crashlytics().crash(); // Force a crash
-    //navigation.navigate("OnBoard");
+//     crashlytics().log('Crashlytics debug test started');
+// crashlytics().crash(); // Force a crash
+    navigation.navigate("OnBoard");
   };
 
   return (

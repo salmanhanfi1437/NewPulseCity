@@ -67,3 +67,7 @@ export const orders="orders";
 export const updates="updates";
 export const select_your_language="select_your_language";
 export const choose_language_title="choose_language_title";
+export const const_fcmToken = "fcmToken";
+export const enter = "enter";
+export const const_authToken = "Auth Token";
+export const BASE_URL = "https://e2q3qeiv2j.execute-api.ap-south-1.amazonaws.com/api/";
