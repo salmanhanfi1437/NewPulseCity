@@ -55,7 +55,7 @@ const loginSlice = createSlice({
     },
 
     // 🔹 Step 1: Verify OTP Request
-    verifyOTPRequest: (state, action: PayloadAction<{ mobile: string; otp: string,fcmToken : String, deviceType: string}>) => {
+    verifyOTPRequest: (state, action: PayloadAction<{ mobile: string; otp: string,fcmToken : String, deviceType: string,purpose : string}>) => {
       state.loading = true;
       state.otpError = null;
       state.verifyOTPData = {
@@ -63,7 +63,7 @@ const loginSlice = createSlice({
         otp: action.payload.otp,
         fcmToken : action.payload.fcmToken,
         deviceType : action.payload.deviceType,
-        purpose: "LOGIN",
+        purpose: action.payload.purpose,
       };
     },
 

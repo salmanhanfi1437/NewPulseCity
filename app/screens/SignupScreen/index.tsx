@@ -23,6 +23,7 @@ import { RoleRequest, SignupRequest } from './signupSlice';
 import secureStorage from '../../utils/secureStorage';
 import { SelectionModal } from '../../components/atoms/SelectionModal';
 import config from '../config';
+import DropdownAtom from '../../components/atoms/DropDown';
 
 
 const SignupScreens = ({ navigation,route }: SignupProps) => {
@@ -32,7 +33,7 @@ const SignupScreens = ({ navigation,route }: SignupProps) => {
     const [email, setEmail] = useState('');
     const [role, setRole] = useState('Distributor');
       const [visible, setVisible] = useState(false);
-
+    const [isFocus, setIsFocus] = useState(false);
     const {t} = useTranslation();
     const nameRef = useRef<TextInput>(null);
     const emailRef = useRef<TextInput>(null);
@@ -144,7 +145,14 @@ const SignupScreens = ({ navigation,route }: SignupProps) => {
 
                 <CustomText title={const_howtouseZuvy} textStyle={[FontStyles.headingText, mt(20)]} />
 
-                <PressableOpacity >
+                    {/* <DropdownAtom
+        label="Select Role"
+        data={config.zuvyRoles}
+        onSelect={handleSelect}
+        placeholder="Choose one"
+        iconName="appstore1"
+      /> */}
+                
                 <TextInputMic
                     value={"Distributor"}
                     onChangeText={setRole}
@@ -153,7 +161,7 @@ const SignupScreens = ({ navigation,route }: SignupProps) => {
                     editable={false}
                     disabledMic={true}
                     style={FontStyles.txtInput} />
-                </PressableOpacity>
+                
 
                  <SelectionModal
         visible={visible}

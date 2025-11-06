@@ -23,7 +23,6 @@ import PressableOpacity from "../../components/atoms/PressableOpacity";
 import { Colors, Typography } from "../../styles";
 import GlobalStyles from "../../styles/GlobalStyles";
 import FontStyles from "../../styles/FontStyles";
-import { flexGrow, mt } from "../../utils/spaces";
 import {
     const_continue,
   const_fcmToken,
@@ -37,7 +36,7 @@ import {
 } from "../../types/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/rootReducer";
-import { sendOTPFailure, sendOTPRequest,verifyOTPRequest,verifyOTPFailure } from "./loginSlice";
+import { sendOTPFailure, sendOTPRequest,verifyOTPRequest } from "./loginSlice";
 import secureStorage from "../../utils/secureStorage";
 import { showAlert } from "../../components/atoms/AlertBox/showAlert";
 
@@ -53,7 +52,7 @@ const LoginScreen = ({ navigation }: LoginProps) => {
   const { otpData, error,verifyOTPData,otpError } = useSelector((state: RootState) => state.sendOtp);
   const inputRef = useRef<TextInput>(null);
   const dispatch = useDispatch();
-
+  let purpose = "LOGIN";
   // 🔁 Countdown timer logic
   useEffect(() => {
     if (!isOtpVerified || timer <= 0) return;
@@ -83,6 +82,10 @@ const LoginScreen = ({ navigation }: LoginProps) => {
       Alert.alert(otpData?.message)
       setOtpVerified(true);
       setTimer(RESEND_TIMER);
+      if(otpData?.data?.userMObileRegister == false)
+      {
+        purpose = signup.toUpperCase();
+      }
       //Alert.alert(otpData?.data)
     }
   }
@@ -142,7 +145,7 @@ dispatch(sendOTPRequest(mobileNumber)); // ✅ only send the mobile
  const verifyOTP = async () => {
   try {
     const fcmToken = await secureStorage.getItem(const_fcmToken);
-dispatch(verifyOTPRequest({ mobile: mobileNumber, otp,fcmToken,deviceType:Platform.OS }));
+dispatch(verifyOTPRequest({ mobile: mobileNumber, otp,fcmToken,deviceType:Platform.OS,purpose : purpose }));
   } catch (error: any) {
     dispatch(sendOTPFailure('Failed to send OTP'));
     Alert.alert('Failed to send OTP, please try again');
