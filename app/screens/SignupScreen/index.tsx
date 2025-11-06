@@ -1,18 +1,7 @@
-
-import React, { useRef, useState } from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { Platform, StyleSheet, View } from 'react-native';
 import BackgroundPrimaryColor from '../../components/atoms/BackgroundPrimaryColor';
-import {
-  signup,
-  const_name,
-  const_email,
-  login,
-  const_howtouseZuvy,
-  alreadyhaveAccount,
-  sign_in,
-  letsgetstarted,
-  yourCart,
-} from '../../types/constants';
+import { signup, const_name, const_email, login, const_howtouseZuvy, alreadyhaveAccount, sign_in, letsgetstarted, yourCart, const_fcmToken, enter } from '../../types/constants';
 import { Colors, Typography } from '../../styles';
 import { ms, mvs } from 'react-native-size-matters';
 import TextInputMic from '../../components/atoms/TextInputMic';
@@ -24,36 +13,76 @@ import { fontW, height, mb, mt } from '../../utils/spaces';
 import PressableOpacity from '../../components/atoms/PressableOpacity';
 import FontStyles from '../../styles/FontStyles';
 import Button from '../../components/atoms/Button';
-import { fS, fontColor, bR } from '../../utils/spaces';
-import colors from '../../styles/colors';
-import CheckBox from '@react-native-community/checkbox';
-import RememberMe from '../../components/atoms/CheckBox';
+import DropdownAtom from '../../components/atoms/DropDown';
+import secureStorage from '../../utils/secureStorage';
+import { showAlert } from '../../components/atoms/AlertBox/showAlert';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/rootReducer';
+import { useDispatch } from 'react-redux';
+import { RoleRequest, SignupRequest } from './signupSlice';
+import { useTranslation } from 'react-i18next';
 
-const SignupScreens = ({ navigation }: SignupProps) => {
-  const { fontSize, ...restFontStyle } = FontStyles.mainText;
+
+const SignupScreens = ({ navigation, route }: SignupProps) => {
+
+  const { mobile } = route.params;
+  console.log('Mobile ' + mobile);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [useZuvy, setZuvyUse] = useState('Distributor');
+  const [role, setRole] = useState('DISTRIBUTOR');
 
   const nameRef = useRef<TextInput>(null);
   const emailRef = useRef<TextInput>(null);
   const mobileNumberRef = useRef<TextInput>(null);
-  const [remember, setRemember] = useState(false);
-  const onMicPress = () => {
-    console.log('Mic Press');
-  };
 
-  const handleRegister = () => {
-    console.log('HandlePress');
+  const { error, singupData, roleData } = useSelector((state: RootState) => state.signup);
+
+  const dispatch = useDispatch();
+  const { t } = useTranslation();
+
+  useEffect(() => {
+    console.log('111')
+    dispatch(RoleRequest());
+
+  }, []);
+
+
+  useEffect(() => {
+    if (roleData || error) {
+      console.log('RolesDara ' + roleData);
+      if (roleData?.success) {
+
+      } else {
+        showAlert(error?.message)
+      }
+    }
+  }, [roleData, error])
+
+  useEffect(() => {
+    if (singupData || error) {
+      console.log('SignupResponse' + singupData);
+      if (singupData?.success) {
+        navigation.replace(yourCart);
+      }
+      else if (error?.message) {
+        showAlert(error?.message)
+      }
+    }
+
+  }, [singupData, error])
+
+  const handleRegister = async () => {
+    const fcmToken = await secureStorage.getItem(const_fcmToken);
 
     if (validation()) {
-      console.log('Api Called');
-      navigation.replace(yourCart);
+      console.log('Api Called')
+      dispatch(SignupRequest({ mobile, name, email, role, password: '123456', fcmToken, deviceType: Platform.OS.toUpperCase() }))
     }
-  };
+  }
 
   const validation = () => {
     if (name == '') {
+      showAlert(`${t(const_name)} ${t(enter)} `)
       return false;
     } else if (email === '') {
       return false;
@@ -61,6 +90,7 @@ const SignupScreens = ({ navigation }: SignupProps) => {
 
     return true;
   };
+
 
   return (
     <BackgroundPrimaryColor title={letsgetstarted}>
@@ -77,14 +107,12 @@ const SignupScreens = ({ navigation }: SignupProps) => {
           placeholder={const_name}
           keyboardType="default"
           style={FontStyles.txtInput}
-          returnKeyType="next"
-          onSubmitEditing={() => emailRef?.current?.focus()}
-        />
+          returnKeyType='next'
+          onSubmitEditing={() => emailRef?.current?.focus()} />
 
-        <CustomText
-          title={const_email}
-          textStyle={[FontStyles.headingText, mt(10)]}
-        />
+
+        <CustomText title={const_email} textStyle={[FontStyles.headingText, mt(20)]} />
+
 
         <TextInputMic
           ref={emailRef}
@@ -93,76 +121,38 @@ const SignupScreens = ({ navigation }: SignupProps) => {
           placeholder={const_email}
           keyboardType="email-address"
           style={FontStyles.txtInput}
-          returnKeyType="next"
-          onSubmitEditing={() => mobileNumberRef?.current?.focus()}
-        />
+          returnKeyType='next'
+          onSubmitEditing={() => mobileNumberRef?.current?.focus()} />
 
-        <CustomText
-          title={const_howtouseZuvy}
-          textStyle={[FontStyles.headingText, mt(10)]}
-        />
 
-        <TextInputMic
-          //   value={'Distributor'}
-          onChangeText={setZuvyUse}
+        <CustomText title={const_howtouseZuvy} textStyle={[FontStyles.headingText, mt(20)]} />
+
+        <DropdownAtom
+          data={roleData?.data}
           placeholder={const_howtouseZuvy}
-          keyboardType="default"
-          editable={false}
-          disabledMic={true}
-          style={[FontStyles.txtInput]}
+          selectedValue={role}               // ✅ show current value
+          onSelect={(val) => setRole(val)}   // ✅ update state on select
         />
-       <RememberMe />
 
         <Button
           title={signup}
           onPress={handleRegister}
-          titleStyle={[fS(ms(15)), fontColor(colors.black), fontW('500')]}
-          viewStyle={[
-            GlobalStyles.Custombutton,
-            mt(65),
-            bR(10),
-            
-            GlobalStyles.authBtn,
-            height(60),
-          ]}
-        />
-        <View style={styles.orContainer}>
-          <View style={styles.line} />
-          <CustomText title={'Or'} textStyle={[styles.orText]} />
-          <View style={styles.line} />
-        </View>
+          viewStyle={[mt(30)]} />
+
       </View>
       <View style={[GlobalStyles.viewRow, GlobalStyles.bottomFooter]}>
-        <CustomText
-          title={alreadyhaveAccount}
-          textStyle={[
-            FontStyles.headingText,
-            GlobalStyles.viewCenter,
-            fontColor(Colors.grey),
-          ]}
-        />
-        <PressableOpacity
-          onPress={() =>
-            navigation.reset({
-              index: 0,
-              routes: [{ name: login }],
-            })
-          }
-        >
-          <CustomText
-            title={sign_in}
-            textStyle={[
-              FontStyles.headingText,
-              GlobalStyles.viewCenter,
-              styles.signInText,
-            ]}
-            underline={true}
-          />
+        <CustomText title={alreadyhaveAccount} textStyle={[FontStyles.subText, GlobalStyles.viewCenter,]} />
+        <PressableOpacity onPress={() => navigation.reset({
+          index: 0,
+          routes: [{ name: login }],
+        })}>
+          <CustomText title={sign_in} textStyle={[FontStyles.headingText, GlobalStyles.viewCenter, styles.signInText]} underline={true} />
         </PressableOpacity>
       </View>
     </BackgroundPrimaryColor>
-  );
-};
+
+  )
+}
 
 const styles = StyleSheet.create({
   signInText: {

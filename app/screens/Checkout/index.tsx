@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { GestureResponderEvent, View } from 'react-native';
 import HeaderWithBackButton from '../../components/atoms/HeaderWithBackButton';
@@ -66,9 +65,9 @@ import CustomTextInput from '../../components/atoms/TextInput';
 import config from '../config';
 import CartStyles from '../YourCartScreen/styles';
 
-const CheckOutDetail = ({ navigation }: CheckOutDetailProps) => {
+const CheckOutDetail = ({ navigation,route }: CheckOutDetailProps) => {
   const { t } = useTranslation();
-
+    
   const handleBackPress = () => {
     navigation.goBack();
   };

@@ -83,7 +83,6 @@ const RootNavigator = () => {
           <Stack.Screen name={'EditQRDetails'} component={EditQR} />
           <Stack.Screen name={'Profile'} component={UserProfile} />
           <Stack.Screen name={'ZuvyDashBoard'} component={ZuvyDashBoard} />
-            <Stack.Screen name={'CheckOutDetail'} component={Checkout} />
           <Stack.Screen name={notifications} component={NotificationScreen} />
         </Stack.Navigator>
       </NavigationContainer>

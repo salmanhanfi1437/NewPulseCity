@@ -64,9 +64,28 @@ import CardContainer from '../../components/atoms/CardContainer';
 import CustomTextInput from '../../components/atoms/TextInput';
 import config from '../config';
 import CartStyles from '../YourCartScreen/styles';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/rootReducer';
+import { showAlert } from '../../components/atoms/AlertBox/showAlert';
 
 const CheckOutDetail = ({ navigation }: CheckOutDetailProps) => {
   const { t } = useTranslation();
+      const { checkOutData,error } = useSelector((state: RootState) => state.orderQr);
+    
+  const dispatch = useDispatch();
+
+  useEffect(() =>{
+
+    if(checkOutData)
+    {
+
+    }else{
+      showAlert(error?.message)
+    }
+
+  },[checkOutData,error])
+
 
   const handleBackPress = () => {
     navigation.goBack();
@@ -241,9 +260,7 @@ const CheckOutDetail = ({ navigation }: CheckOutDetailProps) => {
               GlobalStyles.containerPaddings,
               mb(10),
               fS(12),
-              textColor(colors.grey),
-            ]}
-          />
+              textColor(colors.grey)]}/>
         </View>
       </ScrollView>
     </BlueWhiteBackground>
