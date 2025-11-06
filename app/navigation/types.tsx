@@ -16,7 +16,7 @@ export type RootStackParamList = {
   EditQRDetails: undefined;
   QRManageMent: undefined;
   notifications: undefined;
-  CheckOutDetail:undefined;
+  CheckOutDetail: { data: any };
   PromoScreen:undefined;
 };
 

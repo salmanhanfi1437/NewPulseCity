@@ -53,5 +53,9 @@
   "orders":"Orders",
   "payments":"Payments",
   "updates":"Updates",
-  "enter":"enter"
+  "enter":"enter",
+  "proceed":"Proceed to Payment",
+  "fullName" : "Full Name",
+  "PanCardNumber":"Pan Card Number",
+      "Address" : "Address"
 }

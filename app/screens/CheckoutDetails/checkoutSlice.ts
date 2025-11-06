@@ -33,36 +33,20 @@ const checkOutSlice = createSlice({
   name: "checkOut",
   initialState,
   reducers: {
-    // 🔹 Checkout request action
-    checkOutRequest: (
-      state,
-      action: PayloadAction<{
-        mobile: string;
-        name: string;
-        email: string;
-        role: string;
-        password: string;
-        fcmToken: string;
-        deviceType: string;
-      }>
-    ) => {
+    checkOutRequest: (state, action: PayloadAction<CheckOutRequest>) => {
       state.loading = true;
       state.error = null;
       state.checkOutData = { ...action.payload };
     },
-
-    // 🔹 On success
     checkOutSuccess: (state, action: PayloadAction<any>) => {
       state.loading = false;
       state.error = null;
       state.checkOutData = action.payload;
     },
-
-    // 🔹 On failure
     checkOutFailure: (state, action: PayloadAction<string>) => {
       state.loading = false;
       state.error = action.payload;
-    },   
+    },
   },
 });
 

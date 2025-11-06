@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {View} from 'react-native';
 import HeaderWithBackButton from "../../components/atoms/HeaderWithBackButton";
-import { alltimesupport, analyticDashboard, buynow, const_totalAmount, instantCode, itemTotal, minus, notifications, oneyearvalidity, plus, pricebreakdown, quantity, securePayment, subTotal, total, totalamount, verifyIdentity, whatincluded, yourCart } from "../../types/constants";
+import { alltimesupport, analyticDashboard, buynow, const_totalAmount, instantCode, itemTotal, minus, notifications, oneyearvalidity, plus, pricebreakdown, quantity, securePayment, subTotal, total, whatincluded, yourCart } from "../../types/constants";
 import { yourCartProps } from "../../navigation/types";
 import Header from "../../components/atoms/Header";
 import { useTranslation } from "react-i18next";
@@ -28,6 +28,7 @@ import colors from "../../styles/colors";
 import HeaderComponent from "../../components/atoms/HeaderComponent";
 import CustomButton from "../../components/atoms/CustomButton";
 import { mvs } from "react-native-size-matters";
+import { Flex } from "native-base";
 
 const YourCart = ({navigation} : yourCartProps) => {
 
@@ -35,10 +36,8 @@ const YourCart = ({navigation} : yourCartProps) => {
 
     
     const [qty,setQty] = useState(1);
-    const [qtyPrice,setQtyPrice] = useState(0);
     const [gstAmount,setGSTAmout] = useState(0);
     const [totalAmount,setTotalAmount] = useState(0)
-    const [gst,setGst] = useState(0);
     const dispatch = useDispatch();
 
         const { error,mastertQrData } = useSelector((state: RootState) => state.masterQr);
@@ -51,11 +50,7 @@ const YourCart = ({navigation} : yourCartProps) => {
       {
           if(mastertQrData)
           {
-            const data = mastertQrData?.data;
           
-          setGst(data?.gst); // ✅ ensure it’s a number
-          console.log('GST '+data?.gst)
-            setQtyPrice(data?.perUnitPrice);
           }else{
             console.log('MasterQrError '+error)
           }
@@ -69,6 +64,10 @@ const YourCart = ({navigation} : yourCartProps) => {
       if(orderQrData)
       {
         console.log('OrderData '+JSON.stringify(orderQrData))
+        if(orderQrData?.success)
+        {
+          navigation.replace('CheckOutDetail',{data : orderQrData?.data})
+        }
       }else{
         showAlert(qrCodeError?.message)
       }
@@ -80,18 +79,16 @@ const YourCart = ({navigation} : yourCartProps) => {
       dispatch(MasterQrRequest())
     },[])
 
+
+
     useEffect(() => {
-      const totalPrice = qty * qtyPrice;
-     console.log('Total '+totalPrice);
-  const gstPrice = totalPrice * (gst / 100);
-  console.log('GSTT'+gstPrice);
+      const totalPrice = qty * mastertQrData?.data?.perUnitPrice;
+  const gstPrice = totalPrice * (mastertQrData?.data?.gst / 100);
   setGSTAmout(gstPrice);
 
-  
-const totalAmount = Number(totalPrice) + gstPrice;
-console.log(totalAmount.toFixed(2)); // ✅ 21.08
+  const totalAmount = Number(totalPrice) + gstPrice;
       setTotalAmount(totalAmount);
-    },[qty])
+    },[qty,mastertQrData])
 
     const handleBackPress = () => {
         console.log("BackPRess");
@@ -234,7 +231,7 @@ const HandleBuyNow = () => {
                 ]}
               />
               <CustomText
-                title={`₹${qtyPrice}`}
+                title={`₹${mastertQrData?.data?.perUnitPrice}`}
                 textStyle={[FontStyles.headingText]}
               />
             </ViewOutlined>
@@ -259,22 +256,21 @@ const HandleBuyNow = () => {
                 ]}
               />
               <CustomText
-                title={`₹${qtyPrice}`}
+                title={`₹${mastertQrData?.data?.perUnitPrice * qty}`}
                 textStyle={[FontStyles.headingText]}
               />
             </View>
 
             <View style={CartStyles.viewSubTotal}>
               <CustomText
-                title={'GST (18%)'}
+                title={`GST (${mastertQrData?.data?.gst}%)`}
                 textStyle={[
                   CartStyles.itemTotalText,
                   textColor(colors.fadeTextColor),
                   Typography.style.smallTextU(),
-                ]}
-              />
+                ]}/>
               <CustomText
-                title={`₹${gstAmount}`}
+                title={`₹${gstAmount.toFixed(2)}`}
                 textStyle={[FontStyles.headingText]}
               />
             </View>
@@ -285,7 +281,7 @@ const HandleBuyNow = () => {
                 textStyle={[CartStyles.itemTotalText, , fontW('500')]}
               />
               <CustomText
-                title={`₹${totalAmount}`}
+                title={`₹${totalAmount.toFixed(2)}`}
                 textStyle={[
                   FontStyles.headingText,
                   fontColor(Colors.primaryColor),
@@ -297,19 +293,18 @@ const HandleBuyNow = () => {
 
           <LinearGradient
             style={[CartStyles.viewViewIncluded, GlobalStyles.viewRow]}
-            colors={[Colors.color_F0FDF4, Colors.color_EFF6FF]}
-          >
+            colors={[Colors.color_F0FDF4, Colors.color_EFF6FF]}>
             <View style={[CartStyles.circleGreen, GlobalStyles.viewCenter]}>
               <TickWhiteSVG />
             </View>
 
-            <View style={[ml(15)]}>
+            <View style={[ml(15),GlobalStyles.flexShrink1]}>
               <CustomText
                 title={whatincluded}
                 textStyle={[FontStyles.headingText]}
               />
               <CustomText
-                title={instantCode}
+                title={`${mastertQrData?.data?.whatInclude}`}
                 textStyle={[
                   textIncludedStyle(5),
                   textColor(colors.fadeTextColor),
@@ -317,7 +312,7 @@ const HandleBuyNow = () => {
                 ]}
               />
 
-              <CustomText
+              {/* <CustomText
                 title={oneyearvalidity}
                 textStyle={[
                   textIncludedStyle(5),
@@ -340,7 +335,7 @@ const HandleBuyNow = () => {
                   Typography.style.smallTextU(),
                   textColor(colors.fadeTextColor),
                 ]}
-              />
+              /> */}
             </View>
           </LinearGradient>
         </View>
@@ -362,7 +357,7 @@ const HandleBuyNow = () => {
               ]}
             />
             <CustomText
-              title={`₹${totalAmount}`}
+              title={`₹${totalAmount.toFixed(2)}`}
               textStyle={[
                 FontStyles.headingText,
                 fontColor(Colors.primaryColor),
@@ -388,7 +383,7 @@ const HandleBuyNow = () => {
             textStyle={[
               CartStyles.itemTotalText,
               GlobalStyles.containerPaddings,
-              mb(10),
+              mb(60),
               fS(11),
               fontW('100'),
               textColor(colors.fadeTextColor),
