@@ -30,11 +30,25 @@ import VerificationCompleteScreen from '../screens/VerificationCompleteScreen';
 import YourCartScreen from '../screens/YourCartScreen';
 import EditQR from '../screens/QrEditDetails';
 import QRManageMent from '../screens/QrManagement';
-import { LogBox } from 'react-native';
+import { LogBox, DevSettings } from 'react-native';
 import NotificationScreen from '../screens/NotificationScreen';
 import { navigationRef } from './NavigationService';
 import PromoScreen from '../screens/PromotionScreen';
 import CheckOutDetail from '../screens/CheckoutDetails';
+
+
+if (__DEV__) {
+  const DevSettingsAny = DevSettings as any;
+
+  if (DevSettingsAny?.openDevMenu) {
+    DevSettingsAny.openDevMenu = () => {};
+  }
+  if (DevSettingsAny?.reload) {
+    DevSettingsAny.reload = () => {};
+  }
+
+  LogBox.ignoreAllLogs(true);
+}
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -77,7 +91,7 @@ const RootNavigator = () => {
 
 export default RootNavigator;
 
-LogBox.ignoreAllLogs();
+//LogBox.ignoreAllLogs();
 LogBox.ignoreLogs([
   'Warning: Each child in a list should have a unique "key" prop',
   'Require cycle:',

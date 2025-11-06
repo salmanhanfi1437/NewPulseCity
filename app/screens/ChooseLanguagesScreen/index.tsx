@@ -4,7 +4,7 @@ import {
   View,
   FlatList,
   KeyboardAvoidingView,
-  Platform,
+  Platform, Alert,PermissionsAndroid,
 } from 'react-native';
 import { ms, mvs } from 'react-native-size-matters';
 import { ChooseLanguagesProps } from '../../navigation/types';
@@ -31,6 +31,7 @@ import FontStyles from '../../styles/FontStyles';
 import {
   choose_language_title,
   const_continue,
+  const_fcmToken,
   select_your_language,
 } from '../../types/constants';
 import { useDispatch, useSelector } from 'react-redux';
@@ -39,6 +40,10 @@ import { fetchLanguagesRequest } from './chooseLanguageSlice';
 import Button from '../../components/atoms/Button';
 import colors from '../../styles/colors';
 import { Colors } from '../../styles';
+import { getMessaging } from "@react-native-firebase/messaging";
+import messaging from '@react-native-firebase/messaging';
+import crashlytics from '@react-native-firebase/crashlytics';
+import secureStorage from "../../utils/secureStorage";
 
 const ChooseLanguages = ({ navigation }: ChooseLanguagesProps) => {
   const languages = [
@@ -56,6 +61,66 @@ const ChooseLanguages = ({ navigation }: ChooseLanguagesProps) => {
     (state: RootState) => state.chooseLanguage,
   );
 
+  async function requestNotificationPermission() {
+  try {
+    if (Platform.OS === 'android' && Platform.Version >= 33) {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS
+      );
+
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        console.log('✅ Notification permission granted');
+      } else {
+        Alert.alert('Permission denied', 'You won’t receive notifications.');
+        console.log('❌ Notification permission denied');
+        return false;
+      }
+    } else {
+      console.log('✅ Android version < 13, no need to request POST_NOTIFICATIONS');
+    }
+
+    const authStatus = await messaging().requestPermission();
+    const enabled =
+      authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+      authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+
+    return enabled;
+  } catch (err) {
+    console.error('Permission error:', err);
+    return false;
+  }
+}
+
+
+
+useEffect(() => {
+  const checkFCM = async () => {
+    // Enable crash reporting for debug mode
+crashlytics().setCrashlyticsCollectionEnabled(true);
+
+
+    const permissionGranted = await requestNotificationPermission();
+    if (!permissionGranted) return;
+
+    try {
+      const token = await messaging().getToken();
+      console.log('✅ FCM Token:', token);
+      if (token) {
+        secureStorage.setItem(const_fcmToken,token);
+        //Alert.alert('FCM Works!', `Token: ${token.substring(0, 10)}...`);
+      } else {
+        Alert.alert('❌ No FCM token retrieved');
+      }
+    } catch (error) {
+      console.error('❌ FCM Error:', error);
+      Alert.alert('FCM Error', error.message);
+    }
+  };
+
+  checkFCM();
+}, []);
+
+
   useEffect(() => {
     dispatch(fetchLanguagesRequest());
   }, [dispatch]);
@@ -68,8 +133,7 @@ const ChooseLanguages = ({ navigation }: ChooseLanguagesProps) => {
   const renderItem = ({ item }: any) => (
     <ViewBorder
       style={[GlobalStyles.viewRow, mt(15), borderRadius(10)]}
-      onPress={() => handleLanguageschanges(item)}
-    >
+      onPress={() => handleLanguageschanges(item)}>
       <View style={[GlobalStyles.flexOne, paddingH(20)]}>
         <CustomText textStyle={[FontStyles.subText]} title={item.label} />
         <CustomText
@@ -87,6 +151,9 @@ const ChooseLanguages = ({ navigation }: ChooseLanguagesProps) => {
   );
 
   const onHandleOnPress = () => {
+  
+//     crashlytics().log('Crashlytics debug test started');
+// crashlytics().crash(); // Force a crash
     navigation.navigate('OnBoard');
   };
 

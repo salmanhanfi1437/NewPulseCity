@@ -140,4 +140,9 @@ export default {
     Proceed: 'Proceed to Payment',
     totalPayable: 'Total Payable',
   },
+  zuvyRoles :[
+  { label: "Distributor", value: "Distributor" },
+  { label: "Admin", value: "Admin" }
+]
+
 };

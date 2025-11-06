@@ -16,5 +16,5 @@ const Card = ({children,style} : CardProps) => {
             </View>
         )
 }
-
+//fnwa9SZuTCy0bu3EAwPdkw:APA91bHiDe2K2tx4-gLEgmEqe3TEl9IwIZO85KBGBNa0nWvlvSOu0iBXBWaEZei7ekYQkMKV4re5oiItRC7zOEz8nK4veXPRYm2nhC4P4BrFr_Vfjfyf6B8
 export default React.memo(Card);

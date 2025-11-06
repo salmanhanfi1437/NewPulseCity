@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import createSagaMiddleware from "redux-saga";
 import rootReducer from "./rootReducer";
 import rootSaga from "./rootSaga";
+import { injectStore } from "../services/api"; // ✅ import here
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -13,6 +14,8 @@ export const store = configureStore({
 
 sagaMiddleware.run(rootSaga);
 
-// ✅ Strongly typed helpers
+// ✅ Inject store into Axios
+injectStore(store);
+
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

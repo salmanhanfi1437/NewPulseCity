@@ -129,3 +129,6 @@ export const alignCenter = (value:string)=>{
 export const textIncludedStyle = (marginTop: number) => {
   return [CartStyles.textincluded, mt(mvs(marginTop))];
 };
+
+
+

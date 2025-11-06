@@ -3,7 +3,8 @@ import {
   StyleSheet,
   View,
   TextInput,
-  ScrollView,
+  Platform,
+  Alert,
   TouchableOpacity,
 } from 'react-native';
 import { LoginProps } from '../../navigation/types';
@@ -37,13 +38,21 @@ import {
 } from '../../utils/spaces';
 import {
   const_continue,
+  const_fcmToken,
   loginOrSignup,
   mobile_number,
   resendOtp,
   resendOtpTimer,
   verify,
+  signup,
+  verifyIdentity,
   welcomeZuvy,
-} from '../../types/constants';
+} from "../../types/constants";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../redux/rootReducer";
+import { sendOTPFailure, sendOTPRequest,verifyOTPRequest } from "./loginSlice";
+import secureStorage from "../../utils/secureStorage";
+import { showAlert } from "../../components/atoms/AlertBox/showAlert";
 import colors from '../../styles/colors';
 
 const RESEND_TIMER = 30;
@@ -58,9 +67,10 @@ const LoginScreen = ({ navigation }: LoginProps) => {
   const [isOtpVerified, setOtpVerified] = useState(false);
   const [showOtp, setShowOtp] = useState(false);
   const [timer, setTimer] = useState(RESEND_TIMER);
-
+  const { otpData, error,verifyOTPData,otpError } = useSelector((state: RootState) => state.sendOtp);
   const inputRef = useRef<TextInput>(null);
-
+  const dispatch = useDispatch();
+  let purpose = "LOGIN";
   // 🔁 Countdown timer logic
   useEffect(() => {
     if (!isOtpVerified || timer <= 0) return;
@@ -80,7 +90,104 @@ const LoginScreen = ({ navigation }: LoginProps) => {
     }
   }, [isOtpVerified]);
 
+
+  useEffect(() => {
+  if (otpData || error) {
+    console.log("OTPData changed: ", otpData, "Error:", error);
+
+    if(otpData?.success === true)
+    {
+      Alert.alert(otpData?.message)
+      setOtpVerified(true);
+      setTimer(RESEND_TIMER);
+      if(otpData?.data?.userMObileRegister == false)
+      {
+        purpose = signup.toUpperCase();
+      }
+      //Alert.alert(otpData?.data)
+    }
+  }
+}, [otpData, error]);
+
+
+useEffect(() => {
+  
+  if (verifyOTPData || otpError != null) {
+    console.log("MainverifyOTPResponse: ", verifyOTPData, "Error:", otpError);
+
+    if(verifyOTPData?.success === true)
+    {
+      //Alert.alert(otpData?.data)
+      showAlert(verifyOTPData?.message);
+      if(verifyOTPData?.data?.isRegistered === false)
+      {
+         navigation.navigate(signup,{mobile:mobileNumber}); //just for testimng added navigation
+      }
+      else{
+           navigation.navigate(verifyIdentity); //just for testimng added navigation
+      }
+    }
+    else if(otpError?.message){
+            console.log('4')
+         showAlert(otpError.message);
+    }
+  }
+}, [verifyOTPData, otpError]);
+
+
+  useEffect(() => {
+  if (otpData || error) {
+    console.log("OTPData changed: ", otpData, "Error:", error);
+
+    if(otpData?.success === true)
+    {
+      Alert.alert(otpData?.message)
+      setOtpVerified(true);
+      setTimer(RESEND_TIMER);
+      if(otpData?.data?.userMObileRegister == false)
+      {
+        purpose = signup.toUpperCase();
+      }
+      //Alert.alert(otpData?.data)
+    }
+  }
+}, [otpData, error]);
+
+
+useEffect(() => {
+  
+  if (verifyOTPData || otpError != null) {
+    console.log("MainverifyOTPResponse: ", verifyOTPData, "Error:", otpError);
+
+    if(verifyOTPData?.success === true)
+    {
+      //Alert.alert(otpData?.data)
+      showAlert(verifyOTPData?.message);
+      if(verifyOTPData?.data?.isRegistered === false)
+      {
+         navigation.navigate(signup,{mobile:mobileNumber}); //just for testimng added navigation
+      }
+      else{
+           navigation.navigate(verifyIdentity); //just for testimng added navigation
+      }
+    }
+    else if(otpError?.message){
+            console.log('4')
+         showAlert(otpError.message);
+    }
+  }
+}, [verifyOTPData, otpError]);
+
   const handleVerifyToggle = useCallback(() => {
+    
+    if (mobileNumber.length !== 10) return;
+   
+    if (isOtpVerified) {
+      // Reset to initial state
+      setOtpVerified(false);
+      setMobileNo("");
+      setOtp("");
+      setTimer(RESEND_TIMER);
     if (!isOtpVerified) {
       // When pressing Continue → show OTP input
       if (mobileNumber.length === 10) {
@@ -88,15 +195,35 @@ const LoginScreen = ({ navigation }: LoginProps) => {
         setTimer(RESEND_TIMER);
       }
     } else {
-      // When pressing Verify → proceed next
-      if (otp.length === 6) {
-        navigation.replace('verifyIdentity');
-      }
+      
+       sendOTP()
     }
-  }, [isOtpVerified, mobileNumber, otp, navigation]);
+  }, [mobileNumber, isOtpVerified]);
+
+ const sendOTP = async () => {
+  try {
+dispatch(sendOTPRequest(mobileNumber)); // ✅ only send the mobile
+  } catch (error: any) {
+    dispatch(sendOTPFailure('Failed to send OTP'));
+    Alert.alert('Failed to send OTP, please try again');
+  }
+};
+
+ const verifyOTP = async () => {
+  try {
+    const fcmToken = await secureStorage.getItem(const_fcmToken);
+dispatch(verifyOTPRequest({ mobile: mobileNumber, otp,fcmToken,deviceType:Platform.OS,purpose : purpose }));
+  } catch (error: any) {
+    dispatch(sendOTPFailure('Failed to send OTP'));
+    Alert.alert('Failed to send OTP, please try again');
+  }
+};
+
+
 
   const handleResendOtp = useCallback(() => {
     setTimer(RESEND_TIMER);
+    sendOTP()
   }, []);
 
   return (
