@@ -4,6 +4,7 @@ import { loginSaga } from '../screens/LoginScreen/loginSaga';
 import {signupSaga} from '../screens/SignupScreen/signUpSaga';
 import {masterQrSaga} from '../screens/YourCartScreen/yourCartSaga';
 import {checkoutSaga} from '../screens/CheckoutDetails/checkOutSaga';
+import { qrManagementWatcher } from '../screens/QrManagement/QrManagementSaga';
 //here we will define all sagas
 // import stateCitySaga from '../components/atoms/State&City/StateCitySaga';
 import {profileSaga} from '../screens/UserProfile/profileSaga'
@@ -18,7 +19,8 @@ export default function* rootSaga() {
     fork(checkoutSaga),
     fork(checkoutSaga),
     // fork(stateCitySaga),
-    fork(profileSaga)
+    fork(profileSaga),
+    fork(qrManagementWatcher)
   
   
   ]);

@@ -26,6 +26,10 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import getDynamicTextStyle from '../../styles/DynamicTextStyles';
 import HoverButton from '../../components/atoms/HoverButton';
 import { bgColor, pb, pl, pr, pt } from '../../utils/spaces';
+import { RootState } from '../../redux/rootReducer';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchViewQRRequest } from './QrmanagementSlice';
+
 interface DynamicViewStyleProps {
   marginVertical?: number;
   justifyContent?: ViewStyle['justifyContent'];
@@ -95,9 +99,19 @@ const QRManageMent = () => {
     }
   };
 
+  const dispatch = useDispatch();
   const [activeFilter, setactiveFilter] = useState(
     config.ZuvyQrManagement.qrfilter[0],
   );
+
+  const { qrData, loading, error } = useSelector(
+    (state: RootState) => state.qrManagement,
+  );
+
+  useEffect(() => {
+    dispatch(fetchViewQRRequest({ page: 1, limit: 10, search: 'Premium' }));
+  }, [dispatch]);
+
   return (
     <BlueWhiteBackground
       headerHeight={70}

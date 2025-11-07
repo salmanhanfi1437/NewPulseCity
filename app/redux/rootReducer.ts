@@ -7,6 +7,7 @@ import masterQrReducer from '../screens/YourCartScreen/yourCartSlice';
 import orderQrReducer from '../screens/CheckoutDetails/checkoutSlice';
 // import stateCityReducer from '../components/atoms/State&City/StateCitySlice';
 import profileReducer from '../screens/UserProfile/profileSlice'
+import qrManagementReducer from "../screens/QrManagement/QrmanagementSlice"
  
 const rootReducer = combineReducers({
   loader: loaderReducer,
@@ -16,7 +17,8 @@ const rootReducer = combineReducers({
     masterQr : masterQrReducer,
     orderQr : orderQrReducer,
     // stateCity : stateCityReducer,
-    profile : profileReducer
+    profile : profileReducer,
+    qrManagement: qrManagementReducer,
 
 });
 

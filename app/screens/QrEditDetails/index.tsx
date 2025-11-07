@@ -29,6 +29,24 @@ const { width, height } = Dimensions.get('window');
 const EditQR = () => {
   const navigation = useNavigation<any>();
   const { color, ...avoidcolor } = GlobalStyles.faintText;
+
+  const [kitName, setKitName] = React.useState('QR For Grocery Kit');
+  const [description, setDescription] = React.useState(
+    'Complete security solution for home and get it done',
+  );
+  const [location, setLocation] = React.useState('Living Room - Main Entrance');
+  const [category, setCategory] = React.useState('');
+  const [contact, setContact] = React.useState('+91 9470041619');
+  const [email, setEmail] = React.useState('john.doe@email.com');
+
+  const handleKitNameChange = (text: string) => setKitName(text);
+  const handleDescriptionChange = (text: string) => setDescription(text);
+  const handleLocationChange = (text: string) => setLocation(text);
+  const handleCategoryChange = (value: string) => setCategory(value);
+  const handleContactChange = (text: string) => setContact(text);
+  const handleEmailChange = (text: string) => setEmail(text);
+
+
   return (
     <BlueWhiteBackground
       headerHeight={100}
@@ -105,7 +123,7 @@ const EditQR = () => {
               },
             ]}
           >
-            <CustomTextInput placeholder={''} value={'QR For Grocery Kit'} />
+            <CustomTextInput placeholder={''} value={kitName} onChangeText={handleKitNameChange} />
           </ViewOutlined>
           <CustomText
             title={config.ZuvyQrEdit.Description}
@@ -127,11 +145,10 @@ const EditQR = () => {
             ]}
           >
             <CustomTextInput
-              placeholder={
-                'kmsaComplete security solution for home and get it donesdadadad'
-              }
+              placeholder={''}
+              value={description}
+              onChangeText={handleDescriptionChange}
               multiline
-              style={{}}
             />
           </ViewOutlined>
           <CustomText
@@ -154,7 +171,8 @@ const EditQR = () => {
           >
             <CustomTextInput
               placeholder={''}
-              value={'Living Room - Main Entrance'}
+              value={location}
+              onChangeText={handleLocationChange}
             />
           </ViewOutlined>
           <CustomText
@@ -179,7 +197,7 @@ const EditQR = () => {
               data={['test1', 'test2', 'test3']}
               selectedValue={''}
               placeholder={config.ZuvyQrEdit.Security}
-              onSelect={() => {}}
+              onSelect={() => {handleCategoryChange}}
             />
           </ViewOutlined>
         </CardContainer>
@@ -206,7 +224,7 @@ const EditQR = () => {
               },
             ]}
           >
-            <CustomTextInput placeholder={''} value={'+91 9470041619'} />
+            <CustomTextInput placeholder={''} value={contact} onChangeText={handleContactChange} />
           </ViewOutlined>
 
           <CustomText
@@ -227,7 +245,7 @@ const EditQR = () => {
               },
             ]}
           >
-            <CustomTextInput placeholder={''} value={'john.doe@email.com'} />
+            <CustomTextInput placeholder={''} value={email} onChangeText={handleEmailChange} />
           </ViewOutlined>
         </CardContainer>
         <CardContainer style={[getShadowWithElevation(1)]}>

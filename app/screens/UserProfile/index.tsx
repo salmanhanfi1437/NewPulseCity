@@ -8,11 +8,12 @@ import Image from '../../components/atoms/Image';
 import Header from '../../components/atoms/HeaderComponent';
 import withBottomWhiteOverlay from '../../components/atoms/Container';
 import LinearGradient from 'react-native-linear-gradient';
-import { Colors } from '../../styles';
+import { Colors, Typography } from '../../styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/rootReducer';
 import { ProfileRequest } from './profileSlice';
 import { showAlert } from '../../components/atoms/AlertBox/showAlert';
+import colors from '../../styles/colors';
 const { width, height } = Dimensions.get('screen');
 
 const UserProfile = () => {
@@ -29,7 +30,7 @@ const UserProfile = () => {
         if(profileData.success)
         {
 
-        }else{
+      }else{
           showAlert(error?.message)
         }
     }
@@ -54,7 +55,7 @@ const UserProfile = () => {
         titleStyle={GlobalStyles.headertitle}
         containerStyle={{ paddingTop: GlobalStyles.tabBarStyle.paddingTop }}
       />
-      <View style={[GlobalStyles.profileContainer, { top: height * 0.08 }]}>
+      <View style={[GlobalStyles.profileContainer, { top: height * 0.09 }]}>
         <View style={[GlobalStyles.imgContainer]}>
           <Image source={Images.profile} style={GlobalStyles.imgContainer} />
         </View>
@@ -67,7 +68,6 @@ const UserProfile = () => {
           textStyle={[
             GlobalStyles.headertitle,
             Typography.size.dynamic(14,'regular',colors.white)
-            // { fontWeight: '400', fontSize: 14 },
           ]}
         />
       </View>
