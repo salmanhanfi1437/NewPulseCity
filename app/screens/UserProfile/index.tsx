@@ -8,10 +8,38 @@ import Image from '../../components/atoms/Image';
 import Header from '../../components/atoms/HeaderComponent';
 import withBottomWhiteOverlay from '../../components/atoms/Container';
 import LinearGradient from 'react-native-linear-gradient';
-import { Colors, Typography } from '../../styles';
-import colors from '../../styles/colors';
+import { Colors } from '../../styles';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../redux/rootReducer';
+import { ProfileRequest } from './profileSlice';
+import { showAlert } from '../../components/atoms/AlertBox/showAlert';
 const { width, height } = Dimensions.get('screen');
+
 const UserProfile = () => {
+
+  const { profileData, error } = useSelector( (state: RootState) => state.profile);
+
+      const dispatch = useDispatch();
+
+
+  useEffect(() =>{
+
+    if(profileData || error)
+    {
+        if(profileData.success)
+        {
+
+        }else{
+          showAlert(error?.message)
+        }
+    }
+   },[profileData,error])
+  
+
+   useEffect(() =>{
+    dispatch(ProfileRequest())
+   },[])
+
   return (
     <LinearGradient
       colors={Colors.zuvyPrimaryGradient}
@@ -31,7 +59,7 @@ const UserProfile = () => {
           <Image source={Images.profile} style={GlobalStyles.imgContainer} />
         </View>
         <CustomText
-          title={config.Profile.name}
+          title={profileData?.data?.name}
           textStyle={[GlobalStyles.headertitle, { flex: 0 }]}
         />
         <CustomText

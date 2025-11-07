@@ -1,19 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Platform, StyleSheet, View, Text } from 'react-native';
+import { Platform, StyleSheet, View } from 'react-native';
 import BackgroundPrimaryColor from '../../components/atoms/BackgroundPrimaryColor';
-import {
-  signup,
-  const_name,
-  const_email,
-  login,
-  const_howtouseZuvy,
-  alreadyhaveAccount,
-  sign_in,
-  letsgetstarted,
-  yourCart,
-  enter,
-  const_fcmToken,
-} from '../../types/constants';
+import { signup, const_name, const_email, login, const_howtouseZuvy, alreadyhaveAccount, sign_in, letsgetstarted, yourCart, const_fcmToken, enter } from '../../types/constants';
 import { Colors, Typography } from '../../styles';
 import { ms, mvs } from 'react-native-size-matters';
 import TextInputMic from '../../components/atoms/TextInputMic';
@@ -25,83 +13,70 @@ import { fontW, height, mb, mt } from '../../utils/spaces';
 import PressableOpacity from '../../components/atoms/PressableOpacity';
 import FontStyles from '../../styles/FontStyles';
 import Button from '../../components/atoms/Button';
-import { fS, fontColor, bR } from '../../utils/spaces';
-import colors from '../../styles/colors';
-import RememberMe from '../../components/atoms/CheckBox';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../redux/rootReducer';
-import { showAlert } from '../../components/atoms/AlertBox/showAlert';
-import { useTranslation } from 'react-i18next';
-import { RoleRequest, SignupRequest } from './signupSlice';
-import secureStorage from '../../utils/secureStorage';
-import config from '../config';
 import DropdownAtom from '../../components/atoms/DropDown';
-import SelectionModal from '../../components/atoms/SelectionModal';
+import secureStorage from '../../utils/secureStorage';
+import { showAlert } from '../../components/atoms/AlertBox/showAlert';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/rootReducer';
+import { useDispatch } from 'react-redux';
+import { RoleRequest, SignupRequest } from './signupSlice';
+import { useTranslation } from 'react-i18next';
+
 
 const SignupScreens = ({ navigation, route }: SignupProps) => {
-  const { mobile } = route?.params;
-  console.log('Routes ' + JSON.stringify(mobile));
-  const { fontSize, ...restFontStyle } = FontStyles.mainText;
+
+  const { mobile } = route.params;
+  console.log('Mobile ' + mobile);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [role, setRole] = useState('Distributor');
-  const [visible, setVisible] = useState(false);
-  const [isFocus, setIsFocus] = useState(false);
-  const { t } = useTranslation();
+  const [role, setRole] = useState('DISTRIBUTOR');
+
   const nameRef = useRef<TextInput>(null);
   const emailRef = useRef<TextInput>(null);
   const mobileNumberRef = useRef<TextInput>(null);
-  const [remember, setRemember] = useState(false);
-  const dispatch = useDispatch();
 
-  const { error, singupData, roleData } = useSelector(
-    (state: RootState) => state.signup,
-  );
+  const { error, singupData, roleData } = useSelector((state: RootState) => state.signup);
+
+  const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   useEffect(() => {
-    console.log('111');
+    console.log('111')
     dispatch(RoleRequest());
+
   }, []);
+
 
   useEffect(() => {
     if (roleData || error) {
       console.log('RolesDara ' + roleData);
+      if (roleData?.success) {
+
+      } else {
+        showAlert(error?.message)
+      }
     }
-  }, [roleData, error]);
+  }, [roleData, error])
 
   useEffect(() => {
     if (singupData || error) {
       console.log('SignupResponse' + singupData);
-
-      if (error?.message) {
-        showAlert(error?.message);
+      if (singupData?.success) {
+        navigation.replace(yourCart);
+      }
+      else if (error?.message) {
+        showAlert(error?.message)
       }
     }
-  }, [singupData, error]);
 
-  const onMicPress = () => {
-    console.log('Mic Press');
-  };
-
+  }, [singupData, error])
 
   const handleRegister = async () => {
-    console.log('HandlePress');
     const fcmToken = await secureStorage.getItem(const_fcmToken);
 
     if (validation()) {
-      console.log('Api Called');
-      dispatch(
-        SignupRequest({
-          mobile,
-          name,
-          email,
-          role,
-          password: '123456',
-          fcmToken,
-          deviceType: Platform.OS,
-        }),
-      );
-      //navigation.replace(yourCart)
+      console.log('Api Called')
+      dispatch(SignupRequest({ mobile, name, email, role, password: '123456', fcmToken, deviceType: Platform.OS.toUpperCase() }))
     }
   }
 
@@ -110,7 +85,6 @@ const SignupScreens = ({ navigation, route }: SignupProps) => {
       showAlert(`${t(const_name)} ${t(enter)} `)
       return false;
     } else if (email === '') {
-      showAlert(`${t(const_email)} ${t(enter)}`);
       return false;
     }
 
@@ -185,6 +159,8 @@ const SignupScreens = ({ navigation, route }: SignupProps) => {
 
   )
 }
+
+export default SignupScreens;
 
 const styles = StyleSheet.create({
   signInText: {

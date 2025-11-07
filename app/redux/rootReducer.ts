@@ -5,6 +5,8 @@ import chooseLanguageReducer from '../screens/ChooseLanguagesScreen/chooseLangua
 import signupReducer from '../screens/SignupScreen/signupSlice';
 import masterQrReducer from '../screens/YourCartScreen/yourCartSlice';
 import orderQrReducer from '../screens/CheckoutDetails/checkoutSlice';
+// import stateCityReducer from '../components/atoms/State&City/StateCitySlice';
+import profileReducer from '../screens/UserProfile/profileSlice'
  
 const rootReducer = combineReducers({
   loader: loaderReducer,
@@ -13,6 +15,8 @@ const rootReducer = combineReducers({
     signup:signupReducer,
     masterQr : masterQrReducer,
     orderQr : orderQrReducer,
+    // stateCity : stateCityReducer,
+    profile : profileReducer
 
 });
 

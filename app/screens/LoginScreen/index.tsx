@@ -45,16 +45,15 @@ import {
   resendOtpTimer,
   signup,
   verify,
-  verifyIdentity,
   welcomeZuvy,
   yourCart,
 } from '../../types/constants';
+import colors from '../../styles/colors';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/rootReducer';
+import { showAlert } from '../../components/atoms/AlertBox/showAlert';
 import { sendOTPFailure, sendOTPRequest, verifyOTPRequest } from './loginSlice';
 import secureStorage from '../../utils/secureStorage';
-import { showAlert } from '../../components/atoms/AlertBox/showAlert';
-import colors from '../../styles/colors';
 
 const RESEND_TIMER = 30;
 
@@ -93,43 +92,48 @@ const LoginScreen = ({ navigation }: LoginProps) => {
     }
   }, [isOtpVerified]);
 
-  useEffect(() => {
-    if (otpData || error) {
-      console.log('OTPData changed: ', otpData, 'Error:', error);
-
-      if (otpData?.success === true) {
-        Alert.alert(otpData?.message);
-        setOtpVerified(true);
-        setTimer(RESEND_TIMER);
-        if (otpData?.data?.userMObileRegister == false) {
-          purpose = signup.toUpperCase();
-        }
-        //Alert.alert(otpData?.data)
-      }
-    }
-  }, [otpData, error]);
 
   useEffect(() => {
     if (verifyOTPData || otpError != null) {
       console.log('MainverifyOTPResponse: ', verifyOTPData, 'Error:', otpError);
 
-      if (verifyOTPData?.success === true) {
-        //Alert.alert(otpData?.data)
-        showAlert(verifyOTPData?.message);
-        if (verifyOTPData?.data?.isRegistered === false) {
-          navigation.navigate(signup, { mobile: mobileNumber }); //just for testimng added navigation
-        } else {
-          navigation.navigate(verifyIdentity); //just for testimng added navigation
-        }
-      } else if (otpError?.message) {
-        console.log('4');
-        showAlert(otpError.message);
+    if(otpData?.success === true)
+    {
+      Alert.alert(otpData?.message)
+      setOtpVerified(true);
+      setTimer(RESEND_TIMER);
+      if(otpData?.data?.userMObileRegister == false)
+      {
+        purpose = signup.toUpperCase();
+      }
+      //Alert.alert(otpData?.data)
+    }
+  }
+}, [otpData, error]);
+
+
+useEffect(() => {
+  
+  if (verifyOTPData || otpError != null) {
+    console.log("MainverifyOTPResponse: ", verifyOTPData, "Error:", otpError);
+
+    if(verifyOTPData?.success === true)
+    {
+     
+      showAlert(verifyOTPData?.message);
+      if(verifyOTPData?.data?.isRegistered === false)
+      {
+    navigation.navigate(signup,{mobile:mobileNumber}); //just for testimng added navigation
+      }
+      else{
+           navigation.replace(yourCart); //just for testimng added navigation
       }
     }
-  }, [verifyOTPData, otpError]);
-
-
-
+    else if(otpError?.message){
+         showAlert(otpError.message);
+    }
+  }
+}, [verifyOTPData, otpError]);
 
   const handleVerifyToggle = useCallback(() => {
     if (mobileNumber.length !== 10) return;

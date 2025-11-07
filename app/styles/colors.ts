@@ -47,5 +47,4 @@ export default {
   fadeWhite: 'rgba(245, 245, 245, 1)',
   fadeTextColor: 'rgba(75, 85, 99, 1)',
   watchTestimonial : "rgba(243, 244, 246, 1)",
-  fadeTextColor: 'rgba(75, 85, 99, 1)',
 };

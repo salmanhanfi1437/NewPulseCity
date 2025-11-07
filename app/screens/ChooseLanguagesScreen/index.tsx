@@ -40,6 +40,7 @@ import messaging from '@react-native-firebase/messaging';
 import crashlytics from '@react-native-firebase/crashlytics';
 import secureStorage from "../../utils/secureStorage";
 import colors from "../../styles/colors";
+import { Colors } from "../../styles";
 
 
 const ChooseLanguages = ({ navigation }: ChooseLanguagesProps) => {
