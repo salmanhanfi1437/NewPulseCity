@@ -1,5 +1,6 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
+import { NavigatorScreenParams } from '@react-navigation/native';
 
 export type RootStackParamList = {
   Splash: undefined;
@@ -7,26 +8,30 @@ export type RootStackParamList = {
   Login: undefined;
   OnBoard: undefined;
     signup: { mobile: string }; // ✅ Add expected param type here
-  merchantTabs: undefined; // contains bottom tabs
+    merchantTabs: NavigatorScreenParams<MerchantTabParamList>; // ✅ fix here
   verifyIdentity: undefined;
   kycompleted: undefined;
   yourCart: undefined;
-  ZuvyDashBoard: undefined;
   Profile: undefined;
   EditQRDetails: undefined;
   QRManageMent: undefined;
   notifications: undefined;
-  CheckOutDetail:undefined;
+  CheckOutDetail: { data: any };
   PromoScreen:undefined;
-};
+  StateCitySelector: {
+    type: 'state' | 'city';
+    stateId?: string;
+    onSelect: (selected: any) => void;
+  };};
 
 // ✅ Define Bottom Tab Param List separately
 export type MerchantTabParamList = {
-  merchantHomeScreen: undefined;
+  merchantHomeScreen: {data: any};
   QRScreen: undefined;
   AnalyticsScreen: undefined;
   NetworkScreen: undefined;
   SettingsScreen: undefined;
+    ZuvyDashBoard: {data: any};
 };
 
 // Stack screens props
@@ -35,10 +40,10 @@ export type EditQRDetails = StackScreenProps<
   RootStackParamList,
   'EditQRDetails'
 >;
-export type ZuvyDashBoard = StackScreenProps<
-  RootStackParamList,
-  'ZuvyDashBoard'
->;
+// export type ZuvyDashBoard = StackScreenProps<
+//   RootStackParamList,
+//   'ZuvyDashBoard'
+// >;
 export type ProfileProps = StackScreenProps<RootStackParamList, 'Profile'>;
 export type onBoarding = StackScreenProps<RootStackParamList, 'OnBoard'>
 export type SplashProps = StackScreenProps<RootStackParamList, 'Splash'>
@@ -51,6 +56,7 @@ export type yourCartProps = StackScreenProps<RootStackParamList,'yourCart'>
 export type NotificationsProps = StackScreenProps<RootStackParamList,'notifications'>
 export type CheckOutDetailProps = StackScreenProps<RootStackParamList,'CheckOutDetail'>
 export type PromoScreenProps = StackScreenProps<RootStackParamList,'PromoScreen'>
+export type  StateCitySelectorProps = StackScreenProps<RootStackParamList,'StateCitySelector'>
 
 // ✅ Tab screens props (IMPORTANT FIX)
 export type MerchantHomeScreenProps = BottomTabScreenProps<

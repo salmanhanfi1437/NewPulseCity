@@ -17,6 +17,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Video from 'react-native-video';
 import { ms } from 'react-native-size-matters';
 import { Text } from 'react-native';
+import { yourCart } from '../../types/constants';
 
 const PromoScreen = () => {
   const navigation = useNavigation<any>();
@@ -24,7 +25,7 @@ const PromoScreen = () => {
     GlobalStyles.ZuvyDashBoardBtn;
 
   const handleNavigation = () => {
-    navigation.navigate('yourCart');
+    navigation.navigate(yourCart);
   };
 
   return (

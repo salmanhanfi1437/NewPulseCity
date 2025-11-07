@@ -37,6 +37,7 @@ import {
 import {
   const_continue,
   const_fcmToken,
+  login,
   loginOrSignup,
   mobile_number,
   resendOtp,
@@ -50,8 +51,9 @@ import colors from '../../styles/colors';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/rootReducer';
 import { showAlert } from '../../components/atoms/AlertBox/showAlert';
-import { sendOTPFailure, sendOTPRequest, verifyOTPRequest } from './loginSlice';
+import { resetOTPState, sendOTPFailure, sendOTPRequest, verifyOTPRequest } from './loginSlice';
 import secureStorage from '../../utils/secureStorage';
+import { isValidIndianMobile } from '../../utils/helper';
 
 const RESEND_TIMER = 30;
 
@@ -92,6 +94,7 @@ const LoginScreen = ({ navigation }: LoginProps) => {
   useEffect(() => {
   if (otpData || error) {
     console.log("OTPData changed: ", otpData, "Error:", error);
+      dispatch(resetOTPState());
 
     if(otpData?.success === true)
     {
@@ -112,6 +115,7 @@ useEffect(() => {
   
   if (verifyOTPData || otpError != null) {
     console.log("MainverifyOTPResponse: ", verifyOTPData, "Error:", otpError);
+      dispatch(resetOTPState());
 
     if(verifyOTPData?.success === true)
     {
@@ -119,11 +123,10 @@ useEffect(() => {
       showAlert(verifyOTPData?.message);
       if(verifyOTPData?.data?.isRegistered === false)
       {
-         
     navigation.navigate(signup,{mobile:mobileNumber}); //just for testimng added navigation
       }
       else{
-           navigation.navigate(yourCart); //just for testimng added navigation
+           navigation.replace(yourCart); //just for testimng added navigation
       }
     }
     else if(otpError?.message){
@@ -136,39 +139,48 @@ useEffect(() => {
   const handleVerifyToggle = useCallback(() => {
     
     if (mobileNumber.length !== 10) return;
-   
-    if (isOtpVerified) {
+  
+
+    if(otp.length === 6)
+    {
+      verifyOTP()
+    }
+    else if(!isValidIndianMobile(mobileNumber))
+    {
+      showAlert('Please enter a valid Indian mobile number')
+    }
+    else if (isOtpVerified) {
       // Reset to initial state
       setOtpVerified(false);
       setMobileNo("");
       setOtp("");
       setTimer(RESEND_TIMER);
-    } else {
-      
+    } else{
        sendOTP()
     }
-  }, [mobileNumber, isOtpVerified]);
+  }, [mobileNumber, isOtpVerified,otp]);
 
  const sendOTP = async () => {
   try {
+
 dispatch(sendOTPRequest(mobileNumber)); // ✅ only send the mobile
   } catch (error: any) {
     dispatch(sendOTPFailure('Failed to send OTP'));
-    Alert.alert('Failed to send OTP, please try again');
+    showAlert('Failed to send OTP, please try again');
   }
 };
 
  const verifyOTP = async () => {
   try {
     const fcmToken = await secureStorage.getItem(const_fcmToken);
+    
+
 dispatch(verifyOTPRequest({ mobile: mobileNumber, otp,fcmToken,deviceType:Platform.OS.toUpperCase(),purpose : login.toUpperCase() }));
   } catch (error: any) {
     dispatch(sendOTPFailure('Failed to send OTP'));
     Alert.alert('Failed to send OTP, please try again');
   }
 };
-
-
 
   const handleResendOtp = useCallback(() => {
     setTimer(RESEND_TIMER);
@@ -273,7 +285,7 @@ dispatch(verifyOTPRequest({ mobile: mobileNumber, otp,fcmToken,deviceType:Platfo
           (!isOtpVerified && mobileNumber.length !== 10) ||
           (isOtpVerified && otp.length !== 6)
         }
-        title={isOtpVerified ? t('verify') : 'Continue'}
+        title={isOtpVerified ? t(verify) : t(const_continue)}
         onPress={handleVerifyToggle}
         titleStyle={[fS(ms(16)), fontColor(colors.black)]}
         viewStyle={[

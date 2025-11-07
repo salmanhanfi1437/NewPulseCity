@@ -444,6 +444,9 @@ const GlobalStyles = StyleSheet.create({
   flexOne: {
     flex: 1,
   },
+  flexShrink1 : {
+    flexShrink:1
+  },
   viewRow: {
     flexDirection: 'row',
   },

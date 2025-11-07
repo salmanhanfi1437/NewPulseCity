@@ -79,6 +79,12 @@ const loginSlice = createSlice({
       state.loading = false;
       state.otpError = action.payload;
     },
+    resetOTPState: (state) => {
+      state.otpData = null;
+      state.error = null;
+      state.verifyOTPData = null;
+      state.otpError = null;
+    },
   },
 });
 
@@ -89,6 +95,7 @@ export const {
   verifyOTPRequest,
   verifyOTPSuccess,
   verifyOTPFailure,
+  resetOTPState,
 } = loginSlice.actions;
 
 export default loginSlice.reducer;

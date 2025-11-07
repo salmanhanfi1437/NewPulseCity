@@ -30,9 +30,17 @@ import { useNavigation } from '@react-navigation/native';
 import colors from '../../styles/colors';
 import HoverButton from '../../components/atoms/HoverButton';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../redux/rootReducer';
+import { DashboardRequest } from './dashboardSlice';
 
 const ZuvyDashBoard = () => {
   const navigation = useNavigation<any>();
+
+  const { error, dashboardData } = useSelector((state: RootState) => state.dashboard);
+
+  const dispatch = useDispatch();
+
   const { backgroundColor, ...restZuvyDashBoardBtn } =
     GlobalStyles.ZuvyDashBoardBtn;
 
@@ -54,6 +62,22 @@ const ZuvyDashBoard = () => {
       icon: TransportSvg,
     },
   ];
+
+
+  useEffect(() =>{
+
+    if(dashboardData || error)
+    {
+      console.log('DashBoardData '+JSON.stringify(dashboardData));
+    }
+
+  },[dashboardData,error])
+
+  useEffect(() => {
+
+    dispatch(DashboardRequest())
+
+  },[])
 
   return (
     <BlueWhiteBackground headerHeight={80}>

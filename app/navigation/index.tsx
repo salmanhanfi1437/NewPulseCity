@@ -50,6 +50,7 @@ if (__DEV__) {
 }
 import PromoScreen from '../screens/PromotionScreen';
 import CheckOutDetail from '../screens/CheckoutDetails';
+import StateCitySelector from '../components/atoms/State&City';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -83,8 +84,8 @@ const RootNavigator = () => {
           <Stack.Screen name={'EditQRDetails'} component={EditQR} />
           <Stack.Screen name={'Profile'} component={UserProfile} />
           <Stack.Screen name={'ZuvyDashBoard'} component={ZuvyDashBoard} />
-            <Stack.Screen name={'CheckOutDetail'} component={Checkout} />
           <Stack.Screen name={notifications} component={NotificationScreen} />
+          <Stack.Screen name='StateCitySelector' component={StateCitySelector}/>
         </Stack.Navigator>
       </NavigationContainer>
     </NativeBaseProvider>

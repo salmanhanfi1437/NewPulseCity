@@ -43,4 +43,5 @@ export default {
   color_DBEAFE: '#DBEAFE',
   color_A0A0A0: '#A0A0A0',
   buttonColorforAuth: 'rgba(255, 213, 28, 1)',
+  fadeTextColor: 'rgba(75, 85, 99, 1)',
 };

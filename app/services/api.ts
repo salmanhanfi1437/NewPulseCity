@@ -87,5 +87,6 @@ export default {
   checkOutQr : (data : any) => apiClient.post('qr-management/distributor/checkout',data),
   getStates : () => apiClient.get('location/states'),
   getCities: (stateId: string) => apiClient.get(`location/cities/${stateId}`),
-  getProfile:() => apiClient.get('user/profile')
+  getProfile:() => apiClient.get('user/profile'),
+  getDashboard : () => apiClient.get("qr-management/distributor/inventory")
 }

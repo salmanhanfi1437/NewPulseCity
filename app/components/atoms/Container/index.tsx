@@ -19,9 +19,15 @@ import {
 } from '../../../assets/svg';
 import { ms } from 'react-native-size-matters';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { RootState } from '../../../redux/rootReducer';
+import { useSelector } from 'react-redux';
 
 const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
+  
   return (props: any) => {
+
+    const { profileData, error } = useSelector( (state: RootState) => state.profile);
+
     const { hideTopContent = false, hideBottomContent = false } = props;
     const { paddingRight, paddingLeft, ...restFont } =
       GlobalStyles.ZuvyDashBoardBtnText;
@@ -58,7 +64,6 @@ const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
           GlobalStyles.avoidJustify,
         ]}
       >
-        <Icon width={ms(40)} height={ms(40)} fill={Colors.white} />
         <View style={GlobalStyles.textConatiner}>
           <CustomText title={label} textStyle={[GlobalStyles.faintText]} />
           <CustomText title={value} style={[restFont]} />
@@ -142,7 +147,7 @@ const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
                     key={index}
                     Icon={item.icon}
                     label={item.label}
-                    value={item.value}
+                    value={profileData?.data?.name}
                   />
                 ))}
               </CardContainer>

@@ -5,7 +5,9 @@ import {signupSaga} from '../screens/SignupScreen/signUpSaga';
 import {masterQrSaga} from '../screens/YourCartScreen/yourCartSaga';
 import {checkoutSaga} from '../screens/CheckoutDetails/checkOutSaga';
 import stateCitySaga from '../components/atoms/State&City/StateCitySaga';
-import {profileSaga} from '../screens/UserProfile/profileSaga'
+import {profileSaga} from '../screens/UserProfile/profileSaga';
+import {dashboardSaga} from '../screens/DashBoard/dashboardSaga';
+import { DashBoardSVG } from '../assets/svg';
  //here we will define all sagas
 
 export default function* rootSaga() {
@@ -16,8 +18,8 @@ export default function* rootSaga() {
     fork(masterQrSaga),
     fork(checkoutSaga),
     fork(stateCitySaga),
-    fork(profileSaga)
-  
+    fork(profileSaga),
+    fork(dashboardSaga)
   
   ]);
 }
