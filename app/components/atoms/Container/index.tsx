@@ -18,13 +18,10 @@ import {
   ShippmentSVG,
 } from '../../../assets/svg';
 import { ms } from 'react-native-size-matters';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { RootState } from '../../../redux/rootReducer';
 import { useDispatch, useSelector } from 'react-redux';
-import { showAlert } from '../AlertBox/showAlert';
 import { fontColor } from '../../../utils/spaces';
 import { useNavigation } from '@react-navigation/native';
-import { ProfileRequest } from '../../../screens/UserProfile/profileSlice';
 
 const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
   
