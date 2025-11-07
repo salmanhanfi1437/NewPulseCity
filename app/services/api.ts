@@ -84,6 +84,8 @@ export default {
   getRoles: () => apiClient.get(`roles/get-user-roles`),
   getMasterQr : () => apiClient.get('qr-management/distributor/master-qr'),
   orderQr : (data : any) => apiClient.post('qr-management/distributor/create-order-for-qr',data),
-  checkOutQr : (data : any) => apiClient.post('qr-management/distributor/checkout')
-  
+  checkOutQr : (data : any) => apiClient.post('qr-management/distributor/checkout',data),
+  getStates : () => apiClient.get('location/states'),
+  getCities: (stateId: string) => apiClient.get(`location/cities/${stateId}`),
+  getProfile:() => apiClient.get('user/profile')
 }
