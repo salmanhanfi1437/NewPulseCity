@@ -226,7 +226,7 @@ const CheckOutDetail = ({ navigation,route }: CheckOutDetailProps) => {
             leftIcon={<CartSVG />}
             title={config.CheckOutDetailsScreen.Proceed}
             textStyles={[fS(14), pl(5)]}
-            onPress={() => navigation.navigate('merchantTabs')}
+            onPress={() => console.log('111')}
             buttonStyle={[
               GlobalStyles.ZuvyDashBoardContainer,
               mb(0),

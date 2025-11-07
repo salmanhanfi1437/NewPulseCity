@@ -52,59 +52,6 @@ const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
 
 
     // --- Reusable Components ---
-<<<<<<< HEAD
-    const InfoItem = ({ Icon, label, value }: any) => (
-      <View
-        style={[
-          GlobalStyles.row,
-          GlobalStyles.containerPaddings,
-          GlobalStyles.avoidJustify,
-        ]}
-      >
-        <View style={GlobalStyles.textConatiner}>
-          <CustomText
-            title={label}
-            textStyle={[
-              Typography.size.dynamic(10, 'medium', colors.fadeTextColor),
-            ]}
-          />
-          <CustomText title={value} style={[restFont]} />
-        </View>
-      </View>
-    );
-
-    const SettingItem = ({ Icon, label, value }: any) => (
-      <TouchableOpacity style={[GlobalStyles.width50, GlobalStyles.row]}>
-        <View
-          style={[
-            GlobalStyles.avoidJustify,
-            GlobalStyles.viewRow,
-            { justifyContent: GlobalStyles.row.alignItems },
-          ]}
-        >
-          <Icon width={ms(40)} height={ms(40)} />
-          <View style={[GlobalStyles.textConatiner, { height: ms(22) }]}>
-            <CustomText title={label} textStyle={[restFont]} />
-            <CustomText
-              title={value}
-              textStyle={[
-                Typography.size.dynamic(10, 'medium', colors.fadeTextColor),
-              ]}
-            />
-          </View>
-        </View>
-        <MaterialIcons
-          name="chevron-right"
-          size={32}
-          color={Colors.grey_50}
-          style={{ right: GlobalStyles.playDurationBadge.right }}
-        />
-      </TouchableOpacity>
-    );
-
-    
-=======
->>>>>>> 239a78b129ba20b3105a827b9f3baefef8c7870e
     // --- UI ---
     return (
       <View style={styles.container}>
