@@ -10,7 +10,9 @@ import {
   alreadyhaveAccount,
   sign_in,
   letsgetstarted,
-  yourCart, enter, const_fcmToken,
+  yourCart,
+  enter,
+  const_fcmToken,
 } from '../../types/constants';
 import { Colors, Typography } from '../../styles';
 import { ms, mvs } from 'react-native-size-matters';
@@ -25,94 +27,94 @@ import FontStyles from '../../styles/FontStyles';
 import Button from '../../components/atoms/Button';
 import { fS, fontColor, bR } from '../../utils/spaces';
 import colors from '../../styles/colors';
-import RememberMe from '../../components/atoms/CheckBox';import { useDispatch, useSelector } from 'react-redux';
+import RememberMe from '../../components/atoms/CheckBox';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/rootReducer';
 import { showAlert } from '../../components/atoms/AlertBox/showAlert';
 import { useTranslation } from 'react-i18next';
 import { RoleRequest, SignupRequest } from './signupSlice';
 import secureStorage from '../../utils/secureStorage';
-import { SelectionModal } from '../../components/atoms/SelectionModal';
 import config from '../config';
 import DropdownAtom from '../../components/atoms/DropDown';
+import SelectionModal from '../../components/atoms/SelectionModal';
 
-
-const SignupScreens = ({ navigation,route }: SignupProps) => {
-    const {mobile} = route?.params
-        console.log("Routes "+JSON.stringify(mobile))  const { fontSize, ...restFontStyle } = FontStyles.mainText;
+const SignupScreens = ({ navigation, route }: SignupProps) => {
+  const { mobile } = route?.params;
+  console.log('Routes ' + JSON.stringify(mobile));
+  const { fontSize, ...restFontStyle } = FontStyles.mainText;
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [role, setRole] = useState('Distributor');
-      const [visible, setVisible] = useState(false);
-    const [isFocus, setIsFocus] = useState(false);
-    const {t} = useTranslation();
+  const [visible, setVisible] = useState(false);
+  const [isFocus, setIsFocus] = useState(false);
+  const { t } = useTranslation();
   const nameRef = useRef<TextInput>(null);
   const emailRef = useRef<TextInput>(null);
   const mobileNumberRef = useRef<TextInput>(null);
-  const [remember, setRemember] = useState(false);    const dispatch = useDispatch();
-    
+  const [remember, setRemember] = useState(false);
+  const dispatch = useDispatch();
 
-    const { error,singupData,roleData } = useSelector((state: RootState) => state.signup);
+  const { error, singupData, roleData } = useSelector(
+    (state: RootState) => state.signup,
+  );
 
-
-    useEffect(() => {
-        console.log('111')
+  useEffect(() => {
+    console.log('111');
     dispatch(RoleRequest());
+  }, []);
 
-    },[]);
+  useEffect(() => {
+    if (roleData || error) {
+      console.log('RolesDara ' + roleData);
+    }
+  }, [roleData, error]);
 
+  useEffect(() => {
+    if (singupData || error) {
+      console.log('SignupResponse' + singupData);
 
-    useEffect(() =>{
-        if(roleData || error)
-        {
-            console.log('RolesDara '+roleData);
-        }
-    },[roleData,error])
+      if (error?.message) {
+        showAlert(error?.message);
+      }
+    }
+  }, [singupData, error]);
 
-    useEffect(() =>{
-        if(singupData || error)
-        {
-            console.log('SignupResponse'+singupData);
-
-            if(error?.message)
-            {
-                showAlert(error?.message)
-            }
-        }
-
-    },[singupData,error])
-
-    
   const onMicPress = () => {
     console.log('Mic Press');
   };
 
-    const handleRegister = async() => {
-        console.log('HandlePress');
-        const fcmToken = await secureStorage.getItem(const_fcmToken);
-    
-        if (validation()) {
-            console.log('Api Called')
-            dispatch(SignupRequest({mobile,name,email,role,password:'123456',fcmToken,deviceType:Platform.OS}))
-            //navigation.replace(yourCart)
-        }
+  const handleRegister = async () => {
+    console.log('HandlePress');
+    const fcmToken = await secureStorage.getItem(const_fcmToken);
+
+    if (validation()) {
+      console.log('Api Called');
+      dispatch(
+        SignupRequest({
+          mobile,
+          name,
+          email,
+          role,
+          password: '123456',
+          fcmToken,
+          deviceType: Platform.OS,
+        }),
+      );
+      //navigation.replace(yourCart)
     }
   };
 
-    const validation = () => {
-        if (name == '') {
-
-            showAlert((`${t(const_name)} ${t(enter)}`))
-            return false;
-        }
-
-        else if (email === '') {
-
-            showAlert(`${t(const_email)} ${t(enter)}`)
-            return false;
-        }
-        
-        return true;
+  const validation = () => {
+    if (name == '') {
+      showAlert(`${t(const_name)} ${t(enter)}`);
+      return false;
+    } else if (email === '') {
+      showAlert(`${t(const_email)} ${t(enter)}`);
+      return false;
     }
+
+    return true;
+  };
 
   return (
     <BackgroundPrimaryColor title={letsgetstarted}>
@@ -144,63 +146,77 @@ const SignupScreens = ({ navigation,route }: SignupProps) => {
           textStyle={[FontStyles.headingText, mt(10)]}
         />
 
-                <TextInputMic
-                    ref={emailRef}
-                    value={email}
-                    onChangeText={setEmail}
-                    placeholder={const_email}
-                    keyboardType="email-address"
-                    style={FontStyles.txtInput}
-                    returnKeyType='next'
-                    onSubmitEditing={() => mobileNumberRef?.current?.focus()} />
+        <TextInputMic
+          ref={emailRef}
+          value={email}
+          onChangeText={setEmail}
+          placeholder={const_email}
+          keyboardType="email-address"
+          style={FontStyles.txtInput}
+          returnKeyType="next"
+          onSubmitEditing={() => mobileNumberRef?.current?.focus()}
+        />
 
+        <CustomText
+          title={const_howtouseZuvy}
+          textStyle={[FontStyles.headingText, mt(20)]}
+        />
 
-                <CustomText title={const_howtouseZuvy} textStyle={[FontStyles.headingText, mt(20)]} />
-
-                    {/* <DropdownAtom
+        {/* <DropdownAtom
         label="Select Role"
         data={config.zuvyRoles}
         onSelect={handleSelect}
         placeholder="Choose one"
         iconName="appstore1"
       /> */}
-                
-                <TextInputMic
-                    value={"Distributor"}
-                    onChangeText={setRole}
-                    placeholder={const_howtouseZuvy}
-                    keyboardType="default"
-                    editable={false}
-                    disabledMic={true}
-                    style={FontStyles.txtInput} />
-                
 
-                 <SelectionModal
-        visible={visible}
-        data={config.zuvyRoles}
-        onClose={() => setVisible(false)}
-        onSelect={(item) => setRole(item.value)}
-      />
-                <Button
-                    title={signup}
-                    onPress={handleRegister}
-                    viewStyle={[mt(30)]} />
+        <TextInputMic
+          value={'Distributor'}
+          onChangeText={setRole}
+          placeholder={const_howtouseZuvy}
+          keyboardType="default"
+          editable={false}
+          disabledMic={true}
+          style={FontStyles.txtInput}
+        />
 
-            </View>
-            <View style={[GlobalStyles.viewRow,  GlobalStyles.bottomFooter]}>
-                <CustomText title={alreadyhaveAccount} textStyle={[FontStyles.subText,GlobalStyles.viewCenter,]} />
-                <PressableOpacity onPress={() => navigation.reset({
-                    index: 0,
-                    routes: [{ name: login }],
-                })}>
-                    <CustomText title={sign_in} textStyle={[FontStyles.headingText, GlobalStyles.viewCenter, styles.signInText]} underline={true} />
-                </PressableOpacity>
-            </View>
-        </BackgroundPrimaryColor>
+        <SelectionModal
+          visible={visible}
+          data={config.zuvyRoles}
+          onClose={() => setVisible(false)}
+          onSelect={(item: { value: React.SetStateAction<string>; }) => setRole(item.value)}
+        />
+        <Button title={signup} onPress={handleRegister} viewStyle={[mt(30)]} />
+      </View>
+      <View style={[GlobalStyles.viewRow, GlobalStyles.bottomFooter]}>
+        <CustomText
+          title={alreadyhaveAccount}
+          textStyle={[FontStyles.subText, GlobalStyles.viewCenter]}
+        />
+        <PressableOpacity
+          onPress={() =>
+            navigation.reset({
+              index: 0,
+              routes: [{ name: login }],
+            })
+          }
+        >
+          <CustomText
+            title={sign_in}
+            textStyle={[
+              FontStyles.headingText,
+              GlobalStyles.viewCenter,
+              styles.signInText,
+            ]}
+            underline={true}
+          />
+        </PressableOpacity>
+      </View>
+    </BackgroundPrimaryColor>
+  );
+};
 
-    )
-}
-
+export default React.memo(SignupScreens);
 const styles = StyleSheet.create({
   signInText: {
     ...Typography.weights.boldU,
@@ -237,5 +253,3 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
 });
-
-export default React.memo(SignupScreens);
