@@ -59,5 +59,9 @@
   "PanCardNumber":"Pan Card Number",
       "Address" : "Address",
       "State" :"State",
-      "City" : "City"
+      "City" : "City",
+      "NoInternet" : "No Internet",
+      "validEmail":"Please Enter Valid Email",
+      "validPanCardNumber":"Please Enter Valid Indian Pan Card Number",
+    "validMobileNumber" : "Please Enter Valid Indian 10 Digits Mobile Number"
 }

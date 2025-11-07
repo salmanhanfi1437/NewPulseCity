@@ -33,12 +33,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/rootReducer";
 import { fetchLanguagesRequest } from "./chooseLanguageSlice";
 import Button from "../../components/atoms/Button";
-import { getMessaging } from "@react-native-firebase/messaging";
 import messaging from '@react-native-firebase/messaging';
 import crashlytics from '@react-native-firebase/crashlytics';
 import secureStorage from "../../utils/secureStorage";
 import colors from "../../styles/colors";
 
+// import RazorpayCheckout from 'react-native-razorpay';
 
 const ChooseLanguages = ({ navigation }: ChooseLanguagesProps) => {
   const languages = [
@@ -55,6 +55,8 @@ const ChooseLanguages = ({ navigation }: ChooseLanguagesProps) => {
   const { language, error } = useSelector(
     (state: RootState) => state.chooseLanguage,
   );
+
+  
 
   async function requestNotificationPermission() {
   try {
@@ -114,6 +116,27 @@ crashlytics().setCrashlyticsCollectionEnabled(true);
 
   checkFCM();
 }, []);
+
+
+
+// const options = {
+//   description: 'Credits towards consultation',
+//   image: 'https://your-logo-url.png',
+//   currency: 'INR',
+//   key: 'rzp_test_YourKey', // Your api key
+//   amount: '5000', // amount in paise: 5000 = ₹50
+//   name: 'Acme Corp',
+//   prefill: { email: 'salma@zuvystore.com', contact: '8770199411', name: 'Salman' },
+//   theme: { color: colors.primaryColor }
+// };
+
+// RazorpayCheckout.open(options).then((data) => {
+//   // handle success
+//   console.log('payment success', data);
+// }).catch((error) => {
+//   // handle failure
+//   console.log('payment error', error);
+// });
 
 
   useEffect(() => {

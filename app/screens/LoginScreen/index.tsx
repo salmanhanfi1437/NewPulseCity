@@ -43,6 +43,7 @@ import {
   resendOtp,
   resendOtpTimer,
   signup,
+  validEmail,
   verify,
   welcomeZuvy,
   yourCart,
@@ -147,7 +148,7 @@ useEffect(() => {
     }
     else if(!isValidIndianMobile(mobileNumber))
     {
-      showAlert('Please enter a valid Indian mobile number')
+      showAlert(t(validEmail))
     }
     else if (isOtpVerified) {
       // Reset to initial state

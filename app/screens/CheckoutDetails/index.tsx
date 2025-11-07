@@ -26,6 +26,7 @@ import {
   state,
   subTotal,
   total,
+  validPanCardNumber,
   verifyIdentity,
   whatincluded,
   yourCart,
@@ -135,7 +136,7 @@ const CheckOutDetail = ({ navigation, route }: CheckOutDetailProps) => {
     }
     else if(!isValidPAN(PanCard))
     {
-      showAlert(`Please Enter valid PAN Card Number `)
+      showAlert(t(validPanCardNumber))
     }
    
     else if (address == '') {
