@@ -23,6 +23,7 @@ import { RootState } from '../../../redux/rootReducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { showAlert } from '../AlertBox/showAlert';
 import { fontColor } from '../../../utils/spaces';
+import { useNavigation } from '@react-navigation/native';
 
 const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
   
@@ -33,6 +34,8 @@ const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
     const { hideTopContent = false, hideBottomContent = false } = props;
     const { paddingRight, paddingLeft, ...restFont } =
       GlobalStyles.ZuvyDashBoardBtnText;
+
+    const navigation = useNavigation<any>();
 
     const dispatch = useDispatch();
 
@@ -46,29 +49,10 @@ const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
     }, [profileData, error]);
 
     // --- Data Arrays ---
-    const personalInfo = [
-      {
-        icon: ContactSVG,
-        label: config.Profile.fullname,
-        value: 'Anjali Singh',
-      },
-      { icon: BagSVG, label: config.Profile.role, value: 'Distributor' },
-      { icon: LocationSVG, label: config.Profile.Zone, value: 'Delhi' },
-      {
-        icon: PhoneSVG,
-        label: config.Profile.contact,
-        value: '+91-7776006787',
-      },
-      { icon: ShippmentSVG, label: config.Profile.Details, value: 'Shipping' },
-    ];
 
-    const settings = [
-      { icon: Globe, label: config.Profile.lang, value: 'English' },
-      { icon: Bell, label: config.Profile.noti, value: 'Enabled' },
-      { icon: Shield, label: config.Profile.privaSecurity, value: 'Standard' },
-    ];
 
     // --- Reusable Components ---
+<<<<<<< HEAD
     const InfoItem = ({ Icon, label, value }: any) => (
       <View
         style={[
@@ -119,6 +103,8 @@ const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
     );
 
     
+=======
+>>>>>>> 239a78b129ba20b3105a827b9f3baefef8c7870e
     // --- UI ---
     return (
       <View style={styles.container}>
@@ -313,19 +299,92 @@ const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
                 title={config.Profile.setting}
                 textStyle={[GlobalStyles.cardTiltle, { left: ms(22) }]}
               />
-              {settings.map((item, index) => (
-                <CardContainer
-                  style={[GlobalStyles.borderStyles, { height: ms(60) }]}
-                  showShadow={false}
+
+              <CardContainer
+                style={[GlobalStyles.borderStyles, { height: ms(70) }]}
+                showShadow={false}
+              >
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate('ChooseLanguage');
+                  }}
+                  activeOpacity={0.5}
+                  style={[
+                    GlobalStyles.row,
+                    GlobalStyles.containerPaddings,
+                    GlobalStyles.avoidJustify,
+                  ]}
                 >
-                  <SettingItem
-                    key={index}
-                    Icon={item.icon}
-                    label={item.label}
-                    value={item.value}
-                  />
-                </CardContainer>
-              ))}
+                  <Globe width={ms(40)} height={ms(40)} fill={Colors.white} />
+                  <View style={GlobalStyles.textConatiner}>
+                    <CustomText
+                      title={config.Profile.lang}
+                      textStyle={[
+                        Typography.size.dynamic(
+                          10,
+                          'medium',
+                          colors.fadeTextColor,
+                        ),
+                      ]}
+                    />
+                    <CustomText title={'English'} style={[restFont]} />
+                  </View>
+                </TouchableOpacity>
+              </CardContainer>
+
+              <CardContainer
+                style={[GlobalStyles.borderStyles, { height: ms(70) }]}
+                showShadow={false}
+              >
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate('notifications');
+                  }}
+                  activeOpacity={0.5}
+                  style={[
+                    GlobalStyles.row,
+                    GlobalStyles.containerPaddings,
+                    GlobalStyles.avoidJustify,
+                  ]}
+                >
+                  <Bell width={ms(40)} height={ms(40)} fill={Colors.white} />
+                  <View style={GlobalStyles.textConatiner}>
+                    <CustomText
+                      title={config.Profile.noti}
+                      style={[restFont]}
+                    />
+                  </View>
+                </TouchableOpacity>
+              </CardContainer>
+              <CardContainer
+                style={[GlobalStyles.borderStyles, { height: ms(70) }]}
+                showShadow={false}
+              >
+                <TouchableOpacity
+                  activeOpacity={0.5}
+                  style={[
+                    GlobalStyles.row,
+                    GlobalStyles.containerPaddings,
+                    GlobalStyles.avoidJustify,
+                  ]}
+                >
+                  <Shield width={ms(40)} height={ms(40)} fill={Colors.white} />
+                  <View style={GlobalStyles.textConatiner}>
+                    <CustomText
+                      title={config.Profile.privaSecurity}
+                      textStyle={[
+                        Typography.size.dynamic(
+                          10,
+                          'medium',
+                          colors.fadeTextColor,
+                        ),
+                      ]}
+                    />
+                    <CustomText title={'Standard'} style={[restFont]} />
+                  </View>
+                </TouchableOpacity>
+              </CardContainer>
+
               <TouchableOpacity>
                 <CardContainer
                   style={[GlobalStyles.logoutBorderStyles, { height: ms(55) }]}
