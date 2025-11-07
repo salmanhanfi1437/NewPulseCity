@@ -1,7 +1,6 @@
 export const BASE_URL = "https://e2q3qeiv2j.execute-api.ap-south-1.amazonaws.com/api/";
 
 
-
 export const app_name = "Zuvy";
 export const splash = 'Splash';
 export const loginOrSignup = "loginOrSignup";

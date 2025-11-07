@@ -193,7 +193,7 @@ dispatch(verifyOTPRequest({ mobile: mobileNumber, otp,fcmToken,deviceType:Platfo
     <BackgroundPrimaryColor title={t(welcomeZuvy)}>
       {/* 🔹 Header Card */}
       <TouchableOpacity
-        onPress={() => navigation.navigate('signup')}
+        onPress={() => navigation.navigate('signup',{mobile : mobileNumber})}
         activeOpacity={2}
       >
         <ViewRounded10

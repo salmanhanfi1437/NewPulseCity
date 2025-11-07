@@ -57,7 +57,6 @@
   "proceed":"Proceed to Payment",
   "fullName" : "Full Name",
   "PanCardNumber":"Pan Card Number",
-<<<<<<< HEAD
       "Address" : "Address",
       "State" :"State",
       "City" : "City",
@@ -65,7 +64,4 @@
       "validEmail":"Please Enter Valid Email",
       "validPanCardNumber":"Please Enter Valid Indian Pan Card Number",
     "validMobileNumber" : "Please Enter Valid Indian 10 Digits Mobile Number"
-=======
-      "Address" : "Address"
->>>>>>> bd96979bdc0c11d7a0942dc67fe009f68294d8c1
 }

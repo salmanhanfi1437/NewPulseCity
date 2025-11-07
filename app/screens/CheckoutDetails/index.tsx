@@ -78,11 +78,11 @@ const CheckOutDetail = ({ navigation, route }: CheckOutDetailProps) => {
     
     if (checkOutData || error) {
       
-      if(checkOutData?.success)
+     if(checkOutData?.success)
         
       {
         showAlert(checkOutData?.message)
-      navigation.navigate('merchantTabs', {
+      navigation.replace('merchantTabs', {
   screen: 'ZuvyDashBoard',
   params: { data: checkOutData?.data },
 });
