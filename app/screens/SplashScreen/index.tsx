@@ -8,7 +8,10 @@ import GlobalStyles from '../../styles/GlobalStyles';
 import { ZuvyLogo } from '../../assets/svg';
 import { ms, mvs } from 'react-native-size-matters';
 
-type SplashScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Splash'>;
+type SplashScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  'Splash'
+>;
 
 const SplashScreen = () => {
   const navigation = useNavigation<SplashScreenNavigationProp>();
@@ -24,7 +27,7 @@ const SplashScreen = () => {
     }).start();
 
     const timer = setTimeout(() => {
-     navigation.replace("ChooseLanguage");
+      navigation.replace('ChooseLanguage');
     }, 3000);
 
     return () => clearTimeout(timer);
@@ -33,7 +36,13 @@ const SplashScreen = () => {
   return (
     <SafeAreaView style={[GlobalStyles.container, GlobalStyles.viewCenter]}>
       <Animated.View style={{ opacity: imageOpacity }}>
-        <ZuvyLogo width={ms(180)} height={ms(180)} />
+        <ZuvyLogo
+          height={ms(110)}
+          width={ms(180)}
+          style={{ right: 1 }}
+          preserveAspectRatio="xMidYMid meet"
+          viewBox="65 0 100 100"
+        />
       </Animated.View>
     </SafeAreaView>
   );

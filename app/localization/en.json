@@ -19,7 +19,7 @@
   "sign_in": "Sign in",
   "resendOtpTimer": "Resend OTP in {{time}}",
   "resendOtp": "Resend OTP",
-  "welcomeZuvy": "Welcome to Zuvy",
+  "welcomeZuvy": "Welcome to \n Zuvy",
   "verifyIdentity": "Verify Your Identity",
   "completeKYC": "Complete your KYC to unlock full access and\ntransactions",
   "whykyc": "Why KYC ?",
@@ -52,5 +52,16 @@
   "all":"All",
   "orders":"Orders",
   "payments":"Payments",
-  "updates":"Updates"
+  "updates":"Updates",
+  "enter":"enter",
+  "proceed":"Proceed to Payment",
+  "fullName" : "Full Name",
+  "PanCardNumber":"Pan Card Number",
+      "Address" : "Address",
+      "State" :"State",
+      "City" : "City",
+      "NoInternet" : "No Internet",
+      "validEmail":"Please Enter Valid Email",
+      "validPanCardNumber":"Please Enter Valid Indian Pan Card Number",
+    "validMobileNumber" : "Please Enter Valid Indian 10 Digits Mobile Number"
 }

@@ -16,6 +16,7 @@ const CartStyles = StyleSheet.create({
     backgroundColor: Colors.color_EFF6FF,
     marginTop: mvs(15),
     borderWidth: 0,
+    
     },
    itemTotalText: {
   ...FontStyles.subText,

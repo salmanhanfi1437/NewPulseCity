@@ -8,30 +8,43 @@ const { height } = Dimensions.get('window');
 interface BlueWhiteBackgroundProps {
   children: ReactNode;
   headerHeight?: number;
-  BlueWhiteBackgroundStyle?: ViewStyle;
+  BlueWhiteBackgroundStyle?: ViewStyle | ViewStyle[];
+  LinearView?: boolean;
+  LinearViewStyles?: ViewStyle | ViewStyle[];
+  linearLocation ?:number[]
 }
 
 const BlueWhiteBackground = ({
   children,
   headerHeight = 80,
   BlueWhiteBackgroundStyle,
+  LinearView,
+  LinearViewStyles,
+  linearLocation= [0, 0.32, 0.32]
 }: BlueWhiteBackgroundProps) => {
   return (
     <View style={{ flex: 1 }}>
       <LinearGradient
         colors={Colors.zuvyPrimaryGradient}
-        locations={[0, 0.32, 0.32]}
-        style={GlobalStyles.gradient}
-      />
-      <View
+        locations={linearLocation}
         style={[
-          GlobalStyles.contentContainer,
-          { paddingTop: headerHeight },
-          BlueWhiteBackgroundStyle,
+        GlobalStyles.gradient,
+          LinearViewStyles,
         ]}
-      >
-        {children}
-      </View>
+      />
+      {LinearView ? (
+        <>{children}</>
+      ) : (
+        <View
+          style={[
+            GlobalStyles.contentContainer,
+            { paddingTop: headerHeight },
+            BlueWhiteBackgroundStyle,
+          ]}
+        >
+          {children}
+        </View>
+      )}
     </View>
   );
 };

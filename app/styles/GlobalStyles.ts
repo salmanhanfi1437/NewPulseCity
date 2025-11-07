@@ -6,6 +6,9 @@ import colors from './colors';
 const { width, height } = Dimensions.get('screen');
 const GlobalStyles = StyleSheet.create({
   //halfScreen2.5 width
+  authBtn: {
+    backgroundColor: Colors.buttonColorforAuth,
+  },
   halfwidth: {
     width: width / 2.5,
   },
@@ -18,6 +21,9 @@ const GlobalStyles = StyleSheet.create({
   width70: {
     width: width / 1.5,
   },
+  fadeText: {
+    color: colors.fadeTextColor,
+  },
   //greyColor
   greyColorText: {
     color: Colors.grey,
@@ -27,7 +33,7 @@ const GlobalStyles = StyleSheet.create({
     color: Colors.white,
   },
   lightwhite: {
-    backgroundColor: Colors.lightWhite,
+    backgroundColor: Colors.white,
     color: Colors.lightWhite,
   },
   //blackColor
@@ -67,7 +73,7 @@ const GlobalStyles = StyleSheet.create({
     justifyContent: 'center',
   },
   tabsText: {
-    fontSize: ms(12),
+    fontSize: ms(10),
     ...Typography.weights.normalU,
     textAlign: 'center',
   },
@@ -126,7 +132,7 @@ const GlobalStyles = StyleSheet.create({
   paginationContainer: {
     position: 'absolute',
     alignSelf: 'center',
-    bottom: height * ms(0.1),
+    bottom: height * ms(0.04),
     width: width,
     alignItems: 'center',
   },
@@ -136,15 +142,15 @@ const GlobalStyles = StyleSheet.create({
     position: 'absolute',
     left: ms(0),
     paddingHorizontal: ms(35),
-    bottom: height * ms(0.18),
+    bottom: height * ms(0.22),
   },
   slideinnerContainer: {
     position: 'absolute',
-    bottom: '35%',
+    bottom: '30%',
   },
   Custombutton: {
     backgroundColor: Colors.secondaryColor,
-    width: width -40,
+    width: width - 40,
     padding: ms(10),
     borderRadius: ms(10),
     alignItems: 'center',
@@ -163,7 +169,6 @@ const GlobalStyles = StyleSheet.create({
   },
 
   buttonContainer: {
-    // width: width * ms(0.85),
     alignItems: 'center',
     justifyContent: 'space-around',
     bottom: height * ms(0),
@@ -258,8 +263,8 @@ const GlobalStyles = StyleSheet.create({
     marginVertical: 10,
   },
   faintText: {
-    color: Colors.semiLight_grey,
-    fontSize: ms(12),
+    color: Colors.textColorGrey,
+    ...Typography.style.smallTextU(),
   },
   textConatiner: {
     left: 10,
@@ -282,7 +287,7 @@ const GlobalStyles = StyleSheet.create({
   },
   borderStyles: {
     borderWidth: 0.5,
-    borderColor: Colors.semiLight_grey,
+    borderColor: Colors.borderBottomColor,
   },
   //DashBoard Header
   logoutBorderStyles: {
@@ -381,8 +386,7 @@ const GlobalStyles = StyleSheet.create({
     shadowColor: '#000',
     shadowOpacity: 0.1,
     shadowRadius: 5,
-    elevation: 3,
-    // marginHorizontal: ms(8),
+    elevation: 1,
   },
   playGradientBox: {
     height: ms(100),
@@ -442,6 +446,9 @@ const GlobalStyles = StyleSheet.create({
   flexOne: {
     flex: 1,
   },
+  flexShrink1 : {
+    flexShrink:1
+  },
   viewRow: {
     flexDirection: 'row',
   },
@@ -449,7 +456,6 @@ const GlobalStyles = StyleSheet.create({
     justifyContent: 'space-around',
   },
   bottomFooter: {
-    position: 'absolute',
     bottom: 10,
     width: '100%',
     flexDirection: 'row',
@@ -479,8 +485,8 @@ const GlobalStyles = StyleSheet.create({
   keyboardView: {
     flex: 1,
     backgroundColor: Colors.white,
-    borderTopLeftRadius: ms(20),
-    borderTopRightRadius: ms(20),
+    borderTopLeftRadius: ms(40),
+    borderTopRightRadius: ms(40),
     paddingLeft: mvs(15),
     paddingRight: mvs(15),
     marginTop: mvs(30),
@@ -560,7 +566,7 @@ const GlobalStyles = StyleSheet.create({
     alignContent: 'center',
   },
   viewLine: {
-    height: ms(2),
+    height: ms(1),
     backgroundColor: Colors.color_E5E7EB,
     width: '100%',
   },
@@ -610,6 +616,73 @@ const GlobalStyles = StyleSheet.create({
   btnPrimary: {
     borderRadius: ms(10),
     backgroundColor: Colors.primaryColor,
+  },
+  viewRoundBorder : {
+    flexDirection:'row',
+        borderRadius: mvs(30),
+        borderWidth:ms(1),
+        borderColor:Colors.borderColor,
+        paddingStart:ms(5),
+        paddingEnd:ms(5),
+        height:ms(50),
+        justifyContent:'center',
+        alignItems:'center',
+        marginTop:mvs(10)
+  },
+  bottomButton: {
+    position: 'absolute',
+    bottom: height * 0.1, // ✅ responsive bottom spacing (~4% of screen height)
+    alignSelf: 'center',
+    width: '90%', // ✅ responsive width
+  },
+
+  //promoScreen
+  skipButton: {
+    position: 'absolute',
+    top: height * 0.02, // 5% from top (adjusts with screen)
+    right: width * 0.05, // 5% from right (adjusts with screen)
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    borderRadius: width * 0.05,
+    padding: 5,
+    paddingHorizontal: 15,
+  },
+  fullScreenContent: {
+    flex: 1,
+  },
+  fullScreenGradient: {
+    ...StyleSheet.absoluteFillObject, // 👈 fills full screen automatically
+    zIndex: -1,
+  },
+  Promologo: {
+    position: 'absolute',
+    top: 40,
+    fontSize: 40,
+    fontWeight: 'bold',
+    color: '#fff',
+    alignSelf: 'center',
+  },
+  videoWrapper: {
+    width: width - 40,
+    height: height * 0.75,
+    borderRadius: 20,
+    overflow: 'hidden',
+    marginTop: 130,
+    position: 'relative',
+    alignSelf: 'center',
+    // padding:20
+  },
+  video: {
+    width: '100%',
+    height: '100%',
+  },
+  skipButtonPromo: {
+    position: 'absolute',
+    top: 20,
+    right: 15,
+    backgroundColor: 'rgba(255,255,255,0.4)',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 20,
   },
 });
 export default GlobalStyles;

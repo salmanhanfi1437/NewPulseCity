@@ -3,12 +3,12 @@ import { fetchLanguagesRequest, fetchLanguagesSuccess, fetchLanguagesFailure } f
 import api from '../../services/api';
 
 function* handleFetchLanguages() {
-  try {
-    const response = yield call(api.getLanguages);
-    yield put(fetchLanguagesSuccess(response.data.languages));
-  } catch (error: any) {
-    yield put(fetchLanguagesFailure(error.message));
-  }
+  // try {
+  //   const response = yield call(api.getLanguages);
+  //   yield put(fetchLanguagesSuccess(response.data.languages));
+  // } catch (error: any) {
+  //   yield put(fetchLanguagesFailure(error.message));
+  // }
 }
 
 export function* chooseLanguageSaga() {

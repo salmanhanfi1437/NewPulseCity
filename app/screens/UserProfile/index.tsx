@@ -8,9 +8,39 @@ import Image from '../../components/atoms/Image';
 import Header from '../../components/atoms/HeaderComponent';
 import withBottomWhiteOverlay from '../../components/atoms/Container';
 import LinearGradient from 'react-native-linear-gradient';
-import { Colors } from '../../styles';
+import { Colors, Typography } from '../../styles';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../redux/rootReducer';
+import { ProfileRequest } from './profileSlice';
+import { showAlert } from '../../components/atoms/AlertBox/showAlert';
+import colors from '../../styles/colors';
 const { width, height } = Dimensions.get('screen');
+
 const UserProfile = () => {
+
+  const { profileData, error } = useSelector( (state: RootState) => state.profile);
+
+      const dispatch = useDispatch();
+
+
+  useEffect(() =>{
+
+    if(profileData || error)
+    {
+        if(profileData.success)
+        {
+
+      }else{
+          showAlert(error?.message)
+        }
+    }
+   },[profileData,error])
+  
+
+   useEffect(() =>{
+    dispatch(ProfileRequest())
+   },[])
+
   return (
     <LinearGradient
       colors={Colors.zuvyPrimaryGradient}
@@ -25,19 +55,19 @@ const UserProfile = () => {
         titleStyle={GlobalStyles.headertitle}
         containerStyle={{ paddingTop: GlobalStyles.tabBarStyle.paddingTop }}
       />
-      <View style={[GlobalStyles.profileContainer, { top: height * 0.08 }]}>
+      <View style={[GlobalStyles.profileContainer, { top: height * 0.09 }]}>
         <View style={[GlobalStyles.imgContainer]}>
           <Image source={Images.profile} style={GlobalStyles.imgContainer} />
         </View>
         <CustomText
-          title={config.Profile.name}
+          title={profileData?.data?.name}
           textStyle={[GlobalStyles.headertitle, { flex: 0 }]}
         />
         <CustomText
           title={config.Profile.position}
           textStyle={[
             GlobalStyles.headertitle,
-            { fontWeight: '400', fontSize: 14 },
+            Typography.size.dynamic(14,'regular',colors.white)
           ]}
         />
       </View>

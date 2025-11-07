@@ -24,8 +24,8 @@ import HomeSVG from './home.svg';
 import HomeActiveSVG from './homeactive.svg';
 import DashBoardSVG from './dashboard.svg';
 import NotificationSVG from './notification.svg';
-import ZuvyLogo from './zuvylogo.svg';
-import VerifyKYCSVG from './verifykyc.svg';
+import ZuvyLogo from './ZuvyWhiteLogo.svg';
+import VerifyKYCSVG from './KycLogo.svg';
 import TickCircleSVG from './tickcircle.svg';
 import DigiLockerSVG from './digilocker_verify.svg';
 import KYCompletedSVG from './kyccompleted.svg';
@@ -43,8 +43,11 @@ import QrTabSVG from './QrTab.svg';
 import ProfileTabSVG from './profileTab.svg';
 import ActiveNotificationSVG from './activeNotificationTab.svg';
 import ActiveQrSVG from './activeQRTab.svg';
-
+import GrillSVG from './Grills.svg';
+import DivSVG from './Secure_Icon.svg';
+import ShippmentSVG from "./shippment.svg";
 export {
+  DivSVG,
   MicSVG,
   AppLogoSVG,
   DropDownSVG,
@@ -90,4 +93,6 @@ export {
   ProfileTabSVG,
   ActiveNotificationSVG,
   ActiveQrSVG,
+  GrillSVG,
+  ShippmentSVG
 };

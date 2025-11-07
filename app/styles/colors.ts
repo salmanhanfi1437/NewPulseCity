@@ -40,6 +40,11 @@ export default {
   faintgreenRGB: 'rgba(220, 252, 231, 1)',
   borderBottomColor: 'rgba(229, 231, 235, 1)',
   faintblueColorRBG: 'rgba(99, 102, 241, 1)',
-  color_DBEAFE : "#DBEAFE",
-  color_A0A0A0 : "#A0A0A0",
+  color_DBEAFE: '#DBEAFE',
+  color_A0A0A0: '#A0A0A0',
+  buttonColorforAuth: 'rgba(255, 213, 28, 1)',
+  fadeTextColor: 'rgba(75, 85, 99, 1)',
+  textColorGrey: 'rgba(107, 114, 128, 1)',
+  fadeWhite: 'rgba(245, 245, 245, 1)',
+  watchTestimonial : "rgba(243, 244, 246, 1)",
 };

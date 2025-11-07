@@ -1,3 +1,6 @@
+export const BASE_URL = "https://e2q3qeiv2j.execute-api.ap-south-1.amazonaws.com/api/";
+
+
 export const app_name = "Zuvy";
 export const splash = 'Splash';
 export const loginOrSignup = "loginOrSignup";
@@ -67,3 +70,17 @@ export const orders="orders";
 export const updates="updates";
 export const select_your_language="select_your_language";
 export const choose_language_title="choose_language_title";
+export const const_fcmToken = "fcmToken";
+export const enter = "enter";
+export const const_authToken = "Auth Token";
+export const proceed = "proceed";
+export const const_fullName = "fullName";
+export const const_pancard_number="PanCardNumber";
+export const const_state = "State";
+export const const_city = "City";
+export const const_pincode = "PinCode";
+export const NoInternet = "NoInternet"
+export const validEmail="validEmail";
+export const validPanCardNumber="validPanCard";
+export const validMobileNumber = "validMobileNumber"
+export const const_address = "Address";

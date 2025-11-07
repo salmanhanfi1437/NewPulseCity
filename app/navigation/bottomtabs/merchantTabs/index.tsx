@@ -29,7 +29,6 @@ import { Colors } from '../../../styles';
 import UserProfile from '../../../screens/UserProfile';
 import NotificationScreen from '../../../screens/NotificationScreen';
 
-const Stack = createStackNavigator<RootStackParamList>();
 
 const Tab = createBottomTabNavigator<MerchantTabParamList>();
 
@@ -41,8 +40,7 @@ const MerchantTabs = () => {
           headerShown: false,
           tabBarShowLabel: false,
           tabBarStyle: GlobalStyles.tabBarStyle,
-        }}
-      >
+        }}>
         <Tab.Screen
           name={'Home'}
           component={ZuvyDashBoard}

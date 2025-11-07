@@ -1,9 +1,17 @@
 import React, { forwardRef } from 'react';
-import { TextInput, TextInputProps as RNTextInputProps, StyleSheet, TouchableOpacity, View, StyleProp } from 'react-native';
+import {
+  TextInput,
+  TextInputProps as RNTextInputProps,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+  StyleProp,
+} from 'react-native';
 import { Colors, Typography } from '../../../styles';
 import { DropDownSVG, MicSVG } from '../../../assets/svg';
 import { ms, mvs, ViewStyle } from 'react-native-size-matters';
 import PressableOpacity from '../PressableOpacity';
+import { useTranslation } from 'react-i18next';
 
 interface TextInputWithMicProps extends RNTextInputProps {
   value?: any;
@@ -14,10 +22,10 @@ interface TextInputWithMicProps extends RNTextInputProps {
   editable?: boolean;
   maxLength?: number;
   style?: any;
-  disabledMic? : boolean;
+  disabledMic?: boolean;
   onMicPress?: () => void;
   viewStyle?: StyleProp<ViewStyle>;
-   returnKeyType?: 'done' | 'next' | 'go' | 'search' | 'send';
+  returnKeyType?: 'done' | 'next' | 'go' | 'search' | 'send';
   onSubmitEditing?: () => void;
 }
 
@@ -38,25 +46,29 @@ const CustomTextInputMic = forwardRef<TextInput, TextInputWithMicProps>(
       returnKeyType,
       onSubmitEditing,
     },
-    ref
+    ref,
   ) => {
+
+    const {t} = useTranslation();
+
     return (
       <View style={[styles.container]}>
-      <TextInput
-        ref={ref} // ✅ forward the ref correctly
-        style={styles.txtinputStyle}
-        value={value}
-        onChangeText={onChangeText}
-        placeholder={placeholder}
-        editable={editable}
-        keyboardType={keyboardType}
-        secureTextEntry={secureTextEntry}
-        maxLength={maxLength}
-        placeholderTextColor={Colors.grey_50}
-        returnKeyType={returnKeyType}
-        onSubmitEditing={onSubmitEditing}/>
+        <TextInput
+          ref={ref} // ✅ forward the ref correctly
+          style={styles.txtinputStyle}
+          value={value}
+          onChangeText={onChangeText}
+          placeholder={placeholder}
+          editable={editable}
+          keyboardType={keyboardType}
+          secureTextEntry={secureTextEntry}
+          maxLength={maxLength}
+          placeholderTextColor={Colors.grey_50}
+          returnKeyType={returnKeyType}
+          onSubmitEditing={onSubmitEditing}
+        />
 
-      {/* {
+        {/* {
         !disabledMic  &&
       <PressableOpacity
          onPress={onMicPress}>
@@ -64,46 +76,41 @@ const CustomTextInputMic = forwardRef<TextInput, TextInputWithMicProps>(
                              </PressableOpacity>
       } */}
 
-      {
-        disabledMic  &&
-      <PressableOpacity
-         onPress={onMicPress}>
-                                 <DropDownSVG width={ms(30)} height={ms(30)} />
-                             </PressableOpacity>
-      }
-         
-      
+        {disabledMic && (
+          <PressableOpacity onPress={onMicPress}>
+            <DropDownSVG width={ms(30)} height={ms(30)} />
+          </PressableOpacity>
+        )}
       </View>
     );
-  }
+  },
 );
 
 const styles = StyleSheet.create({
-  
-  container : {
-    flexDirection:'row',
-        borderRadius: mvs(30),
-        borderWidth:ms(1),
-        borderColor:Colors.borderColor,
-        paddingStart:ms(5),
-        paddingEnd:ms(5),
-        height:ms(50),
-        justifyContent:'center',
-        alignItems:'center',
-        marginTop:mvs(10)
+  container: {
+    flexDirection: 'row',
+    borderRadius: mvs(30),
+    borderWidth: ms(1),
+    borderColor: Colors.grey_50,
+    paddingStart: ms(5),
+    paddingEnd: ms(5),
+    height: ms(50),
+    justifyContent: 'center',
+    alignItems: 'center',
+    // marginTop: mvs(10),
   },
   txtinputStyle: {
-          fontSize: ms(15),
-          color: Colors.black,
-          fontWeight: '500',
-          flex: 1,
-          height:ms(50),
-          alignSelf:'center',
-          ...Typography.weights.mediumU,
-      },
-      micView:{
-        alignSelf:'center'
-      }
+    fontSize: ms(15),
+    color: Colors.black,
+    fontWeight: '500',
+    flex: 1,
+    height: ms(50),
+    alignSelf: 'center',
+    ...Typography.weights.mediumU,
+  },
+  micView: {
+    alignSelf: 'center',
+  },
 });
 
 export default React.memo(CustomTextInputMic);

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TextStyle } from 'react-native';
 import { ms } from 'react-native-size-matters';
 import GlobalStyles from '../../../styles/GlobalStyles';
 
@@ -10,6 +10,7 @@ interface ComingSoonBadgeProps {
   padding?: number;
   fontSize?: number;
   textcolor?: string;
+  textStyle?:TextStyle| TextStyle[];
 }
 
 const Badge: React.FC<ComingSoonBadgeProps> = ({
@@ -19,13 +20,14 @@ const Badge: React.FC<ComingSoonBadgeProps> = ({
   padding = 5,
   fontSize = ms(8),
   textcolor,
+  textStyle
 }) => {
   return (
     <View
       style={[styles.container, { backgroundColor, borderRadius, padding }]}
     >
       <Text
-        style={[GlobalStyles.playDurationText, { fontSize, color: textcolor }]}
+        style={[GlobalStyles.playDurationText, { fontSize, color: textcolor },textStyle]}
       >
         {text}
       </Text>

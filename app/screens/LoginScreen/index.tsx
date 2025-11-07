@@ -1,9 +1,11 @@
-import React, { useState, useRef, useEffect, useCallback } from "react";
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import {
   StyleSheet,
   View,
   TextInput,
-  ScrollView,
+  Platform,
+  Alert,
+  TouchableOpacity,
 } from "react-native";
 import { LoginProps } from "../../navigation/types";
 import { ms, mvs } from "react-native-size-matters";
@@ -11,46 +13,74 @@ import { useTranslation } from "react-i18next";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { OtpInput } from "react-native-otp-entry";
 
-import BackgroundPrimaryColor from "../../components/atoms/BackgroundPrimaryColor";
-import ViewRounded10 from "../../components/atoms/ViewRounded10";
-import ViewOutlined from "../../components/atoms/ViewOutlined";
-import CustomTextInput from "../../components/atoms/TextInput";
-import { CustomText } from "../../components/atoms/Text";
-import Button from "../../components/atoms/Button";
-import PressableOpacity from "../../components/atoms/PressableOpacity";
-
+import BackgroundPrimaryColor from '../../components/atoms/BackgroundPrimaryColor';
+import ViewRounded10 from '../../components/atoms/ViewRounded10';
+import ViewOutlined from '../../components/atoms/ViewOutlined';
+import CustomTextInput from '../../components/atoms/TextInput';
+import { CustomText } from '../../components/atoms/Text';
+import Button from '../../components/atoms/Button';
+import PressableOpacity from '../../components/atoms/PressableOpacity';
 import { Colors, Typography } from "../../styles";
-import GlobalStyles from "../../styles/GlobalStyles";
-import FontStyles from "../../styles/FontStyles";
-import { flexGrow, mt } from "../../utils/spaces";
+import GlobalStyles from '../../styles/GlobalStyles';
+import FontStyles from '../../styles/FontStyles';
 import {
-    const_continue,
+  bgColor,
+  mt,
+  fS,
+  height,
+  bR,
+  tAlign,
+  fontColor,
+  pl,
+  pr,
+  fontW,
+} from '../../utils/spaces';
+import {
+  const_continue,
+  const_fcmToken,
+  login,
   loginOrSignup,
   mobile_number,
   resendOtp,
   resendOtpTimer,
+  signup,
+  validEmail,
+  verify,
   welcomeZuvy,
-} from "../../types/constants";
-import CustomButton from "../../components/atoms/CustomButton";
+  yourCart,
+} from '../../types/constants';
+import colors from '../../styles/colors';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../redux/rootReducer';
+import { showAlert } from '../../components/atoms/AlertBox/showAlert';
+import { resetOTPState, sendOTPFailure, sendOTPRequest, verifyOTPRequest } from './loginSlice';
+import secureStorage from '../../utils/secureStorage';
+import { isValidIndianMobile } from '../../utils/helper';
 
 const RESEND_TIMER = 30;
 
 const LoginScreen = ({ navigation }: LoginProps) => {
+  const { marginBottom, ...restBTNStyle } = GlobalStyles.Custombutton;
+
   const { t } = useTranslation();
 
-  const [mobileNumber, setMobileNo] = useState("");
-  const [otp, setOtp] = useState("");
+  const [mobileNumber, setMobileNo] = useState('');
+  const [otp, setOtp] = useState('');
   const [isOtpVerified, setOtpVerified] = useState(false);
+  const [showOtp, setShowOtp] = useState(false);
   const [timer, setTimer] = useState(RESEND_TIMER);
-
+  const { otpData, error, verifyOTPData, otpError } = useSelector(
+    (state: RootState) => state.sendOtp,
+  );
   const inputRef = useRef<TextInput>(null);
-
+  const dispatch = useDispatch();
+  let purpose = 'LOGIN';
   // 🔁 Countdown timer logic
   useEffect(() => {
     if (!isOtpVerified || timer <= 0) return;
 
     const interval = setInterval(() => {
-      setTimer((prev) => Math.max(prev - 1, 0));
+      setTimer(prev => Math.max(prev - 1, 0));
     }, 1000);
 
     return () => clearInterval(interval);
@@ -64,144 +94,213 @@ const LoginScreen = ({ navigation }: LoginProps) => {
     }
   }, [isOtpVerified]);
 
-  // ✅ Toggle between verify/change state
-  const handleVerifyToggle = useCallback(() => {
-    if (mobileNumber.length !== 10) return;
 
-    if (isOtpVerified) {
-      // Reset to initial state
-      setOtpVerified(false);
-      setMobileNo("");
-      setOtp("");
-      setTimer(RESEND_TIMER);
-    } else {
+  useEffect(() => {
+  if (otpData || error) {
+    console.log("OTPData changed: ", otpData, "Error:", error);
+      dispatch(resetOTPState());
+
+    if(otpData?.success === true)
+    {
+      Alert.alert(otpData?.message)
       setOtpVerified(true);
       setTimer(RESEND_TIMER);
+      if(otpData?.data?.userMObileRegister == false)
+      {
+        purpose = signup.toUpperCase();
+      }
+      //Alert.alert(otpData?.data)
     }
-  }, [mobileNumber, isOtpVerified]);
+  }
+}, [otpData, error]);
 
-  const handleLogin = useCallback(() => {
-    console.log("Login pressed");
-    navigation.replace("merchantTabs");
-  }, [navigation]);
+
+useEffect(() => {
+  
+  if (verifyOTPData || otpError != null) {
+    console.log("MainverifyOTPResponse: ", verifyOTPData, "Error:", otpError);
+      dispatch(resetOTPState());
+
+    if(verifyOTPData?.success === true)
+    {
+     
+      showAlert(verifyOTPData?.message);
+      if(verifyOTPData?.data?.isRegistered === false)
+      {
+    navigation.navigate(signup,{mobile:mobileNumber}); //just for testimng added navigation
+      }
+      else{
+           navigation.replace(yourCart); //just for testimng added navigation
+      }
+    }
+    else if(otpError?.message){
+         showAlert(otpError.message);
+    }
+  }
+}, [verifyOTPData, otpError]);
+
+  const handleVerifyToggle = useCallback(() => {
+    if (mobileNumber.length !== 10) return;
+  
+
+    if(otp.length === 6)
+    {
+      verifyOTP()
+    }
+    else if(!isValidIndianMobile(mobileNumber))
+    {
+      showAlert(t(validEmail))
+    }
+    else if (isOtpVerified) {
+      // Reset to initial state
+      setOtpVerified(false);
+      setMobileNo('');
+      setOtp('');
+      setTimer(RESEND_TIMER);
+    } else{
+       sendOTP()
+    }
+  }, [mobileNumber, isOtpVerified,otp]);
+
+ const sendOTP = async () => {
+  try {
+
+dispatch(sendOTPRequest(mobileNumber)); // ✅ only send the mobile
+  } catch (error: any) {
+    dispatch(sendOTPFailure('Failed to send OTP'));
+    showAlert('Failed to send OTP, please try again');
+  }
+};
+
+ const verifyOTP = async () => {
+  try {
+    const fcmToken = await secureStorage.getItem(const_fcmToken);
+    
+
+dispatch(verifyOTPRequest({ mobile: mobileNumber, otp,fcmToken,deviceType:Platform.OS.toUpperCase(),purpose : login.toUpperCase() }));
+  } catch (error: any) {
+    dispatch(sendOTPFailure('Failed to send OTP'));
+    Alert.alert('Failed to send OTP, please try again');
+  }
+};
 
   const handleResendOtp = useCallback(() => {
     setTimer(RESEND_TIMER);
+    sendOTP();
   }, []);
 
   return (
     <BackgroundPrimaryColor title={t(welcomeZuvy)}>
-     
-          {/* 🔹 Header Card */}
-          <ViewRounded10
-            title={loginOrSignup}
-            titleStyle={[FontStyles.headingText]}
-            containerStyle={[GlobalStyles.viewRound,GlobalStyles.viewCenter,mt(15)]}
+      {/* 🔹 Header Card */}
+      <TouchableOpacity
+        onPress={() => navigation.navigate('signup',{mobile : mobileNumber})}
+        activeOpacity={2}
+      >
+        <ViewRounded10
+          title={loginOrSignup}
+          titleStyle={[fS(ms(15))]}
+          containerStyle={[
+            GlobalStyles.viewRound,
+            GlobalStyles.viewCenter,
+            mt(15),
+            bgColor(Colors.fadeWhite),
+          ]}
+        />
+      </TouchableOpacity>
+
+      {/* 🔹 Mobile Input */}
+      <CustomText title={t(mobile_number)} textStyle={styles.mobileText} />
+
+      <ViewOutlined viewStyle={styles.viewInput}>
+        <CustomText
+          title="+91 |"
+          textStyle={[FontStyles.headingText, fS(ms(15)), pl(12), fontW('600')]}
+        />
+
+        <CustomTextInput
+          ref={inputRef}
+          value={mobileNumber}
+          onChangeText={setMobileNo}
+          placeholder={t(mobile_number)}
+          keyboardType="phone-pad"
+          maxLength={10}
+          editable={!isOtpVerified}
+          style={[FontStyles.txtInput, fS(15)]}
+        />
+      </ViewOutlined>
+
+      {/* 🔹 OTP Section */}
+      {isOtpVerified && (
+        <View>
+          <CustomText
+            title={t('enterOTP')}
+            textStyle={[FontStyles.headingText, fS(ms(20)), mt(ms(15))]}
           />
 
-          {/* 🔹 Mobile Input */}
-          <CustomText title={t(mobile_number)} textStyle={styles.mobileText} />
+          <OtpInput
+            numberOfDigits={6}
+            onTextChange={setOtp}
+            focusColor={Colors.primaryColor}
+            autoFocus
+            placeholder="******"
+            blurOnFilled
+            type="numeric"
+            focusStickBlinkingDuration={500}
+            textInputProps={{
+              accessibilityLabel: 'One-Time Password',
+            }}
+            theme={{
+              containerStyle: styles.otpView,
+              pinCodeContainerStyle:
+                (GlobalStyles.zuvyProfileImg, height(ms(40))),
+              placeholderTextStyle: fS(ms(15)),
+              pinCodeTextStyle: fS(ms(15)),
+            }}
+          />
 
-          <ViewOutlined viewStyle={styles.viewInput}>
-            <CustomText title="+91 |" textStyle={FontStyles.headingText} />
-
-            <CustomTextInput
-              ref={inputRef}
-              value={mobileNumber}
-              onChangeText={setMobileNo}
-              placeholder={t(mobile_number)}
-              keyboardType="phone-pad"
-              maxLength={10}
-              editable={!isOtpVerified}
-              style={FontStyles.txtInput}
-            />
-
+          {timer > 0 ? (
             <CustomText
-              title={isOtpVerified ? t("change") : t("verify")}
+              textStyle={[styles.txtTimer, fS(ms(12))]}
+              title={t(resendOtpTimer, {
+                time: `00:${timer < 10 ? `0${timer}` : timer}`,
+              })}
+            />
+          ) : (
+            <CustomText
               textStyle={[
-                styles.verifyText,
-                {
-                  color:
-                    mobileNumber.length !== 10
-                      ? Colors.grey_50
-                      : isOtpVerified
-                      ? Colors.green
-                      : Colors.primaryColor,
-                },
+                FontStyles.headingText,
+                GlobalStyles.flexEnd,
+                GlobalStyles.colorPrimary,
+                mt(10),
+                fS(ms(14)),
               ]}
-              underline
-              onPress={handleVerifyToggle}
-            />
-          </ViewOutlined>
-
-          {/* 🔹 Sign up redirect */}
-          <PressableOpacity onPress={() => navigation.navigate("signup")}>
-            <CustomText
-              title="Sign up"
-              textStyle={styles.signupText}
-              underline
-            />
-          </PressableOpacity>
-
-          {/* 🔹 OTP Section */}
-          {isOtpVerified && (
-            <View>
-              <CustomText
-                title={t("enterOTP")}
-                textStyle={FontStyles.headingText}
-              />
-
-              <OtpInput
-                numberOfDigits={6}
-                onTextChange={setOtp}
-                focusColor={Colors.primaryColor}
-                autoFocus
-                placeholder="******"
-                blurOnFilled
-                type="numeric"
-                focusStickBlinkingDuration={500}
-                textInputProps={{
-                  accessibilityLabel: "One-Time Password",
-                }}
-                theme={{
-                  containerStyle: styles.otpView,
-                }}
-              />
-
-              {timer > 0 ? (
-                <CustomText
-                  textStyle={[
-                    styles.txtTimer
-                  ]}
-                  title={t(resendOtpTimer, {
-                    time: `00:${timer < 10 ? `0${timer}` : timer}s`,
-                  })}
-                />
-              ) : (
-                <CustomText
-                  textStyle={[
-                    FontStyles.headingText,
-                    GlobalStyles.flexEnd,
-                    GlobalStyles.colorPrimary,
-                    mt(10),
-                  ]}
-                  onPress={handleResendOtp}
-                  title={t(resendOtp)}
-                  underline
-                />
-              )}
-            </View>
-          )}
-
-          {/* 🔹 Continue Button */}
-          {otp.length === 6 && (
-            <Button
-              title={const_continue}
-              onPress={handleLogin}
-              titleStyle={[FontStyles.headingText]}
-              viewStyle={styles.btnLogin}
+              onPress={handleResendOtp}
+              title={t(resendOtp)}
             />
           )}
+        </View>
+      )}
+
+      {/* 🔹 Continue Button */}
+
+      <Button
+        disabledBtn={
+          (!isOtpVerified && mobileNumber.length !== 10) ||
+          (isOtpVerified && otp.length !== 6)
+        }
+        title={isOtpVerified ? t(verify) : t(const_continue)}
+        onPress={handleVerifyToggle}
+        titleStyle={[fS(ms(16)), fontColor(colors.black)]}
+        viewStyle={[
+          restBTNStyle,
+          mt('30%'),
+          bR(10),
+          height(60),
+          ((!isOtpVerified && mobileNumber.length !== 10) ||
+            (isOtpVerified && otp.length !== 6)) && { opacity: 0.5 },
+          GlobalStyles.authBtn,
+        ]}
+      />
     </BackgroundPrimaryColor>
   );
 };
@@ -212,48 +311,51 @@ const styles = StyleSheet.create({
   loginText: {
     fontSize: ms(20),
     color: Colors.black,
-    fontWeight: "700",
-    alignSelf: "center",
+    fontWeight: '700',
+    alignSelf: 'center',
     letterSpacing: ms(2),
   },
   mobileText: {
     fontSize: ms(20),
     color: Colors.black,
-    fontWeight: "700",
+    fontWeight: '700',
     ...Typography.weights.mediumU,
     marginTop: mvs(30),
   },
-  txtTimer:{
+  txtTimer: {
     ...FontStyles.headingText,
     ...GlobalStyles.textAlign,
-    marginTop:mvs(20)
+    marginTop: mvs(20),
   },
   signupText: {
     fontSize: ms(16),
     color: Colors.primaryColor,
-    fontWeight: "800",
-    alignSelf: "flex-end",
+    fontWeight: '800',
+    alignSelf: 'flex-end',
     marginTop: mvs(10),
     ...Typography.weights.boldU,
   },
   viewInput: {
     marginTop: mvs(10),
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   verifyText: {
     marginRight: mvs(5),
     color: Colors.primaryColor,
-    alignSelf: "center",
+    alignSelf: 'center',
     fontSize: ms(15),
     ...Typography.weights.boldU,
-    fontWeight: "700",
+    fontWeight: '700',
   },
   otpView: {
     marginTop: mvs(10),
+    // justifyContent:"center"
+    alignItems: 'center',
+    alignContent: 'center',
   },
   btnLogin: {
     ...GlobalStyles.alignItem,
-    marginTop:mvs(30)
+    marginTop: mvs(30),
   },
 });

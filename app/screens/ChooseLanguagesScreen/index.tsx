@@ -1,41 +1,149 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View, FlatList, KeyboardAvoidingView, Platform } from "react-native";
-import { mvs } from "react-native-size-matters";
+import { StyleSheet, View, FlatList, KeyboardAvoidingView, Platform, Alert,PermissionsAndroid } from "react-native";
+import { ms, mvs } from "react-native-size-matters";
 import { ChooseLanguagesProps } from "../../navigation/types";
 import BackgroundPrimaryColor from "../../components/atoms/BackgroundPrimaryColor";
 import { useTranslation } from "react-i18next";
 import GlobalStyles from "../../styles/GlobalStyles";
 import { CustomText } from "../../components/atoms/Text";
-import { mt } from "../../utils/spaces";
 import Checkbox from "../Checkbox";
 import ViewBorder from "../../components/atoms/ViewBorder";
 import FontStyles from "../../styles/FontStyles";
+
+import {
+  mt,
+  borderRadius,
+  fS,
+  height,
+  bR,
+  tAlign,
+  fontColor,
+  pl,
+  pr,
+  paddingH,
+  alignCenter,
+} from '../../utils/spaces';
 import {
   choose_language_title,
+  const_authToken,
   const_continue,
+  const_fcmToken,
   select_your_language,
+  yourCart,
 } from "../../types/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/rootReducer";
 import { fetchLanguagesRequest } from "./chooseLanguageSlice";
 import Button from "../../components/atoms/Button";
+import messaging from '@react-native-firebase/messaging';
+import crashlytics from '@react-native-firebase/crashlytics';
+import secureStorage from "../../utils/secureStorage";
+import colors from "../../styles/colors";
+import { Colors } from "../../styles";
+
+// import RazorpayCheckout from 'react-native-razorpay';
 
 const ChooseLanguages = ({ navigation }: ChooseLanguagesProps) => {
   const languages = [
-    { code: "en", label: "English", title: "English" },
-    { code: "hi", label: "हिन्दी", title: "Hindi" },
-    { code: "te", label: "తెలుగు", title: "Telugu" },
-    { code: "bn", label: "বাংলা", title: "Bengali" },
+    { code: 'en', label: 'English', title: 'English' },
+    { code: 'hi', label: 'हिन्दी', title: 'Hindi' },
+    { code: 'te', label: 'తెలుగు', title: 'Telugu' },
+    { code: 'bn', label: 'বাংলা', title: 'Bengali' },
   ];
 
-  const [selectedLang, setSelectedLang] = useState("en");
+  const [selectedLang, setSelectedLang] = useState('en');
   const { i18n } = useTranslation();
   const dispatch = useDispatch();
 
-  const { language, error } = useSelector((state: RootState) => state.chooseLanguage);
+  const { language, error } = useSelector(
+    (state: RootState) => state.chooseLanguage,
+  );
+
+  
+
+  async function requestNotificationPermission() {
+  try {
+    if (Platform.OS === 'android' && Platform.Version >= 33) {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS
+      );
+
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        console.log('✅ Notification permission granted');
+      } else {
+        Alert.alert('Permission denied', 'You won’t receive notifications.');
+        console.log('❌ Notification permission denied');
+        return false;
+      }
+    } else {
+      console.log('✅ Android version < 13, no need to request POST_NOTIFICATIONS');
+    }
+
+    const authStatus = await messaging().requestPermission();
+    const enabled =
+      authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+      authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+
+    return enabled;
+  } catch (err) {
+    console.error('Permission error:', err);
+    return false;
+  }
+}
+
+
+
+useEffect(() => {
+  const checkFCM = async () => {
+    // Enable crash reporting for debug mode
+crashlytics().setCrashlyticsCollectionEnabled(true);
+
+
+    const permissionGranted = await requestNotificationPermission();
+    if (!permissionGranted) return;
+
+    try {
+      const token = await messaging().getToken();
+      console.log('✅ FCM Token:', token);
+      if (token) {
+        secureStorage.setItem(const_fcmToken,token);
+        //Alert.alert('FCM Works!', `Token: ${token.substring(0, 10)}...`);
+      } else {
+        Alert.alert('❌ No FCM token retrieved');
+      }
+    } catch (error) {
+      console.error('❌ FCM Error:', error);
+      Alert.alert('FCM Error', error?.message);
+    }
+  };
+
+  checkFCM();
+}, []);
+
+
+
+// const options = {
+//   description: 'Credits towards consultation',
+//   image: 'https://your-logo-url.png',
+//   currency: 'INR',
+//   key: 'rzp_test_YourKey', // Your api key
+//   amount: '5000', // amount in paise: 5000 = ₹50
+//   name: 'Acme Corp',
+//   prefill: { email: 'salma@zuvystore.com', contact: '8770199411', name: 'Salman' },
+//   theme: { color: colors.primaryColor }
+// };
+
+// RazorpayCheckout.open(options).then((data) => {
+//   // handle success
+//   console.log('payment success', data);
+// }).catch((error) => {
+//   // handle failure
+//   console.log('payment error', error);
+// });
+
 
   useEffect(() => {
-    dispatch(fetchLanguagesRequest());
+    //dispatch(fetchLanguagesRequest());
   }, [dispatch]);
 
   const handleLanguageschanges = (item: any) => {
@@ -43,20 +151,34 @@ const ChooseLanguages = ({ navigation }: ChooseLanguagesProps) => {
     i18n.changeLanguage(item.code);
   };
 
-  const renderItem = ({ item }) => (
+  const renderItem = ({ item }: any) => (
     <ViewBorder
-      style={[GlobalStyles.viewRow, mt(20)]}
-      onPress={() => handleLanguageschanges(item)}
-    >
-      <View style={GlobalStyles.flexOne}>
-        <CustomText textStyle={[FontStyles.headingText]} title={item.title} />
+      style={[GlobalStyles.viewRow, mt(15), borderRadius(10)]}
+      onPress={() => handleLanguageschanges(item)}>
+      <View style={[GlobalStyles.flexOne, paddingH(20)]}>
         <CustomText textStyle={[FontStyles.subText]} title={item.label} />
+        <CustomText
+          textStyle={[
+            FontStyles.subText,
+            { color: colors.semiLight_grey },
+            fS(11),
+            fontColor(Colors.textColorGrey),
+          ]}
+          title={item.title}
+        />
       </View>
       <Checkbox isChecked={item.code === selectedLang} />
     </ViewBorder>
   );
 
-  const onHandleOnPress = () => {
+  const onHandleOnPress = async() => {
+  
+//     crashlytics().log('Crashlytics debug test started');
+// crashlytics().crash(); // Force a crash
+    const token = await secureStorage.getItem(const_authToken);
+    if(token)
+      navigation.replace('merchantTabs')
+    else
     navigation.navigate("OnBoard");
   };
 
@@ -64,17 +186,21 @@ const ChooseLanguages = ({ navigation }: ChooseLanguagesProps) => {
     <BackgroundPrimaryColor
       title={select_your_language}
       subTitle={choose_language_title}
+      GrillVisible={false}
     >
       <KeyboardAvoidingView
         style={GlobalStyles.flexOne}
-        behavior={Platform.OS === "ios" ? "padding" : undefined}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         keyboardVerticalOffset={mvs(60)} // adjust if needed
       >
-        <View style={GlobalStyles.flexOne}>
+        <View
+          style={[GlobalStyles.flexOne, GlobalStyles.ZuvyDashBoardContainer]}
+        >
+          <View style={styles.headerClin} />
           <FlatList
             data={languages}
             renderItem={renderItem}
-            keyExtractor={(item) => item.code}
+            keyExtractor={item => item.code}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={styles.listContainer}
           />
@@ -82,7 +208,18 @@ const ChooseLanguages = ({ navigation }: ChooseLanguagesProps) => {
 
         {/* ✅ Fixed Bottom Button */}
         <View style={styles.bottomButtonContainer}>
-          <Button title={const_continue} onPress={onHandleOnPress} />
+          <Button
+            title={const_continue}
+            onPress={onHandleOnPress}
+            titleStyle={[fS(ms(16)), fontColor(colors.black)]}
+            viewStyle={[
+              GlobalStyles.Custombutton,
+              mt(65),
+              bR(10),
+              height(60),
+              GlobalStyles.authBtn,
+            ]}
+          />
         </View>
       </KeyboardAvoidingView>
     </BackgroundPrimaryColor>
@@ -94,10 +231,19 @@ const styles = StyleSheet.create({
     paddingBottom: mvs(100), // space for button
   },
   bottomButtonContainer: {
-    position: "absolute",
+    position: 'absolute',
     bottom: mvs(20),
     left: mvs(5),
     right: mvs(5),
+  },
+  headerClin: {
+    width: 40,
+    height: 2,
+    borderRadius: 2,
+    borderColor: 'black',
+    alignSelf: 'center',
+    justifyContent: 'center',
+    marginTop: ms(15),
   },
 });
 

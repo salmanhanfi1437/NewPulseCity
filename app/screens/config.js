@@ -73,6 +73,7 @@ export default {
     Security: 'Security',
     downloadQr: 'Download QR Code',
     share: 'Share',
+    qrPreview: "QR Code Preview"
   },
   ZuvyQrManagement: {
     H1: 'QR Management',
@@ -127,4 +128,25 @@ export default {
     },
   ],
 
+  zuvyRoles :[
+  { label: "Distributor", value: "Distributor" },
+  { label: "Admin", value: "Admin" }
+],
+  PromoScree: {
+    skipButton: 'Skip',
+  },
+  CheckOutDetailsScreen: {
+    title: 'Checkout Details',
+    panCard: 'PAN Card Number',
+    gstNo: 'GST Number',
+    legalCoName: 'Legal Company Name',
+    Address: 'Address',
+    optional: '(Optional)',
+    Proceed: 'Proceed to Payment',
+    totalPayable: 'Total Payable',
+  },
+  zuvyRoles :[
+  { label: "Distributor", value: "Distributor" },
+  { label: "Admin", value: "Admin" }
+]
 };

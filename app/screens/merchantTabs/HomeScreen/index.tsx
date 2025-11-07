@@ -8,14 +8,12 @@ import GlobalStyles from '../../../styles/GlobalStyles';
 import { mvs } from 'react-native-size-matters';
 
 const HomeScreen = ({navigation,route } : MerchantHomeScreenProps) => {
-
+    console.log('rouytee '+JSON.stringify(route));
     return(
         <View>
            <TabBarTopSections bgColor={Colors.primaryColor} title={zuvy_disctributor} subTitle={welcomeBack}/>
             
             <View style={styles.container}>
-
-
 
             </View>
             </View>

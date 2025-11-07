@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import GlobalStyles from '../../../styles/GlobalStyles';
-import { Colors } from '../../../styles';
+import { Colors, Typography } from '../../../styles';
 import CardContainer from '../CardContainer';
 import { CustomText } from '../Text';
 import config from '../../../screens/config';
@@ -15,80 +15,33 @@ import {
   Globe,
   Shield,
   Bell,
+  ShippmentSVG,
 } from '../../../assets/svg';
 import { ms } from 'react-native-size-matters';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { RootState } from '../../../redux/rootReducer';
+import { useDispatch, useSelector } from 'react-redux';
+import { fontColor } from '../../../utils/spaces';
+import { useNavigation } from '@react-navigation/native';
 
 const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
+  
   return (props: any) => {
+
+    const { profileData, error } = useSelector( (state: RootState) => state.profile);
+
     const { hideTopContent = false, hideBottomContent = false } = props;
     const { paddingRight, paddingLeft, ...restFont } =
       GlobalStyles.ZuvyDashBoardBtnText;
 
-    // --- Data Arrays ---
-    const personalInfo = [
-      {
-        icon: ContactSVG,
-        label: config.Profile.fullname,
-        value: 'Anjali Singh',
-      },
-      { icon: BagSVG, label: config.Profile.role, value: 'Distributor' },
-      { icon: LocationSVG, label: config.Profile.Zone, value: 'Delhi' },
-      {
-        icon: PhoneSVG,
-        label: config.Profile.contact,
-        value: '+91-7776006787',
-      },
-      { icon: PhoneSVG, label: config.Profile.Details, value: 'Shipping' },
-    ];
+    const navigation = useNavigation<any>();
 
-    const settings = [
-      { icon: Globe, label: config.Profile.lang, value: 'English' },
-      { icon: Bell, label: config.Profile.noti, value: 'Enabled' },
-      { icon: Shield, label: config.Profile.privaSecurity, value: 'Standard' },
-    ];
+    const dispatch = useDispatch();
+
+  
+
+    // --- Data Arrays ---
 
     // --- Reusable Components ---
-    const InfoItem = ({ Icon, label, value }: any) => (
-      <View
-        style={[
-          GlobalStyles.row,
-          GlobalStyles.containerPaddings,
-          GlobalStyles.avoidJustify,
-        ]}
-      >
-        <Icon width={ms(40)} height={ms(40)} fill={Colors.white} />
-        <View style={GlobalStyles.textConatiner}>
-          <CustomText title={label} textStyle={[GlobalStyles.faintText]} />
-          <CustomText title={value} style={[restFont]} />
-        </View>
-      </View>
-    );
-
-    const SettingItem = ({ Icon, label, value }: any) => (
-      <TouchableOpacity style={[GlobalStyles.width50, GlobalStyles.row]}>
-        <View
-          style={[
-            GlobalStyles.avoidJustify,
-            GlobalStyles.viewRow,
-            { justifyContent: GlobalStyles.row.alignItems },
-          ]}
-        >
-          <Icon width={ms(40)} height={ms(40)} />
-          <View style={[GlobalStyles.textConatiner, { height: ms(22) }]}>
-            <CustomText title={label} textStyle={[restFont]} />
-            <CustomText title={value} textStyle={[GlobalStyles.faintText]} />
-          </View>
-        </View>
-        <MaterialIcons
-          name="chevron-right"
-          size={32}
-          color={Colors.grey_50}
-          style={{ right: GlobalStyles.playDurationBadge.right }}
-        />
-      </TouchableOpacity>
-    );
-
     // --- UI ---
     return (
       <View style={styles.container}>
@@ -115,9 +68,7 @@ const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
                 <View style={GlobalStyles.row}>
                   <CustomText
                     title={config.Profile.PersonalInfoTitle}
-                    textStyle={[
-                      GlobalStyles.cardTiltle,
-                    ]}
+                    textStyle={[GlobalStyles.cardTiltle]}
                   />
                   <TouchableOpacity
                     style={[GlobalStyles.row, { flex: 0, width: 50 }]}
@@ -136,14 +87,148 @@ const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
                     />
                   </TouchableOpacity>
                 </View>
-                {personalInfo.map((item, index) => (
-                  <InfoItem
-                    key={index}
-                    Icon={item.icon}
-                    label={item.label}
-                    value={item.value}
+                <View
+                  style={[
+                    GlobalStyles.row,
+                    GlobalStyles.containerPaddings,
+                    GlobalStyles.avoidJustify,
+                  ]}
+                >
+                  <ContactSVG
+                    width={ms(40)}
+                    height={ms(40)}
+                    fill={Colors.white}
                   />
-                ))}
+                  <View style={GlobalStyles.textConatiner}>
+                    <CustomText
+                      title={config.Profile.fullname}
+                      textStyle={[
+                        Typography.size.dynamic(
+                          12,
+                          'medium',
+                          colors.fadeTextColor,
+                        ),
+                      ]}
+                    />
+                    <CustomText
+                      title={profileData?.data?.name}
+                      style={[restFont, fontColor(Colors.black)]}
+                    />
+                  </View>
+                </View>
+                <View
+                  style={[
+                    GlobalStyles.row,
+                    GlobalStyles.containerPaddings,
+                    GlobalStyles.avoidJustify,
+                  ]}
+                >
+                  <BagSVG width={ms(40)} height={ms(40)} fill={Colors.white} />
+                  <View style={GlobalStyles.textConatiner}>
+                    <CustomText
+                      title={config.Profile.role}
+                      textStyle={[
+                        Typography.size.dynamic(
+                          12,
+                          'medium',
+                          colors.fadeTextColor,
+                        ),
+                      ]}
+                    />
+                    <CustomText
+                      title={profileData?.data?.roles[0]?.name}
+                      style={[restFont, fontColor(Colors.black)]}
+                    />
+                  </View>
+                </View>
+
+                <View
+                  style={[
+                    GlobalStyles.row,
+                    GlobalStyles.containerPaddings,
+                    GlobalStyles.avoidJustify,
+                  ]}
+                >
+                  <LocationSVG
+                    width={ms(40)}
+                    height={ms(40)}
+                    fill={Colors.white}
+                  />
+                  <View style={GlobalStyles.textConatiner}>
+                    <CustomText
+                      title={config.Profile.Zone}
+                      textStyle={[
+                        Typography.size.dynamic(
+                          12,
+                          'medium',
+                          colors.fadeTextColor,
+                        ),
+                      ]}
+                    />
+                    <CustomText
+                      title={'__'}
+                      style={[restFont, fontColor(Colors.black)]}
+                    />
+                  </View>
+                </View>
+                <View
+                  style={[
+                    GlobalStyles.row,
+                    GlobalStyles.containerPaddings,
+                    GlobalStyles.avoidJustify,
+                  ]}
+                >
+                  <ContactSVG
+                    width={ms(40)}
+                    height={ms(40)}
+                    fill={Colors.white}
+                  />
+                  <View style={GlobalStyles.textConatiner}>
+                    <CustomText
+                      title={config.Profile.contact}
+                      textStyle={[
+                        Typography.size.dynamic(
+                          12,
+                          'medium',
+                          colors.fadeTextColor,
+                        ),
+                      ]}
+                    />
+                    <CustomText
+                      title={profileData?.data?.mobile}
+                      style={[restFont, fontColor(Colors.black)]}
+                    />
+                  </View>
+                </View>
+                <View
+                  style={[
+                    GlobalStyles.row,
+                    GlobalStyles.containerPaddings,
+                    GlobalStyles.avoidJustify,
+                  ]}
+                >
+                  <LocationSVG
+                    width={ms(40)}
+                    height={ms(40)}
+                    fill={Colors.white}
+                  />
+                  <View style={GlobalStyles.textConatiner}>
+                    <CustomText
+                      title={config.Profile.Details}
+                      textStyle={[
+                        Typography.size.dynamic(
+                          12,
+                          'medium',
+                          colors.fadeTextColor,
+                        ),
+                      ]}
+                    />
+                    <CustomText
+                      title={'__'}
+                      style={[restFont, fontColor(Colors.black)]}
+                    />
+                  </View>
+                </View>
               </CardContainer>
 
               {/* Settings Card */}
@@ -151,19 +236,92 @@ const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
                 title={config.Profile.setting}
                 textStyle={[GlobalStyles.cardTiltle, { left: ms(22) }]}
               />
-              {settings.map((item, index) => (
-                <CardContainer
-                  style={[GlobalStyles.borderStyles, { height: ms(60) }]}
-                  showShadow={false}
+
+              <CardContainer
+                style={[GlobalStyles.borderStyles, { height: ms(70) }]}
+                showShadow={false}
+              >
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate('ChooseLanguage');
+                  }}
+                  activeOpacity={0.5}
+                  style={[
+                    GlobalStyles.row,
+                    GlobalStyles.containerPaddings,
+                    GlobalStyles.avoidJustify,
+                  ]}
                 >
-                  <SettingItem
-                    key={index}
-                    Icon={item.icon}
-                    label={item.label}
-                    value={item.value}
-                  />
-                </CardContainer>
-              ))}
+                  <Globe width={ms(40)} height={ms(40)} fill={Colors.white} />
+                  <View style={GlobalStyles.textConatiner}>
+                    <CustomText
+                      title={config.Profile.lang}
+                      textStyle={[
+                        Typography.size.dynamic(
+                          10,
+                          'medium',
+                          colors.fadeTextColor,
+                        ),
+                      ]}
+                    />
+                    <CustomText title={'English'} style={[restFont]} />
+                  </View>
+                </TouchableOpacity>
+              </CardContainer>
+
+              <CardContainer
+                style={[GlobalStyles.borderStyles, { height: ms(70) }]}
+                showShadow={false}
+              >
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate('notifications');
+                  }}
+                  activeOpacity={0.5}
+                  style={[
+                    GlobalStyles.row,
+                    GlobalStyles.containerPaddings,
+                    GlobalStyles.avoidJustify,
+                  ]}
+                >
+                  <Bell width={ms(40)} height={ms(40)} fill={Colors.white} />
+                  <View style={GlobalStyles.textConatiner}>
+                    <CustomText
+                      title={config.Profile.noti}
+                      style={[restFont]}
+                    />
+                  </View>
+                </TouchableOpacity>
+              </CardContainer>
+              <CardContainer
+                style={[GlobalStyles.borderStyles, { height: ms(70) }]}
+                showShadow={false}
+              >
+                <TouchableOpacity
+                  activeOpacity={0.5}
+                  style={[
+                    GlobalStyles.row,
+                    GlobalStyles.containerPaddings,
+                    GlobalStyles.avoidJustify,
+                  ]}
+                >
+                  <Shield width={ms(40)} height={ms(40)} fill={Colors.white} />
+                  <View style={GlobalStyles.textConatiner}>
+                    <CustomText
+                      title={config.Profile.privaSecurity}
+                      textStyle={[
+                        Typography.size.dynamic(
+                          10,
+                          'medium',
+                          colors.fadeTextColor,
+                        ),
+                      ]}
+                    />
+                    <CustomText title={'Standard'} style={[restFont]} />
+                  </View>
+                </TouchableOpacity>
+              </CardContainer>
+
               <TouchableOpacity>
                 <CardContainer
                   style={[GlobalStyles.logoutBorderStyles, { height: ms(55) }]}

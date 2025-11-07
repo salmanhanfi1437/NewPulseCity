@@ -30,9 +30,27 @@ import VerificationCompleteScreen from '../screens/VerificationCompleteScreen';
 import YourCartScreen from '../screens/YourCartScreen';
 import EditQR from '../screens/QrEditDetails';
 import QRManageMent from '../screens/QrManagement';
-import { LogBox } from 'react-native';
+import { LogBox, DevSettings } from 'react-native';
 import NotificationScreen from '../screens/NotificationScreen';
 import { navigationRef } from './NavigationService';
+import Checkout from '../screens/Checkout';
+
+
+if (__DEV__) {
+  const DevSettingsAny = DevSettings as any;
+
+  if (DevSettingsAny?.openDevMenu) {
+    DevSettingsAny.openDevMenu = () => {};
+  }
+  if (DevSettingsAny?.reload) {
+    DevSettingsAny.reload = () => {};
+  }
+
+  LogBox.ignoreAllLogs(true);
+}
+import PromoScreen from '../screens/PromotionScreen';
+import CheckOutDetail from '../screens/CheckoutDetails';
+import StateCitySelector from '../components/atoms/State&City';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -52,28 +70,22 @@ const RootNavigator = () => {
           }}
         >
           <Stack.Screen name={splash} component={SplashScreen} />
-          <Stack.Screen
-            name="ChooseLanguage"
-            component={ChooseLanguagesScreen}
-          />
+          <Stack.Screen  name="ChooseLanguage"  component={ChooseLanguagesScreen}  />
           <Stack.Screen name={onBoarding} component={OnboardingScreen} />
           <Stack.Screen name={login} component={LoginScreen} />
           <Stack.Screen name={'signup'} component={SignupScreens} />
+          <Stack.Screen  name={verifyIdentity}  component={VerificationIdentityScreens} />
+          <Stack.Screen  name={kycompleted} component={VerificationCompleteScreen}/>
+          <Stack.Screen name={'PromoScreen'} component={PromoScreen} />
+          <Stack.Screen name={yourCart} component={YourCartScreen} />
+          <Stack.Screen name={'CheckOutDetail'} component={CheckOutDetail} />
           <Stack.Screen name={'merchantTabs'} component={merchantTabs} />
+          {/* <Stack.Screen name={'ZuvyDashBoard'} component={ZuvyDashBoard} /> */}
           <Stack.Screen name={'QRManageMent'} component={QRManageMent} />
           <Stack.Screen name={'EditQRDetails'} component={EditQR} />
           <Stack.Screen name={'Profile'} component={UserProfile} />
-          <Stack.Screen name={'ZuvyDashBoard'} component={ZuvyDashBoard} />
           <Stack.Screen name={notifications} component={NotificationScreen} />
-          <Stack.Screen
-            name={verifyIdentity}
-            component={VerificationIdentityScreens}
-          />
-          <Stack.Screen
-            name={kycompleted}
-            component={VerificationCompleteScreen}
-          />
-          <Stack.Screen name={yourCart} component={YourCartScreen} />
+          <Stack.Screen name='StateCitySelector' component={StateCitySelector}/>
         </Stack.Navigator>
       </NavigationContainer>
     </NativeBaseProvider>
@@ -82,7 +94,7 @@ const RootNavigator = () => {
 
 export default RootNavigator;
 
-LogBox.ignoreAllLogs();
+//LogBox.ignoreAllLogs();
 LogBox.ignoreLogs([
   'Warning: Each child in a list should have a unique "key" prop',
   'Require cycle:',
