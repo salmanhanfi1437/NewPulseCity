@@ -90,10 +90,7 @@ const CheckOutDetail = ({ navigation, route }: CheckOutDetailProps) => {
         
       {
         showAlert(checkOutData?.message)
-      navigation.replace('merchantTabs', {
-  screen: 'ZuvyDashBoard',
-  params: { data: checkOutData?.data },
-});
+      navigation.replace('merchantTabs');
       }
       else{
       showAlert(error?.message);

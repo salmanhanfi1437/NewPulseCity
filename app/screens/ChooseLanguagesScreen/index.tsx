@@ -113,7 +113,7 @@ crashlytics().setCrashlyticsCollectionEnabled(true);
       }
     } catch (error) {
       console.error('❌ FCM Error:', error);
-      Alert.alert('FCM Error', error.message);
+      Alert.alert('FCM Error', error?.message);
     }
   };
 
@@ -143,7 +143,7 @@ crashlytics().setCrashlyticsCollectionEnabled(true);
 
 
   useEffect(() => {
-    dispatch(fetchLanguagesRequest());
+    //dispatch(fetchLanguagesRequest());
   }, [dispatch]);
 
   const handleLanguageschanges = (item: any) => {
@@ -177,7 +177,7 @@ crashlytics().setCrashlyticsCollectionEnabled(true);
 // crashlytics().crash(); // Force a crash
     const token = await secureStorage.getItem(const_authToken);
     if(token)
-      navigation.replace(yourCart)
+      navigation.replace('merchantTabs')
     else
     navigation.navigate("OnBoard");
   };

@@ -8,7 +8,7 @@ export type RootStackParamList = {
   Login: undefined;
   OnBoard: undefined;
     signup: { mobile: string }; // ✅ Add expected param type here
-    merchantTabs: NavigatorScreenParams<MerchantTabParamList>; // ✅ fix here
+    merchantTabs: undefined; // ✅ fix here
   verifyIdentity: undefined;
   kycompleted: undefined;
   yourCart: undefined;

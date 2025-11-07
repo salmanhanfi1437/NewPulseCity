@@ -24,6 +24,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { showAlert } from '../AlertBox/showAlert';
 import { fontColor } from '../../../utils/spaces';
 import { useNavigation } from '@react-navigation/native';
+import { ProfileRequest } from '../../../screens/UserProfile/profileSlice';
 
 const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
   
@@ -39,17 +40,9 @@ const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
 
     const dispatch = useDispatch();
 
-    useEffect(() => {
-      if (profileData || error) {
-        if (profileData.success) {
-        } else {
-          showAlert(error?.message);
-        }
-      }
-    }, [profileData, error]);
+  
 
     // --- Data Arrays ---
-
 
     // --- Reusable Components ---
     // --- UI ---
@@ -146,7 +139,7 @@ const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
                       ]}
                     />
                     <CustomText
-                      title={'__'}
+                      title={profileData?.data?.roles[0]?.name}
                       style={[restFont, fontColor(Colors.black)]}
                     />
                   </View>

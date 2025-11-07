@@ -226,7 +226,7 @@ const YourCart = ({navigation} : yourCartProps) => {
                 ]}
               />
               <CustomText
-                title={`₹${mastertQrData?.data?.perUnitPrice}`}
+                title={`₹${mastertQrData?.data?.perUnitPrice * qty}`}
                 textStyle={[FontStyles.headingText]}
               />
             </ViewOutlined>

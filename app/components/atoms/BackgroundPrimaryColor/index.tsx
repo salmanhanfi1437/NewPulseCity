@@ -73,7 +73,7 @@ const BackgroundPrimaryColor = ({
               viewBox="65 0 100 100" 
             />
             <CustomText
-              title={t(title)}
+              title={title}
               textStyle={[
                 FontStyles.mobileText,
                 GlobalStyles.containerPaddings,
@@ -81,7 +81,7 @@ const BackgroundPrimaryColor = ({
               ]}
             />
             <CustomText
-              title={t(subTitle)}
+              title={subTitle}
               textStyle={[
                 FontStyles.imageText,
                 fontColor('rgba(255, 255, 255, 0.8)'),

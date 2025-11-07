@@ -25,7 +25,7 @@ const  dashBoardSlice = createSlice({
     // ✅ Success - store the fetched profile data
     DashboardSuccess: (state, action: PayloadAction<any>) => {
       state.loading = false;
-      state.profileData = action.payload;
+      state.dashboardData = action.payload;
       state.error = null;
     },
 
