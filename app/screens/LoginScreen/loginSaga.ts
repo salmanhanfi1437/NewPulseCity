@@ -11,6 +11,9 @@ import api from "../../services/api";
 import { showLoader, hideLoader } from "../../redux/slices/loaderSlice";
 import { PayloadAction } from "@reduxjs/toolkit";
 import secureStorage from "../../utils/secureStorage";
+import { const_authToken } from "../../types/constants";
+import { MasterQrRequest } from "../YourCartScreen/yourCartSlice";
+import { handleFetchMasterQr } from "../YourCartScreen/yourCartSaga";
 
 interface VerifyOTPPayload {
   mobile: string;
@@ -56,15 +59,16 @@ function* handleVerifyOTP(action: PayloadAction<VerifyOTPPayload>): Generator {
       mobile: action.payload.mobile,
       otp: action.payload.otp,
       fcmToken : action.payload.fcmToken,
-      deviceType : action.payload.deviceType,
-      purpose: "LOGIN",
+      deviceType : action.payload.deviceType.toUpperCase(),
+      purpose: action.payload.purpose,
     };
 
     const response: any = yield call(api.verifyOTP, payload);
     console.log("✅VerifyOTPResponse:", response.data);
 
-    if (response.data?.token) {
-       yield call([secureStorage, secureStorage.setItem], "auth_token", response.data.token);
+    if (response.data?.data?.token) {
+          console.log("OTPToken:", response.data?.data?.token);
+       yield call([secureStorage, secureStorage.setItem], const_authToken, response.data.data?.token);
        }
 
     yield put(verifyOTPSuccess(response.data));

@@ -53,5 +53,9 @@
   "orders":"ऑर्डर",
   "payments":"भुगतान",
   "updates":"अपडेट",
-  "enter":"दर्ज करें"
+  "enter":"दर्ज करें",
+  "proceed":"भुगतान के लिए आगे बढ़ें",
+  "fullName" : "पूरा नाम",
+    "PanCardNumber":"पैन कार्ड नंबर",
+    "Address" : "पता"
 }

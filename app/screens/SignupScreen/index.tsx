@@ -83,6 +83,7 @@ const SignupScreens = ({ navigation, route }: SignupProps) => {
     console.log('Mic Press');
   };
 
+
   const handleRegister = async () => {
     console.log('HandlePress');
     const fcmToken = await secureStorage.getItem(const_fcmToken);
@@ -102,11 +103,11 @@ const SignupScreens = ({ navigation, route }: SignupProps) => {
       );
       //navigation.replace(yourCart)
     }
-  };
+  }
 
   const validation = () => {
     if (name == '') {
-      showAlert(`${t(const_name)} ${t(enter)}`);
+      showAlert(`${t(const_name)} ${t(enter)} `)
       return false;
     } else if (email === '') {
       showAlert(`${t(const_email)} ${t(enter)}`);
@@ -115,6 +116,7 @@ const SignupScreens = ({ navigation, route }: SignupProps) => {
 
     return true;
   };
+
 
   return (
     <BackgroundPrimaryColor title={letsgetstarted}>
@@ -137,14 +139,12 @@ const SignupScreens = ({ navigation, route }: SignupProps) => {
           placeholder={const_name}
           keyboardType="default"
           style={FontStyles.txtInput}
-          returnKeyType="next"
-          onSubmitEditing={() => emailRef?.current?.focus()}
-        />
+          returnKeyType='next'
+          onSubmitEditing={() => emailRef?.current?.focus()} />
 
-        <CustomText
-          title={const_email}
-          textStyle={[FontStyles.headingText, mt(10)]}
-        />
+
+        <CustomText title={const_email} textStyle={[FontStyles.headingText, mt(20)]} />
+
 
         <TextInputMic
           ref={emailRef}
@@ -153,70 +153,39 @@ const SignupScreens = ({ navigation, route }: SignupProps) => {
           placeholder={const_email}
           keyboardType="email-address"
           style={FontStyles.txtInput}
-          returnKeyType="next"
-          onSubmitEditing={() => mobileNumberRef?.current?.focus()}
-        />
+          returnKeyType='next'
+          onSubmitEditing={() => mobileNumberRef?.current?.focus()} />
 
-        <CustomText
-          title={const_howtouseZuvy}
-          textStyle={[FontStyles.headingText, mt(20)]}
-        />
 
-        {/* <DropdownAtom
-        label="Select Role"
-        data={config.zuvyRoles}
-        onSelect={handleSelect}
-        placeholder="Choose one"
-        iconName="appstore1"
-      /> */}
+        <CustomText title={const_howtouseZuvy} textStyle={[FontStyles.headingText, mt(20)]} />
 
-        <TextInputMic
-          value={'Distributor'}
-          onChangeText={setRole}
+        <DropdownAtom
+          data={roleData?.data}
           placeholder={const_howtouseZuvy}
-          keyboardType="default"
-          editable={false}
-          disabledMic={true}
-          style={FontStyles.txtInput}
+          selectedValue={role}               // ✅ show current value
+          onSelect={(val) => setRole(val)}   // ✅ update state on select
         />
 
-        <SelectionModal
-          visible={visible}
-          data={config.zuvyRoles}
-          onClose={() => setVisible(false)}
-          onSelect={(item: { value: React.SetStateAction<string>; }) => setRole(item.value)}
-        />
-        <Button title={signup} onPress={handleRegister} viewStyle={[mt(30)]} />
+        <Button
+          title={signup}
+          onPress={handleRegister}
+          viewStyle={[mt(30)]} />
+
       </View>
       <View style={[GlobalStyles.viewRow, GlobalStyles.bottomFooter]}>
-        <CustomText
-          title={alreadyhaveAccount}
-          textStyle={[FontStyles.subText, GlobalStyles.viewCenter]}
-        />
-        <PressableOpacity
-          onPress={() =>
-            navigation.reset({
-              index: 0,
-              routes: [{ name: login }],
-            })
-          }
-        >
-          <CustomText
-            title={sign_in}
-            textStyle={[
-              FontStyles.headingText,
-              GlobalStyles.viewCenter,
-              styles.signInText,
-            ]}
-            underline={true}
-          />
+        <CustomText title={alreadyhaveAccount} textStyle={[FontStyles.subText, GlobalStyles.viewCenter,]} />
+        <PressableOpacity onPress={() => navigation.reset({
+          index: 0,
+          routes: [{ name: login }],
+        })}>
+          <CustomText title={sign_in} textStyle={[FontStyles.headingText, GlobalStyles.viewCenter, styles.signInText]} underline={true} />
         </PressableOpacity>
       </View>
     </BackgroundPrimaryColor>
-  );
-};
 
-export default React.memo(SignupScreens);
+  )
+}
+
 const styles = StyleSheet.create({
   signInText: {
     ...Typography.weights.boldU,

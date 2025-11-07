@@ -33,8 +33,7 @@ import QRManageMent from '../screens/QrManagement';
 import { LogBox, DevSettings } from 'react-native';
 import NotificationScreen from '../screens/NotificationScreen';
 import { navigationRef } from './NavigationService';
-import PromoScreen from '../screens/PromotionScreen';
-import CheckOutDetail from '../screens/CheckoutDetails';
+import Checkout from '../screens/Checkout';
 
 
 if (__DEV__) {
@@ -49,6 +48,8 @@ if (__DEV__) {
 
   LogBox.ignoreAllLogs(true);
 }
+import PromoScreen from '../screens/PromotionScreen';
+import CheckOutDetail from '../screens/CheckoutDetails';
 
 const Stack = createStackNavigator<RootStackParamList>();
 

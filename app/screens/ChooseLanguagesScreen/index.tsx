@@ -1,17 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import {
-  StyleSheet,
-  View,
-  FlatList,
-  KeyboardAvoidingView,
-  Platform, Alert,PermissionsAndroid,
-} from 'react-native';
-import { ms, mvs } from 'react-native-size-matters';
-import { ChooseLanguagesProps } from '../../navigation/types';
-import BackgroundPrimaryColor from '../../components/atoms/BackgroundPrimaryColor';
-import { useTranslation } from 'react-i18next';
-import GlobalStyles from '../../styles/GlobalStyles';
-import { CustomText } from '../../components/atoms/Text';
+import React, { useEffect, useState } from "react";
+import { StyleSheet, View, FlatList, KeyboardAvoidingView, Platform, Alert,PermissionsAndroid } from "react-native";
+import { ms, mvs } from "react-native-size-matters";
+import { ChooseLanguagesProps } from "../../navigation/types";
+import BackgroundPrimaryColor from "../../components/atoms/BackgroundPrimaryColor";
+import { useTranslation } from "react-i18next";
+import GlobalStyles from "../../styles/GlobalStyles";
+import { CustomText } from "../../components/atoms/Text";
+import Checkbox from "../Checkbox";
+import ViewBorder from "../../components/atoms/ViewBorder";
+import FontStyles from "../../styles/FontStyles";
+
 import {
   mt,
   borderRadius,
@@ -25,25 +23,24 @@ import {
   paddingH,
   alignCenter,
 } from '../../utils/spaces';
-import Checkbox from '../Checkbox';
-import ViewBorder from '../../components/atoms/ViewBorder';
-import FontStyles from '../../styles/FontStyles';
 import {
   choose_language_title,
+  const_authToken,
   const_continue,
   const_fcmToken,
   select_your_language,
-} from '../../types/constants';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../redux/rootReducer';
-import { fetchLanguagesRequest } from './chooseLanguageSlice';
-import Button from '../../components/atoms/Button';
-import colors from '../../styles/colors';
-import { Colors } from '../../styles';
+  yourCart,
+} from "../../types/constants";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../redux/rootReducer";
+import { fetchLanguagesRequest } from "./chooseLanguageSlice";
+import Button from "../../components/atoms/Button";
 import { getMessaging } from "@react-native-firebase/messaging";
 import messaging from '@react-native-firebase/messaging';
 import crashlytics from '@react-native-firebase/crashlytics';
 import secureStorage from "../../utils/secureStorage";
+import colors from "../../styles/colors";
+
 
 const ChooseLanguages = ({ navigation }: ChooseLanguagesProps) => {
   const languages = [
@@ -150,11 +147,15 @@ crashlytics().setCrashlyticsCollectionEnabled(true);
     </ViewBorder>
   );
 
-  const onHandleOnPress = () => {
+  const onHandleOnPress = async() => {
   
 //     crashlytics().log('Crashlytics debug test started');
 // crashlytics().crash(); // Force a crash
-    navigation.navigate('OnBoard');
+    const token = await secureStorage.getItem(const_authToken);
+    if(token)
+      navigation.replace(yourCart)
+    else
+    navigation.navigate("OnBoard");
   };
 
   return (

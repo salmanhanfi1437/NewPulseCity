@@ -11,6 +11,7 @@ import { Colors, Typography } from '../../../styles';
 import { DropDownSVG, MicSVG } from '../../../assets/svg';
 import { ms, mvs, ViewStyle } from 'react-native-size-matters';
 import PressableOpacity from '../PressableOpacity';
+import { useTranslation } from 'react-i18next';
 
 interface TextInputWithMicProps extends RNTextInputProps {
   value?: any;
@@ -47,6 +48,9 @@ const CustomTextInputMic = forwardRef<TextInput, TextInputWithMicProps>(
     },
     ref,
   ) => {
+
+    const {t} = useTranslation();
+
     return (
       <View style={[styles.container]}>
         <TextInput

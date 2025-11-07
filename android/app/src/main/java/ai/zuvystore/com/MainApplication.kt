@@ -9,9 +9,9 @@ import com.facebook.react.ReactNativeHost
 import com.facebook.react.ReactPackage
 import com.facebook.react.defaults.DefaultReactHost.getDefaultReactHost
 import com.facebook.react.defaults.DefaultReactNativeHost
-import com.brentvatne.react.ReactVideoPackage;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
+import com.brentvatne.react.ReactVideoPackage;
 
 class MainApplication : Application(), ReactApplication {
 

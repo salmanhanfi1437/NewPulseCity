@@ -5,11 +5,7 @@ import {
   alltimesupport,
   analyticDashboard,
   buynow,
-  const_address,
-  const_fullName,
-  const_pancard_number,
   const_totalAmount,
-  enter,
   instantCode,
   itemTotal,
   minus,
@@ -17,7 +13,6 @@ import {
   oneyearvalidity,
   plus,
   pricebreakdown,
-  proceed,
   quantity,
   securePayment,
   subTotal,
@@ -47,7 +42,7 @@ import {
 } from '../../utils/spaces';
 import Card from '../../components/atoms/Card';
 import LinearGradient from '../../components/atoms/LinearGradient';
-import { Colors, Typography } from '../../styles';
+import { Colors } from '../../styles';
 import {
   CartSVG,
   MinusSVG,
@@ -69,58 +64,13 @@ import CardContainer from '../../components/atoms/CardContainer';
 import CustomTextInput from '../../components/atoms/TextInput';
 import config from '../config';
 import CartStyles from '../YourCartScreen/styles';
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../redux/rootReducer';
-import { showAlert } from '../../components/atoms/AlertBox/showAlert';
-import { checkOutRequest } from './checkoutSlice';
 
 const CheckOutDetail = ({ navigation,route }: CheckOutDetailProps) => {
   const { t } = useTranslation();
-    console.log('Route '+JSON.stringify(route));
-    const {data} = route.params
     
-
-    const[fullName,setFullName] = useState('');
-    const[PanCard,setPanCard] = useState('');
-    const[GSTNumber,setGSTNumber] = useState('');
-    const[companyName,setLegalCompany] = useState('');
-    const[address,setAddress] = useState('');
-
-      const { checkOutData,error } = useSelector((state: RootState) => state.orderQr);
-    
-  const dispatch = useDispatch();
-
-  useEffect(() =>{
-
-    if(checkOutData)
-    {
-
-    }else{
-      showAlert(error?.message)
-    }
-
-  },[checkOutData,error])
-
-
   const handleBackPress = () => {
     navigation.goBack();
   };
-
-  const HandlePayment = () =>{
-    if(fullName == '')
-    {
-      showAlert(`${t(const_fullName)} ${t(enter)} `)
-    }
-    else if(address == '')
-    {
-       showAlert(`${t(const_address)} ${t(enter)} `)
-    }
-    else{
-      dispatch(checkOutRequest({fullName,pancard: PanCard,gstNumber:GSTNumber,legalCompanyName:companyName,state:'MP',city:'Indore',pincode:'452007',address}))
-    }
-
-  }
 
   return (
     <BlueWhiteBackground
@@ -151,7 +101,7 @@ const CheckOutDetail = ({ navigation,route }: CheckOutDetailProps) => {
       >
         <CardContainer style={[getShadowWithElevation(1), paddingH(20)]}>
           <CustomText
-            title={const_fullName}
+            title={config.Profile.fullname}
             textStyle={[GlobalStyles.margin_top10]}
           />
           <ViewOutlined
@@ -163,11 +113,11 @@ const CheckOutDetail = ({ navigation,route }: CheckOutDetailProps) => {
               },
             ]}
           >
-            <CustomTextInput placeholder={fullName} value={fullName} onChangeText={setFullName} />
+            <CustomTextInput placeholder={''} value={'Zuvy user'} />
           </ViewOutlined>
 
           <CustomText
-            title={const_pancard_number}
+            title={config.CheckOutDetailsScreen.panCard}
             textStyle={[GlobalStyles.margin_top10]}
           />
           <ViewOutlined
@@ -177,8 +127,9 @@ const CheckOutDetail = ({ navigation,route }: CheckOutDetailProps) => {
                 borderColor: Colors.borderBottomColor,
                 borderRadius: GlobalStyles.ZuvyDashBoardBtn.borderRadius,
               },
-            ]}>
-            <CustomTextInput placeholder={'e.g. ABCDE1234F'} value={PanCard} onChangeText={setPanCard} />
+            ]}
+          >
+            <CustomTextInput placeholder={'e.g. ABCDE1234F'} value={''} />
           </ViewOutlined>
           <View style={[GlobalStyles.viewRow]}>
             <CustomText
@@ -202,7 +153,7 @@ const CheckOutDetail = ({ navigation,route }: CheckOutDetailProps) => {
               },
             ]}
           >
-            <CustomTextInput placeholder={'e.g. 22AAAAA0000A1Z5'} value={GSTNumber} onChangeText={setGSTNumber} />
+            <CustomTextInput placeholder={'e.g. 22AAAAA0000A1Z5'} value={''} />
           </ViewOutlined>
           <View style={[GlobalStyles.viewRow]}>
             <CustomText
@@ -226,7 +177,7 @@ const CheckOutDetail = ({ navigation,route }: CheckOutDetailProps) => {
               },
             ]}
           >
-            <CustomTextInput placeholder={'Your company name'} value={companyName} onChangeText={setLegalCompany} />
+            <CustomTextInput placeholder={'Your company name'} value={''} />
           </ViewOutlined>
           <CustomText
             title={config.CheckOutDetailsScreen.Address}
@@ -242,7 +193,7 @@ const CheckOutDetail = ({ navigation,route }: CheckOutDetailProps) => {
               },
             ]}
           >
-            <CustomTextInput placeholder={''} multiline value={address} onChangeText={setAddress} />
+            <CustomTextInput placeholder={''} multiline />
           </ViewOutlined>
         </CardContainer>
         <View style={[CartStyles.totalView]}>
@@ -254,14 +205,15 @@ const CheckOutDetail = ({ navigation,route }: CheckOutDetailProps) => {
             ]}
           >
             <CustomText
-              title={config.CheckOutDetailsScreen.totalPayable}
+              title={const_totalAmount}
               textStyle={[
                 CartStyles.itemTotalText,
-                Typography.style.subTextU(),
+                fS(13),
+                textColor(colors.grey),
               ]}
             />
             <CustomText
-              title={`₹${data?.amount}`}
+              title={`₹1,800.00`}
               textStyle={[
                 FontStyles.headingText,
                 fontColor(Colors.primaryColor),
@@ -272,14 +224,24 @@ const CheckOutDetail = ({ navigation,route }: CheckOutDetailProps) => {
           </View>
           <CustomButton
             leftIcon={<CartSVG />}
-            title={proceed}
+            title={config.CheckOutDetailsScreen.Proceed}
             textStyles={[fS(14), pl(5)]}
-            onPress={() => HandlePayment()}
+            onPress={() => navigation.navigate('merchantTabs')}
             buttonStyle={[
               GlobalStyles.ZuvyDashBoardContainer,
               mb(0),
               GlobalStyles.containerPaddings,
-              height(50)
+            ]}
+          />
+
+          <CustomText
+            title={securePayment}
+            textStyle={[
+              CartStyles.itemTotalText,
+              GlobalStyles.containerPaddings,
+              mb(10),
+              fS(12),
+              textColor(colors.grey),
             ]}
           />
         </View>

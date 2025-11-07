@@ -6,12 +6,12 @@ import {
   Platform,
   Alert,
   TouchableOpacity,
-} from 'react-native';
-import { LoginProps } from '../../navigation/types';
-import { ms, mvs } from 'react-native-size-matters';
-import { useTranslation } from 'react-i18next';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { OtpInput } from 'react-native-otp-entry';
+} from "react-native";
+import { LoginProps } from "../../navigation/types";
+import { ms, mvs } from "react-native-size-matters";
+import { useTranslation } from "react-i18next";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { OtpInput } from "react-native-otp-entry";
 
 import BackgroundPrimaryColor from '../../components/atoms/BackgroundPrimaryColor';
 import ViewRounded10 from '../../components/atoms/ViewRounded10';
@@ -20,8 +20,7 @@ import CustomTextInput from '../../components/atoms/TextInput';
 import { CustomText } from '../../components/atoms/Text';
 import Button from '../../components/atoms/Button';
 import PressableOpacity from '../../components/atoms/PressableOpacity';
-
-import { Colors, Typography } from '../../styles';
+import { Colors, Typography } from "../../styles";
 import GlobalStyles from '../../styles/GlobalStyles';
 import FontStyles from '../../styles/FontStyles';
 import {
@@ -39,14 +38,16 @@ import {
 import {
   const_continue,
   const_fcmToken,
+  login,
   loginOrSignup,
   mobile_number,
   resendOtp,
   resendOtpTimer,
-  verify,
   signup,
+  verify,
   verifyIdentity,
   welcomeZuvy,
+  yourCart,
 } from '../../types/constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/rootReducer';
@@ -127,87 +128,48 @@ const LoginScreen = ({ navigation }: LoginProps) => {
     }
   }, [verifyOTPData, otpError]);
 
-  useEffect(() => {
-    if (otpData || error) {
-      console.log('OTPData changed: ', otpData, 'Error:', error);
 
-      if (otpData?.success === true) {
-        Alert.alert(otpData?.message);
-        setOtpVerified(true);
-        setTimer(RESEND_TIMER);
-        if (otpData?.data?.userMObileRegister == false) {
-          purpose = signup.toUpperCase();
-        }
-        //Alert.alert(otpData?.data)
-      }
-    }
-  }, [otpData, error]);
 
-  useEffect(() => {
-    if (verifyOTPData || otpError != null) {
-      console.log('MainverifyOTPResponse: ', verifyOTPData, 'Error:', otpError);
-
-      if (verifyOTPData?.success === true) {
-        //Alert.alert(otpData?.data)
-        showAlert(verifyOTPData?.message);
-        if (verifyOTPData?.data?.isRegistered === false) {
-          navigation.navigate(signup, { mobile: mobileNumber }); //just for testimng added navigation
-        } else {
-          navigation.navigate(verifyIdentity); //just for testimng added navigation
-        }
-      } else if (otpError?.message) {
-        console.log('4');
-        showAlert(otpError.message);
-      }
-    }
-  }, [verifyOTPData, otpError]);
 
   const handleVerifyToggle = useCallback(() => {
     if (mobileNumber.length !== 10) return;
+  const buttonTitle = isOtpVerified ? t(verify) : t(const_continue);
 
-    if (isOtpVerified) {
+    if(otp.length === 6)
+    {
+      verifyOTP()
+    }
+    else if (isOtpVerified) {
       // Reset to initial state
       setOtpVerified(false);
       setMobileNo('');
       setOtp('');
       setTimer(RESEND_TIMER);
-    }if (!isOtpVerified) {
-      // When pressing Continue → show OTP input
-      if (mobileNumber.length === 10) {
-        setOtpVerified(true);
-        setTimer(RESEND_TIMER);
-      }
-    } else {
-      sendOTP();
+    } else{
+       sendOTP()
     }
-  }, [mobileNumber, isOtpVerified]);
+  }, [mobileNumber, isOtpVerified,otp]);
 
-  const sendOTP = async () => {
-    try {
-      dispatch(sendOTPRequest(mobileNumber)); // ✅ only send the mobile
-    } catch (error: any) {
-      dispatch(sendOTPFailure('Failed to send OTP'));
-      Alert.alert('Failed to send OTP, please try again');
-    }
-  };
+ const sendOTP = async () => {
+  try {
+dispatch(sendOTPRequest(mobileNumber)); // ✅ only send the mobile
+  } catch (error: any) {
+    dispatch(sendOTPFailure('Failed to send OTP'));
+    showAlert('Failed to send OTP, please try again');
+  }
+};
 
-  const verifyOTP = async () => {
-    try {
-      const fcmToken = await secureStorage.getItem(const_fcmToken);
-      dispatch(
-        verifyOTPRequest({
-          mobile: mobileNumber,
-          otp,
-          fcmToken,
-          deviceType: Platform.OS,
-          purpose: purpose,
-        }),
-      );
-    } catch (error: any) {
-      dispatch(sendOTPFailure('Failed to send OTP'));
-      Alert.alert('Failed to send OTP, please try again');
-    }
-  };
+ const verifyOTP = async () => {
+  try {
+    const fcmToken = await secureStorage.getItem(const_fcmToken);
+    
+
+dispatch(verifyOTPRequest({ mobile: mobileNumber, otp,fcmToken,deviceType:Platform.OS.toUpperCase(),purpose : login.toUpperCase() }));
+  } catch (error: any) {
+    dispatch(sendOTPFailure('Failed to send OTP'));
+    Alert.alert('Failed to send OTP, please try again');
+  }
+};
 
   const handleResendOtp = useCallback(() => {
     setTimer(RESEND_TIMER);
@@ -313,7 +275,7 @@ const LoginScreen = ({ navigation }: LoginProps) => {
           (!isOtpVerified && mobileNumber.length !== 10) ||
           (isOtpVerified && otp.length !== 6)
         }
-        title={isOtpVerified ? t('verify') : 'Continue'}
+        title={isOtpVerified ? t(verify) : t(const_continue)}
         onPress={handleVerifyToggle}
         titleStyle={[fS(ms(16)), fontColor(colors.black)]}
         viewStyle={[

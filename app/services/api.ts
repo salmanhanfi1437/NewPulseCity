@@ -18,6 +18,8 @@ const apiClient = axios.create({
   },
 });
 
+//It runs before every API call is sent.
+
 apiClient.interceptors.request.use(
   async (config) => {
     try {
@@ -46,6 +48,7 @@ apiClient.interceptors.request.use(
   }
 );
 
+//It runs after a response is received from the server.
 apiClient.interceptors.response.use(
   (response) => {
     if (store) store.dispatch(hideLoader());
@@ -75,18 +78,12 @@ apiClient.interceptors.response.use(
 
 export default {
   getLanguages: () => apiClient.get('/languages'),
-  sendOTP: (data: { mobile: string; purpose: string }) =>
-    apiClient.post('auth/send-otp', data),
+  sendOTP: (data: { mobile: string; purpose: string }) => apiClient.post('auth/send-otp', data),
   verifyOTP: (data: any) => apiClient.post('auth/verify-otp', data),
   signup: (data: any) => apiClient.post('auth/signup', data),
-
-  getRoles: () =>
-  apiClient.get(`/roles`, {
-    params: {
-      page: 1,
-      limit: 10,
-      search: "", // or remove if not needed
-    },
-  }),
+  getRoles: () => apiClient.get(`roles/get-user-roles`),
+  getMasterQr : () => apiClient.get('qr-management/distributor/master-qr'),
+  orderQr : (data : any) => apiClient.post('qr-management/distributor/create-order-for-qr',data),
+  checkOutQr : (data : any) => apiClient.post('qr-management/distributor/checkout')
   
 }

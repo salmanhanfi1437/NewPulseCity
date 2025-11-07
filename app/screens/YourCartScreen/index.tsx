@@ -1,108 +1,115 @@
-import React, { useEffect, useState } from 'react';
-import { GestureResponderEvent, View } from 'react-native';
-import HeaderWithBackButton from '../../components/atoms/HeaderWithBackButton';
-import {
-  alltimesupport,
-  analyticDashboard,
-  buynow,
-  const_totalAmount,
-  instantCode,
-  itemTotal,
-  minus,
-  notifications,
-  oneyearvalidity,
-  plus,
-  pricebreakdown,
-  quantity,
-  securePayment,
-  subTotal,
-  total,
-  verifyIdentity,
-  whatincluded,
-  yourCart,
-} from '../../types/constants';
-import { yourCartProps } from '../../navigation/types';
-import Header from '../../components/atoms/Header';
-import { useTranslation } from 'react-i18next';
-import GlobalStyles, {
-  getShadowWithElevation,
-} from '../../styles/GlobalStyles';
-import {
-  fontColor,
-  mb,
-  ml,
-  mt,
-  textColor,
-  textIncludedStyle,
-  fS,
-  height,
-  paddingH,
-  fontW,
-  pl,
-  pb,
-} from '../../utils/spaces';
-import Card from '../../components/atoms/Card';
-import LinearGradient from '../../components/atoms/LinearGradient';
-import { Colors, Typography } from '../../styles';
-import {
-  CartSVG,
-  MinusSVG,
-  PlusSVG,
-  PriceBreakDownSVG,
-  QRCodeSVG,
-  TickWhiteSVG,
-} from '../../assets/svg';
-import { CustomText } from '../../components/atoms/Text';
-import FontStyles from '../../styles/FontStyles';
-import PressableOpacity from '../../components/atoms/PressableOpacity';
-import ViewOutlined from '../../components/atoms/ViewOutlined';
-import CartStyles from './styles';
-import { ScrollView } from 'react-native-gesture-handler';
-import colors from '../../styles/colors';
-import CustomButton from '../../components/atoms/CustomButton';
-import HeaderComponent from '../../components/atoms/HeaderComponent';
-import BlueWhiteBackground from '../../components/atoms/DashBoardBG';
+import React, { useEffect, useState } from "react";
+import {View} from 'react-native';
+import HeaderWithBackButton from "../../components/atoms/HeaderWithBackButton";
+import { alltimesupport, analyticDashboard, buynow, const_totalAmount, instantCode, itemTotal, minus, notifications, oneyearvalidity, plus, pricebreakdown, quantity, securePayment, subTotal, total, whatincluded, yourCart } from "../../types/constants";
+import { yourCartProps } from "../../navigation/types";
+import Header from "../../components/atoms/Header";
+import { useTranslation } from "react-i18next";
+import GlobalStyles, { getShadowWithElevation } from "../../styles/GlobalStyles";
+import {bgColor, fontColor, fontW, fS, height, mb, ml, mr, mt, padding, paddingH, pb, pl, textColor, textIncludedStyle} from "../../utils/spaces";
+import Card from "../../components/atoms/Card";
+import LinearGradient from "../../components/atoms/LinearGradient";
+import { Colors, Typography } from "../../styles";
+import { CartSVG, DigiLockerSVG, MinusSVG, PlusSVG, PriceBreakDownSVG, QRCodeSVG, TickWhiteSVG } from "../../assets/svg";
+import { CustomText } from "../../components/atoms/Text";
+import FontStyles from "../../styles/FontStyles";
+import PressableOpacity from "../../components/atoms/PressableOpacity";
+import ViewOutlined from "../../components/atoms/ViewOutlined";
+import CartStyles from "./styles";
+import { ScrollView } from "react-native-gesture-handler";
+import Button from "../../components/atoms/Button";
+import VerificationIdentityScreens from "../VerificationIdentityScreens";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../redux/rootReducer";
+import { MasterQrRequest, OrderQrRequest } from "./yourCartSlice";
+import { showAlert } from "../../components/atoms/AlertBox/showAlert";
+import BlueWhiteBackground from "../../components/atoms/DashBoardBG";
+import colors from "../../styles/colors";
+import HeaderComponent from "../../components/atoms/HeaderComponent";
+import CustomButton from "../../components/atoms/CustomButton";
+import { mvs } from "react-native-size-matters";
+import { Flex } from "native-base";
 
-const YourCart = ({ navigation }: yourCartProps) => {
-  const { t } = useTranslation();
+const YourCart = ({navigation} : yourCartProps) => {
 
-  const [qrCodeName, setQrCodeName] = useState('Zuvy Smart QR');
-  const [qty, setQty] = useState(1);
-  const [qtyPrice, setQtyPrice] = useState(1600);
-  const [gstAmount, setGSTAmout] = useState(0);
-  const [totalAmount, setTotalAmount] = useState(0);
+    const {t} = useTranslation();
 
-  useEffect(() => {
-    console.log('Qty' + qty);
-    const pricePerItem = 1600;
-    const totalPrice = qty * pricePerItem;
-    setQtyPrice(totalPrice);
-    setQtyPrice(qty * 1600);
+    
+    const [qty,setQty] = useState(1);
+    const [gstAmount,setGSTAmout] = useState(0);
+    const [totalAmount,setTotalAmount] = useState(0)
+    const dispatch = useDispatch();
 
-    // GST 18%
-    const gst = totalPrice * 0.18;
-    setGSTAmout(gst);
+        const { error,mastertQrData } = useSelector((state: RootState) => state.masterQr);
+        const { qrCodeError,orderQrData } = useSelector((state: RootState) => state.masterQr);
 
-    // Total
+    
+    useEffect(() => {
 
-    setTotalAmount(gst + totalPrice);
-  }, [qty]);
-
-  const handleBackPress = () => {
-    navigation.goBack();
-  };
-
-  const updateQty = (type: 'plus' | 'minus') => {
-    setQty(prev => {
-      if (type === plus) {
-        //setQtyPrice((prev + 1) & qtyPrice)
-        return prev + 1;
-      } else if (type === minus && prev != 1) {
-        return prev - 1;
+      if(mastertQrData || error)
+      {
+          if(mastertQrData)
+          {
+          
+          }else{
+            console.log('MasterQrError '+error)
+          }
       }
-      return prev;
-    });
-  };
+
+    },[mastertQrData,error])
+
+
+    useEffect(() =>{
+
+      if(orderQrData)
+      {
+        console.log('OrderData '+JSON.stringify(orderQrData))
+        if(orderQrData?.success)
+        {
+          navigation.replace('CheckOutDetail',{data : orderQrData?.data})
+        }
+      }else{
+        showAlert(qrCodeError?.message)
+      }
+
+    },[qrCodeError,orderQrData])
+
+
+    useEffect(() =>{
+      dispatch(MasterQrRequest())
+    },[])
+
+
+
+    useEffect(() => {
+      const totalPrice = qty * mastertQrData?.data?.perUnitPrice;
+  const gstPrice = totalPrice * (mastertQrData?.data?.gst / 100);
+  setGSTAmout(gstPrice);
+
+  const totalAmount = Number(totalPrice) + gstPrice;
+      setTotalAmount(totalAmount);
+    },[qty,mastertQrData])
+
+    const handleBackPress = () => {
+        console.log("BackPRess");
+    }
+
+  const updateQty = (type: 'plus'| 'minus') =>  {
+     setQty(prev =>{ if(type === plus) 
+        { 
+            return prev + 1;
+         }
+  else if(type === minus && prev != 1) 
+    { 
+        return prev - 1 
+
+    } return prev; }) 
+}
+
+const HandleBuyNow = () => {
+  navigation?.replace('CheckOutDetail')
+//dispatch(OrderQrRequest({quantity:qty}))
+}
 
   const { marginTop, ...restSubTitleText } = CartStyles.subTitleText;
   return (
@@ -144,11 +151,11 @@ const YourCart = ({ navigation }: yourCartProps) => {
 
               <View style={[ml(10), GlobalStyles.flexOne]}>
                 <CustomText
-                  title={qrCodeName}
+                  title={mastertQrData?.data?.qrName}
                   textStyle={[FontStyles.headingText]}
                 />
                 <CustomText
-                  title={'Digital QR Code Solution'}
+                  title={mastertQrData?.data?.description}
                   textStyle={[
                     Typography.style.smallTextU(),
                     textColor(colors.fadeTextColor),
@@ -159,7 +166,7 @@ const YourCart = ({ navigation }: yourCartProps) => {
                   style={[GlobalStyles.viewRow, mt(5), GlobalStyles.viewCenter]}
                 >
                   <CustomText
-                    title={'₹1,600'}
+                    title={mastertQrData?.data?.perUnitPrice}
                     textStyle={[
                       FontStyles.headingText,
                       GlobalStyles.flexOne,
@@ -199,7 +206,7 @@ const YourCart = ({ navigation }: yourCartProps) => {
                   </View>
                 </PressableOpacity>
 
-                <View style={[CartStyles.mainQTY]}>
+                <View style={[CartStyles.viewQty,ml(mvs(10)),mr(10),mt(0)]}>
                   <CustomText title={qty} textStyle={[FontStyles.buttonText]} />
                 </View>
 
@@ -225,7 +232,7 @@ const YourCart = ({ navigation }: yourCartProps) => {
                 ]}
               />
               <CustomText
-                title={`₹${qtyPrice}`}
+                title={`₹${mastertQrData?.data?.perUnitPrice}`}
                 textStyle={[FontStyles.headingText]}
               />
             </ViewOutlined>
@@ -250,22 +257,21 @@ const YourCart = ({ navigation }: yourCartProps) => {
                 ]}
               />
               <CustomText
-                title={`₹${qtyPrice}`}
+                title={`₹${mastertQrData?.data?.perUnitPrice * qty}`}
                 textStyle={[FontStyles.headingText]}
               />
             </View>
 
             <View style={CartStyles.viewSubTotal}>
               <CustomText
-                title={'GST (18%)'}
+                title={`GST (${mastertQrData?.data?.gst}%)`}
                 textStyle={[
                   CartStyles.itemTotalText,
                   textColor(colors.fadeTextColor),
                   Typography.style.smallTextU(),
-                ]}
-              />
+                ]}/>
               <CustomText
-                title={`₹${gstAmount}`}
+                title={`₹${gstAmount.toFixed(2)}`}
                 textStyle={[FontStyles.headingText]}
               />
             </View>
@@ -276,7 +282,7 @@ const YourCart = ({ navigation }: yourCartProps) => {
                 textStyle={[CartStyles.itemTotalText, , fontW('500')]}
               />
               <CustomText
-                title={`₹${totalAmount}`}
+                title={`₹${totalAmount.toFixed(2)}`}
                 textStyle={[
                   FontStyles.headingText,
                   fontColor(Colors.primaryColor),
@@ -288,19 +294,18 @@ const YourCart = ({ navigation }: yourCartProps) => {
 
           <LinearGradient
             style={[CartStyles.viewViewIncluded, GlobalStyles.viewRow]}
-            colors={[Colors.color_F0FDF4, Colors.color_EFF6FF]}
-          >
+            colors={[Colors.color_F0FDF4, Colors.color_EFF6FF]}>
             <View style={[CartStyles.circleGreen, GlobalStyles.viewCenter]}>
               <TickWhiteSVG />
             </View>
 
-            <View style={[ml(15)]}>
+            <View style={[ml(15),GlobalStyles.flexShrink1]}>
               <CustomText
                 title={whatincluded}
                 textStyle={[FontStyles.headingText]}
               />
               <CustomText
-                title={instantCode}
+                title={`${mastertQrData?.data?.whatInclude}`}
                 textStyle={[
                   textIncludedStyle(5),
                   textColor(colors.fadeTextColor),
@@ -308,7 +313,7 @@ const YourCart = ({ navigation }: yourCartProps) => {
                 ]}
               />
 
-              <CustomText
+              {/* <CustomText
                 title={oneyearvalidity}
                 textStyle={[
                   textIncludedStyle(5),
@@ -331,7 +336,7 @@ const YourCart = ({ navigation }: yourCartProps) => {
                   Typography.style.smallTextU(),
                   textColor(colors.fadeTextColor),
                 ]}
-              />
+              /> */}
             </View>
           </LinearGradient>
         </View>
@@ -353,7 +358,7 @@ const YourCart = ({ navigation }: yourCartProps) => {
               ]}
             />
             <CustomText
-              title={`₹${totalAmount}`}
+              title={`₹${totalAmount.toFixed(2)}`}
               textStyle={[
                 FontStyles.headingText,
                 fontColor(Colors.primaryColor),
@@ -365,7 +370,7 @@ const YourCart = ({ navigation }: yourCartProps) => {
             leftIcon={<CartSVG />}
             title={buynow}
             textStyles={[fS(14), pl(10)]}
-            onPress={() => navigation.navigate('CheckOutDetail')}
+            onPress={() => dispatch(OrderQrRequest({quantity:qty}))}
             buttonStyle={[
               GlobalStyles.ZuvyDashBoardContainer,
               mb(0),
@@ -379,7 +384,7 @@ const YourCart = ({ navigation }: yourCartProps) => {
             textStyle={[
               CartStyles.itemTotalText,
               GlobalStyles.containerPaddings,
-              mb(10),
+              mb(60),
               fS(11),
               fontW('100'),
               textColor(colors.fadeTextColor),
@@ -389,6 +394,6 @@ const YourCart = ({ navigation }: yourCartProps) => {
       </ScrollView>
     </BlueWhiteBackground>
   );
-};
+}
 
 export default React.memo(YourCart);

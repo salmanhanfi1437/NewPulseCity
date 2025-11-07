@@ -127,6 +127,11 @@ export default {
       actions: ['Renew'],
     },
   ],
+
+  zuvyRoles :[
+  { label: "Distributor", value: "Distributor" },
+  { label: "Admin", value: "Admin" }
+],
   PromoScree: {
     skipButton: 'Skip',
   },
@@ -144,5 +149,4 @@ export default {
   { label: "Distributor", value: "Distributor" },
   { label: "Admin", value: "Admin" }
 ]
-
 };
