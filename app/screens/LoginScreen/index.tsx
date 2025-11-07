@@ -33,6 +33,7 @@ import {
   fontColor,
   pl,
   pr,
+  fontW,
 } from '../../utils/spaces';
 import {
   const_continue,
@@ -68,10 +69,12 @@ const LoginScreen = ({ navigation }: LoginProps) => {
   const [isOtpVerified, setOtpVerified] = useState(false);
   const [showOtp, setShowOtp] = useState(false);
   const [timer, setTimer] = useState(RESEND_TIMER);
-  const { otpData, error,verifyOTPData,otpError } = useSelector((state: RootState) => state.sendOtp);
+  const { otpData, error, verifyOTPData, otpError } = useSelector(
+    (state: RootState) => state.sendOtp,
+  );
   const inputRef = useRef<TextInput>(null);
   const dispatch = useDispatch();
-  let purpose = "LOGIN";
+  let purpose = 'LOGIN';
   // 🔁 Countdown timer logic
   useEffect(() => {
     if (!isOtpVerified || timer <= 0) return;
@@ -136,9 +139,7 @@ useEffect(() => {
   }
 }, [verifyOTPData, otpError]);
 
-  // ✅ Toggle between verify/change state
   const handleVerifyToggle = useCallback(() => {
-    
     if (mobileNumber.length !== 10) return;
   
 
@@ -153,8 +154,8 @@ useEffect(() => {
     else if (isOtpVerified) {
       // Reset to initial state
       setOtpVerified(false);
-      setMobileNo("");
-      setOtp("");
+      setMobileNo('');
+      setOtp('');
       setTimer(RESEND_TIMER);
     } else{
        sendOTP()
@@ -185,7 +186,7 @@ dispatch(verifyOTPRequest({ mobile: mobileNumber, otp,fcmToken,deviceType:Platfo
 
   const handleResendOtp = useCallback(() => {
     setTimer(RESEND_TIMER);
-    sendOTP()
+    sendOTP();
   }, []);
 
   return (
@@ -202,6 +203,7 @@ dispatch(verifyOTPRequest({ mobile: mobileNumber, otp,fcmToken,deviceType:Platfo
             GlobalStyles.viewRound,
             GlobalStyles.viewCenter,
             mt(15),
+            bgColor(Colors.fadeWhite),
           ]}
         />
       </TouchableOpacity>
@@ -212,7 +214,7 @@ dispatch(verifyOTPRequest({ mobile: mobileNumber, otp,fcmToken,deviceType:Platfo
       <ViewOutlined viewStyle={styles.viewInput}>
         <CustomText
           title="+91 |"
-          textStyle={[FontStyles.headingText, fS(ms(15)), pl(5)]}
+          textStyle={[FontStyles.headingText, fS(ms(15)), pl(12), fontW('600')]}
         />
 
         <CustomTextInput
@@ -223,7 +225,7 @@ dispatch(verifyOTPRequest({ mobile: mobileNumber, otp,fcmToken,deviceType:Platfo
           keyboardType="phone-pad"
           maxLength={10}
           editable={!isOtpVerified}
-          style={FontStyles.txtInput}
+          style={[FontStyles.txtInput, fS(15)]}
         />
       </ViewOutlined>
 
@@ -258,9 +260,9 @@ dispatch(verifyOTPRequest({ mobile: mobileNumber, otp,fcmToken,deviceType:Platfo
 
           {timer > 0 ? (
             <CustomText
-              textStyle={[styles.txtTimer, fS(ms(15))]}
+              textStyle={[styles.txtTimer, fS(ms(12))]}
               title={t(resendOtpTimer, {
-                time: `00:${timer < 10 ? `0${timer}` : timer}s`,
+                time: `00:${timer < 10 ? `0${timer}` : timer}`,
               })}
             />
           ) : (

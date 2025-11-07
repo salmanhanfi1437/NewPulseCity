@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { GestureResponderEvent, View } from 'react-native';
-import HeaderWithBackButton from '../../components/atoms/HeaderWithBackButton';
+import {  View } from 'react-native';
 import {
-  alltimesupport,
-  analyticDashboard,
-  buynow,
   const_address,
   const_city,
   const_fullName,
@@ -13,26 +9,11 @@ import {
   const_state,
   const_totalAmount,
   enter,
-  instantCode,
-  itemTotal,
-  minus,
-  notifications,
-  oneyearvalidity,
-  plus,
-  pricebreakdown,
   proceed,
-  quantity,
   securePayment,
-  state,
-  subTotal,
-  total,
   validPanCardNumber,
-  verifyIdentity,
-  whatincluded,
-  yourCart,
 } from '../../types/constants';
 import { CheckOutDetailProps } from '../../navigation/types';
-import Header from '../../components/atoms/Header';
 import { useTranslation } from 'react-i18next';
 import GlobalStyles, {
   getShadowWithElevation,
@@ -40,27 +21,18 @@ import GlobalStyles, {
 import {
   fontColor,
   mb,
-  ml,
   mt,
   textColor,
-  textIncludedStyle,
   fS,
-  height,
   paddingH,
   fontW,
   pl,
   mr,
 } from '../../utils/spaces';
-import Card from '../../components/atoms/Card';
-import LinearGradient from '../../components/atoms/LinearGradient';
+
 import { Colors } from '../../styles';
 import {
   CartSVG,
-  MinusSVG,
-  PlusSVG,
-  PriceBreakDownSVG,
-  QRCodeSVG,
-  TickWhiteSVG,
 } from '../../assets/svg';
 import { CustomText } from '../../components/atoms/Text';
 import FontStyles from '../../styles/FontStyles';

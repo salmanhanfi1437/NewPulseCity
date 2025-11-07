@@ -106,10 +106,6 @@ const YourCart = ({navigation} : yourCartProps) => {
     } return prev; }) 
 }
 
-const HandleBuyNow = () => {
-  navigation?.replace('CheckOutDetail')
-//dispatch(OrderQrRequest({quantity:qty}))
-}
 
     return (
     <BlueWhiteBackground

@@ -8,7 +8,7 @@ import { CustomText } from '../Text';
 import { skip, done, next } from '../../../types/constants';
 import FontStyles from '../../../styles/FontStyles';
 import colors from '../../../styles/colors';
-import { fontColor, fS, height } from '../../../utils/spaces';
+import { fontColor, fontW, fS, height } from '../../../utils/spaces';
 import { ms } from 'react-native-size-matters';
 
 type SlideItem = {
@@ -52,7 +52,7 @@ const OnboardingSlider: React.FC<OnboardingSliderProps> = ({
           GlobalStyles.margin_bottom_10,
         ]}
       >
-        <CustomText textStyle={[FontStyles.title]} title={item.title} />
+        <CustomText textStyle={[FontStyles.title,fontW('500')]} title={item.title} />
         <CustomText
           textStyle={[fS(ms(10)), fontColor(colors.white)]}
           title={item.text}

@@ -8,7 +8,8 @@ import stateCitySaga from '../components/atoms/State&City/StateCitySaga';
 import {profileSaga} from '../screens/UserProfile/profileSaga';
 import {dashboardSaga} from '../screens/DashBoard/dashboardSaga';
 import { DashBoardSVG } from '../assets/svg';
- //here we will define all sagas
+import { qrManagementWatcher } from '../screens/QrManagement/QrManagementSaga';
+
 
 export default function* rootSaga() {
   yield all([
@@ -19,7 +20,12 @@ export default function* rootSaga() {
     fork(checkoutSaga),
     fork(stateCitySaga),
     fork(profileSaga),
-    fork(dashboardSaga)
+    fork(dashboardSaga),
+    fork(checkoutSaga),
+    // fork(stateCitySaga),
+    fork(profileSaga),
+    fork(qrManagementWatcher)
+  
   
   ]);
 }

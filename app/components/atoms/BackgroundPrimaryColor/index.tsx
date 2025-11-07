@@ -20,6 +20,7 @@ type BgProps = {
   div?: boolean;
   KeyboardAwareScrollViewStyles?: ViewStyle | ViewStyle[];
   GrillVisible?: boolean;
+
 };
 
 const BackgroundPrimaryColor = ({
@@ -64,7 +65,13 @@ const BackgroundPrimaryColor = ({
       ) : (
         <View style={styles.header}>
           <View style={[!GrillVisible && styles.grillVisableStyle]}>
-            <ZuvyLogo height={ms(70)} width={ms(180)} style={{ right: 12 }} />
+            <ZuvyLogo
+              height={ms(100)}
+              width={ms(160)}
+              style={{ right: 1,}}
+              preserveAspectRatio="xMidYMid meet"
+              viewBox="65 0 100 100" 
+            />
             <CustomText
               title={t(title)}
               textStyle={[

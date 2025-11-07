@@ -80,10 +80,10 @@ const RootNavigator = () => {
           <Stack.Screen name={yourCart} component={YourCartScreen} />
           <Stack.Screen name={'CheckOutDetail'} component={CheckOutDetail} />
           <Stack.Screen name={'merchantTabs'} component={merchantTabs} />
+          {/* <Stack.Screen name={'ZuvyDashBoard'} component={ZuvyDashBoard} /> */}
           <Stack.Screen name={'QRManageMent'} component={QRManageMent} />
           <Stack.Screen name={'EditQRDetails'} component={EditQR} />
           <Stack.Screen name={'Profile'} component={UserProfile} />
-          <Stack.Screen name={'ZuvyDashBoard'} component={ZuvyDashBoard} />
           <Stack.Screen name={notifications} component={NotificationScreen} />
           <Stack.Screen name='StateCitySelector' component={StateCitySelector}/>
         </Stack.Navigator>

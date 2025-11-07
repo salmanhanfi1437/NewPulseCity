@@ -20,6 +20,8 @@ import {
   fontColor,
   pl,
   pr,
+  paddingH,
+  alignCenter,
 } from '../../utils/spaces';
 import {
   choose_language_title,
@@ -37,6 +39,7 @@ import messaging from '@react-native-firebase/messaging';
 import crashlytics from '@react-native-firebase/crashlytics';
 import secureStorage from "../../utils/secureStorage";
 import colors from "../../styles/colors";
+import { Colors } from "../../styles";
 
 // import RazorpayCheckout from 'react-native-razorpay';
 
@@ -151,12 +154,16 @@ crashlytics().setCrashlyticsCollectionEnabled(true);
   const renderItem = ({ item }: any) => (
     <ViewBorder
       style={[GlobalStyles.viewRow, mt(15), borderRadius(10)]}
-      onPress={() => handleLanguageschanges(item)}
-    >
-      <View style={GlobalStyles.flexOne}>
+      onPress={() => handleLanguageschanges(item)}>
+      <View style={[GlobalStyles.flexOne, paddingH(20)]}>
         <CustomText textStyle={[FontStyles.subText]} title={item.label} />
         <CustomText
-          textStyle={[FontStyles.subText, { color: colors.semiLight_grey }]}
+          textStyle={[
+            FontStyles.subText,
+            { color: colors.semiLight_grey },
+            fS(11),
+            fontColor(Colors.textColorGrey),
+          ]}
           title={item.title}
         />
       </View>

@@ -21,8 +21,7 @@ import { yourCart } from '../../types/constants';
 
 const PromoScreen = () => {
   const navigation = useNavigation<any>();
-  const { backgroundColor, ...restZuvyDashBoardBtn } =
-    GlobalStyles.ZuvyDashBoardBtn;
+  const { fontSize, fontWeight, ...restZuvylogo } = GlobalStyles.Promologo;
 
   const handleNavigation = () => {
     navigation.navigate(yourCart);
@@ -35,8 +34,15 @@ const PromoScreen = () => {
       linearLocation={[0, 1, 1]}
       LinearViewStyles={[GlobalStyles.fullScreenContent]}
     >
-      <ZuvyLogo style={[GlobalStyles.Promologo]} />
+      {/* <ZuvyLogo  /> */}
 
+      <ZuvyLogo
+        height={ms(80)}
+        width={ms(150)}
+        style={[restZuvylogo]}
+        preserveAspectRatio="xMidYMid meet"
+        viewBox="65 0 100 100"
+      />
       <View style={GlobalStyles.videoWrapper}>
         <Video
           source={{ uri: 'https://www.w3schools.com/html/mov_bbb.mp4' }} // Replace with your video
