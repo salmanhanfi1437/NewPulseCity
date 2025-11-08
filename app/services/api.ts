@@ -30,7 +30,7 @@ apiClient.interceptors.request.use(
       console.log('➡️ FULL URL:', `${config.baseURL}${config.url}`);
       console.log('➡️ BODY:', config.data);
 
-      const token = STATIC_TOKEN //await secureStorage.getItem<string>(const_authToken);
+      const token = await secureStorage.getItem<string>(const_authToken);
       console.log('TOKEN',token)
       console.log('Token' + token);
       if (token) {
