@@ -94,7 +94,7 @@ const ZuvyDashBoard = () => {
         />
         <View style={GlobalStyles.translusantContainer}>
           <CustomText
-            title={config.ZuvyDashBoard.welcomeTitle}
+            title={`Welcome Back ${dashboardData?.data?.name}`}
             textStyle={[GlobalStyles.mobileText]}
           />
           <CustomText

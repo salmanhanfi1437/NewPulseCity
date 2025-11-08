@@ -38,6 +38,7 @@ import {
 import {
   const_continue,
   const_fcmToken,
+  const_RESET_STORE,
   login,
   loginOrSignup,
   mobile_number,
@@ -98,7 +99,6 @@ const LoginScreen = ({ navigation }: LoginProps) => {
   useEffect(() => {
   if (otpData || error) {
     console.log("OTPData changed: ", otpData, "Error:", error);
-      dispatch(resetOTPState());
 
     if(otpData?.success === true)
     {
@@ -108,6 +108,8 @@ const LoginScreen = ({ navigation }: LoginProps) => {
       if(otpData?.data?.userMObileRegister == false)
       {
         purpose = signup.toUpperCase();
+      dispatch({ type: const_RESET_STORE });
+
       }
       //Alert.alert(otpData?.data)
     }
@@ -119,7 +121,8 @@ useEffect(() => {
   
   if (verifyOTPData || otpError != null) {
     console.log("MainverifyOTPResponse: ", verifyOTPData, "Error:", otpError);
-      dispatch(resetOTPState());
+      // 🔥 This will clear all slices and reset to initial state
+    dispatch({ type: const_RESET_STORE });
 
     if(verifyOTPData?.success === true)
     {
@@ -130,7 +133,8 @@ useEffect(() => {
     navigation.navigate(signup,{mobile:mobileNumber}); //just for testimng added navigation
       }
       else{
-           navigation.replace(yourCart); //just for testimng added navigation
+        
+           navigation.replace('merchantTabs'); //just for testimng added navigation
       }
     }
     else if(otpError?.message){

@@ -20,3 +20,18 @@ export const isValidGST = (gst: string): boolean => {
   const regex = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/;
   return regex.test(gst.trim().toUpperCase());
 };
+
+
+// ✅ Utility function for formatting date nicely
+export const formatDateTime = (isoString?: string) => {
+  if (!isoString) return "";
+  const date = new Date(isoString);
+  return date.toLocaleString("en-IN", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+  });
+};

@@ -7,9 +7,8 @@ import {checkoutSaga} from '../screens/CheckoutDetails/checkOutSaga';
 import stateCitySaga from '../components/atoms/State&City/StateCitySaga';
 import {profileSaga} from '../screens/UserProfile/profileSaga';
 import {dashboardSaga} from '../screens/DashBoard/dashboardSaga';
-import { DashBoardSVG } from '../assets/svg';
 import { qrManagementWatcher } from '../screens/QrManagement/QrManagementSaga';
-
+import {notificationSaga} from '../screens/NotificationScreen/notificationSaga';
 
 export default function* rootSaga() {
   yield all([
@@ -22,10 +21,8 @@ export default function* rootSaga() {
     fork(profileSaga),
     fork(dashboardSaga),
     fork(checkoutSaga),
-    // fork(stateCitySaga),
     fork(profileSaga),
-    fork(qrManagementWatcher)
-  
-  
+    fork(qrManagementWatcher),
+    fork(notificationSaga),  
   ]);
 }

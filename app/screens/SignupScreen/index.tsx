@@ -13,6 +13,9 @@ import {
   yourCart,
   const_fcmToken,
   enter,
+  const_city,
+  const_state,
+  const_RESET_STORE,
 } from '../../types/constants';
 import { Colors, Typography } from '../../styles';
 import { ms, mvs } from 'react-native-size-matters';
@@ -21,7 +24,7 @@ import { CustomText } from '../../components/atoms/Text';
 import { TextInput } from 'react-native-gesture-handler';
 import GlobalStyles from '../../styles/GlobalStyles';
 import { SignupProps } from '../../navigation/types';
-import { fontW, height, mb, mt } from '../../utils/spaces';
+import { fontW, height, mb, mr, mt } from '../../utils/spaces';
 import PressableOpacity from '../../components/atoms/PressableOpacity';
 import FontStyles from '../../styles/FontStyles';
 import Button from '../../components/atoms/Button';
@@ -29,35 +32,38 @@ import { fS, fontColor, bR } from '../../utils/spaces';
 import colors from '../../styles/colors';
 import RememberMe from '../../components/atoms/CheckBox';
 import secureStorage from '../../utils/secureStorage';
-import { SignupRequest } from './signupSlice';
+import { resetState, RoleRequest, SignupRequest } from './signupSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { showAlert } from '../../components/atoms/AlertBox/showAlert';
 import { isValidEmail } from '../../utils/helper';
 import { useTranslation } from 'react-i18next';
 import DropdownAtom from '../../components/atoms/DropDown';
 import { RootState } from '../../redux/rootReducer';
+import ViewOutlined from '../../components/atoms/ViewOutlined';
+import CustomTextInput from '../../components/atoms/TextInput';
 
 const SignupScreens = ({ navigation, route }: SignupProps) => {
 
-  const { mobile } = route.params;
+    const { mobile } = route.params || {}; // 👈 Safe destructuring
   console.log('Mobile ' + mobile);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [role, setRole] = useState('DISTRIBUTOR');
-
+  const [stateId,setStateId] = useState(0);
+  const [stateName,setStateName] = useState('');
+  const [cityId,setCityId] = useState(0);
+  const [cityName,setCityName] = useState('')
   const nameRef = useRef<TextInput>(null);
   const emailRef = useRef<TextInput>(null);
   const mobileNumberRef = useRef<TextInput>(null);
-  const [remember, setRemember] = useState(false);
   
   const dispatch = useDispatch();
-
   
   const {t} = useTranslation()
-const { error, singupData, roleData } = useSelector((state: RootState) => state.signup);
+  const { error, singupData, roleData } = useSelector((state: RootState) => state.signup);
+
   useEffect(() => {
     if (roleData || error) {
-      console.log('RolesDara ' + roleData);
       if (roleData?.success) {
 
       } else {
@@ -70,8 +76,8 @@ const { error, singupData, roleData } = useSelector((state: RootState) => state.
     const fcmToken = await secureStorage.getItem(const_fcmToken);
 
     if (validation()) {
-      console.log('Api Called')
-      dispatch(SignupRequest({ mobile, name, email, role, password: '123456', fcmToken, deviceType: Platform.OS.toUpperCase() }))
+     
+      dispatch(SignupRequest({ mobile, name, email, role, password: '123456', fcmToken, deviceType: Platform.OS.toUpperCase(),stateId,cityId }))
     }
   }
 
@@ -84,10 +90,40 @@ const { error, singupData, roleData } = useSelector((state: RootState) => state.
 
       return false;
     }
+    else if(stateName == '')
+        {
+          showAlert(`Select State`);
+          return false;
+        }
+        else if(cityName == '')
+        {
+          showAlert(`Select City`);
+          return false;
+        }
 
     return true;
   };
 
+  useEffect(() =>{
+    dispatch(RoleRequest());
+  },[])
+
+
+  useEffect(() =>{
+
+    if(singupData?.success)
+    {
+      showAlert(singupData?.success)
+     
+    dispatch({ type: const_RESET_STORE });  // 🔥 This will clear all slices and reset to initial state
+      navigation.replace('PromoScreen');
+    }
+    else if(error)
+    {
+      showAlert(error?.message)
+    }
+
+  },[singupData,error])
 
   return (
     <BackgroundPrimaryColor title={letsgetstarted}>
@@ -132,10 +168,84 @@ const { error, singupData, roleData } = useSelector((state: RootState) => state.
 
         <DropdownAtom
           data={roleData?.data}
-          placeholder={const_howtouseZuvy}
+          placeholder={role}
           selectedValue={role}               // ✅ show current value
           onSelect={(val : any) => setRole(val)}   // ✅ update state on select
         />
+
+ <View style={[GlobalStyles.viewRow]}>
+
+            <View style={[GlobalStyles.flexOne,mr(15)]}>
+              
+              <CustomText
+                title={const_state}
+                textStyle={[GlobalStyles.margin_top10]}/>
+          
+
+          <PressableOpacity
+  onPress={() => {
+    navigation.navigate('StateCitySelector', {
+      type: 'state',
+      onSelect: (selected: any) => {
+        setStateName(selected.name); // updates local state
+        setStateId(selected.id)
+        setCityId(0); // reset city when state changes
+        setCityName(''); // reset city when state changes
+      },
+    });
+  }}>
+              <ViewOutlined
+                viewStyle={[
+                  GlobalStyles.borderStyles,
+                  {
+                    borderColor: Colors.borderBottomColor,
+                    borderRadius: GlobalStyles.ZuvyDashBoardBtn.borderRadius,
+                  },]}>
+                <CustomTextInput placeholder={const_state} value={stateName} editable={false} />
+              </ViewOutlined>
+              </PressableOpacity>
+
+            </View>
+          </View>
+
+ <View style={[GlobalStyles.flexOne]}>
+              
+              <CustomText
+                title={const_city}
+                textStyle={[GlobalStyles.margin_top10]}/>
+               <PressableOpacity
+  onPress={() => {
+    if (!stateId) {
+      showAlert('Please select a state first.');
+      return;
+    }
+
+    navigation.navigate('StateCitySelector', {
+      type: 'city',
+      stateId: stateId, // Pass selected state ID
+      onSelect: (selected: any) => {
+        setCityName(selected.name);
+        setCityId(selected.id)
+      },
+    });
+  }}
+>
+  <ViewOutlined
+    viewStyle={[
+      GlobalStyles.borderStyles,
+      {
+        borderColor: Colors.borderBottomColor,
+        borderRadius: GlobalStyles.ZuvyDashBoardBtn.borderRadius,
+      },
+    ]}
+  >
+                   <CustomTextInput placeholder={const_city} value={cityName} editable={false} />
+
+  </ViewOutlined>
+</PressableOpacity>
+           
+            </View>
+
 
         <Button
           title={signup}
@@ -143,7 +253,7 @@ const { error, singupData, roleData } = useSelector((state: RootState) => state.
           viewStyle={[mt(30)]} />
 
       </View>
-      <View style={[GlobalStyles.viewRow, GlobalStyles.bottomFooter]}>
+      <View style={[GlobalStyles.viewRow, GlobalStyles.bottomFooter,mt(20)]}>
         <CustomText title={alreadyhaveAccount} textStyle={[FontStyles.subText, GlobalStyles.viewCenter,]} />
         <PressableOpacity onPress={() => navigation.reset({
           index: 0,

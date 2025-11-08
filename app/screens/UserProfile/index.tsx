@@ -27,7 +27,7 @@ const UserProfile = () => {
 
     if(profileData || error)
     {
-        if(profileData.success)
+        if(profileData?.success)
         {
 
       }else{

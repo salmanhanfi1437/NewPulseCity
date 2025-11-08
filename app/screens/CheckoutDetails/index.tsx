@@ -119,14 +119,14 @@ const CheckOutDetail = ({ navigation, route }: CheckOutDetailProps) => {
     else if (address == '') {
       showAlert(`${t(const_address)} ${t(enter)} `)
     }
-     else if(stateId == '')
-    {
-      showAlert(`Select State`)
-    }
-    else if(city == '')
-    {
-      showAlert(`Select City`)
-    }
+    //  else if(stateId == '')
+    // {
+    //   showAlert(`Select State`)
+    // }
+    // else if(city == '')
+    // {
+    //   showAlert(`Select City`)
+    // }
      else if(pinCode == '')
     {
       showAlert(`Enter Pin code`)
@@ -286,8 +286,10 @@ const CheckOutDetail = ({ navigation, route }: CheckOutDetailProps) => {
       type: 'state',
       onSelect: (selected: any) => {
         setState(selected.name); // updates local state
+          setStateId(selected.id);
         setCity(''); // reset city when state changes
-        setStateId(selected.id)
+        setCityId('')
+      
       },
     });
   }}>

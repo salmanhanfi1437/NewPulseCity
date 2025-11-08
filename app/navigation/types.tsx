@@ -7,7 +7,7 @@ export type RootStackParamList = {
   ChooseLanguage: undefined;
   Login: undefined;
   OnBoard: undefined;
-    signup: { mobile: string }; // ✅ Add expected param type here
+    signup: any; // ✅ Add expected param type here
     merchantTabs: undefined; // ✅ fix here
   verifyIdentity: undefined;
   kycompleted: undefined;
@@ -20,7 +20,7 @@ export type RootStackParamList = {
   PromoScreen:undefined;
   StateCitySelector: {
     type: 'state' | 'city';
-    stateId?: string;
+    stateId?: any;
     onSelect: (selected: any) => void;
   };};
 

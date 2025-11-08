@@ -104,12 +104,12 @@ const QRManageMent = () => {
     config.ZuvyQrManagement.qrfilter[0],
   );
 
-  const { qrData, loading, error } = useSelector(
-    (state: RootState) => state.qrManagement,
-  );
+  // const { qrData, loading, error } = useSelector(
+  //   (state: RootState) => state.qrManagement,
+  // );
 
   useEffect(() => {
-    dispatch(fetchViewQRRequest({ page: 1, limit: 10, search: 'Premium' }));
+    //dispatch(fetchViewQRRequest({ page: 1, limit: 10, search: 'Premium' }));
   }, [dispatch]);
 
   return (

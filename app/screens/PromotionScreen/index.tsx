@@ -24,7 +24,7 @@ const PromoScreen = () => {
   const { fontSize, fontWeight, ...restZuvylogo } = GlobalStyles.Promologo;
 
   const handleNavigation = () => {
-    navigation.navigate(yourCart);
+    navigation.replace(yourCart);
   };
 
   return (

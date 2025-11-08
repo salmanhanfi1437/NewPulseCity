@@ -9,6 +9,8 @@ export interface SignupRequest {
   password:string;
   fcmToken:string;
   deviceType:string;
+  stateId : number;
+  cityId : number;
 }
 
 
@@ -32,7 +34,7 @@ const signupSlice = createSlice({
   initialState,
   reducers: {
    
-    SignupRequest: (state, action: PayloadAction<{ mobile: string; name: string,email:string,role:string,password:string,fcmToken : string, deviceType: string}>) => {
+    SignupRequest: (state, action: PayloadAction<{ mobile: string; name: string,email:string,role:string,password:string,fcmToken : string, deviceType: string,statId : number, cityId : number}>) => {
       state.loading = true;
       state.error = null;
       state.singupData = {
@@ -43,6 +45,8 @@ const signupSlice = createSlice({
         password : action.payload.password,
         fcmToken : action.payload.fcmToken,
         deviceType : action.payload.deviceType,
+        statid : action.payload.statId,
+        cityId : action.payload.cityId,
       };
     },
 
@@ -71,6 +75,12 @@ const signupSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+
+    resetState: (state) => {
+          state.singupData = null;
+          state.error = null;
+          state.roleData = null;
+        },
   },
 });
 
@@ -80,7 +90,8 @@ export const {
   SignupSuccess,
   RoleFailure,
   RoleRequest,
-  RoleSuccess
+  RoleSuccess,
+  resetState
 } = signupSlice.actions;
 
 export default signupSlice.reducer;

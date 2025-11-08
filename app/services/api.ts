@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { showLoader, hideLoader } from '../redux/slices/loaderSlice';
-import { BASE_URL } from '../types/constants';
+import { BASE_URL, const_authToken } from '../types/constants';
+import secureStorage from '../utils/secureStorage';
 
 let store: any;
 
@@ -18,8 +19,8 @@ const apiClient = axios.create({
 });
 
 //It runs before every API call is sent.
-const STATIC_TOKEN =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiNzdlN2VlYS1iZDU1LTQ2MGEtYWE0NC0xNjNmMzM1ZmE0MGUiLCJpYXQiOjE3NjI1MDIxNjIsImV4cCI6MTc2MzEwNjk2Mn0.2A1OzYcbj1_W23JyoYOi_ugYKZGXapGMkpmqDQoGlgc';
+// const STATIC_TOKEN =
+//   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiNzdlN2VlYS1iZDU1LTQ2MGEtYWE0NC0xNjNmMzM1ZmE0MGUiLCJpYXQiOjE3NjI1MDIxNjIsImV4cCI6MTc2MzEwNjk2Mn0.2A1OzYcbj1_W23JyoYOi_ugYKZGXapGMkpmqDQoGlgc';
 
 apiClient.interceptors.request.use(
   async config => {
@@ -29,7 +30,7 @@ apiClient.interceptors.request.use(
       console.log('➡️ FULL URL:', `${config.baseURL}${config.url}`);
       console.log('➡️ BODY:', config.data);
 
-      const token = STATIC_TOKEN; //await secureStorage.getItem<string>(const_authToken);
+      const token = await secureStorage.getItem<string>(const_authToken);
       console.log('Token' + token);
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
@@ -100,4 +101,8 @@ export default {
   getDashboard : () => apiClient.get("qr-management/distributor/inventory"),
   viewQR: (params?: { page?: number; limit?: number; search?: string }) =>
     apiClient.get('qr-management/distributor/view', { params }),
-};
+notifications: (page: number, limit: number, type: string) =>
+  apiClient.get(
+    `notification/my-notifications?page=${page}&limit=${limit}&type=${type}`),
+  doLogout : () => apiClient.post('auth/logout')
+  };
