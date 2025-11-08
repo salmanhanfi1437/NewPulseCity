@@ -9,9 +9,11 @@ import stateCityReducer from '../components/atoms/State&City/StateCitySlice';
 import profileReducer from '../screens/UserProfile/profileSlice';
 import dashboardReducer from '../screens/DashBoard/dashboardSlice';
 import notificationReducer from '../screens/NotificationScreen/notificationSlice'
+import VerifyRazorPayment from  '../screens/CheckoutDetails/checkoutSlice'
+import qrManagementReducer from  "../screens/QrManagement/QrmanagementSlice"
 
  
-const appReducer = combineReducers({
+const AppReducer = combineReducers({
   loader: loaderReducer,
   sendOtp : sendOtpReducer,
     chooseLanguage: chooseLanguageReducer,
@@ -21,7 +23,11 @@ const appReducer = combineReducers({
     stateCity : stateCityReducer,
     profile : profileReducer,
     dashboard : dashboardReducer,
-    notification : notificationReducer
+    notification : notificationReducer,
+    verifyRazorPayment : VerifyRazorPayment,
+    qrManagement:qrManagementReducer,
+    fetchInventory: qrManagementReducer
+
 });
 
 // ✅ Wrap the combined reducer to handle store reset
@@ -29,9 +35,9 @@ const rootReducer = (state: any, action: any) => {
   if (action.type === 'RESET_APP') {
     state = undefined; // 🔥 This resets the whole Redux state
   }
-  return appReducer(state, action);
+  return rootReducer(state, action);
 };
 
 
 export default rootReducer;
-export type RootState = ReturnType<typeof appReducer>;
+export type RootState = ReturnType<typeof AppReducer>;

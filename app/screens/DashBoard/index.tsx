@@ -35,7 +35,6 @@ import { RootState } from '../../redux/rootReducer';
 import { DashboardRequest } from './dashboardSlice';
 import { bgColor, fontColor, fS } from '../../utils/spaces';
 import { getNextMonthDate, getNextNDaysDate } from '../../utils/dateUtils';
-import FontStyles from '../../styles/FontStyles';
 
 const ZuvyDashBoard = () => {
   const navigation = useNavigation<any>();
@@ -86,14 +85,12 @@ const ZuvyDashBoard = () => {
       showsVerticalScrollIndicator={false}
       contentContainerStyle={[
         GlobalStyles.ZuvyDashBoardScrollContent,
-        { backgroundColor: GlobalStyles.whiteColor.color },
-      ]}
->
+        { backgroundColor: GlobalStyles.whiteColor.color,width:'100%' }]}>
+
       <BlueWhiteBackground headerHeight={80}>
         <ZuvyHeader
           onProfilePress={() => navigation.navigate('Profile')}
-          onNotificationPress={() => navigation.navigate('notifications')}
-        />
+          onNotificationPress={() => navigation.navigate('notifications')}/>
         <View style={GlobalStyles.translusantContainer}>
           <CustomText
             title={`Welcome Back ${dashboardData?.data?.distributorName}`}
@@ -120,8 +117,7 @@ const ZuvyDashBoard = () => {
             GlobalStyles.ZuvyDashBoardCard,
             GlobalStyles.width50,
             getShadowWithElevation(1),
-          ]}
-        >
+          ]}>
           <CustomText
             title={config.ZuvyDashBoard.QRsummary}
             textStyle={[

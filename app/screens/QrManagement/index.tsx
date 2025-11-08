@@ -28,7 +28,8 @@ import HoverButton from '../../components/atoms/HoverButton';
 import { bgColor, pb, pl, pr, pt } from '../../utils/spaces';
 import { RootState } from '../../redux/rootReducer';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchViewQRRequest } from './QrmanagementSlice';
+import { fetchInventoryRequest, fetchViewQRRequest } from './QrmanagementSlice';
+import { DashboardRequest } from '../DashBoard/dashboardSlice';
 
 interface DynamicViewStyleProps {
   marginVertical?: number;
@@ -47,6 +48,13 @@ const QRManageMent = () => {
   const { color, flex, textAlign, ...rest } = GlobalStyles.headertitle;
   const { borderRadius, padding, elevation, ...restShadow } =
     GlobalStyles.shadowStyles;
+  const { error: dashboardError, dashboardData } = useSelector(
+    (state: RootState) => state.dashboard,
+  );
+
+  const {InventoryError, InventoryData } = useSelector(
+    (state: RootState) => state.fetchInventory,
+  );
 
   const getDynamicViewStyle = ({
     marginVertical,
@@ -95,7 +103,7 @@ const QRManageMent = () => {
       case 'Retired':
         return Colors.red;
       default:
-        return Colors.semiLight_grey;
+        return Colors.black;
     }
   };
 
@@ -104,13 +112,51 @@ const QRManageMent = () => {
     config.ZuvyQrManagement.qrfilter[0],
   );
 
-  // const { qrData, loading, error } = useSelector(
-  //   (state: RootState) => state.qrManagement,
-  // );
+  const { qrData, error } = useSelector(
+    (state: RootState) => state.qrManagement,
+  );
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-IN', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
+    });
+  };
 
   useEffect(() => {
-    //dispatch(fetchViewQRRequest({ page: 1, limit: 10, search: 'Premium' }));
-  }, [dispatch]);
+    if (qrData || error) {
+      if (qrData) {
+        console.log('cehcekc e ---> logom a ==>', qrData);
+      } else {
+        console.log('MasterQrError ' + error);
+      }
+    }
+  }, [qrData, error]);
+
+  useEffect(() => {
+    dispatch(fetchViewQRRequest());
+  }, []);
+
+  useEffect(() => {
+    if (dashboardData || dashboardError) {
+      console.log('DashBoardData ' + JSON.stringify(dashboardData));
+    }
+  }, [dashboardData, dashboardError]);
+
+
+  useEffect(() => {
+    if (InventoryData || InventoryError) {
+      console.log('InventoryData ' + JSON.stringify(InventoryData));
+    }
+  }, [InventoryData, InventoryError]);
+
+
+
+  useEffect(() => {
+    dispatch(fetchInventoryRequest());
+  }, []);
 
   return (
     <BlueWhiteBackground
@@ -172,7 +218,7 @@ const QRManageMent = () => {
               />
             </View>
             <CustomText
-              title={'1,247'}
+              title={InventoryData?.data?.totalQuantity}
               textStyle={[
                 rest,
                 GlobalStyles.margin_top10,
@@ -218,7 +264,7 @@ const QRManageMent = () => {
               />
             </View>
             <CustomText
-              title={'892'}
+              title={InventoryData?.data?.availableQuantity}
               textStyle={[
                 rest,
                 GlobalStyles.margin_top10,
@@ -241,9 +287,11 @@ const QRManageMent = () => {
           ]}
         >
           <View style={[GlobalStyles.zuvyHeaderRow]}>
-            {config.ZuvyQrManagement.qrfilter.map(item => {
+            {config.ZuvyQrManagement.qrfilter.map((item, index) => {
+              const isClickable = index === 0;
               return (
                 <TouchableOpacity
+                  disabled={!isClickable}
                   onPress={() => {
                     setactiveFilter(item);
                   }}
@@ -331,14 +379,14 @@ const QRManageMent = () => {
           <CustomTextInput placeholder={'Search QR codes...'} value={''} />
         </ViewOutlined>
         <FlatList
-          data={config.dummyQr}
+          data={qrData?.data?.dummyQrs}
           keyExtractor={item => item.id}
           renderItem={({ item }) => {
             return (
               <TouchableOpacity
                 activeOpacity={0.95}
                 onPress={() => {
-                  navigation.navigate('EditQRDetails');
+                  navigation.navigate('EditQRDetails',{data:item});
                 }}
               >
                 <CardContainer
@@ -365,14 +413,14 @@ const QRManageMent = () => {
                       />
                       <View style={[getDynamicViewStyle({ left: 20 })]}>
                         <CustomText
-                          title={item.id}
+                          title={item.qrCode}
                           textStyle={[Typography.size.dynamic(12, 'medium')]}
                         />
                         <CustomText
-                          title={'Created : ' + item.createdDate}
+                          title={'Created : ' + formatDate(item.createdAt)}
                           textStyle={[
                             Typography.size.dynamic(
-                              11,
+                              10,
                               'regular',
                               colors.textColorGrey,
                             ),
@@ -381,16 +429,16 @@ const QRManageMent = () => {
                       </View>
                     </View>
                     <Badge
-                      text={item.status}
-                      backgroundColor={getStatusColor(item.status)}
-                      textcolor={getStatusTextColor(item.status)}
+                      text={'Dummy'}
+                      backgroundColor={getStatusColor(item.qrStatus)}
+                      textcolor={getStatusTextColor(item.qrStatus)}
                       padding={8}
                     />
                   </View>
                   <View style={[GlobalStyles.row, pt(10), pb(5)]}>
                     <View style={GlobalStyles.halfwidth}>
                       <CustomText
-                        title={'Sub-agent'}
+                        title={'Kit Name'}
                         textStyle={[
                           Typography.size.dynamic(
                             12,
@@ -400,7 +448,7 @@ const QRManageMent = () => {
                         ]}
                       />
                     </View>
-                    <View style={GlobalStyles.halfwidth}>
+                    {/* <View style={GlobalStyles.halfwidth}>
                       <CustomText
                         title={'Plan'}
                         textStyle={[
@@ -411,12 +459,12 @@ const QRManageMent = () => {
                           ),
                         ]}
                       />
-                    </View>
+                    </View> */}
                   </View>
                   <View style={[GlobalStyles.row, pt(1), pb(2)]}>
                     <View style={[GlobalStyles.halfwidth]}>
                       <CustomText
-                        title={item.merchant}
+                        title={item.qrName}
                         textStyle={[Typography.size.dynamic(12, 'medium')]}
                       />
                     </View>
@@ -430,7 +478,7 @@ const QRManageMent = () => {
                   <View style={[GlobalStyles.row, pt(5)]}>
                     <View style={GlobalStyles.halfwidth}>
                       <CustomText
-                        title={'Retired Date'}
+                        title={'Agent'}
                         textStyle={[
                           Typography.size.dynamic(
                             11,
@@ -442,7 +490,7 @@ const QRManageMent = () => {
                     </View>
                     <View style={GlobalStyles.halfwidth}>
                       <CustomText
-                        title={'Reason'}
+                        title={'Plan'}
                         textStyle={[
                           Typography.size.dynamic(
                             11,
@@ -456,13 +504,15 @@ const QRManageMent = () => {
                   <View style={[GlobalStyles.row, pt(5), pb(5)]}>
                     <View style={GlobalStyles.halfwidth}>
                       <CustomText
-                        title={item.lastPayment}
+                        title={
+                          item.qrStatus == 'NOT_ASSIGNED' && 'Not Assigned'
+                        }
                         textStyle={[Typography.size.dynamic(12, 'medium')]}
                       />
                     </View>
                     <View style={GlobalStyles.halfwidth}>
                       <CustomText
-                        title={item.reason}
+                        title={'--'}
                         textStyle={[Typography.size.dynamic(12, 'medium')]}
                       />
                     </View>
@@ -474,11 +524,10 @@ const QRManageMent = () => {
                     ]}
                   />
                   <View style={GlobalStyles.row}>
-                    {item.actions.map(item => (
-                      <>
-                        <CustomText title={item} />
-                      </>
-                    ))}
+                    <CustomText
+                      title={item.qrStatus == 'NOT_ASSIGNED' && 'Assign'}
+                      textStyle={{ color: colors.primaryColor }}
+                    />
                     <MaterialIcons
                       name="chevron-right"
                       size={32}
@@ -489,6 +538,29 @@ const QRManageMent = () => {
               </TouchableOpacity>
             );
           }}
+          ListEmptyComponent={() => (
+            <View
+              style={{
+                flex: 1,
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginTop: 50,
+              }}
+            >
+              <MaterialIcons
+                name="qr-code-2"
+                size={50}
+                color={Colors.grey}
+              />
+              <CustomText
+                title="No QR codes available"
+                textStyle={[
+                  Typography.size.dynamic(14, 'medium', Colors.grey),
+                  { marginTop: 10 },
+                ]}
+              />
+            </View>
+          )}
         />
       </ScrollView>
       <HoverButton onPress={() => navigation.navigate('yourCart')} />

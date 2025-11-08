@@ -148,5 +148,7 @@ export default {
   zuvyRoles :[
   { label: "Distributor", value: "Distributor" },
   { label: "Admin", value: "Admin" }
-]
+],
+RazarPayTestKey : 'rzp_test_RcvwqaDEn0lkeH',
+zuvyBlueLogoforRazarPay : 'https://res.cloudinary.com/dn9ujhfh0/image/upload/v1762590041/bluelogo_jn0iax.png'
 };

@@ -31,6 +31,7 @@ apiClient.interceptors.request.use(
       console.log('➡️ BODY:', config.data);
 
       const token = await secureStorage.getItem<string>(const_authToken);
+      console.log('TOKEN',token)
       console.log('Token' + token);
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
@@ -104,5 +105,6 @@ export default {
 notifications: (page: number, limit: number, type: string) =>
   apiClient.get(
     `notification/my-notifications?page=${page}&limit=${limit}&type=${type}`),
-  doLogout : () => apiClient.post('auth/logout')
-  };
+  doLogout : () => apiClient.post('auth/logout'),
+  VerifyRazorPayPayment: (data:any)=> apiClient.post('qr-management/distributor/verify-payment-for-dummy-qr',data),
+};

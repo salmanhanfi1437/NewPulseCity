@@ -35,7 +35,6 @@ import NotificationScreen from '../screens/NotificationScreen';
 import { navigationRef } from './NavigationService';
 import Checkout from '../screens/Checkout';
 
-
 if (__DEV__) {
   const DevSettingsAny = DevSettings as any;
 
@@ -69,23 +68,36 @@ const RootNavigator = () => {
             cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
           }}
         >
+          <Stack.Screen name={'QRManageMent'} component={QRManageMent} /> 
           <Stack.Screen name={splash} component={SplashScreen} />
-          <Stack.Screen  name="ChooseLanguage"  component={ChooseLanguagesScreen}  />
+          <Stack.Screen
+            name="ChooseLanguage"
+            component={ChooseLanguagesScreen}
+          />
           <Stack.Screen name={onBoarding} component={OnboardingScreen} />
           <Stack.Screen name={login} component={LoginScreen} />
           <Stack.Screen name={'signup'} component={SignupScreens} />
-          <Stack.Screen  name={verifyIdentity}  component={VerificationIdentityScreens} />
-          <Stack.Screen  name={kycompleted} component={VerificationCompleteScreen}/>
+          <Stack.Screen
+            name={verifyIdentity}
+            component={VerificationIdentityScreens}
+          />
+          <Stack.Screen
+            name={kycompleted}
+            component={VerificationCompleteScreen}
+          />
           <Stack.Screen name={'PromoScreen'} component={PromoScreen} />
           <Stack.Screen name={yourCart} component={YourCartScreen} />
           <Stack.Screen name={'CheckOutDetail'} component={CheckOutDetail} />
           <Stack.Screen name={'merchantTabs'} component={merchantTabs} />
           {/* <Stack.Screen name={'ZuvyDashBoard'} component={ZuvyDashBoard} /> */}
-          <Stack.Screen name={'QRManageMent'} component={QRManageMent} />
+          {/* <Stack.Screen name={'QRManageMent'} component={QRManageMent} /> */}
           <Stack.Screen name={'EditQRDetails'} component={EditQR} />
           <Stack.Screen name={'Profile'} component={UserProfile} />
           <Stack.Screen name={notifications} component={NotificationScreen} />
-          <Stack.Screen name='StateCitySelector' component={StateCitySelector}/>
+          <Stack.Screen
+            name="StateCitySelector"
+            component={StateCitySelector}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </NativeBaseProvider>

@@ -12,6 +12,7 @@ import com.facebook.react.defaults.DefaultReactNativeHost
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.brentvatne.react.ReactVideoPackage;
+import com.razorpay.rn.RazorpayPackage;
 
 class MainApplication : Application(), ReactApplication {
 
@@ -22,6 +23,7 @@ class MainApplication : Application(), ReactApplication {
               // Packages that cannot be autolinked yet can be added manually here, for example:
               // add(MyReactNativePackage())
                add(ReactVideoPackage())
+               add(RazorpayPackage())
             }
 
         override fun getJSMainModuleName(): String = "index"
