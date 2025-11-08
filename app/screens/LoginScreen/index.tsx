@@ -46,6 +46,7 @@ import {
   resendOtpTimer,
   signup,
   validEmail,
+  validMobileNumber,
   verify,
   welcomeZuvy,
   yourCart,
@@ -153,7 +154,7 @@ useEffect(() => {
     }
     else if(!isValidIndianMobile(mobileNumber))
     {
-      showAlert(t(validEmail))
+      showAlert(t(validMobileNumber))
     }
     else if (isOtpVerified) {
       // Reset to initial state

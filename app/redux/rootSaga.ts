@@ -10,6 +10,7 @@ import {dashboardSaga} from '../screens/DashBoard/dashboardSaga';
 import {notificationSaga} from '../screens/NotificationScreen/notificationSaga';
 import { DashBoardSVG } from '../assets/svg';
 import { qrManagementWatcher,InventoryWatcher } from '../screens/QrManagement/QrManagementSaga';
+import {watchEditQr} from '../screens/QrEditDetails/EditQRSaga'
 
 
 export default function* rootSaga() {
@@ -27,8 +28,8 @@ export default function* rootSaga() {
     fork(qrManagementWatcher),
     fork(notificationSaga),  
     fork(RazorPaymentSaga),
-    fork(InventoryWatcher)
-  
+    fork(InventoryWatcher),
+    fork(watchEditQr)
 
   ]);
 }

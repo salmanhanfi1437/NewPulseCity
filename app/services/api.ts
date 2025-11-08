@@ -107,4 +107,6 @@ notifications: (page: number, limit: number, type: string) =>
     `notification/my-notifications?page=${page}&limit=${limit}&type=${type}`),
   doLogout : () => apiClient.post('auth/logout'),
   VerifyRazorPayPayment: (data:any)=> apiClient.post('qr-management/distributor/verify-payment-for-dummy-qr',data),
+  updateQrDetails : (data : any) => apiClient.post('qr-management/distributor/update/{id}',data),   
+
 };

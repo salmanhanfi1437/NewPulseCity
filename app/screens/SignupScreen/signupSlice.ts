@@ -16,7 +16,7 @@ export interface SignupRequest {
 
 
 interface SignupState {
-  singupData: any;
+  singupData: any | null;
   loading: boolean;
   error: string | null;
   roleData: any;

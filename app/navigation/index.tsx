@@ -66,14 +66,14 @@ const RootNavigator = () => {
           screenOptions={{
             headerShown: false,
             cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-          }}
-        >
-          <Stack.Screen name={'QRManageMent'} component={QRManageMent} /> 
+          }}>
           <Stack.Screen name={splash} component={SplashScreen} />
+            <Stack.Screen name={'QRManageMent'} component={QRManageMent} /> 
+
           <Stack.Screen
             name="ChooseLanguage"
             component={ChooseLanguagesScreen}
-          />
+ />
           <Stack.Screen name={onBoarding} component={OnboardingScreen} />
           <Stack.Screen name={login} component={LoginScreen} />
           <Stack.Screen name={'signup'} component={SignupScreens} />

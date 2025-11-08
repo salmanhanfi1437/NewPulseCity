@@ -13,7 +13,7 @@ export type RootStackParamList = {
   kycompleted: undefined;
   yourCart: undefined;
   Profile: undefined;
-  EditQRDetails: undefined;
+  EditQRDetails: {data : any};
   QRManageMent: undefined;
   notifications: undefined;
   CheckOutDetail: { data: any };

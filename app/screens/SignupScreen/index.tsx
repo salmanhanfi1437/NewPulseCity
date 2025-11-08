@@ -63,11 +63,12 @@ const SignupScreens = ({ navigation, route }: SignupProps) => {
   const { error, singupData, roleData } = useSelector((state: RootState) => state.signup);
 
   useEffect(() => {
+      
     if (roleData || error) {
-      if (roleData?.success) {
+      if (roleData?.success == true) {
 
-      } else {
-        showAlert(error?.message)
+      } else if(error) {
+    showAlert(String(error?.message));
       }
     }
   }, [roleData, error])
@@ -110,10 +111,11 @@ const SignupScreens = ({ navigation, route }: SignupProps) => {
 
 
   useEffect(() =>{
-
-    if(singupData?.success)
+    
+    if(singupData?.success == true)
     {
-      showAlert(singupData?.success)
+         showAlert(String(singupData.message)); // ✅ cast to string
+
      
     dispatch({ type: const_RESET_STORE });  // 🔥 This will clear all slices and reset to initial state
       navigation.replace('PromoScreen');
@@ -215,6 +217,7 @@ const SignupScreens = ({ navigation, route }: SignupProps) => {
                 textStyle={[GlobalStyles.margin_top10]}/>
                <PressableOpacity
   onPress={() => {
+    
     if (!stateId) {
       showAlert('Please select a state first.');
       return;

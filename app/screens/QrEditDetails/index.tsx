@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect,useState } from 'react';
 import {
   Dimensions,
   GestureResponderEvent,
@@ -25,19 +25,24 @@ import { QrplassholderSVG } from '../../assets/svg';
 import CustomButton from '../../components/atoms/CustomButton';
 import { fontW, pb } from '../../utils/spaces';
 import { EditQRDetails } from '../../navigation/types';
+import { useDispatch } from 'react-redux';
+import { editQrRequest } from './EditQrSlice';
+import { RootState } from '../../redux/rootReducer';
+import { useSelector } from 'react-redux';
+import { showAlert } from '../../components/atoms/AlertBox/showAlert';
 const { width, height } = Dimensions.get('window');
 
 const EditQR = ({navigation,route}:EditQRDetails) => {
  
   const { color, ...avoidcolor } = GlobalStyles.faintText;
  const { data } =  route.params;
-
+  const dispatch = useDispatch();
  
-  const [kitName, setKitName] = React.useState(data?.qrName);
-  const [description, setDescription] = React.useState(data?.description);
-  const [location, setLocation] = React.useState(data?.location);
-  const [category, setCategory] = React.useState('');
-  const [contact, setContact] = React.useState(data?.creator?.mobile);
+  const [kitName, setKitName] = useState(data?.qrName);
+  const [description, setDescription] = useState(data?.description);
+  const [location, setLocation] = useState(data?.location);
+  const [category, setCategory] = useState('');
+  const [contact, setContact] = useState(data?.creator?.mobile);
   const [email, setEmail] = React.useState('--');
 
   const handleKitNameChange = (text: string) => setKitName(text);
@@ -46,6 +51,32 @@ const EditQR = ({navigation,route}:EditQRDetails) => {
   const handleCategoryChange = (value: string) => setCategory(value);
   const handleContactChange = (text: string) => setContact(text);
   const handleEmailChange = (text: string) => setEmail(text);
+
+ const { editQrData, error } = useSelector(
+    (state: RootState) => state.editQr);
+
+    useEffect(() =>{
+
+      if(editQrData || error)
+      {
+        if(editQrData?.success)
+        {
+
+        }
+        else {
+          showAlert(error?.message);
+        }
+      }
+
+    },[])
+
+   const upateQr = () => {
+      dispatch(editQrRequest({qrName :kitName,description, location: location,category,emergencyContactNumber:contact,email}))
+   }
+
+   useEffect(()=>{
+
+   },[])
 
 
   return (
@@ -359,8 +390,7 @@ const EditQR = ({navigation,route}:EditQRDetails) => {
             { borderRadius: GlobalStyles.modalDropdownList.borderRadius },
           ]}
           title={'Save Changes'}
-          onPress={() => {}}
-        />
+          onPress={() => {}}/>
 
         <View style={[GlobalStyles.row, GlobalStyles.margin_top10]}>
           <CustomButton

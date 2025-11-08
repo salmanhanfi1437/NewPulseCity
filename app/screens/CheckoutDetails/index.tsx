@@ -6,6 +6,7 @@ import {
   const_fullName,
   const_pancard_number,
   const_pincode,
+  const_RESET_STORE,
   const_state,
   const_totalAmount,
   enter,
@@ -193,6 +194,8 @@ const CheckOutDetail = ({ navigation, route }: CheckOutDetailProps) => {
     };
     RazorpayCheckout.open(options)
       .then(data => {
+         //dispatch({ type: const_RESET_STORE });
+        
         dispatch(
           VerifyRazorPayRequest({
             razorpay_payment_id: data.razorpay_payment_id,
