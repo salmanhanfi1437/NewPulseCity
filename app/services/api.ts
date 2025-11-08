@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { showLoader, hideLoader } from '../redux/slices/loaderSlice';
-import { BASE_URL } from '../types/constants';
+import { BASE_URL, const_authToken } from '../types/constants';
+import secureStorage from '../utils/secureStorage';
 
 let store: any;
 
@@ -29,7 +30,8 @@ apiClient.interceptors.request.use(
       console.log('➡️ FULL URL:', `${config.baseURL}${config.url}`);
       console.log('➡️ BODY:', config.data);
 
-      const token = STATIC_TOKEN; //await secureStorage.getItem<string>(const_authToken);
+      const token = STATIC_TOKEN //await secureStorage.getItem<string>(const_authToken);
+      console.log('TOKEN',token)
       console.log('Token' + token);
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
@@ -98,6 +100,7 @@ export default {
   getCities: (stateId: string) => apiClient.get(`location/cities/${stateId}`),
   getProfile:() => apiClient.get('user/profile'),
   getDashboard : () => apiClient.get("qr-management/distributor/inventory"),
-  viewQR: (params?: { page?: number; limit?: number; search?: string }) =>
-    apiClient.get('qr-management/distributor/view', { params }),
+  viewQR: (params:any) =>
+    apiClient.get(`qr-management/distributor/view?${params}`),
+  VerifyRazorPayPayment: (data:any)=> apiClient.post('qr-management/distributor/verify-payment-for-dummy-qr',data),
 };

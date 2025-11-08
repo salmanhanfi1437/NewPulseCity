@@ -3,12 +3,12 @@ import { chooseLanguageSaga } from '../screens/ChooseLanguagesScreen/chooseLangu
 import { loginSaga } from '../screens/LoginScreen/loginSaga';
 import {signupSaga} from '../screens/SignupScreen/signUpSaga';
 import {masterQrSaga} from '../screens/YourCartScreen/yourCartSaga';
-import {checkoutSaga} from '../screens/CheckoutDetails/checkOutSaga';
+import {checkoutSaga, RazorPaymentSaga} from '../screens/CheckoutDetails/checkOutSaga';
 import stateCitySaga from '../components/atoms/State&City/StateCitySaga';
 import {profileSaga} from '../screens/UserProfile/profileSaga';
 import {dashboardSaga} from '../screens/DashBoard/dashboardSaga';
 import { DashBoardSVG } from '../assets/svg';
-import { qrManagementWatcher } from '../screens/QrManagement/QrManagementSaga';
+import { qrManagementWatcher,InventoryWatcher } from '../screens/QrManagement/QrManagementSaga';
 
 
 export default function* rootSaga() {
@@ -24,7 +24,9 @@ export default function* rootSaga() {
     fork(checkoutSaga),
     // fork(stateCitySaga),
     fork(profileSaga),
-    fork(qrManagementWatcher)
+    fork(qrManagementWatcher),
+    fork(RazorPaymentSaga),
+    fork(InventoryWatcher)
   
   
   ]);

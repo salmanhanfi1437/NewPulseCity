@@ -1,113 +1,223 @@
-import React, { useEffect, useState } from "react";
-import {View} from 'react-native';
-import HeaderWithBackButton from "../../components/atoms/HeaderWithBackButton";
-import { alltimesupport, analyticDashboard, buynow, const_totalAmount, instantCode, itemTotal, minus, notifications, oneyearvalidity, plus, pricebreakdown, quantity, securePayment, subTotal, total, whatincluded, yourCart } from "../../types/constants";
-import { yourCartProps } from "../../navigation/types";
-import Header from "../../components/atoms/Header";
-import { useTranslation } from "react-i18next";
-import GlobalStyles, { getShadowWithElevation } from "../../styles/GlobalStyles";
-import {bgColor, fontColor, fontW, fS, height, mb, ml, mr, mt, padding, paddingH, pb, pl, textColor, textIncludedStyle} from "../../utils/spaces";
-import Card from "../../components/atoms/Card";
-import LinearGradient from "../../components/atoms/LinearGradient";
-import { Colors, Typography } from "../../styles";
-import { CartSVG, DigiLockerSVG, MinusSVG, PlusSVG, PriceBreakDownSVG, QRCodeSVG, TickWhiteSVG } from "../../assets/svg";
-import { CustomText } from "../../components/atoms/Text";
-import FontStyles from "../../styles/FontStyles";
-import PressableOpacity from "../../components/atoms/PressableOpacity";
-import ViewOutlined from "../../components/atoms/ViewOutlined";
-import CartStyles from "./styles";
-import { ScrollView } from "react-native-gesture-handler";
-import Button from "../../components/atoms/Button";
-import VerificationIdentityScreens from "../VerificationIdentityScreens";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../redux/rootReducer";
-import { MasterQrRequest, OrderQrRequest } from "./yourCartSlice";
-import { showAlert } from "../../components/atoms/AlertBox/showAlert";
-import BlueWhiteBackground from "../../components/atoms/DashBoardBG";
-import colors from "../../styles/colors";
-import HeaderComponent from "../../components/atoms/HeaderComponent";
-import CustomButton from "../../components/atoms/CustomButton";
-import { mvs } from "react-native-size-matters";
-import { Flex } from "native-base";
+import React, { useEffect, useState } from 'react';
+import { Alert, View } from 'react-native';
+import HeaderWithBackButton from '../../components/atoms/HeaderWithBackButton';
+import {
+  alltimesupport,
+  analyticDashboard,
+  buynow,
+  const_totalAmount,
+  instantCode,
+  itemTotal,
+  minus,
+  notifications,
+  oneyearvalidity,
+  plus,
+  pricebreakdown,
+  quantity,
+  securePayment,
+  subTotal,
+  total,
+  whatincluded,
+  yourCart,
+} from '../../types/constants';
+import { yourCartProps } from '../../navigation/types';
+import Header from '../../components/atoms/Header';
+import { useTranslation } from 'react-i18next';
+import GlobalStyles, {
+  getShadowWithElevation,
+} from '../../styles/GlobalStyles';
+import {
+  bgColor,
+  fontColor,
+  fontW,
+  fS,
+  height,
+  mb,
+  ml,
+  mr,
+  mt,
+  padding,
+  paddingH,
+  pb,
+  pl,
+  textColor,
+  textIncludedStyle,
+} from '../../utils/spaces';
+import Card from '../../components/atoms/Card';
+import LinearGradient from '../../components/atoms/LinearGradient';
+import { Colors, Typography } from '../../styles';
+import {
+  CartSVG,
+  DigiLockerSVG,
+  MinusSVG,
+  PlusSVG,
+  PriceBreakDownSVG,
+  QRCodeSVG,
+  TickWhiteSVG,
+} from '../../assets/svg';
+import { CustomText } from '../../components/atoms/Text';
+import FontStyles from '../../styles/FontStyles';
+import PressableOpacity from '../../components/atoms/PressableOpacity';
+import ViewOutlined from '../../components/atoms/ViewOutlined';
+import CartStyles from './styles';
+import { ScrollView } from 'react-native-gesture-handler';
+import Button from '../../components/atoms/Button';
+import VerificationIdentityScreens from '../VerificationIdentityScreens';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../redux/rootReducer';
+import { MasterQrRequest, OrderQrRequest } from './yourCartSlice';
+import { showAlert } from '../../components/atoms/AlertBox/showAlert';
+import BlueWhiteBackground from '../../components/atoms/DashBoardBG';
+import colors from '../../styles/colors';
+import HeaderComponent from '../../components/atoms/HeaderComponent';
+import CustomButton from '../../components/atoms/CustomButton';
+import { mvs } from 'react-native-size-matters';
+import { Flex } from 'native-base';
+import RazorpayCheckout from 'react-native-razorpay';
+import config from '../config';
+import { ProfileRequest } from '../UserProfile/profileSlice';
+import { VerifyRazorPayRequest } from '../CheckoutDetails/checkoutSlice';
 
-const YourCart = ({navigation} : yourCartProps) => {
+const YourCart = ({ navigation }: yourCartProps) => {
+  const { t } = useTranslation();
 
-    const {t} = useTranslation();
+  const [qty, setQty] = useState(1);
+  const [gstAmount, setGSTAmout] = useState(0);
+  const [totalAmount, setTotalAmount] = useState(0);
+  const dispatch = useDispatch();
 
-    
-    const [qty,setQty] = useState(1);
-    const [gstAmount,setGSTAmout] = useState(0);
-    const [totalAmount,setTotalAmount] = useState(0)
-    const dispatch = useDispatch();
+  const { error, mastertQrData } = useSelector(
+    (state: RootState) => state.masterQr,
+  );
+  const { qrCodeError, orderQrData } = useSelector(
+    (state: RootState) => state.masterQr,
+  );
+  const { profileData, error: profileError } = useSelector(
+    (state: RootState) => state.profile,
+  );
+  const { verifyRazaorPay_data, verifyRazaorPay_error } = useSelector(
+    (state: RootState) => state.verifyRazorPayment,
+  );
 
-        const { error,mastertQrData } = useSelector((state: RootState) => state.masterQr);
-        const { qrCodeError,orderQrData } = useSelector((state: RootState) => state.masterQr);
-
-    
-    useEffect(() => {
-
-      if(mastertQrData || error)
-      {
-          if(mastertQrData)
-          {
-          
-          }else{
-            console.log('MasterQrError '+error)
-          }
+  useEffect(() => {
+    if (mastertQrData || error) {
+      if (mastertQrData) {
+      } else {
+        console.log('MasterQrError ' + error);
       }
-
-    },[mastertQrData,error])
-
-
-    useEffect(() =>{
-
-      if(orderQrData)
-      {
-        console.log('OrderData '+JSON.stringify(orderQrData))
-        if(orderQrData?.success)
-        {
-          navigation.replace('CheckOutDetail',{data : orderQrData?.data})
-        }
-      }else{
-        showAlert(qrCodeError?.message)
-      }
-
-    },[qrCodeError,orderQrData])
-
-
-    useEffect(() =>{
-      dispatch(MasterQrRequest())
-    },[])
-
-
-
-    useEffect(() => {
-      const totalPrice = qty * mastertQrData?.data?.perUnitPrice;
-  const gstPrice = totalPrice * (mastertQrData?.data?.gst / 100);
-  setGSTAmout(gstPrice);
-
-  const totalAmount = Number(totalPrice) + gstPrice;
-      setTotalAmount(totalAmount);
-    },[qty,mastertQrData])
-
-    const handleBackPress = () => {
-        console.log("BackPRess");
     }
+  }, [mastertQrData, error]);
 
-  const updateQty = (type: 'plus'| 'minus') =>  {
-     setQty(prev =>{ if(type === plus) 
-        { 
-            return prev + 1;
-         }
-  else if(type === minus && prev != 1) 
-    { 
-        return prev - 1 
+  useEffect(() => {
+    if (orderQrData) {
+      console.log('OrderData ' + JSON.stringify(orderQrData));
+      if (orderQrData?.success) {
+        handleCheckout();
+      }
+    } else {
+      showAlert(qrCodeError?.message);
+    }
+  }, [qrCodeError, orderQrData]);
 
-    } return prev; }) 
-}
+  useEffect(() => {
+    if (verifyRazaorPay_data || verifyRazaorPay_error) {
+      if (verifyRazaorPay_data?.success) {
+        navigation.replace('merchantTabs');
+      }
+    } else {
+      showAlert(verifyRazaorPay_error?.message);
+    }
+  }, [verifyRazaorPay_data, verifyRazaorPay_error]);
 
+  useEffect(() => {
+    dispatch(MasterQrRequest());
+  }, []);
 
-    return (
+  useEffect(() => {
+    const totalPrice = qty * mastertQrData?.data?.perUnitPrice;
+    const gstPrice = totalPrice * (mastertQrData?.data?.gst / 100);
+    setGSTAmout(gstPrice);
+
+    const totalAmount = Number(totalPrice) + gstPrice;
+    setTotalAmount(totalAmount);
+  }, [qty, mastertQrData]);
+
+  const handleBackPress = () => {
+    console.log('BackPRess');
+  };
+
+  const updateQty = (type: 'plus' | 'minus') => {
+    setQty(prev => {
+      if (type === plus) {
+        return prev + 1;
+      } else if (type === minus && prev != 1) {
+        return prev - 1;
+      }
+      return prev;
+    });
+  };
+
+  useEffect(() => {
+    if (profileData) {
+      if (profileData?.success) {
+      }
+    } else {
+      showAlert(profileError?.message);
+    }
+  }, [profileData, profileError]);
+
+  const handleCheckout = () => {
+    // order data
+    const orderData = orderQrData?.data;
+    // 🔹 Check condition
+    if (mastertQrData?.data?.hasCheckoutDetails === false) { 
+      // Navigate to checkout detail screen
+      navigation.replace('CheckOutDetail', { data: orderData });
+    } else {
+      // Open Razorpay directly
+      const options: any = {
+        description:
+          mastertQrData?.data?.description || 'Payment for QR Package',
+        image: config.zuvyBlueLogoforRazarPay,
+        currency: orderData.currency,
+        key: config.RazarPayTestKey,
+        amount: parseInt(orderData.amount) * 100, // convert to paise
+        order_id: orderData?.razorpayOrderId,
+        prefill: {
+          email: profileData?.data?.email,
+          contact: profileData?.data?.mobile,
+          name: profileData?.data?.name,
+        },
+        theme: { color: colors.white },
+      };
+
+      RazorpayCheckout.open(options)
+        .then(data => {
+          // console.log('Payment success', data);
+          dispatch(
+            VerifyRazorPayRequest({
+              razorpay_payment_id: data.razorpay_payment_id,
+              razorpay_order_id: data.razorpay_order_id,
+              razorpay_signature: data.razorpay_signature,
+            }),
+          );
+        })
+        .catch(error => {
+          console.log('Payment failed', error);
+          if (error?.error?.reason === 'payment_cancelled') {
+            Alert.alert('Cancelled', 'You cancelled the payment.');
+          } else {
+            Alert.alert('Error', error.description || 'Payment failed.');
+          }
+        });
+    }
+  };
+
+  useEffect(() => {
+    dispatch(ProfileRequest());
+  }, []);
+
+  return (
     <BlueWhiteBackground
       headerHeight={90}
       BlueWhiteBackgroundStyle={{ backgroundColor: colors.white }}
@@ -189,7 +299,8 @@ const YourCart = ({navigation} : yourCartProps) => {
             <View style={[CartStyles.viewQty, mt(-1)]}>
               <CustomText
                 title={quantity}
-                textStyle={[CartStyles.qtyText, Typography.style.subTextU()]}/>
+                textStyle={[CartStyles.qtyText, Typography.style.subTextU()]}
+              />
 
               <View style={[GlobalStyles.viewRow]}>
                 <PressableOpacity onPress={() => updateQty(minus)}>
@@ -200,7 +311,7 @@ const YourCart = ({navigation} : yourCartProps) => {
                   </View>
                 </PressableOpacity>
 
-                <View style={[CartStyles.viewQty,ml(mvs(10)),mr(10),mt(0)]}>
+                <View style={[CartStyles.viewQty, ml(mvs(10)), mr(10), mt(0)]}>
                   <CustomText title={qty} textStyle={[FontStyles.buttonText]} />
                 </View>
 
@@ -263,7 +374,8 @@ const YourCart = ({navigation} : yourCartProps) => {
                   CartStyles.itemTotalText,
                   textColor(colors.fadeTextColor),
                   Typography.weights.mediumU(),
-                ]}/>
+                ]}
+              />
               <CustomText
                 title={`₹${gstAmount.toFixed(2)}`}
                 textStyle={[FontStyles.headingText]}
@@ -288,12 +400,13 @@ const YourCart = ({navigation} : yourCartProps) => {
 
           <LinearGradient
             style={[CartStyles.viewViewIncluded, GlobalStyles.viewRow]}
-            colors={[Colors.color_F0FDF4, Colors.color_EFF6FF]}>
+            colors={[Colors.color_F0FDF4, Colors.color_EFF6FF]}
+          >
             <View style={[CartStyles.circleGreen, GlobalStyles.viewCenter]}>
               <TickWhiteSVG />
             </View>
 
-            <View style={[ml(15),GlobalStyles.flexShrink1]}>
+            <View style={[ml(15), GlobalStyles.flexShrink1]}>
               <CustomText
                 title={whatincluded}
                 textStyle={[FontStyles.headingText]}
@@ -364,7 +477,8 @@ const YourCart = ({navigation} : yourCartProps) => {
             leftIcon={<CartSVG />}
             title={buynow}
             textStyles={[fS(14), pl(10)]}
-            onPress={() => dispatch(OrderQrRequest({quantity:qty}))}
+            onPress={() => dispatch(OrderQrRequest({ quantity: qty }))}
+         
             buttonStyle={[
               GlobalStyles.ZuvyDashBoardContainer,
               mb(0),
@@ -388,6 +502,6 @@ const YourCart = ({navigation} : yourCartProps) => {
       </ScrollView>
     </BlueWhiteBackground>
   );
-}
+};
 
 export default React.memo(YourCart);

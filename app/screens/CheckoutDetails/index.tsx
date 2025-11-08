@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {  View } from 'react-native';
+import { Alert, View } from 'react-native';
 import {
   const_address,
   const_city,
@@ -37,11 +37,8 @@ import {
   pl,
   mr,
 } from '../../utils/spaces';
-
 import { Colors } from '../../styles';
-import {
-  CartSVG,
-} from '../../assets/svg';
+import { CartSVG } from '../../assets/svg';
 import { CustomText } from '../../components/atoms/Text';
 import FontStyles from '../../styles/FontStyles';
 import PressableOpacity from '../../components/atoms/PressableOpacity';
@@ -59,14 +56,17 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/rootReducer';
 import { showAlert } from '../../components/atoms/AlertBox/showAlert';
-import { checkOutRequest } from './checkoutSlice';
+import { checkOutRequest, VerifyRazorPayRequest } from './checkoutSlice';
 import { isValidPAN } from '../../utils/helper';
+import RazorpayCheckout from 'react-native-razorpay';
+import { ProfileRequest } from '../UserProfile/profileSlice';
+import { MasterQrRequest } from '../YourCartScreen/yourCartSlice';
 
 const CheckOutDetail = ({ navigation, route }: CheckOutDetailProps) => {
   const { t } = useTranslation();
   console.log('Route ' + JSON.stringify(route));
-  const { data } = route.params
-
+  const { data } =  route.params;
+  console.log('cehkec ---- params ---.',data)
 
   const [fullName, setFullName] = useState('');
   const [PanCard, setPanCard] = useState('');
@@ -76,67 +76,143 @@ const CheckOutDetail = ({ navigation, route }: CheckOutDetailProps) => {
   const [state, setState] = useState('');
   const [city, setCity] = useState('');
   const [pinCode, setPinCode] = useState('');
-  const [stateId,setStateId] = useState('');
-  const [cityId,setCityId] = useState('');
-  const { checkOutData, error } = useSelector((state: RootState) => state.orderQr);
+  const [stateId, setStateId] = useState('');
+  const [cityId, setCityId] = useState('');
+  const { checkOutData, error } = useSelector(
+    (state: RootState) => state.orderQr,
+  );
+  const { verifyRazaorPay_data, verifyRazaorPay_error } = useSelector(
+    (state: RootState) => state.verifyRazorPayment,
+  );
+    const { profileData, error: profileError } = useSelector(
+      (state: RootState) => state.profile,
+    );
+      const { error:masterQrError, mastertQrData } = useSelector(
+        (state: RootState) => state.masterQr,
+      );
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
+    useEffect(() => {
+      dispatch(MasterQrRequest());
+    }, []);
+
+      useEffect(() => {
+        if (mastertQrData || masterQrError) {
+          if (mastertQrData) {
+          } else {
+            console.log('MasterQrError ' + masterQrError);
+          }
+        }
+      }, [mastertQrData, masterQrError]);
     
+
+  useEffect(() => {
     if (checkOutData || error) {
-      
-     if(checkOutData?.success)
-        
-      {
-        showAlert(checkOutData?.message)
-      navigation.replace('merchantTabs');
+      if (checkOutData?.success) {
+        showAlert(checkOutData?.message);
+        handleRazorPayment();
+      } else {
+        handleRazorPayment();
+
+        // showAlert(error?.message);
       }
-      else{
-      showAlert(error?.message);
-            //navigation.navigate('merchantTabs')
-
-      }
-    } 
-
-  }, [checkOutData, error])
-
+    }
+  }, [checkOutData, error]);
 
   const handleBackPress = () => {
     navigation.goBack();
   };
+    useEffect(() => {
+      if (profileData) {
+        if (profileData?.success) {
+        }
+      } else {
+        showAlert(profileError?.message);
+      }
+    }, [profileData, profileError]);
+  
+
+    useEffect(() => {
+      dispatch(ProfileRequest());
+    }, []);
+
+  useEffect(() => {
+    if (verifyRazaorPay_data || verifyRazaorPay_error) {
+      if (verifyRazaorPay_data?.success) {
+        navigation.replace('merchantTabs');
+      }
+    } else {
+      showAlert(verifyRazaorPay_error?.message);
+    }
+  }, [verifyRazaorPay_data,verifyRazaorPay_error]);
 
   const HandlePayment = () => {
-    
     if (fullName == '') {
-      showAlert(`${t(const_fullName)} ${t(enter)} `)
+      showAlert(`${t(const_fullName)} ${t(enter)} `);
+    } else if (!isValidPAN(PanCard)) {
+      showAlert(t(validPanCardNumber));
+    } else if (address == '') {
+      showAlert(`${t(const_address)} ${t(enter)} `);
+    } else if (stateId == '') {
+      showAlert(`Select State`);
+    } else if (city == '') {
+      showAlert(`Select City`);
+    } else if (pinCode == '') {
+      showAlert(`Enter Pin code`);
+    } else {
+      dispatch(
+        checkOutRequest({
+          fullName,
+          pancard: PanCard.toUpperCase(),
+          gstNumber: GSTNumber,
+          legalCompanyName: companyName,
+          state: state,
+          city: city,
+          pincode: pinCode,
+          address,
+        }),
+      );
     }
-    else if(!isValidPAN(PanCard))
-    {
-      showAlert(t(validPanCardNumber))
-    }
-   
-    else if (address == '') {
-      showAlert(`${t(const_address)} ${t(enter)} `)
-    }
-     else if(stateId == '')
-    {
-      showAlert(`Select State`)
-    }
-    else if(city == '')
-    {
-      showAlert(`Select City`)
-    }
-     else if(pinCode == '')
-    {
-      showAlert(`Enter Pin code`)
-    }
-    
-    else {
-      dispatch(checkOutRequest({ fullName, pancard: PanCard.toUpperCase(), gstNumber: GSTNumber, legalCompanyName: companyName, state: state, city: city, pincode: pinCode, address }))
-    }
+  };
 
-  }
+  const handleRazorPayment = () => {
+    var options: any = {
+      description: mastertQrData?.data?.description || 'Payment for QR Package',
+      image: config.zuvyBlueLogoforRazarPay,
+      currency: data.currency,
+      key: config.RazarPayTestKey,
+      amount:parseInt(data.amount) * 100,
+      order_id: data.razorpayOrderId, 
+      prefill: {
+        email: profileData?.data?.email,
+        contact: profileData?.data?.mobile,
+        name: profileData?.data?.name,
+      },
+      theme: { color: colors.white },
+    };
+    RazorpayCheckout.open(options)
+      .then(data => {
+        dispatch(
+          VerifyRazorPayRequest({
+            razorpay_payment_id: data.razorpay_payment_id,
+            razorpay_order_id: data.razorpay_order_id,
+            razorpay_signature: data.razorpay_signature,
+          }),
+        );
+      })
+      .catch(error => {
+        console.log('Payment failed/cancelled', error);
+        if (error?.description?.includes('payment_cancelled')) {
+          Alert.alert('Payment Cancelled ❌', 'You cancelled the payment.');
+        } else {
+          Alert.alert(
+            'Payment Failed ⚠️',
+            error.description || 'Something went wrong. Please try again.',
+          );
+        }
+      });
+  };
 
   return (
     <BlueWhiteBackground
@@ -179,7 +255,11 @@ const CheckOutDetail = ({ navigation, route }: CheckOutDetailProps) => {
               },
             ]}
           >
-            <CustomTextInput placeholder={fullName} value={fullName} onChangeText={setFullName} />
+            <CustomTextInput
+              placeholder={fullName}
+              value={fullName}
+              onChangeText={setFullName}
+            />
           </ViewOutlined>
 
           <CustomText
@@ -193,8 +273,13 @@ const CheckOutDetail = ({ navigation, route }: CheckOutDetailProps) => {
                 borderColor: Colors.borderBottomColor,
                 borderRadius: GlobalStyles.ZuvyDashBoardBtn.borderRadius,
               },
-            ]}>
-            <CustomTextInput placeholder={'e.g. ABCDE1234F'} value={PanCard.toUpperCase()} onChangeText={setPanCard} />
+            ]}
+          >
+            <CustomTextInput
+              placeholder={'e.g. ABCDE1234F'}
+              value={PanCard.toUpperCase()}
+              onChangeText={setPanCard}
+            />
           </ViewOutlined>
           <View style={[GlobalStyles.viewRow]}>
             <CustomText
@@ -218,7 +303,11 @@ const CheckOutDetail = ({ navigation, route }: CheckOutDetailProps) => {
               },
             ]}
           >
-            <CustomTextInput placeholder={'e.g. 22AAAAA0000A1Z5'} value={GSTNumber} onChangeText={setGSTNumber} />
+            <CustomTextInput
+              placeholder={'e.g. 22AAAAA0000A1Z5'}
+              value={GSTNumber}
+              onChangeText={setGSTNumber}
+            />
           </ViewOutlined>
           <View style={[GlobalStyles.viewRow]}>
             <CustomText
@@ -242,10 +331,13 @@ const CheckOutDetail = ({ navigation, route }: CheckOutDetailProps) => {
               },
             ]}
           >
-            <CustomTextInput placeholder={'Your company name'} value={companyName} onChangeText={setLegalCompany} />
+            <CustomTextInput
+              placeholder={'Your company name'}
+              value={companyName}
+              onChangeText={setLegalCompany}
+            />
           </ViewOutlined>
 
-         
           {/* <ViewOutlined
             viewStyle={[
               GlobalStyles.borderStyles,
@@ -267,99 +359,118 @@ const CheckOutDetail = ({ navigation, route }: CheckOutDetailProps) => {
                 borderColor: Colors.borderBottomColor,
                 borderRadius: GlobalStyles.ZuvyDashBoardBtn.borderRadius,
                 height: GlobalStyles.playGradientBox.height,
-              },]}>
-            <CustomTextInput placeholder={''} multiline value={address} onChangeText={setAddress} />
+              },
+            ]}
+          >
+            <CustomTextInput
+              placeholder={''}
+              multiline
+              value={address}
+              onChangeText={setAddress}
+            />
           </ViewOutlined>
 
- <View style={[GlobalStyles.viewRow]}>
-
-            <View style={[GlobalStyles.flexOne,mr(15)]}>
-              
+          <View style={[GlobalStyles.viewRow]}>
+            <View style={[GlobalStyles.flexOne, mr(15)]}>
               <CustomText
                 title={const_state}
-                textStyle={[GlobalStyles.margin_top10]}/>
-          
+                textStyle={[GlobalStyles.margin_top10]}
+              />
 
-          <PressableOpacity
-  onPress={() => {
-    navigation.navigate('StateCitySelector', {
-      type: 'state',
-      onSelect: (selected: any) => {
-        setState(selected.name); // updates local state
-        setCity(''); // reset city when state changes
-        setStateId(selected.id)
-      },
-    });
-  }}>
-              <ViewOutlined
-                viewStyle={[
-                  GlobalStyles.borderStyles,
-                  {
-                    borderColor: Colors.borderBottomColor,
-                    borderRadius: GlobalStyles.ZuvyDashBoardBtn.borderRadius,
-                  },]}>
-                <CustomTextInput placeholder={const_state} value={state} onChangeText={setState} editable={false} />
-              </ViewOutlined>
+              <PressableOpacity
+                onPress={() => {
+                  navigation.navigate('StateCitySelector', {
+                    type: 'state',
+                    onSelect: (selected: any) => {
+                      setState(selected.name); // updates local state
+                      setCity(''); // reset city when state changes
+                      setStateId(selected.id);
+                    },
+                  });
+                }}
+              >
+                <ViewOutlined
+                  viewStyle={[
+                    GlobalStyles.borderStyles,
+                    {
+                      borderColor: Colors.borderBottomColor,
+                      borderRadius: GlobalStyles.ZuvyDashBoardBtn.borderRadius,
+                    },
+                  ]}
+                >
+                  <CustomTextInput
+                    placeholder={const_state}
+                    value={state}
+                    onChangeText={setState}
+                    editable={false}
+                  />
+                </ViewOutlined>
               </PressableOpacity>
-
             </View>
           </View>
 
- <View style={[GlobalStyles.flexOne]}>
-              
-              <CustomText
-                title={const_city}
-                textStyle={[GlobalStyles.margin_top10]}/>
-               <PressableOpacity
-  onPress={() => {
-    if (!stateId) {
-      showAlert('Please select a state first.');
-      return;
-    }
+          <View style={[GlobalStyles.flexOne]}>
+            <CustomText
+              title={const_city}
+              textStyle={[GlobalStyles.margin_top10]}
+            />
+            <PressableOpacity
+              onPress={() => {
+                if (!stateId) {
+                  showAlert('Please select a state first.');
+                  return;
+                }
 
-    navigation.navigate('StateCitySelector', {
-      type: 'city',
-      stateId: stateId, // Pass selected state ID
-      onSelect: (selected: any) => {
-        setCity(selected.name);
-        setCityId(selected.id)
-      },
-    });
-  }}
->
-  <ViewOutlined
-    viewStyle={[
-      GlobalStyles.borderStyles,
-      {
-        borderColor: Colors.borderBottomColor,
-        borderRadius: GlobalStyles.ZuvyDashBoardBtn.borderRadius,
-      },
-    ]}
-  >
-                   <CustomTextInput placeholder={const_city} value={city} onChangeText={setCity} editable={false} />
-
-  </ViewOutlined>
-</PressableOpacity>
-           
-            </View>
-
-<View style={[GlobalStyles.flexOne,mr(15)]}>
-              
-              <CustomText
-                title={const_pincode}
-                textStyle={[GlobalStyles.margin_top10]}/>
+                navigation.navigate('StateCitySelector', {
+                  type: 'city',
+                  stateId: stateId, // Pass selected state ID
+                  onSelect: (selected: any) => {
+                    setCity(selected.name);
+                    setCityId(selected.id);
+                  },
+                });
+              }}
+            >
               <ViewOutlined
                 viewStyle={[
                   GlobalStyles.borderStyles,
                   {
                     borderColor: Colors.borderBottomColor,
                     borderRadius: GlobalStyles.ZuvyDashBoardBtn.borderRadius,
-                  },]}>
-                <CustomTextInput placeholder={const_pincode} value={pinCode} onChangeText={setPinCode}  />
+                  },
+                ]}
+              >
+                <CustomTextInput
+                  placeholder={const_city}
+                  value={city}
+                  onChangeText={setCity}
+                  editable={false}
+                />
               </ViewOutlined>
-           
-            </View>
+            </PressableOpacity>
+          </View>
 
+          <View style={[GlobalStyles.flexOne, mr(15)]}>
+            <CustomText
+              title={const_pincode}
+              textStyle={[GlobalStyles.margin_top10]}
+            />
+            <ViewOutlined
+              viewStyle={[
+                GlobalStyles.borderStyles,
+                {
+                  borderColor: Colors.borderBottomColor,
+                  borderRadius: GlobalStyles.ZuvyDashBoardBtn.borderRadius,
+                },
+              ]}
+            >
+              <CustomTextInput
+                placeholder={const_pincode}
+                value={pinCode}
+                onChangeText={setPinCode}
+              />
+            </ViewOutlined>
+          </View>
         </CardContainer>
         <View style={[CartStyles.totalView]}>
           <View
@@ -367,7 +478,8 @@ const CheckOutDetail = ({ navigation, route }: CheckOutDetailProps) => {
               CartStyles.viewSubTotal,
               GlobalStyles.ZuvyDashBoardContainer,
               mt(2),
-            ]}>
+            ]}
+          >
             <CustomText
               title={const_totalAmount}
               textStyle={[
@@ -405,7 +517,9 @@ const CheckOutDetail = ({ navigation, route }: CheckOutDetailProps) => {
               GlobalStyles.containerPaddings,
               mb(10),
               fS(12),
-              textColor(colors.grey)]} />
+              textColor(colors.grey),
+            ]}
+          />
         </View>
       </ScrollView>
     </BlueWhiteBackground>

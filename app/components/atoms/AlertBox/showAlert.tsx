@@ -7,7 +7,7 @@ import { Alert } from 'react-native';
  * @param onPress - Optional callback for OK button
  */
 export const showAlert = (
-  message?: string,
+  message?: string | any,
   title: string = 'Alert',
   onPress?: () => void
 ) => {

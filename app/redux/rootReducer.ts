@@ -8,7 +8,10 @@ import orderQrReducer from '../screens/CheckoutDetails/checkoutSlice';
 import stateCityReducer from '../components/atoms/State&City/StateCitySlice';
 import profileReducer from '../screens/UserProfile/profileSlice';
 import dashboardReducer from '../screens/DashBoard/dashboardSlice';
- 
+import VerifyRazorPayment from  '../screens/CheckoutDetails/checkoutSlice'
+import qrManagementReducer from  "../screens/QrManagement/QrmanagementSlice"
+
+
 const rootReducer = combineReducers({
   loader: loaderReducer,
   sendOtp : sendOtpReducer,
@@ -19,6 +22,9 @@ const rootReducer = combineReducers({
     stateCity : stateCityReducer,
     profile : profileReducer,
     dashboard : dashboardReducer,
+    verifyRazorPayment : VerifyRazorPayment,
+    qrManagement:qrManagementReducer,
+    fetchInventory: qrManagementReducer
 
 });
 
