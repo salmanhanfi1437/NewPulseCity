@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { FlatList, ScrollView, TouchableOpacity, View } from 'react-native';
+import { FlatList, ScrollView, TouchableOpacity, View,Text } from 'react-native';
 import { CustomText } from '../../components/atoms/Text';
 import config from '../config';
 import GlobalStyles, {
@@ -33,7 +33,9 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/rootReducer';
 import { DashboardRequest } from './dashboardSlice';
-import { bgColor, fS } from '../../utils/spaces';
+import { bgColor, fontColor, fS } from '../../utils/spaces';
+import { getNextMonthDate, getNextNDaysDate } from '../../utils/dateUtils';
+import FontStyles from '../../styles/FontStyles';
 
 const ZuvyDashBoard = () => {
   const navigation = useNavigation<any>();
@@ -86,7 +88,7 @@ const ZuvyDashBoard = () => {
         GlobalStyles.ZuvyDashBoardScrollContent,
         { backgroundColor: GlobalStyles.whiteColor.color },
       ]}
-    >
+>
       <BlueWhiteBackground headerHeight={80}>
         <ZuvyHeader
           onProfilePress={() => navigation.navigate('Profile')}
@@ -94,7 +96,7 @@ const ZuvyDashBoard = () => {
         />
         <View style={GlobalStyles.translusantContainer}>
           <CustomText
-            title={`Welcome Back ${dashboardData?.data?.name}`}
+            title={`Welcome Back ${dashboardData?.data?.distributorName}`}
             textStyle={[GlobalStyles.mobileText]}
           />
           <CustomText
@@ -103,12 +105,12 @@ const ZuvyDashBoard = () => {
           />
           <View style={[GlobalStyles.zuvyRightIcons, { marginVertical: 5 }]}>
             <CustomText
-              title={config.ZuvyDashBoard.city}
+              title={`City : ${dashboardData?.data?.city}`}
               textStyle={[GlobalStyles.imageText, { fontSize: ms(12) }]}
             />
             <VerticalLine />
             <CustomText
-              title={config.ZuvyDashBoard.distriduteID}
+              title={`Mobile Number: ${dashboardData?.data?.distributorMobile}`}
               textStyle={[GlobalStyles.imageText, { fontSize: ms(12) }]}
             />
           </View>
@@ -137,7 +139,7 @@ const ZuvyDashBoard = () => {
               ]}
             />
             <CustomText
-              title={'15 kits'}
+              title={`${dashboardData?.data?.totalQuantity} kits`}
               textStyle={[
                 GlobalStyles.headingText,
                 GlobalStyles.avoidTopMargin,
@@ -154,7 +156,7 @@ const ZuvyDashBoard = () => {
               ]}
             />
             <CustomText
-              title={'0'}
+              title={`${dashboardData?.data?.usedQuantity} kits`}
               textStyle={[
                 GlobalStyles.headingText,
                 GlobalStyles.avoidTopMargin,
@@ -167,8 +169,7 @@ const ZuvyDashBoard = () => {
             style={[
               GlobalStyles.zuvyRightIcons,
               { alignItems: GlobalStyles.avoidJustify.justifyContent },
-            ]}
-          >
+            ]}>
             <CalendarSVG width={ms(20)} height={ms(30)} />
             <View style={GlobalStyles.textConatiner}>
               <CustomText
@@ -179,10 +180,10 @@ const ZuvyDashBoard = () => {
                 title={config.ZuvyDashBoard.activationDate}
                 textStyle={[Typography.size.dynamic(13)]}
               />
-              <CustomText
-                title={'15/12/2024'}
-                textStyle={[Typography.size.dynamic(13)]}
-              />
+              <Text
+              style={[Typography.size.dynamic(13)]}
+              >{getNextMonthDate()}</Text>
+                
             </View>
           </View>
           <View
@@ -198,17 +199,20 @@ const ZuvyDashBoard = () => {
                 title={config.ZuvyDashBoard.refund}
                 textStyle={[Typography.size.dynamic(12), GlobalStyles.fadeText]}
               />
-              <CustomText
-                title={config.ZuvyDashBoard.refunddate}
-                textStyle={[Typography.size.dynamic(13)]}
-              />
+              <Text
+              style={[Typography.size.dynamic(13)]}
+              >{getNextNDaysDate(20)}</Text>
             </View>
           </View>
-          <CustomButton
+          {
+            dashboardData?.data?.totalQuantity > 0&& 
+            <CustomButton
+          disabled={dashboardData?.data?.totalQuantity == 0 ? true : false}
             title={config.ZuvyDashBoard.viewKit}
             buttonStyle={[
               GlobalStyles.ZuvyDashBoardBtn,
-              { width: GlobalStyles.width70.width * 1.2 },
+              
+              { width: GlobalStyles.width70.width * 1.2, },
             ]}
             textStyles={GlobalStyles.ZuvyDashBoardBtnText}
             onPress={() => {
@@ -217,6 +221,21 @@ const ZuvyDashBoard = () => {
             leftIcon={<HumburgerSVG />}
             rightIcon={<RightSVG />}
           />
+          }
+
+            {
+            dashboardData?.data?.totalQuantity == 0 && 
+          <CustomText
+              title={`Please purchase QR`}
+              textStyle={[
+                GlobalStyles.headingText,
+                GlobalStyles.avoidTopMargin,
+                fontColor(Colors.primaryColor),
+                GlobalStyles.textAlign
+              ]}
+            />
+          }
+          
         </CardContainer>
         <View
           style={[

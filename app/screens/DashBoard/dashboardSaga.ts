@@ -21,7 +21,6 @@ const response = yield call(api.getDashboard);
 
 
 
-
 export function* dashboardSaga(): Generator {
   yield takeLatest(DashboardRequest.type, handleFetchDashboardData);
 }

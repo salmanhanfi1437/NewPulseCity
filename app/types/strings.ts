@@ -21,3 +21,9 @@ export const NotificationData = [
   { id: 10, title: all, msg: "Your zQR-0071214  has been successfully dispacted and is on the way",isNew:false,dateTime: "20-10-2025 08:00 PM" },
   
 ];
+
+
+export const capitalizeFirstLetter = (text: string): string => {
+  if (!text) return '';
+  return text.charAt(0).toUpperCase() + text.slice(1);
+};

@@ -60,23 +60,20 @@ const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
     { cancelable: true }
   );
 };
-    useEffect(() =>{
+   useEffect(() => {
+  if (logoutData) {
+    if (logoutData?.success) {
+      showAlert(logoutData?.message);
+      secureStorage.clearAll();
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'ChooseLanguage' }],
+      });
+      dispatch(LogoutRequest()); // 👈 resets logoutData to null
+    }
+  }
+}, [logoutData]);
 
-       if(logoutData)
-          {
-            console.log('Logoutg '+logoutData);
-            if(logoutData?.success)
-            {
-              showAlert(logoutData?.message);
-              secureStorage.clearAll();
-              navigation.reset({
-                        index: 0,
-                        routes: [{ name: 'ChooseLanguage' }],
-                      })}
-          }else{
-            showAlert('Please Try again')
-          }
-    },[logoutData])
 
   
 
@@ -262,10 +259,9 @@ const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
                           'medium',
                           colors.fadeTextColor,
                         ),
-                      ]}
-                    />
+                      ]}/>
                     <CustomText
-                      title={'__'}
+                      title={'SHIPPING'}
                       style={[restFont, fontColor(Colors.black)]}
                     />
                   </View>

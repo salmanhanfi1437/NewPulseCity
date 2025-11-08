@@ -11,7 +11,7 @@ import { Colors } from "../../styles";
 import { const_RESET_STORE, notifications } from "../../types/constants";
 import GlobalStyles from "../../styles/GlobalStyles";
 import { mt } from "../../utils/spaces";
-import { NotificationTabs } from "../../types/strings";
+import { capitalizeFirstLetter, NotificationTabs } from "../../types/strings";
 import NotificationItems from "../../components/atoms/Notificationtems";
 import HeaderComponent from "../../components/atoms/HeaderComponent";
 import BlueWhiteBackground from "../../components/atoms/DashBoardBG";
@@ -19,6 +19,7 @@ import colors from "../../styles/colors";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/rootReducer";
 import { NotificationRequest } from "./notificationSlice";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const Notifications = () => {
   const [index, setIndex] = useState(0);
@@ -114,12 +115,12 @@ const Notifications = () => {
   };
 
   return (
+    <SafeAreaView style={{ flex: 1, backgroundColor: colors.white }}>
     <BlueWhiteBackground
       headerHeight={70}
-      BlueWhiteBackgroundStyle={{ backgroundColor: colors.white }}
-    >
+      BlueWhiteBackgroundStyle={{ backgroundColor: colors.white }}>
       <HeaderComponent
-        title={notifications}
+        title={capitalizeFirstLetter(notifications)}
         showBack
         rightIcon={false}
         IconColor={GlobalStyles.blackcolor.color}
@@ -168,6 +169,7 @@ const Notifications = () => {
         }}
       />
     </BlueWhiteBackground>
+    </SafeAreaView>
   );
 };
 

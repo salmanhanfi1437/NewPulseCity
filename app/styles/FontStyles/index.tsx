@@ -38,7 +38,7 @@ const FontStyles = StyleSheet.create({
 
    buttonText: {
     color: Colors.black,
-    fontSize: ms(16),
+    fontSize: ms(14),
     fontWeight:'700',
     ...Typography.weights.boldU,
   },
@@ -48,7 +48,7 @@ const FontStyles = StyleSheet.create({
         ...Typography.weights.boldU,
     },
     subText: {
-        fontSize: ms(14),
+        fontSize: ms(12),
         color: Colors.black,
         fontWeight: '400',
         ...Typography.weights.mediumU,
