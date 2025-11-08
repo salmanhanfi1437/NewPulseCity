@@ -218,7 +218,7 @@ const QRManageMent = () => {
               />
             </View>
             <CustomText
-              title={InventoryData.data.totalQuantity}
+              title={InventoryData?.data?.totalQuantity}
               textStyle={[
                 rest,
                 GlobalStyles.margin_top10,
@@ -264,7 +264,7 @@ const QRManageMent = () => {
               />
             </View>
             <CustomText
-              title={InventoryData.data.availableQuantity}
+              title={InventoryData?.data?.availableQuantity}
               textStyle={[
                 rest,
                 GlobalStyles.margin_top10,
@@ -386,7 +386,7 @@ const QRManageMent = () => {
               <TouchableOpacity
                 activeOpacity={0.95}
                 onPress={() => {
-                  navigation.navigate('EditQRDetails');
+                  navigation.navigate('EditQRDetails',{data:item});
                 }}
               >
                 <CardContainer

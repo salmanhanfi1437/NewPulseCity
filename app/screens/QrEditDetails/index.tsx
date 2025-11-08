@@ -24,20 +24,21 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { QrplassholderSVG } from '../../assets/svg';
 import CustomButton from '../../components/atoms/CustomButton';
 import { fontW, pb } from '../../utils/spaces';
+import { EditQRDetails } from '../../navigation/types';
 const { width, height } = Dimensions.get('window');
 
-const EditQR = () => {
-  const navigation = useNavigation<any>();
+const EditQR = ({navigation,route}:EditQRDetails) => {
+ 
   const { color, ...avoidcolor } = GlobalStyles.faintText;
+ const { data } =  route.params;
 
-  const [kitName, setKitName] = React.useState('QR For Grocery Kit');
-  const [description, setDescription] = React.useState(
-    'Complete security solution for home and get it done',
-  );
-  const [location, setLocation] = React.useState('Living Room - Main Entrance');
+ 
+  const [kitName, setKitName] = React.useState(data?.qrName);
+  const [description, setDescription] = React.useState(data?.description);
+  const [location, setLocation] = React.useState(data?.location);
   const [category, setCategory] = React.useState('');
-  const [contact, setContact] = React.useState('+91 9470041619');
-  const [email, setEmail] = React.useState('john.doe@email.com');
+  const [contact, setContact] = React.useState(data?.creator?.mobile);
+  const [email, setEmail] = React.useState('--');
 
   const handleKitNameChange = (text: string) => setKitName(text);
   const handleDescriptionChange = (text: string) => setDescription(text);
@@ -195,9 +196,9 @@ const EditQR = () => {
           >
             <Dropdown
               data={['test1', 'test2', 'test3']}
-              selectedValue={''}
-              placeholder={config.ZuvyQrEdit.Security}
-              onSelect={() => {handleCategoryChange}}
+              selectedValue={category}
+              // placeholder={config.ZuvyQrEdit.Security}
+              onSelect={(value) => {handleCategoryChange(value)}}
             />
           </ViewOutlined>
         </CardContainer>
