@@ -8,13 +8,12 @@ export type RootStackParamList = {
   Login: undefined;
   OnBoard: undefined;
     signup: any; // ✅ Add expected param type here
-    merchantTabs: undefined; // ✅ fix here
+      merchantTabs: NavigatorScreenParams<MerchantTabParamList>; // ✅ FIXED
   verifyIdentity: undefined;
   kycompleted: undefined;
   yourCart: undefined;
   Profile: undefined;
   EditQRDetails: {data : any};
-  QRManageMent: undefined;
   notifications: undefined;
   CheckOutDetail: { data: any };
   PromoScreen:undefined;
@@ -32,10 +31,11 @@ export type MerchantTabParamList = {
   NetworkScreen: undefined;
   SettingsScreen: undefined;
     ZuvyDashBoard: {data: any};
+  QRCode: { refresh?: boolean } | undefined; // ✅ match the Tab.Screen name
+    
 };
 
 // Stack screens props
-export type QRManageMent = StackScreenProps<RootStackParamList, 'QRManageMent'>;
 export type EditQRDetails = StackScreenProps<
   RootStackParamList,
   'EditQRDetails'
@@ -57,6 +57,7 @@ export type NotificationsProps = StackScreenProps<RootStackParamList,'notificati
 export type CheckOutDetailProps = StackScreenProps<RootStackParamList,'CheckOutDetail'>
 export type PromoScreenProps = StackScreenProps<RootStackParamList,'PromoScreen'>
 export type  StateCitySelectorProps = StackScreenProps<RootStackParamList,'StateCitySelector'>
+
 
 // ✅ Tab screens props (IMPORTANT FIX)
 export type MerchantHomeScreenProps = BottomTabScreenProps<

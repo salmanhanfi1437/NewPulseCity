@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   Dimensions,
   FlatList,
@@ -16,7 +16,7 @@ import BlueWhiteBackground from '../../components/atoms/DashBoardBG';
 import CardContainer from '../../components/atoms/CardContainer';
 import { Colors, Typography } from '../../styles';
 import CustomTextInput from '../../components/atoms/TextInput';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import colors from '../../styles/colors';
 import Header from '../../components/atoms/HeaderComponent';
 import Badge from '../../components/atoms/Badge';
@@ -29,7 +29,8 @@ import { bgColor, pb, pl, pr, pt } from '../../utils/spaces';
 import { RootState } from '../../redux/rootReducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchInventoryRequest, fetchViewQRRequest } from './QrmanagementSlice';
-import { DashboardRequest } from '../DashBoard/dashboardSlice';
+import { resetEditQr } from '../QrEditDetails/EditQrSlice';
+import EventBus from 'react-native-event-bus';
 
 interface DynamicViewStyleProps {
   marginVertical?: number;
@@ -43,16 +44,17 @@ interface DynamicViewStyleProps {
   left?: number;
 }
 
-const QRManageMent = () => {
+const QRManageMent = ({ route }) => {
   const navigation = useNavigation<any>();
   const { color, flex, textAlign, ...rest } = GlobalStyles.headertitle;
+
   const { borderRadius, padding, elevation, ...restShadow } =
     GlobalStyles.shadowStyles;
   const { error: dashboardError, dashboardData } = useSelector(
     (state: RootState) => state.dashboard,
   );
 
-  const {InventoryError, InventoryData } = useSelector(
+  const { InventoryError, InventoryData } = useSelector(
     (state: RootState) => state.fetchInventory,
   );
 
@@ -116,6 +118,20 @@ const QRManageMent = () => {
     (state: RootState) => state.qrManagement,
   );
 
+  useFocusEffect(
+    useCallback(() => {
+      // 👇 Refresh only if returning with "refresh: true"
+      if (route?.params?.refresh) {
+        dispatch(fetchViewQRRequest());
+
+        // 👇 Reset flag so it doesn’t trigger repeatedly
+        if (route?.params) {
+          route.params.refresh = false;
+        }
+      }
+    }, [route?.params?.refresh])
+  );
+
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-IN', {
@@ -134,6 +150,22 @@ const QRManageMent = () => {
       }
     }
   }, [qrData, error]);
+
+ useEffect(() => {
+    // Subscribe to event
+    const subscription = EventBus.getInstance().addListener(
+      'refreshQR',
+      (data) => {
+        console.log('🔁 Refresh triggered!', data);
+        dispatch(fetchViewQRRequest());
+      }
+    );
+
+    // Cleanup on unmount
+    return () => {
+      EventBus.getInstance().removeListener(subscription);
+    };
+  }, [dispatch]);
 
   useEffect(() => {
     dispatch(fetchViewQRRequest());
@@ -183,7 +215,7 @@ const QRManageMent = () => {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={
           (GlobalStyles.ZuvyDashBoardScrollContent,
-          GlobalStyles.ZuvyDashBoardContainer)
+            GlobalStyles.ZuvyDashBoardContainer)
         }
       >
         <View style={[GlobalStyles.ZuvyDashBoardRowContainer]}>
@@ -347,7 +379,7 @@ const QRManageMent = () => {
                       getShadowWithElevation(1),
                       { margin: 5 },
                     ]}
-                    onSelect={() => {}}
+                    onSelect={() => { }}
                     icon={
                       <MaterialIcons
                         name={item.icon}
@@ -386,7 +418,8 @@ const QRManageMent = () => {
               <TouchableOpacity
                 activeOpacity={0.95}
                 onPress={() => {
-                  navigation.navigate('EditQRDetails',{data:item});
+                  dispatch(resetEditQr())
+                  navigation.navigate('EditQRDetails', { data: item });
                 }}
               >
                 <CardContainer

@@ -7,7 +7,7 @@ interface EditQrState {
 }
 
 const initialState: EditQrState = {
-  data: null,
+  editQrData: null,
   loading: false,
   error: null,
 };
@@ -28,8 +28,13 @@ const editQrSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+    resetEditQr: (state) => {
+      state.editQrData = null;
+      state.loading = false;
+      state.error = null;
+    },
   },
 });
 
-export const { editQrRequest, editQrSuccess, editQrError } = editQrSlice.actions;
+export const { editQrRequest, editQrSuccess, editQrError,resetEditQr } = editQrSlice.actions;
 export default editQrSlice.reducer;
