@@ -97,8 +97,7 @@ const MerchantTabs = ({ navigation }) => {
                 focused={focused}
                 title="Profile"
                 ActiveIcon={ProfileAcitveSVG}
-                InActiveIcon={ProfileTabSVG}
-              />
+                InActiveIcon={ProfileTabSVG}/>
             ),
           }}
         />

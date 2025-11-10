@@ -352,7 +352,7 @@ const ZuvyDashBoard = () => {
               />
             }
           />
-          <CustomButton
+          {/* <CustomButton
             gradientColors={[Colors.white, Colors.white, Colors.white]}
             title={config.ZuvyDashBoard.legalZuvy}
             onPress={() => {}}
@@ -374,7 +374,7 @@ const ZuvyDashBoard = () => {
               />
             }
             leftIcon={<InfoSVG />}
-          />
+          /> */}
         </View>
               <View style={styles.hoverButtonContainer}>
 

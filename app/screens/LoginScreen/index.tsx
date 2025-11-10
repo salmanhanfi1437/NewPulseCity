@@ -5,7 +5,7 @@ import {
   TextInput,
   Platform,
   Alert,
-  TouchableOpacity,
+  Text,
 } from "react-native";
 import { LoginProps } from "../../navigation/types";
 import { ms, mvs } from "react-native-size-matters";
@@ -124,9 +124,9 @@ useEffect(() => {
       // 🔥 This will clear all slices and reset to initial state
     dispatch({ type: const_RESET_STORE });
 
-    if(verifyOTPData?.success === true)
+  if(verifyOTPData?.success === true)
     {
-     
+
       showAlert(verifyOTPData?.message);
       if(verifyOTPData?.data?.isRegistered === false)
       {
@@ -208,7 +208,7 @@ dispatch(verifyOTPRequest({ mobile: mobileNumber, otp,fcmToken,deviceType:Platfo
   return (
     <BackgroundPrimaryColor title={t(welcomeZuvy)}>
       {/* 🔹 Header Card */}
-      <TouchableOpacity
+      {/* <TouchableOpacity
         onPress={handleNavigation}
         activeOpacity={2}
       >
@@ -222,7 +222,9 @@ dispatch(verifyOTPRequest({ mobile: mobileNumber, otp,fcmToken,deviceType:Platfo
             bgColor(Colors.fadeWhite),
           ]}
         />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
+
+      <Text style={[styles.mobileText,GlobalStyles.textAlign,mt(20)]}>{login}</Text>
 
       {/* 🔹 Mobile Input */}
       <CustomText title={t(mobile_number)} textStyle={styles.mobileText} />
