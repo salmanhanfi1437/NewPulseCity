@@ -30,7 +30,6 @@ import { editQrRequest, resetEditQr } from './EditQrSlice';
 import { RootState } from '../../redux/rootReducer';
 import { useSelector } from 'react-redux';
 import { showAlert } from '../../components/atoms/AlertBox/showAlert';
-import { const_RESET_STORE } from '../../types/constants';
 import EventBus from 'react-native-event-bus';
 
 

@@ -123,7 +123,6 @@ const YourCart = ({ navigation }: yourCartProps) => {
   useEffect(() => {
     if (verifyRazaorPay_data || verifyRazaorPay_error) {
       if (verifyRazaorPay_data?.success) {
-          //dispatch({ type: const_RESET_STORE });
         navigation.replace('merchantTabs');
       }
     } else {

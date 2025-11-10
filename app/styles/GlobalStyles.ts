@@ -289,6 +289,18 @@ const GlobalStyles = StyleSheet.create({
     borderWidth: 0.5,
     borderColor: Colors.borderBottomColor,
   },
+  TextBordercontainer: {
+    flexDirection: 'row',
+    borderRadius: mvs(30),
+    borderWidth: ms(1),
+    borderColor: Colors.grey_50,
+    paddingStart: ms(5),
+    paddingEnd: ms(5),
+    height: ms(50),
+    alignItems: 'center',
+    width:'100%'
+    // marginTop: mvs(10),
+  },
   //DashBoard Header
   logoutBorderStyles: {
     borderWidth: 0.7,

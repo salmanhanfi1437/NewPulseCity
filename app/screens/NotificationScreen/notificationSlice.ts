@@ -34,6 +34,10 @@ const notificationSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+     NotificationReset: (state) => {
+      state.loading = false;
+      state.notificationData = null;
+    },
   },
 });
 
@@ -41,6 +45,7 @@ export const {
   NotificationRequest,
   NotificationSuccess,
   NotificationFailure,
+  NotificationReset
 } = notificationSlice.actions;
 
 export default notificationSlice.reducer;

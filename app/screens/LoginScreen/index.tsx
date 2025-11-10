@@ -76,7 +76,7 @@ const LoginScreen = ({ navigation }: LoginProps) => {
   );
   const inputRef = useRef<TextInput>(null);
   const dispatch = useDispatch();
-  let purpose = 'LOGIN';
+  
   // 🔁 Countdown timer logic
   useEffect(() => {
     if (!isOtpVerified || timer <= 0) return;
@@ -108,7 +108,6 @@ const LoginScreen = ({ navigation }: LoginProps) => {
       setTimer(RESEND_TIMER);
       if(otpData?.data?.userMObileRegister == false)
       {
-        purpose = signup.toUpperCase();
       dispatch({ type: const_RESET_STORE });
 
       }
@@ -131,6 +130,7 @@ useEffect(() => {
       showAlert(verifyOTPData?.message);
       if(verifyOTPData?.data?.isRegistered === false)
       {
+        resetState();
     navigation.navigate(signup,{mobile:mobileNumber}); //just for testimng added navigation
       }
       else{
@@ -194,11 +194,22 @@ dispatch(verifyOTPRequest({ mobile: mobileNumber, otp,fcmToken,deviceType:Platfo
     sendOTP();
   }, []);
 
+  const handleNavigation = () =>{
+    resetState();
+    navigation.navigate('signup',{mobile : mobileNumber});
+  }
+
+  const resetState = () => {
+    setMobileNo('')
+    setOtp('')
+    setOtpVerified(false)
+  }
+
   return (
     <BackgroundPrimaryColor title={t(welcomeZuvy)}>
       {/* 🔹 Header Card */}
       <TouchableOpacity
-        onPress={() => navigation.navigate('signup',{mobile : mobileNumber})}
+        onPress={handleNavigation}
         activeOpacity={2}
       >
         <ViewRounded10

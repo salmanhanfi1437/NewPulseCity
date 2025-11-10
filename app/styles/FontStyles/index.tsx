@@ -53,6 +53,12 @@ const FontStyles = StyleSheet.create({
         fontWeight: '400',
         ...Typography.weights.mediumU,
     },
+    subTextError: {
+        fontSize: ms(12),
+        color: Colors.red,
+        fontWeight: '400',
+        ...Typography.weights.mediumU,
+    },
     tabsText :{
       fontWeight:'400',
       fontSize:ms(12),

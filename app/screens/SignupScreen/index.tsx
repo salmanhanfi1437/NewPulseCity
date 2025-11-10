@@ -35,12 +35,13 @@ import secureStorage from '../../utils/secureStorage';
 import { resetState, RoleRequest, SignupRequest } from './signupSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { showAlert } from '../../components/atoms/AlertBox/showAlert';
-import { isValidEmail } from '../../utils/helper';
+import { capitalizeFirstLetter, isValidEmail } from '../../utils/helper';
 import { useTranslation } from 'react-i18next';
 import DropdownAtom from '../../components/atoms/DropDown';
 import { RootState } from '../../redux/rootReducer';
 import ViewOutlined from '../../components/atoms/ViewOutlined';
 import CustomTextInput from '../../components/atoms/TextInput';
+import { CommonActions } from '@react-navigation/native';
 
 const SignupScreens = ({ navigation, route }: SignupProps) => {
 
@@ -61,6 +62,7 @@ const SignupScreens = ({ navigation, route }: SignupProps) => {
   
   const {t} = useTranslation()
   const { error, singupData, roleData } = useSelector((state: RootState) => state.signup);
+const [errors, setErrors] = useState<{ name?: boolean; email?: boolean; state?: boolean; city?: boolean }>({});
 
   useEffect(() => {
       
@@ -78,32 +80,47 @@ const SignupScreens = ({ navigation, route }: SignupProps) => {
 
     if (validation()) {
      
-      dispatch(SignupRequest({ mobile, name, email, role, password: '123456', fcmToken, deviceType: Platform.OS.toUpperCase(),stateId,cityId }))
+      dispatch(SignupRequest({ mobile, name, email, role : role.toUpperCase(), password: '123456', fcmToken, deviceType: Platform.OS.toUpperCase(),stateId,cityId }))
     }
   }
 
-  const validation = () => {
-    if (name == '') {
-      showAlert(`${t(const_name)} ${t(enter)} `)
-      return false;
-    } else if (email === ''|| !isValidEmail(email) ) {
-            showAlert(`${t(const_email)} ${t(enter)} `)
+const validation = () => {
+  const newErrors: typeof errors = {};
 
-      return false;
-    }
-    else if(stateName == '')
-        {
-          showAlert(`Select State`);
-          return false;
-        }
-        else if(cityName == '')
-        {
-          showAlert(`Select City`);
-          return false;
-        }
+  if (name.trim() === '') {
+    newErrors.name = true;
+    setErrors(newErrors);
+    showAlert(`${t(const_name)} ${t(enter)}`);
+    return false; // stop here
+  }
 
-    return true;
-  };
+  if (email.trim() === '' || !isValidEmail(email)) {
+    newErrors.email = true;
+    setErrors(newErrors);
+    showAlert(`${t(const_email)} ${t(enter)}`);
+    return false;
+  }
+
+  if (stateName.trim() === '') {
+    newErrors.state = true;
+    setErrors(newErrors);
+    showAlert('Select State');
+    return false;
+  }
+
+  if (cityName.trim() === '') {
+    newErrors.city = true;
+    setErrors(newErrors);
+    showAlert('Select City');
+    return false;
+  }
+
+  setErrors({}); // all good
+  return true;
+};
+
+
+
 
   useEffect(() =>{
     dispatch(RoleRequest());
@@ -118,7 +135,13 @@ const SignupScreens = ({ navigation, route }: SignupProps) => {
 
      
     dispatch({ type: const_RESET_STORE });  // 🔥 This will clear all slices and reset to initial state
-      navigation.replace('PromoScreen');
+      
+      navigation.dispatch(
+  CommonActions.reset({
+    index: 0,
+    routes: [{ name: 'PromoScreen' }], // Replace 'Dashboard' with your screen name
+  })
+);
     }
     else if(error)
     {
@@ -136,52 +159,77 @@ const SignupScreens = ({ navigation, route }: SignupProps) => {
           GlobalStyles.ZuvyDashBoardContainer,
         ]}
       >
-        <CustomText
-          title={const_name}
-          textStyle={[FontStyles.headingText, mt(10)]}
-        />
+       <View style={[GlobalStyles.viewRow,GlobalStyles.alignItem]}>
+  <CustomText
+    title={t(const_name)}
+    textStyle={FontStyles.headingText}
+  />
+  <CustomText
+    title="*"
+    textStyle={[FontStyles.headingText, { color: errors.name ? Colors.red : Colors.black }]} // Red asterisk
+  />
+</View>
 
-        <TextInputMic
-          ref={nameRef}
-          value={name}
-          onChangeText={setName}
-          placeholder={const_name}
-          keyboardType="default"
-          style={FontStyles.txtInput}
-          returnKeyType='next'
-          onSubmitEditing={() => emailRef?.current?.focus()} />
+       <TextInputMic
+  ref={nameRef}
+  value={name}
+  onChangeText={(text) => {
+    setName(text);
+    if (errors.name) setErrors({ ...errors, name: false });
+  }}
+  placeholder={t(const_name)}
+  keyboardType="default"
+  returnKeyType="next"
+  onSubmitEditing={() => emailRef?.current?.focus()}
+  error={errors.name} // ✅ pass error prop
+/>
+{
+  errors.name &&
+<CustomText title={`Please enter ${t(const_name)}`} textStyle={[FontStyles.subTextError, mt(10),mb(10)]} />
+}
+
+        <View style={[GlobalStyles.viewRow,GlobalStyles.alignItem,mt(20)]}>
+  <CustomText
+    title={t(const_email)}
+    textStyle={FontStyles.headingText}
+  />
+  <CustomText
+    title="*"
+    textStyle={[FontStyles.headingText, { color: errors.email ? Colors.red : Colors.black }]} // Red asterisk
+  />
+</View>
 
 
-        <CustomText title={const_email} textStyle={[FontStyles.headingText, mt(20)]} />
-
-
-        <TextInputMic
-          ref={emailRef}
-          value={email}
-          onChangeText={setEmail}
-          placeholder={const_email}
-          keyboardType="email-address"
-          style={FontStyles.txtInput}
-          returnKeyType='next'
-          onSubmitEditing={() => mobileNumberRef?.current?.focus()} />
-
-
-        <CustomText title={const_howtouseZuvy} textStyle={[FontStyles.headingText, mt(20)]} />
-
-        <DropdownAtom
-          data={roleData?.data}
-          placeholder={role}
-          selectedValue={role}               // ✅ show current value
-          onSelect={(val : any) => setRole(val)}   // ✅ update state on select
-        />
-
- <View style={[GlobalStyles.viewRow]}>
-
-            <View style={[GlobalStyles.flexOne,mr(15)]}>
+       <TextInputMic
+  ref={emailRef}
+  value={email}
+  onChangeText={(text) => {
+    setEmail(text);
+    if (errors.email) setErrors({ ...errors, email: false });
+  }}
+  placeholder={t(const_email)}
+  keyboardType="email-address"
+  returnKeyType="next"
+  onSubmitEditing={() => mobileNumberRef?.current?.focus()}
+  error={errors.email} // ✅ pass error prop
+/>
+{
+  errors.email &&
+<CustomText title={`Please enter ${t(const_email)}`} textStyle={[FontStyles.subTextError, mt(10),mb(10)]} />
+}
+      
+            <View style={[GlobalStyles.flexOne]}>
               
-              <CustomText
-                title={const_state}
-                textStyle={[GlobalStyles.margin_top10]}/>
+              <View style={[GlobalStyles.viewRow,GlobalStyles.alignItem,mt(20)]}>
+  <CustomText
+    title={t(const_state)}
+    textStyle={FontStyles.headingText}
+  />
+  <CustomText
+    title="*"
+    textStyle={[FontStyles.headingText, { color: errors.state ? Colors.red : Colors.black }]} // Red asterisk
+  />
+</View>
           
 
           <PressableOpacity
@@ -198,23 +246,25 @@ const SignupScreens = ({ navigation, route }: SignupProps) => {
   }}>
               <ViewOutlined
                 viewStyle={[
-                  GlobalStyles.borderStyles,
-                  {
-                    borderColor: Colors.borderBottomColor,
-                    borderRadius: GlobalStyles.ZuvyDashBoardBtn.borderRadius,
-                  },]}>
+                  GlobalStyles.TextBordercontainer,     errors.state && { borderBottomColor: 'red', borderBottomWidth: 1 },]}>
                 <CustomTextInput placeholder={const_state} value={stateName} editable={false} />
               </ViewOutlined>
               </PressableOpacity>
 
-            </View>
           </View>
 
- <View style={[GlobalStyles.flexOne]}>
+ <View style={[GlobalStyles.flexOne,mt(20)]}>
               
-              <CustomText
-                title={const_city}
-                textStyle={[GlobalStyles.margin_top10]}/>
+            <View style={[GlobalStyles.viewRow,GlobalStyles.alignItem]}>
+  <CustomText
+    title={t(const_city)}
+    textStyle={FontStyles.headingText}
+  />
+  <CustomText
+    title="*"
+    textStyle={[FontStyles.headingText, { color: errors.city ? Colors.red : Colors.black }]} // Red asterisk
+  />
+</View>
                <PressableOpacity
   onPress={() => {
     
@@ -235,17 +285,24 @@ const SignupScreens = ({ navigation, route }: SignupProps) => {
 >
   <ViewOutlined
     viewStyle={[
-      GlobalStyles.borderStyles,
-      {
-        borderColor: Colors.borderBottomColor,
-        borderRadius: GlobalStyles.ZuvyDashBoardBtn.borderRadius,
-      },
-    ]}
-  >
-                   <CustomTextInput placeholder={const_city} value={cityName} editable={false} />
+      GlobalStyles.TextBordercontainer,
+          errors.city && { borderBottomColor: colors.red, borderWidth: 1 },
+
+    ]}>
+                
+       <CustomTextInput placeholder={const_city} value={cityName} editable={false} />
 
   </ViewOutlined>
 </PressableOpacity>
+
+<CustomText title={const_howtouseZuvy} textStyle={[FontStyles.headingText, mt(20)]} />
+
+        <DropdownAtom
+          data={roleData?.data}
+          placeholder={role}
+          selectedValue={capitalizeFirstLetter(role)}               // ✅ show current value
+          onSelect={(val : any) => setRole(val)}   // ✅ update state on select
+/>
            
             </View>
 

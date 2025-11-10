@@ -18,7 +18,7 @@ import BlueWhiteBackground from "../../components/atoms/DashBoardBG";
 import colors from "../../styles/colors";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/rootReducer";
-import { NotificationRequest } from "./notificationSlice";
+import { NotificationRequest, NotificationReset } from "./notificationSlice";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const Notifications = () => {
@@ -42,7 +42,7 @@ const Notifications = () => {
       console.log("➡️ Fetching notifications:", { page: newPage, type });
 
       if (resetPage || page == 1) {
-        dispatch({ type: const_RESET_STORE });
+        dispatch(NotificationReset())
       }
 
       dispatch(NotificationRequest({ page: newPage, limit, type }));
@@ -115,7 +115,6 @@ const Notifications = () => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: colors.white }}>
     <BlueWhiteBackground
       headerHeight={70}
       BlueWhiteBackgroundStyle={{ backgroundColor: colors.white }}>
@@ -166,10 +165,8 @@ const Notifications = () => {
         contentContainerStyle={{
           flexGrow: 1,
           paddingBottom: 20,
-        }}
-      />
+        }} />
     </BlueWhiteBackground>
-    </SafeAreaView>
   );
 };
 
