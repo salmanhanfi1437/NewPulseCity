@@ -1,6 +1,15 @@
-import React from 'react';
-import { StyleSheet, View, Text, Settings } from 'react-native';
+import React, { useEffect } from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../../../redux/rootReducer';
+
+import ZuvyDashBoard from '../../../screens/DashBoard';
+import QRManageMent from '../../../screens/QrManagement';
+import UserProfile from '../../../screens/UserProfile';
+import NotificationScreen from '../../../screens/NotificationScreen';
+
+import TabIcons from '../../../components/atoms/TabIcons';
 import {
   ActiveNotificationSVG,
   ActiveQrSVG,
@@ -10,39 +19,34 @@ import {
   ProfileTabSVG,
   QrTabSVG,
 } from '../../../assets/svg';
-import { createStackNavigator } from '@react-navigation/stack';
-import { MerchantTabParamList, RootStackParamList } from '../../types';
-import HomeScreen from '../../../screens/merchantTabs/HomeScreen';
-import {
-  analytics,
-  home,
-  network,
-  qr_code,
-  settings,
-} from '../../../types/constants';
-import TabIcons from '../../../components/atoms/TabIcons';
 import GlobalStyles from '../../../styles/GlobalStyles';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import ZuvyDashBoard from '../../../screens/DashBoard';
-import QRManageMent from '../../../screens/QrManagement';
-import { Colors } from '../../../styles';
-import UserProfile from '../../../screens/UserProfile';
-import NotificationScreen from '../../../screens/NotificationScreen';
+import { home, qr_code } from '../../../types/constants';
+import { ClearInitialTab } from '../../../screens/DashBoard/dashboardSlice';
 
+const Tab = createBottomTabNavigator();
 
-const Tab = createBottomTabNavigator<MerchantTabParamList>();
+const MerchantTabs = ({ navigation }) => {
+  const { initialTab } = useSelector((state: RootState) => state.dashboard);
+  const dispatch = useDispatch();
 
-const MerchantTabs = () => {
+  // useEffect(() => {
+  //   if (initialTab && navigation) {
+  //     navigation.jumpTo(initialTab); // Switch to the desired tab
+  //     dispatch(ClearInitialTab()); // reset it so it doesn't repeat
+  //   }
+  // }, [initialTab, navigation]);
+
   return (
     <SafeAreaView style={GlobalStyles.flexOne}>
       <Tab.Navigator
+  initialRouteName={initialTab?.toString() || 'Home'} // fallback to 'Home'
         screenOptions={{
           headerShown: false,
           tabBarShowLabel: false,
           tabBarStyle: GlobalStyles.tabBarStyle,
         }}>
         <Tab.Screen
-          name={'Home'}
+          name="Home"
           component={ZuvyDashBoard}
           options={{
             tabBarIcon: ({ focused }) => (
@@ -55,7 +59,6 @@ const MerchantTabs = () => {
             ),
           }}
         />
-
         <Tab.Screen
           name="Notification"
           component={NotificationScreen}
@@ -63,14 +66,13 @@ const MerchantTabs = () => {
             tabBarIcon: ({ focused }) => (
               <TabIcons
                 focused={focused}
-                title={'Notification'}
+                title="Notification"
                 ActiveIcon={ActiveNotificationSVG}
                 InActiveIcon={NotificationTabSVG}
               />
             ),
           }}
         />
-
         <Tab.Screen
           name="QRCode"
           component={QRManageMent}
@@ -85,7 +87,6 @@ const MerchantTabs = () => {
             ),
           }}
         />
-
         <Tab.Screen
           name="Profile"
           component={UserProfile}
@@ -93,7 +94,7 @@ const MerchantTabs = () => {
             tabBarIcon: ({ focused }) => (
               <TabIcons
                 focused={focused}
-                title={'Profile'}
+                title="Profile"
                 ActiveIcon={ProfileTabSVG}
                 InActiveIcon={ProfileTabSVG}
               />

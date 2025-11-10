@@ -26,6 +26,7 @@ import { showAlert } from '../AlertBox/showAlert';
 import secureStorage from '../../../utils/secureStorage';
 import PressableOpacity from '../PressableOpacity';
 import { LogoutRequest } from '../../../screens/UserProfile/profileSlice';
+import { mvs } from 'react-native-size-matters';
 
 const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
   
@@ -361,7 +362,7 @@ const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
 
               <PressableOpacity onPress={handleLogout}>
                 <CardContainer
-                  style={[GlobalStyles.logoutBorderStyles, { height: ms(55) }]}
+                  style={[GlobalStyles.logoutBorderStyles]}
                   showShadow={false}
                 >
                   <FontAwesome5

@@ -90,28 +90,28 @@ const validation = () => {
   if (name.trim() === '') {
     newErrors.name = true;
     setErrors(newErrors);
-    showAlert(`${t(const_name)} ${t(enter)}`);
+    //showAlert(`${t(const_name)} ${t(enter)}`);
     return false; // stop here
   }
 
   if (email.trim() === '' || !isValidEmail(email)) {
     newErrors.email = true;
     setErrors(newErrors);
-    showAlert(`${t(const_email)} ${t(enter)}`);
+    //showAlert(`${t(const_email)} ${t(enter)}`);
     return false;
   }
 
   if (stateName.trim() === '') {
     newErrors.state = true;
     setErrors(newErrors);
-    showAlert('Select State');
+    //showAlert('Select State');
     return false;
   }
 
   if (cityName.trim() === '') {
     newErrors.city = true;
     setErrors(newErrors);
-    showAlert('Select City');
+    //showAlert('Select City');
     return false;
   }
 

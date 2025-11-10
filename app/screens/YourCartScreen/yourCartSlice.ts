@@ -51,6 +51,9 @@ const masterQrSlice = createSlice({
       state.loading = false;
       state.qrCodeError = action.payload;
     },
+    ResetOrderData: (state) => {
+      state.orderQrData = null;
+    }
   },
 });
 
@@ -61,6 +64,7 @@ export const {
   OrderQrFailure,
   OrderQrRequest,
   OrderQrSuccess,
+  ResetOrderData,
 } = masterQrSlice.actions;
 
 export default masterQrSlice.reducer;

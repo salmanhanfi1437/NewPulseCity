@@ -32,7 +32,7 @@ import HoverButton from '../../components/atoms/HoverButton';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/rootReducer';
-import { DashboardRequest } from './dashboardSlice';
+import { DashboardRequest, SetInitialTab } from './dashboardSlice';
 import { bgColor, fontColor, fS } from '../../utils/spaces';
 import { getNextMonthDate, getNextNDaysDate } from '../../utils/dateUtils';
 import { yourCart } from '../../types/constants';
@@ -213,8 +213,16 @@ const ZuvyDashBoard = () => {
             ]}
             textStyles={GlobalStyles.ZuvyDashBoardBtnText}
             onPress={() => {
-             navigation.navigate(dashboardData?.data?.totalQuantity > 0 ? 'QRManageMent' : yourCart);
-           
+              if(dashboardData?.data?.totalQuantity > 0)
+              {
+                    dispatch(SetInitialTab('QRCode'));
+                    navigation.replace('merchantTabs');
+                  
+                //navigation.getParent()?.navigate('QRManagement');
+              }else{
+             navigation.navigate(yourCart);
+              }
+
             }}
             leftIcon={<HumburgerSVG />}
             rightIcon={<RightSVG />}

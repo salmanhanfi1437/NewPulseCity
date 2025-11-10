@@ -4,15 +4,17 @@ interface ProfileState {
   dashboardData: any;
   loading: boolean;
   error: string | null;
+  initialTab: string | null;
 }
 
 const initialState: ProfileState = {
   dashboardData: null,
   loading: false,
   error: null,
+  initialTab: null, // null = default first tab
 };
 
-const  dashBoardSlice = createSlice({
+const dashBoardSlice = createSlice({
   name: "dashboard",
   initialState,
   reducers: {
@@ -34,9 +36,25 @@ const  dashBoardSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+
+    // ✅ Set initial tab dynamically
+    SetInitialTab: (state, action: PayloadAction<string>) => {
+      state.initialTab = action.payload;
+    },
+
+    // ✅ Clear initial tab after use
+    ClearInitialTab: (state) => {
+      state.initialTab = null;
+    },
   },
 });
 
-export const { DashboardFailure,DashboardRequest,DashboardSuccess } = dashBoardSlice.actions;
+export const {
+  DashboardFailure,
+  DashboardRequest,
+  DashboardSuccess,
+  SetInitialTab,
+  ClearInitialTab,
+} = dashBoardSlice.actions;
 
 export default dashBoardSlice.reducer;

@@ -57,7 +57,7 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/rootReducer';
 import { showAlert } from '../../components/atoms/AlertBox/showAlert';
-import { checkOutRequest, VerifyRazorPayRequest } from './checkoutSlice';
+import { checkOutRequest, ResetRazorPay, VerifyRazorPayRequest } from './checkoutSlice';
 import { isValidPAN } from '../../utils/helper';
 import RazorpayCheckout from 'react-native-razorpay';
 import { ProfileRequest } from '../UserProfile/profileSlice';
@@ -141,6 +141,8 @@ const CheckOutDetail = ({ navigation, route }: CheckOutDetailProps) => {
   useEffect(() => {
     if (verifyRazaorPay_data || verifyRazaorPay_error) {
       if (verifyRazaorPay_data?.success) {
+         
+         dispatch(ResetRazorPay())
         navigation.replace('merchantTabs');
       }
     } else {

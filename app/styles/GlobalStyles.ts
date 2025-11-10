@@ -303,6 +303,7 @@ const GlobalStyles = StyleSheet.create({
   },
   //DashBoard Header
   logoutBorderStyles: {
+    width:'100%',
     borderWidth: 0.7,
     borderColor: Colors.light_red,
     backgroundColor: Colors.semilight_red,
