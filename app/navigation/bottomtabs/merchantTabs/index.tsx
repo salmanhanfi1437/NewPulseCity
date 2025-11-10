@@ -16,6 +16,7 @@ import {
   HomeActiveSVG,
   HomeSVG,
   NotificationTabSVG,
+  ProfileAcitveSVG,
   ProfileTabSVG,
   QrTabSVG,
 } from '../../../assets/svg';
@@ -95,7 +96,7 @@ const MerchantTabs = ({ navigation }) => {
               <TabIcons
                 focused={focused}
                 title="Profile"
-                ActiveIcon={ProfileTabSVG}
+                ActiveIcon={ProfileAcitveSVG}
                 InActiveIcon={ProfileTabSVG}
               />
             ),
