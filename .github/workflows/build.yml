@@ -51,6 +51,11 @@ jobs:
  # 🏗️ Build release APK
       - name: Build Android release APK
         run: cd android && ./gradlew assembleRelease
+        env : 
+          MYAPP_UPLOAD_STORE_FILE: my-release-key.keystore
+          MYAPP_UPLOAD_KEY_ALIAS: ${{ secrets.MYAPP_UPLOAD_KEY_ALIAS }}
+          MYAPP_UPLOAD_STORE_PASSWORD: ${{ secrets.MYAPP_UPLOAD_STORE_PASSWORD }}
+          MYAPP_UPLOAD_KEY_PASSWORD: ${{ secrets.MYAPP_UPLOAD_KEY_PASSWORD }}
 
       # 📦 Upload release artifact
       - name: Upload release APK

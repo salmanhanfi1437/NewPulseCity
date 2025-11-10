@@ -176,7 +176,7 @@ const YourCart = ({ navigation }: yourCartProps) => {
     // 🔹 Check condition
     if (mastertQrData?.data?.hasCheckoutDetails === false) { 
       // Navigate to checkout detail screen
-      navigation.replace('CheckOutDetail', { data: orderData });
+      navigation.navigate('CheckOutDetail', { data: orderData });
     } else {
       // Open Razorpay directly
       const options: any = {
