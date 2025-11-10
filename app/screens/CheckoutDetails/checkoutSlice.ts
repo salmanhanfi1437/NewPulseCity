@@ -71,6 +71,9 @@ const checkOutSlice = createSlice({
       state.loading = false;
       state.verifyRazaorPay_error = action.payload;
     },
+    ResetRazorPay : (state) => {
+      state.verifyRazaorPay_data = null
+    }
   },
 });
 
@@ -83,6 +86,7 @@ export const {
   VerifyRazorPayRequest,
   VerifyRazorPaySuccess,
   VerifyRazorPayFailure,
+  ResetRazorPay
 } = checkOutSlice.actions;
 
 // ✅ Export reducer

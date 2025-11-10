@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import GlobalStyles from '../../../styles/GlobalStyles';
 import { Colors, Typography } from '../../../styles';
 import CardContainer from '../CardContainer';
@@ -22,20 +22,59 @@ import { RootState } from '../../../redux/rootReducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { fontColor } from '../../../utils/spaces';
 import { useNavigation } from '@react-navigation/native';
+import { showAlert } from '../AlertBox/showAlert';
+import secureStorage from '../../../utils/secureStorage';
+import PressableOpacity from '../PressableOpacity';
+import { LogoutRequest } from '../../../screens/UserProfile/profileSlice';
+import { mvs } from 'react-native-size-matters';
 
 const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
   
   return (props: any) => {
 
-    const { profileData, error } = useSelector( (state: RootState) => state.profile);
+    const { profileData, error,logoutData } = useSelector( (state: RootState) => state.profile);
 
     const { hideTopContent = false, hideBottomContent = false } = props;
     const { paddingRight, paddingLeft, ...restFont } =
       GlobalStyles.ZuvyDashBoardBtnText;
 
     const navigation = useNavigation<any>();
-
     const dispatch = useDispatch();
+
+    const handleLogout = () => {
+  Alert.alert(
+    'Confirm Logout',
+    'Are you sure you want to log out?',
+    [
+      {
+        text: 'No',
+        onPress: () => console.log('Logout cancelled'),
+        style: 'cancel',
+      },
+      {
+        text: 'Yes',
+        onPress: () => {
+          dispatch(LogoutRequest());
+        },
+      },
+    ],
+    { cancelable: true }
+  );
+};
+   useEffect(() => {
+  if (logoutData) {
+    if (logoutData?.success) {
+      showAlert(logoutData?.message);
+      secureStorage.clearAll();
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'ChooseLanguage' }],
+      });
+      dispatch(LogoutRequest()); // 👈 resets logoutData to null
+    }
+  }
+}, [logoutData]);
+
 
   
 
@@ -65,7 +104,7 @@ const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
                 style={GlobalStyles.borderStyles}
                 showShadow={false}
               >
-                <View style={GlobalStyles.row}>
+                {/* <View style={GlobalStyles.row}>
                   <CustomText
                     title={config.Profile.PersonalInfoTitle}
                     textStyle={[GlobalStyles.cardTiltle]}
@@ -86,7 +125,7 @@ const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
                       ]}
                     />
                   </TouchableOpacity>
-                </View>
+                </View> */}
                 <View
                   style={[
                     GlobalStyles.row,
@@ -221,10 +260,9 @@ const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
                           'medium',
                           colors.fadeTextColor,
                         ),
-                      ]}
-                    />
+                      ]}/>
                     <CustomText
-                      title={'__'}
+                      title={'SHIPPING'}
                       style={[restFont, fontColor(Colors.black)]}
                     />
                   </View>
@@ -322,9 +360,9 @@ const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
                 </TouchableOpacity>
               </CardContainer>
 
-              <TouchableOpacity>
+              <PressableOpacity onPress={handleLogout}>
                 <CardContainer
-                  style={[GlobalStyles.logoutBorderStyles, { height: ms(55) }]}
+                  style={[GlobalStyles.logoutBorderStyles]}
                   showShadow={false}
                 >
                   <FontAwesome5
@@ -332,6 +370,7 @@ const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
                     size={20}
                     color={Colors.red}
                   />
+                  
                   <CustomText
                     title={config.Profile.logout}
                     textStyle={[
@@ -340,8 +379,8 @@ const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
                       { color: Colors.red },
                     ]}
                   />
-                </CardContainer>
-              </TouchableOpacity>
+                  </CardContainer>
+              </PressableOpacity>
             </ScrollView>
           </View>
         )}

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect,useRef } from 'react';
 import { View, Dimensions } from 'react-native';
 import Images from '../../assets/images';
 import { CustomText } from '../../components/atoms/Text';
@@ -14,20 +14,21 @@ import { RootState } from '../../redux/rootReducer';
 import { ProfileRequest } from './profileSlice';
 import { showAlert } from '../../components/atoms/AlertBox/showAlert';
 import colors from '../../styles/colors';
-const { width, height } = Dimensions.get('screen');
+const { height } = Dimensions.get('screen');
 
 const UserProfile = () => {
 
   const { profileData, error } = useSelector( (state: RootState) => state.profile);
 
       const dispatch = useDispatch();
+const hasFetchedProfile = useRef(false);
 
 
   useEffect(() =>{
 
     if(profileData || error)
     {
-        if(profileData.success)
+        if(profileData?.success)
         {
 
       }else{
@@ -37,9 +38,12 @@ const UserProfile = () => {
    },[profileData,error])
   
 
-   useEffect(() =>{
-    dispatch(ProfileRequest())
-   },[])
+   useEffect(() => {
+  if (!hasFetchedProfile.current) {
+    hasFetchedProfile.current = true;
+    dispatch(ProfileRequest());
+  }
+}, []);
 
   return (
     <LinearGradient

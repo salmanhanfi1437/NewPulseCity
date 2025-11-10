@@ -3,15 +3,15 @@ import {
   TextInput,
   TextInputProps as RNTextInputProps,
   StyleSheet,
-  TouchableOpacity,
   View,
   StyleProp,
+  ViewStyle,
 } from 'react-native';
 import { Colors, Typography } from '../../../styles';
-import { DropDownSVG, MicSVG } from '../../../assets/svg';
-import { ms, mvs, ViewStyle } from 'react-native-size-matters';
+import { DropDownSVG } from '../../../assets/svg';
+import { ms, mvs } from 'react-native-size-matters';
 import PressableOpacity from '../PressableOpacity';
-import { useTranslation } from 'react-i18next';
+import GlobalStyles from '../../../styles/GlobalStyles';
 
 interface TextInputWithMicProps extends RNTextInputProps {
   value?: any;
@@ -24,7 +24,8 @@ interface TextInputWithMicProps extends RNTextInputProps {
   style?: any;
   disabledMic?: boolean;
   onMicPress?: () => void;
-  viewStyle?: StyleProp<ViewStyle>;
+  containerStyle?: StyleProp<ViewStyle>;
+  error?: boolean;
   returnKeyType?: 'done' | 'next' | 'go' | 'search' | 'send';
   onSubmitEditing?: () => void;
 }
@@ -35,27 +36,33 @@ const CustomTextInputMic = forwardRef<TextInput, TextInputWithMicProps>(
       value,
       onChangeText,
       placeholder,
-      keyboardType,
-      secureTextEntry,
-      editable,
-      style,
+      keyboardType = 'default',
+      secureTextEntry = false,
+      editable = true,
       maxLength,
-      disabledMic,
+      disabledMic = false,
       onMicPress,
-      viewStyle,
-      returnKeyType,
+      containerStyle,
+      error = false,
+      returnKeyType = 'done',
       onSubmitEditing,
     },
     ref,
   ) => {
-
-    const {t} = useTranslation();
-
     return (
-      <View style={[styles.container]}>
+      <View
+        style={[
+          GlobalStyles.TextBordercontainer,
+          containerStyle,
+          // ✅ if error, show red underline
+          error
+            ? { borderBottomColor: Colors.red, borderBottomWidth: 1 }
+            : { borderBottomColor: Colors.grey_50, borderBottomWidth: 1 },
+        ]}
+      >
         <TextInput
-          ref={ref} // ✅ forward the ref correctly
-          style={styles.txtinputStyle}
+          ref={ref}
+          style={[styles.txtinputStyle]}
           value={value}
           onChangeText={onChangeText}
           placeholder={placeholder}
@@ -68,17 +75,9 @@ const CustomTextInputMic = forwardRef<TextInput, TextInputWithMicProps>(
           onSubmitEditing={onSubmitEditing}
         />
 
-        {/* {
-        !disabledMic  &&
-      <PressableOpacity
-         onPress={onMicPress}>
-                                 <MicSVG width={ms(30)} height={ms(30)} />
-                             </PressableOpacity>
-      } */}
-
         {disabledMic && (
           <PressableOpacity onPress={onMicPress}>
-            <DropDownSVG width={ms(30)} height={ms(30)} />
+            <DropDownSVG width={ms(25)} height={ms(25)} />
           </PressableOpacity>
         )}
       </View>
@@ -89,15 +88,11 @@ const CustomTextInputMic = forwardRef<TextInput, TextInputWithMicProps>(
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    borderRadius: mvs(30),
-    borderWidth: ms(1),
-    borderColor: Colors.grey_50,
-    paddingStart: ms(5),
-    paddingEnd: ms(5),
-    height: ms(50),
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    // marginTop: mvs(10),
+    height: ms(50),
+    paddingHorizontal: ms(10),
+    // ⚠️ remove full border, use only bottom border dynamically
   },
   txtinputStyle: {
     fontSize: ms(15),
@@ -105,11 +100,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     flex: 1,
     height: ms(50),
-    alignSelf: 'center',
     ...Typography.weights.mediumU,
-  },
-  micView: {
-    alignSelf: 'center',
   },
 });
 

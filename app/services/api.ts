@@ -19,8 +19,8 @@ const apiClient = axios.create({
 });
 
 //It runs before every API call is sent.
-const STATIC_TOKEN =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiNzdlN2VlYS1iZDU1LTQ2MGEtYWE0NC0xNjNmMzM1ZmE0MGUiLCJpYXQiOjE3NjI1MDIxNjIsImV4cCI6MTc2MzEwNjk2Mn0.2A1OzYcbj1_W23JyoYOi_ugYKZGXapGMkpmqDQoGlgc';
+// const STATIC_TOKEN =
+//   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiNzdlN2VlYS1iZDU1LTQ2MGEtYWE0NC0xNjNmMzM1ZmE0MGUiLCJpYXQiOjE3NjI1MDIxNjIsImV4cCI6MTc2MzEwNjk2Mn0.2A1OzYcbj1_W23JyoYOi_ugYKZGXapGMkpmqDQoGlgc';
 
 apiClient.interceptors.request.use(
   async config => {
@@ -100,7 +100,13 @@ export default {
   getCities: (stateId: string) => apiClient.get(`location/cities/${stateId}`),
   getProfile:() => apiClient.get('user/profile'),
   getDashboard : () => apiClient.get("qr-management/distributor/inventory"),
-  viewQR: (params:any) =>
-    apiClient.get(`qr-management/distributor/view?${params}`),
+  viewQR: (params?: { page?: number; limit?: number; search?: string }) =>
+    apiClient.get('qr-management/distributor/view', { params }),
+notifications: (page: number, limit: number, type: string) =>
+  apiClient.get(
+    `notification/my-notifications?page=${page}&limit=${limit}&type=${type}`),
+  doLogout : () => apiClient.post('auth/logout'),
   VerifyRazorPayPayment: (data:any)=> apiClient.post('qr-management/distributor/verify-payment-for-dummy-qr',data),
+  updateQrDetails : (id : any,data : any) => apiClient.patch(`qr-management/distributor/update/${id}`,data),   
+
 };

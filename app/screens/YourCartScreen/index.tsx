@@ -5,6 +5,7 @@ import {
   alltimesupport,
   analyticDashboard,
   buynow,
+  const_RESET_STORE,
   const_totalAmount,
   instantCode,
   itemTotal,
@@ -65,7 +66,7 @@ import Button from '../../components/atoms/Button';
 import VerificationIdentityScreens from '../VerificationIdentityScreens';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/rootReducer';
-import { MasterQrRequest, OrderQrRequest } from './yourCartSlice';
+import { MasterQrRequest, OrderQrRequest, ResetOrderData } from './yourCartSlice';
 import { showAlert } from '../../components/atoms/AlertBox/showAlert';
 import BlueWhiteBackground from '../../components/atoms/DashBoardBG';
 import colors from '../../styles/colors';
@@ -76,7 +77,7 @@ import { Flex } from 'native-base';
 import RazorpayCheckout from 'react-native-razorpay';
 import config from '../config';
 import { ProfileRequest } from '../UserProfile/profileSlice';
-import { VerifyRazorPayRequest } from '../CheckoutDetails/checkoutSlice';
+import { ResetRazorPay, VerifyRazorPayRequest } from '../CheckoutDetails/checkoutSlice';
 
 const YourCart = ({ navigation }: yourCartProps) => {
   const { t } = useTranslation();
@@ -121,7 +122,10 @@ const YourCart = ({ navigation }: yourCartProps) => {
 
   useEffect(() => {
     if (verifyRazaorPay_data || verifyRazaorPay_error) {
+      console.log('VerifyRaz'+JSON.stringify(verifyRazaorPay_data));
       if (verifyRazaorPay_data?.success) {
+        dispatch(ResetOrderData())
+        dispatch(ResetRazorPay())
         navigation.replace('merchantTabs');
       }
     } else {

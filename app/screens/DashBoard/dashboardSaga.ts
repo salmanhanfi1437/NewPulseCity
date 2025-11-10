@@ -9,7 +9,7 @@ export function* handleFetchDashboardData(action: ReturnType<typeof DashboardReq
   try {
     yield put(showLoader())
   
-const response = yield call(api.getProfile);
+const response = yield call(api.getDashboard);
 
     yield put(DashboardSuccess(response.data));
   } catch (error: any) {
@@ -18,7 +18,6 @@ const response = yield call(api.getProfile);
     yield put(DashboardFailure(error.message || "Failed to fetch "));
   }
 }
-
 
 
 

@@ -1,46 +1,28 @@
-import { createNavigationContainerRef, StackActions } from '@react-navigation/native';
-import { RootStackParamList } from './types'; // optional if you use typed navigation
+import { createNavigationContainerRef, StackActions } from "@react-navigation/native";
+import { login } from "../types/constants";
 
-export const navigationRef = createNavigationContainerRef<RootStackParamList>();
+export const navigationRef = createNavigationContainerRef();
 
-
-function navigate(name: keyof RootStackParamList, params?: any) {
+// ✅ Navigate to a route
+export function navigate(name: string, params?: any) {
   if (navigationRef.isReady()) {
-    navigationRef.navigate(name, params);
+    navigationRef.navigate(name as never, params as never);
   }
 }
 
-function push(name: keyof RootStackParamList, params?: any) {
-  if (navigationRef.isReady()) {
-    navigationRef.dispatch(StackActions.push(name, params));
-  }
-}
-
-function replace(name: keyof RootStackParamList, params?: any) {
+// ✅ Replace the current route (like navigation.replace)
+export function replace(name: string, params?: any) {
   if (navigationRef.isReady()) {
     navigationRef.dispatch(StackActions.replace(name, params));
   }
 }
 
-function goBack() {
-  if (navigationRef.canGoBack()) {
-    navigationRef.goBack();
-  }
-}
-
-function resetTo(name: keyof RootStackParamList, params?: any) {
+// ✅ Reset the stack (clear all history and go to login)
+export function resetToLogin() {
   if (navigationRef.isReady()) {
     navigationRef.reset({
       index: 0,
-      routes: [{ name, params }],
+      routes: [{ name: login as never }],
     });
   }
 }
-
-export default {
-  navigate,
-  push,
-  replace,
-  goBack,
-  resetTo,
-};

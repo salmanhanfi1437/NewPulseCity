@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect,useState } from 'react';
 import {
   Dimensions,
   GestureResponderEvent,
@@ -25,20 +25,27 @@ import { QrplassholderSVG } from '../../assets/svg';
 import CustomButton from '../../components/atoms/CustomButton';
 import { fontW, pb } from '../../utils/spaces';
 import { EditQRDetails } from '../../navigation/types';
-const { width, height } = Dimensions.get('window');
+import { useDispatch } from 'react-redux';
+import { editQrRequest, resetEditQr } from './EditQrSlice';
+import { RootState } from '../../redux/rootReducer';
+import { useSelector } from 'react-redux';
+import { showAlert } from '../../components/atoms/AlertBox/showAlert';
+import EventBus from 'react-native-event-bus';
+
 
 const EditQR = ({navigation,route}:EditQRDetails) => {
  
   const { color, ...avoidcolor } = GlobalStyles.faintText;
  const { data } =  route.params;
-
+console.log('Data '+JSON.stringify(data));
+ const dispatch = useDispatch();
  
-  const [kitName, setKitName] = React.useState(data?.qrName);
-  const [description, setDescription] = React.useState(data?.description);
-  const [location, setLocation] = React.useState(data?.location);
-  const [category, setCategory] = React.useState('');
-  const [contact, setContact] = React.useState(data?.creator?.mobile);
-  const [email, setEmail] = React.useState('--');
+  const [kitName, setKitName] = useState(data?.qrName);
+  const [description, setDescription] = useState(data?.description);
+  const [location, setLocation] = useState(data?.location);
+  const [category, setCategory] = useState(data?.category);
+  const [contact, setContact] = useState(data?.creator?.mobile);
+  const [email, setEmail] = React.useState(data?.email);
 
   const handleKitNameChange = (text: string) => setKitName(text);
   const handleDescriptionChange = (text: string) => setDescription(text);
@@ -46,6 +53,41 @@ const EditQR = ({navigation,route}:EditQRDetails) => {
   const handleCategoryChange = (value: string) => setCategory(value);
   const handleContactChange = (text: string) => setContact(text);
   const handleEmailChange = (text: string) => setEmail(text);
+
+ const { editQrData, error } = useSelector(
+    (state: RootState) => state.editQr);
+
+    useEffect(() => {
+  if (editQrData || error) {
+    console.log('EDITQR ' + JSON.stringify(editQrData));
+
+    if (editQrData?.success === true) {
+     EventBus.getInstance().fireEvent('refreshQR', {
+    message: editQrData.message, // optional payload
+  });
+      navigation.goBack()
+//      showAlert(
+//   editQrData?.message,
+//   'Success',
+//   () => {
+//     navigation.goBack()
+//   }
+// );
+
+    } else {
+      showAlert(error?.message);
+    }
+  }
+}, [editQrData, error]);
+
+
+   const updateQr = () => {
+      dispatch(editQrRequest({id : data?.id,qrName :kitName,description, location: location,category,emergencyContactNumber:contact,email}))
+   }
+
+   useEffect(()=>{
+
+   },[])
 
 
   return (
@@ -359,8 +401,7 @@ const EditQR = ({navigation,route}:EditQRDetails) => {
             { borderRadius: GlobalStyles.modalDropdownList.borderRadius },
           ]}
           title={'Save Changes'}
-          onPress={() => {}}
-        />
+          onPress={() => updateQr()}/>
 
         <View style={[GlobalStyles.row, GlobalStyles.margin_top10]}>
           <CustomButton

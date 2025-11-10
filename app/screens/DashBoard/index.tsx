@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { FlatList, ScrollView, TouchableOpacity, View } from 'react-native';
+import { FlatList, ScrollView, TouchableOpacity, View,Text, StyleSheet } from 'react-native';
 import { CustomText } from '../../components/atoms/Text';
 import config from '../config';
 import GlobalStyles, {
@@ -32,8 +32,10 @@ import HoverButton from '../../components/atoms/HoverButton';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/rootReducer';
-import { DashboardRequest } from './dashboardSlice';
-import { bgColor, fS } from '../../utils/spaces';
+import { DashboardRequest, SetInitialTab } from './dashboardSlice';
+import { bgColor, fontColor, fS } from '../../utils/spaces';
+import { getNextMonthDate, getNextNDaysDate } from '../../utils/dateUtils';
+import { yourCart } from '../../types/constants';
 
 const ZuvyDashBoard = () => {
   const navigation = useNavigation<any>();
@@ -80,21 +82,20 @@ const ZuvyDashBoard = () => {
   },[])
 
   return (
+        <View style={styles.container}>
     <ScrollView
       showsVerticalScrollIndicator={false}
       contentContainerStyle={[
         GlobalStyles.ZuvyDashBoardScrollContent,
-        { backgroundColor: GlobalStyles.whiteColor.color },
-      ]}
-    >
+        { backgroundColor: GlobalStyles.whiteColor.color,width:'100%' }]}>
+
       <BlueWhiteBackground headerHeight={80}>
         <ZuvyHeader
           onProfilePress={() => navigation.navigate('Profile')}
-          onNotificationPress={() => navigation.navigate('notifications')}
-        />
+          onNotificationPress={() => navigation.navigate('notifications')}/>
         <View style={GlobalStyles.translusantContainer}>
           <CustomText
-            title={config.ZuvyDashBoard.welcomeTitle}
+            title={`Welcome Back ${dashboardData?.data?.distributorName}`}
             textStyle={[GlobalStyles.mobileText]}
           />
           <CustomText
@@ -103,12 +104,12 @@ const ZuvyDashBoard = () => {
           />
           <View style={[GlobalStyles.zuvyRightIcons, { marginVertical: 5 }]}>
             <CustomText
-              title={config.ZuvyDashBoard.city}
+              title={`City : ${dashboardData?.data?.city}`}
               textStyle={[GlobalStyles.imageText, { fontSize: ms(12) }]}
             />
             <VerticalLine />
             <CustomText
-              title={config.ZuvyDashBoard.distriduteID}
+              title={`Mobile Number: ${dashboardData?.data?.distributorMobile}`}
               textStyle={[GlobalStyles.imageText, { fontSize: ms(12) }]}
             />
           </View>
@@ -118,8 +119,7 @@ const ZuvyDashBoard = () => {
             GlobalStyles.ZuvyDashBoardCard,
             GlobalStyles.width50,
             getShadowWithElevation(1),
-          ]}
-        >
+          ]}>
           <CustomText
             title={config.ZuvyDashBoard.QRsummary}
             textStyle={[
@@ -137,7 +137,7 @@ const ZuvyDashBoard = () => {
               ]}
             />
             <CustomText
-              title={'15 kits'}
+              title={`${dashboardData?.data?.totalQuantity} kits`}
               textStyle={[
                 GlobalStyles.headingText,
                 GlobalStyles.avoidTopMargin,
@@ -154,7 +154,7 @@ const ZuvyDashBoard = () => {
               ]}
             />
             <CustomText
-              title={'0'}
+              title={`${dashboardData?.data?.usedQuantity} kits`}
               textStyle={[
                 GlobalStyles.headingText,
                 GlobalStyles.avoidTopMargin,
@@ -167,8 +167,7 @@ const ZuvyDashBoard = () => {
             style={[
               GlobalStyles.zuvyRightIcons,
               { alignItems: GlobalStyles.avoidJustify.justifyContent },
-            ]}
-          >
+            ]}>
             <CalendarSVG width={ms(20)} height={ms(30)} />
             <View style={GlobalStyles.textConatiner}>
               <CustomText
@@ -179,10 +178,10 @@ const ZuvyDashBoard = () => {
                 title={config.ZuvyDashBoard.activationDate}
                 textStyle={[Typography.size.dynamic(13)]}
               />
-              <CustomText
-                title={'15/12/2024'}
-                textStyle={[Typography.size.dynamic(13)]}
-              />
+              <Text
+              style={[Typography.size.dynamic(13)]}
+              >{getNextMonthDate()}</Text>
+                
             </View>
           </View>
           <View
@@ -198,21 +197,32 @@ const ZuvyDashBoard = () => {
                 title={config.ZuvyDashBoard.refund}
                 textStyle={[Typography.size.dynamic(12), GlobalStyles.fadeText]}
               />
-              <CustomText
-                title={config.ZuvyDashBoard.refunddate}
-                textStyle={[Typography.size.dynamic(13)]}
-              />
+              <Text
+              style={[Typography.size.dynamic(13)]}
+              >{getNextNDaysDate(20)}</Text>
             </View>
           </View>
-          <CustomButton
+          
+           
+            <CustomButton
             title={config.ZuvyDashBoard.viewKit}
             buttonStyle={[
               GlobalStyles.ZuvyDashBoardBtn,
-              { width: GlobalStyles.width70.width * 1.2 },
+              
+              { width: GlobalStyles.width70.width * 1.2, },
             ]}
             textStyles={GlobalStyles.ZuvyDashBoardBtnText}
             onPress={() => {
-              navigation.navigate('QRManageMent');
+              if(dashboardData?.data?.totalQuantity > 0)
+              {
+                    dispatch(SetInitialTab('QRCode'));
+                    navigation.replace('merchantTabs');
+                  
+                //navigation.getParent()?.navigate('QRManagement');
+              }else{
+             navigation.navigate(yourCart);
+              }
+
             }}
             leftIcon={<HumburgerSVG />}
             rightIcon={<RightSVG />}
@@ -366,10 +376,29 @@ const ZuvyDashBoard = () => {
             leftIcon={<InfoSVG />}
           />
         </View>
-        <HoverButton onPress={() => navigation.navigate('yourCart')} />
+              <View style={styles.hoverButtonContainer}>
+
+          </View>
       </BlueWhiteBackground>
     </ScrollView>
+            <HoverButton onPress={() => navigation.navigate(yourCart)} />
+
+    </View>
   );
 };
 
+
+const styles =StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  hoverButtonContainer: {
+    position: 'absolute',
+    bottom: 0,
+    width: '100%',
+    alignItems: 'center',
+    paddingBottom: 10, // optional: safe spacing
+    backgroundColor: 'transparent', // ensures scroll content shows behind
+  },
+})
 export default ZuvyDashBoard;

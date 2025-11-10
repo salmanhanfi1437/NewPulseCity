@@ -6,6 +6,7 @@ import {
   const_fullName,
   const_pancard_number,
   const_pincode,
+  const_RESET_STORE,
   const_state,
   const_totalAmount,
   enter,
@@ -56,7 +57,7 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/rootReducer';
 import { showAlert } from '../../components/atoms/AlertBox/showAlert';
-import { checkOutRequest, VerifyRazorPayRequest } from './checkoutSlice';
+import { checkOutRequest, ResetRazorPay, VerifyRazorPayRequest } from './checkoutSlice';
 import { isValidPAN } from '../../utils/helper';
 import RazorpayCheckout from 'react-native-razorpay';
 import { ProfileRequest } from '../UserProfile/profileSlice';
@@ -140,6 +141,8 @@ const CheckOutDetail = ({ navigation, route }: CheckOutDetailProps) => {
   useEffect(() => {
     if (verifyRazaorPay_data || verifyRazaorPay_error) {
       if (verifyRazaorPay_data?.success) {
+         
+         dispatch(ResetRazorPay())
         navigation.replace('merchantTabs');
       }
     } else {
@@ -193,6 +196,8 @@ const CheckOutDetail = ({ navigation, route }: CheckOutDetailProps) => {
     };
     RazorpayCheckout.open(options)
       .then(data => {
+         //dispatch({ type: const_RESET_STORE });
+        
         dispatch(
           VerifyRazorPayRequest({
             razorpay_payment_id: data.razorpay_payment_id,
@@ -377,34 +382,28 @@ const CheckOutDetail = ({ navigation, route }: CheckOutDetailProps) => {
                 textStyle={[GlobalStyles.margin_top10]}
               />
 
-              <PressableOpacity
-                onPress={() => {
-                  navigation.navigate('StateCitySelector', {
-                    type: 'state',
-                    onSelect: (selected: any) => {
-                      setState(selected.name); // updates local state
-                      setCity(''); // reset city when state changes
-                      setStateId(selected.id);
-                    },
-                  });
-                }}
-              >
-                <ViewOutlined
-                  viewStyle={[
-                    GlobalStyles.borderStyles,
-                    {
-                      borderColor: Colors.borderBottomColor,
-                      borderRadius: GlobalStyles.ZuvyDashBoardBtn.borderRadius,
-                    },
-                  ]}
-                >
-                  <CustomTextInput
-                    placeholder={const_state}
-                    value={state}
-                    onChangeText={setState}
-                    editable={false}
-                  />
-                </ViewOutlined>
+          <PressableOpacity
+  onPress={() => {
+    navigation.navigate('StateCitySelector', {
+      type: 'state',
+      onSelect: (selected: any) => {
+        setState(selected.name); // updates local state
+          setStateId(selected.id);
+        setCity(''); // reset city when state changes
+        setCityId('')
+      
+      },
+    });
+  }}>
+              <ViewOutlined
+                viewStyle={[
+                  GlobalStyles.borderStyles,
+                  {
+                    borderColor: Colors.borderBottomColor,
+                    borderRadius: GlobalStyles.ZuvyDashBoardBtn.borderRadius,
+                  },]}>
+                <CustomTextInput placeholder={const_state} value={state} onChangeText={setState} editable={false} />
+              </ViewOutlined>
               </PressableOpacity>
             </View>
           </View>

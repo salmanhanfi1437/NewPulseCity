@@ -46,6 +46,7 @@ import ActiveQrSVG from './activeQRTab.svg';
 import GrillSVG from './Grills.svg';
 import DivSVG from './Secure_Icon.svg';
 import ShippmentSVG from "./shippment.svg";
+import ProfileAcitveSVG from "./profileactive.svg";
 export {
   DivSVG,
   MicSVG,
@@ -94,5 +95,6 @@ export {
   ActiveNotificationSVG,
   ActiveQrSVG,
   GrillSVG,
-  ShippmentSVG
+  ShippmentSVG,
+  ProfileAcitveSVG
 };

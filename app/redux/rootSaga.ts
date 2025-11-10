@@ -7,8 +7,10 @@ import {checkoutSaga, RazorPaymentSaga} from '../screens/CheckoutDetails/checkOu
 import stateCitySaga from '../components/atoms/State&City/StateCitySaga';
 import {profileSaga} from '../screens/UserProfile/profileSaga';
 import {dashboardSaga} from '../screens/DashBoard/dashboardSaga';
+import {notificationSaga} from '../screens/NotificationScreen/notificationSaga';
 import { DashBoardSVG } from '../assets/svg';
 import { qrManagementWatcher,InventoryWatcher } from '../screens/QrManagement/QrManagementSaga';
+import {watchEditQr} from '../screens/QrEditDetails/EditQRSaga'
 
 
 export default function* rootSaga() {
@@ -22,12 +24,12 @@ export default function* rootSaga() {
     fork(profileSaga),
     fork(dashboardSaga),
     fork(checkoutSaga),
-    // fork(stateCitySaga),
     fork(profileSaga),
     fork(qrManagementWatcher),
+    fork(notificationSaga),  
     fork(RazorPaymentSaga),
-    fork(InventoryWatcher)
-  
-  
+    fork(InventoryWatcher),
+    fork(watchEditQr)
+
   ]);
 }

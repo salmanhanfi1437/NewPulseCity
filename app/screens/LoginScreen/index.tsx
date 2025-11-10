@@ -38,6 +38,7 @@ import {
 import {
   const_continue,
   const_fcmToken,
+  const_RESET_STORE,
   login,
   loginOrSignup,
   mobile_number,
@@ -45,6 +46,7 @@ import {
   resendOtpTimer,
   signup,
   validEmail,
+  validMobileNumber,
   verify,
   welcomeZuvy,
   yourCart,
@@ -74,7 +76,7 @@ const LoginScreen = ({ navigation }: LoginProps) => {
   );
   const inputRef = useRef<TextInput>(null);
   const dispatch = useDispatch();
-  let purpose = 'LOGIN';
+  
   // 🔁 Countdown timer logic
   useEffect(() => {
     if (!isOtpVerified || timer <= 0) return;
@@ -98,7 +100,6 @@ const LoginScreen = ({ navigation }: LoginProps) => {
   useEffect(() => {
   if (otpData || error) {
     console.log("OTPData changed: ", otpData, "Error:", error);
-      dispatch(resetOTPState());
 
     if(otpData?.success === true)
     {
@@ -107,7 +108,8 @@ const LoginScreen = ({ navigation }: LoginProps) => {
       setTimer(RESEND_TIMER);
       if(otpData?.data?.userMObileRegister == false)
       {
-        purpose = signup.toUpperCase();
+      dispatch({ type: const_RESET_STORE });
+
       }
       //Alert.alert(otpData?.data)
     }
@@ -119,7 +121,8 @@ useEffect(() => {
   
   if (verifyOTPData || otpError != null) {
     console.log("MainverifyOTPResponse: ", verifyOTPData, "Error:", otpError);
-      dispatch(resetOTPState());
+      // 🔥 This will clear all slices and reset to initial state
+    dispatch({ type: const_RESET_STORE });
 
     if(verifyOTPData?.success === true)
     {
@@ -127,10 +130,12 @@ useEffect(() => {
       showAlert(verifyOTPData?.message);
       if(verifyOTPData?.data?.isRegistered === false)
       {
+        resetState();
     navigation.navigate(signup,{mobile:mobileNumber}); //just for testimng added navigation
       }
       else{
-           navigation.replace(yourCart); //just for testimng added navigation
+        
+           navigation.replace('merchantTabs'); //just for testimng added navigation
       }
     }
     else if(otpError?.message){
@@ -149,7 +154,7 @@ useEffect(() => {
     }
     else if(!isValidIndianMobile(mobileNumber))
     {
-      showAlert(t(validEmail))
+      showAlert(t(validMobileNumber))
     }
     else if (isOtpVerified) {
       // Reset to initial state
@@ -189,11 +194,22 @@ dispatch(verifyOTPRequest({ mobile: mobileNumber, otp,fcmToken,deviceType:Platfo
     sendOTP();
   }, []);
 
+  const handleNavigation = () =>{
+    resetState();
+    navigation.navigate('signup',{mobile : mobileNumber});
+  }
+
+  const resetState = () => {
+    setMobileNo('')
+    setOtp('')
+    setOtpVerified(false)
+  }
+
   return (
     <BackgroundPrimaryColor title={t(welcomeZuvy)}>
       {/* 🔹 Header Card */}
       <TouchableOpacity
-        onPress={() => navigation.navigate('signup',{mobile : mobileNumber})}
+        onPress={handleNavigation}
         activeOpacity={2}
       >
         <ViewRounded10
