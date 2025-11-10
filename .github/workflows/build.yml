@@ -5,9 +5,9 @@ on:
     branches:
       - main
       - dev
-      - feature/*  # for feature branches
-      - fix/minor-issues 
-      
+      - feature/* # for feature branches
+      - fix/minor-issues
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -38,6 +38,11 @@ jobs:
           restore-keys: |
             gradle-${{ runner.os }}-
 
+      # 🗝️ Decode keystore from GitHub secret
+      - name: Decode Keystore
+        run: |
+          echo "$KEYSTORE_BASE64" | base64 --decode > android/app/my-release-key.keystore
+
       - name: Build Android debug APK
         run: cd android && ./gradlew assembleDebug
 
@@ -47,11 +52,10 @@ jobs:
           name: app-debug
           path: android/app/build/outputs/apk/debug/app-debug.apk
 
-
- # 🏗️ Build release APK
+      # 🏗️ Build release APK
       - name: Build Android release APK
         run: cd android && ./gradlew assembleRelease
-        env : 
+        env:
           MYAPP_UPLOAD_STORE_FILE: my-release-key.keystore
           MYAPP_UPLOAD_KEY_ALIAS: ${{ secrets.MYAPP_UPLOAD_KEY_ALIAS }}
           MYAPP_UPLOAD_STORE_PASSWORD: ${{ secrets.MYAPP_UPLOAD_STORE_PASSWORD }}
