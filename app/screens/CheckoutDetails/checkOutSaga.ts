@@ -17,7 +17,7 @@ function* handleCheckOut(action: PayloadAction<any>): Generator {
     yield put(showLoader());
 
     const response: any = yield call(api.checkOutQr, action.payload);
-    console.log('✅ checkOut Response:', response.data);
+    console.log('✅ checkOut Response: checkOutQr ', response.data);
 
     yield put(checkOutSuccess(response.data));
   } catch (error: any) {
@@ -33,7 +33,7 @@ function* handleRazorPayment(action: PayloadAction<any>): Generator {
     yield put(showLoader());
 
     const response: any = yield call(api.VerifyRazorPayPayment, action.payload);
-    console.log('✅ checkOut Response:', response.data);
+    console.log('✅ checkOut Response:  VerifyRazorPayPayment ', response.data);
 
     yield put(VerifyRazorPaySuccess(response.data));
   } catch (error: any) {

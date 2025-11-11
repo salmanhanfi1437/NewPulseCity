@@ -197,7 +197,7 @@ const YourCart = ({ navigation }: yourCartProps) => {
 
       RazorpayCheckout.open(options)
         .then(data => {
-          // console.log('Payment success', data);
+          console.log('Payment success', data);
           dispatch(
             VerifyRazorPayRequest({
               razorpay_payment_id: data.razorpay_payment_id,
@@ -211,7 +211,7 @@ const YourCart = ({ navigation }: yourCartProps) => {
           if (error?.error?.reason === 'payment_cancelled') {
             Alert.alert('Cancelled', 'You cancelled the payment.');
           } else {
-            Alert.alert('Error', error.description || 'Payment failed.');
+            Alert.alert('Error', 'Payment failed.');
           }
         });
     }

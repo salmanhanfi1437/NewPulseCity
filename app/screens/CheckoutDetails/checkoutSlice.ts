@@ -25,7 +25,7 @@ export interface CheckOutState {
   loading: boolean;
   error: string | null;
   verifyRazaorPay_data: any | null;
-  verifyRazaorPay_error: string | null
+  verifyRazaorPay_error: string | null;
 }
 
 // ✅ Initial state
@@ -34,8 +34,8 @@ const initialState: CheckOutState = {
   loading: false,
   error: null,
   roleData: null,
-  verifyRazaorPay_data : null,
-  verifyRazaorPay_error:null
+  verifyRazaorPay_data: null,
+  verifyRazaorPay_error: null,
 };
 
 // ✅ Create slice
@@ -46,7 +46,6 @@ const checkOutSlice = createSlice({
     checkOutRequest: (state, action: PayloadAction<CheckOutRequest>) => {
       state.loading = true;
       state.error = null;
-      state.checkOutData = { ...action.payload };
     },
     checkOutSuccess: (state, action: PayloadAction<any>) => {
       state.loading = false;
@@ -57,7 +56,7 @@ const checkOutSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
-      VerifyRazorPayRequest: (state, action: PayloadAction<VerifyRazorPay>) => {
+    VerifyRazorPayRequest: (state, action: PayloadAction<VerifyRazorPay>) => {
       state.loading = true;
       state.verifyRazaorPay_error = null;
       state.verifyRazaorPay_data = { ...action.payload };
@@ -71,12 +70,15 @@ const checkOutSlice = createSlice({
       state.loading = false;
       state.verifyRazaorPay_error = action.payload;
     },
-    ResetRazorPay : (state) => {
-      state.verifyRazaorPay_data = null
-    }
+    ResetRazorPay: state => {
+      state.verifyRazaorPay_data = null;
+    },
+    resetCheckout: state => {
+      state.checkOutData = null;
+      state.error = null;
+    },
   },
 });
-
 
 // ✅ Export actions
 export const {
@@ -86,7 +88,8 @@ export const {
   VerifyRazorPayRequest,
   VerifyRazorPaySuccess,
   VerifyRazorPayFailure,
-  ResetRazorPay
+  ResetRazorPay,
+  resetCheckout,
 } = checkOutSlice.actions;
 
 // ✅ Export reducer
