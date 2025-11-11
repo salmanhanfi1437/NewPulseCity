@@ -31,6 +31,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchInventoryRequest, fetchViewQRRequest } from './QrmanagementSlice';
 import { resetEditQr } from '../QrEditDetails/EditQrSlice';
 import EventBus from 'react-native-event-bus';
+import { ClearInitialTab } from '../DashBoard/dashboardSlice';
 
 interface DynamicViewStyleProps {
   marginVertical?: number;
@@ -169,6 +170,7 @@ const QRManageMent = ({ route }) => {
 
   useEffect(() => {
     dispatch(fetchViewQRRequest());
+    dispatch(ClearInitialTab()); // reset it so it doesn't repeat
   }, []);
 
   useEffect(() => {
