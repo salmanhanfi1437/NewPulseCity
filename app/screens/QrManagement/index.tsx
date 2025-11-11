@@ -424,7 +424,6 @@ const QRManageMent = ({ route }) => {
               >
                 <CardContainer
                   style={[
-                    // GlobalStyles.lightwhite.backgroundColor,
                     GlobalStyles.width50,
                     GlobalStyles.paginationContainer.alignSelf,
                     GlobalStyles.containerPaddings,
