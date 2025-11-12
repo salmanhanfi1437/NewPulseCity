@@ -298,12 +298,12 @@ const GlobalStyles = StyleSheet.create({
     paddingEnd: ms(5),
     height: ms(50),
     alignItems: 'center',
-    width:'100%'
+    width: '100%',
     // marginTop: mvs(10),
   },
   //DashBoard Header
   logoutBorderStyles: {
-    width:'100%',
+    width: '100%',
     borderWidth: 0.7,
     borderColor: Colors.light_red,
     backgroundColor: Colors.semilight_red,
@@ -459,8 +459,8 @@ const GlobalStyles = StyleSheet.create({
   flexOne: {
     flex: 1,
   },
-  flexShrink1 : {
-    flexShrink:1
+  flexShrink1: {
+    flexShrink: 1,
   },
   viewRow: {
     flexDirection: 'row',
@@ -630,17 +630,17 @@ const GlobalStyles = StyleSheet.create({
     borderRadius: ms(10),
     backgroundColor: Colors.primaryColor,
   },
-  viewRoundBorder : {
-    flexDirection:'row',
-        borderRadius: mvs(30),
-        borderWidth:ms(1),
-        borderColor:Colors.borderColor,
-        paddingStart:ms(5),
-        paddingEnd:ms(5),
-        height:ms(50),
-        justifyContent:'center',
-        alignItems:'center',
-        marginTop:mvs(10)
+  viewRoundBorder: {
+    flexDirection: 'row',
+    borderRadius: mvs(30),
+    borderWidth: ms(1),
+    borderColor: Colors.borderColor,
+    paddingStart: ms(5),
+    paddingEnd: ms(5),
+    height: ms(50),
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: mvs(10),
   },
   bottomButton: {
     position: 'absolute',
@@ -696,6 +696,12 @@ const GlobalStyles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 20,
+  },
+  EmptyContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 50,
   },
 });
 export default GlobalStyles;

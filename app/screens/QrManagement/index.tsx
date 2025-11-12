@@ -1,5 +1,6 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
+  ActivityIndicator,
   Dimensions,
   FlatList,
   ScrollView,
@@ -31,7 +32,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchInventoryRequest, fetchViewQRRequest } from './QrmanagementSlice';
 import { resetEditQr } from '../QrEditDetails/EditQrSlice';
 import EventBus from 'react-native-event-bus';
-
+import QrItemCard from '../../components/atoms/QrmanagementList';
+import QrHeader from '../../components/atoms/QrmanagementHeader';
 interface DynamicViewStyleProps {
   marginVertical?: number;
   justifyContent?: ViewStyle['justifyContent'];
@@ -44,10 +46,19 @@ interface DynamicViewStyleProps {
   left?: number;
 }
 
-const QRManageMent = ({ route }) => {
+const QRManageMent = ({ route }: any) => {
   const navigation = useNavigation<any>();
   const { color, flex, textAlign, ...rest } = GlobalStyles.headertitle;
 
+  const [page, setPage] = useState(1);
+  const [limit] = useState(10);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const [search, setSearch] = useState('');
+  const [debounceTimer, setDebounceTimer] = useState<ReturnType<
+    typeof setTimeout
+  > | null>(null);
+
+  const isFirstRender = useRef(true);
   const { borderRadius, padding, elevation, ...restShadow } =
     GlobalStyles.shadowStyles;
   const { error: dashboardError, dashboardData } = useSelector(
@@ -56,6 +67,13 @@ const QRManageMent = ({ route }) => {
 
   const { InventoryError, InventoryData } = useSelector(
     (state: RootState) => state.fetchInventory,
+  );
+  const [activeFilter, setactiveFilter] = useState(
+    config.ZuvyQrManagement.qrfilter[0],
+  );
+
+  const { qrData, error, loading } = useSelector(
+    (state: RootState) => state.qrManagement,
   );
 
   const getDynamicViewStyle = ({
@@ -80,115 +98,110 @@ const QRManageMent = ({ route }) => {
     left,
   });
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'Dummy':
-        return Colors.borderBottomColor;
-      case 'Active':
-        return Colors.color_BBF7D0;
-      case 'Assigned':
-        return Colors.primaryColor2;
-      case 'Retired':
-        return Colors.light_red;
-      default:
-        return Colors.semiLight_grey;
-    }
-  };
-  const getStatusTextColor = (status: string) => {
-    switch (status) {
-      case 'Dummy':
-        return Colors.borderColor;
-      case 'Active':
-        return Colors.semiGreen;
-      case 'Assigned':
-        return Colors.white;
-      case 'Retired':
-        return Colors.red;
-      default:
-        return Colors.black;
-    }
-  };
-
   const dispatch = useDispatch();
-  const [activeFilter, setactiveFilter] = useState(
-    config.ZuvyQrManagement.qrfilter[0],
-  );
-
-  const { qrData, error } = useSelector(
-    (state: RootState) => state.qrManagement,
-  );
 
   useFocusEffect(
     useCallback(() => {
       // 👇 Refresh only if returning with "refresh: true"
       if (route?.params?.refresh) {
-        dispatch(fetchViewQRRequest());
+        setPage(1);
+        dispatch(fetchViewQRRequest({ page: page, limit, search }));
+        route.params.refresh = false;
 
         // 👇 Reset flag so it doesn’t trigger repeatedly
         if (route?.params) {
           route.params.refresh = false;
         }
       }
-    }, [route?.params?.refresh])
+    }, [route?.params?.refresh]),
   );
 
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-IN', {
-      day: '2-digit',
-      month: 'short',
-      year: 'numeric',
-    });
-  };
-
   useEffect(() => {
-    if (qrData || error) {
-      if (qrData) {
-        console.log('cehcekc e ---> logom a ==>', qrData);
-      } else {
-        console.log('MasterQrError ' + error);
-      }
-    }
-  }, [qrData, error]);
-
- useEffect(() => {
     // Subscribe to event
     const subscription = EventBus.getInstance().addListener(
       'refreshQR',
-      (data) => {
+      data => {
         console.log('🔁 Refresh triggered!', data);
-        dispatch(fetchViewQRRequest());
-      }
+        dispatch(fetchViewQRRequest({ page, limit, search }));
+      },
     );
-
+    EventBus.getInstance().addListener('refreshQR', subscription);
     // Cleanup on unmount
     return () => {
       EventBus.getInstance().removeListener(subscription);
     };
   }, [dispatch]);
 
-  useEffect(() => {
-    dispatch(fetchViewQRRequest());
-  }, []);
+  const fetchQrData = useCallback(
+    (resetPage = false) => {
+      const newPage = resetPage ? 1 : page;
+      dispatch(
+        fetchViewQRRequest({
+          page: newPage,
+          limit,
+          search: search?.trim() || '',
+        }),
+      );
+    },
+    [dispatch, page, limit, search],
+  );
 
   useEffect(() => {
-    if (dashboardData || dashboardError) {
-      console.log('DashBoardData ' + JSON.stringify(dashboardData));
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      fetchQrData(true);
+    } else {
+      fetchQrData(false);
     }
-  }, [dashboardData, dashboardError]);
+  }, [page]);
 
+  const handleLoadMore = useCallback(() => {
+    if (loading || isLoadingMore) return;
+
+    const pagination = qrData?.data?.pagination;
+    const currentLength = qrData?.data?.dummyQrs?.length || 0;
+    const totalItems = pagination?.totalItems || 0;
+    const currentPage = pagination?.currentPage || 1;
+    const totalPages = pagination?.totalPages || 1;
+
+    // Check if more pages are available
+    if (currentPage < totalPages && currentLength < totalItems) {
+      setIsLoadingMore(true);
+      setPage(prev => prev + 1);
+      setTimeout(() => setIsLoadingMore(false), 500);
+    }
+  }, [loading, isLoadingMore, qrData]);
 
   useEffect(() => {
-    if (InventoryData || InventoryError) {
-      console.log('InventoryData ' + JSON.stringify(InventoryData));
-    }
-  }, [InventoryData, InventoryError]);
+    if (debounceTimer) clearTimeout(debounceTimer);
 
+    const timer = setTimeout(() => {
+      setPage(1);
+      dispatch(fetchViewQRRequest({ page: 1, limit, search: search.trim() }));
+    }, 2000); // 600ms delay after typing stops
 
+    setDebounceTimer(timer);
+
+    return () => clearTimeout(timer);
+  }, [search]);
+
+  const handleSearch = (value: string) => {
+    setSearch(value);
+  };
+
+  useEffect(() => {
+    if (qrData) console.log('✅ QR Data:', qrData);
+    if (error) console.log('❌ QR Error:', error);
+    if (InventoryData) console.log('InventoryData:', InventoryData);
+    if (dashboardData) console.log('dashboardData:', InventoryData);
+    if (dashboardError) console.log('dashboardError      :', InventoryData);
+  }, [qrData, error, InventoryData, dashboardData, dashboardError]);
 
   useEffect(() => {
     dispatch(fetchInventoryRequest());
-  }, []);
+  }, [dispatch]);
+
+  const renderItem = ({ item }: any) => <QrItemCard item={item} />;
 
   return (
     <BlueWhiteBackground
@@ -211,390 +224,47 @@ const QRManageMent = ({ route }) => {
           },
         ]}
       />
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={
-          (GlobalStyles.ZuvyDashBoardScrollContent,
-            GlobalStyles.ZuvyDashBoardContainer)
-        }
-      >
-        <View style={[GlobalStyles.ZuvyDashBoardRowContainer]}>
-          <CardContainer
-            style={[
-              GlobalStyles.semihalfwidth,
-              getShadowWithElevation(1),
-              { borderRadius: GlobalStyles.ZuvyDashBoardBtn.borderRadius },
-            ]}
-          >
-            <View style={[GlobalStyles.row]}>
-              <View
-                style={[
-                  GlobalStyles.playInfoContainer,
-                  {
-                    backgroundColor: Colors.qrbg1,
-                    borderRadius: GlobalStyles.modalDropdownList.borderRadius,
-                  },
-                ]}
-              >
-                <MaterialIcons
-                  name="qr-code"
-                  size={17}
-                  color={Colors.primaryColor2}
-                />
-              </View>
-              <CustomText
-                title={config.ZuvyQrManagement.Total}
-                textStyle={[
-                  Typography.size.dynamic(12, 'regular', colors.fadeTextColor),
-                ]}
-              />
-            </View>
-            <CustomText
-              title={InventoryData?.data?.totalQuantity}
-              textStyle={[
-                rest,
-                GlobalStyles.margin_top10,
-                {
-                  left: GlobalStyles.dot.height,
-                  marginVertical: GlobalStyles.iconButton.padding,
-                },
-              ]}
-            />
-            <CustomText
-              title={'+12% this month'}
-              textStyle={[getDynamicTextStyle(12, colors.lightgreen)]}
-            />
-          </CardContainer>
-          <CardContainer
-            style={[
-              GlobalStyles.semihalfwidth,
-              getShadowWithElevation(1),
-              { borderRadius: GlobalStyles.ZuvyDashBoardBtn.borderRadius },
-            ]}
-          >
-            <View style={[GlobalStyles.row]}>
-              <View
-                style={[
-                  GlobalStyles.playInfoContainer,
-                  {
-                    backgroundColor: Colors.faintgreenRGB,
-                    borderRadius: GlobalStyles.modalDropdownList.borderRadius,
-                  },
-                ]}
-              >
-                <MaterialIcons
-                  name="check-circle"
-                  size={17}
-                  color={Colors.lightgreen}
-                />
-              </View>
-              <CustomText
-                title={config.ZuvyQrManagement.Active}
-                textStyle={[
-                  Typography.size.dynamic(12, 'regular', colors.fadeTextColor),
-                ]}
-              />
-            </View>
-            <CustomText
-              title={InventoryData?.data?.availableQuantity}
-              textStyle={[
-                rest,
-                GlobalStyles.margin_top10,
-                {
-                  left: GlobalStyles.dot.height,
-                  marginVertical: GlobalStyles.iconButton.padding,
-                },
-              ]}
-            />
-            <CustomText
-              title={'+8% this month'}
-              textStyle={[getDynamicTextStyle(12, colors.lightgreen)]}
-            />
-          </CardContainer>
-        </View>
-        <CardContainer
-          style={[
-            getShadowWithElevation(1),
-            { padding: GlobalStyles.zuvyIconBox.padding + 2 },
-          ]}
-        >
-          <View style={[GlobalStyles.zuvyHeaderRow]}>
-            {config.ZuvyQrManagement.qrfilter.map((item, index) => {
-              const isClickable = index === 0;
-              return (
-                <TouchableOpacity
-                  disabled={!isClickable}
-                  onPress={() => {
-                    setactiveFilter(item);
-                  }}
-                  style={[
-                    {
-                      backgroundColor:
-                        activeFilter == item ? Colors.qrbg1 : colors.white,
-                      borderRadius: GlobalStyles.zuvyIconBox.padding,
-                    },
-                  ]}
-                >
-                  <CustomText
-                    title={item}
-                    textStyle={[
-                      getDynamicTextStyle(12),
-                      {
-                        padding: GlobalStyles.zuvyIconBox.padding,
-                        color:
-                          activeFilter == item
-                            ? colors.primaryColor2
-                            : colors.grey,
-                      },
-                    ]}
-                  />
-                </TouchableOpacity>
-              );
-            })}
-          </View>
-        </CardContainer>
-        <View
-          style={[
-            GlobalStyles.zuvyHeaderRow,
-            { alignSelf: GlobalStyles.profileContainer.alignSelf },
-          ]}
-        >
-          <FlatList
-            data={config.ZuvyQrManagement.FilterButtons}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            renderItem={({ item }) => {
-              return (
-                <>
-                  <Dropdown
-                    data={[]}
-                    selectedValue={item.label}
-                    textStyle={[Typography.size.dynamic(10), pr(5), pl(5)]}
-                    style={[
-                      getDynamicViewStyle({
-                        backgroundColor: GlobalStyles.whiteColor.color,
-                      }),
-                      GlobalStyles.alignItem,
-                      restShadow,
-                      getShadowWithElevation(1),
-                      { margin: 5 },
-                    ]}
-                    onSelect={() => { }}
-                    icon={
-                      <MaterialIcons
-                        name={item.icon}
-                        size={12}
-                        color={Colors.black}
-                      />
-                    }
-                  />
-                </>
-              );
-            }}
-          />
-        </View>
 
-        <ViewOutlined
-          viewStyle={[
-            restShadow,
-            GlobalStyles.containerPaddings,
-            GlobalStyles.qrInputfield,
-            GlobalStyles.zuvyRightIcons,
-          ]}
-        >
-          <MaterialIcons
-            name="search"
-            size={30}
-            color={colors.grey}
-            style={{ paddingLeft: GlobalStyles.playInfoContainer.padding }}
+      <FlatList
+        showsVerticalScrollIndicator={false}
+        ListHeaderComponentStyle={[GlobalStyles.ZuvyDashBoardContainer]}
+        ListHeaderComponent={
+          <QrHeader
+            colors={Colors}
+            InventoryData={InventoryData}
+            activeFilter={activeFilter}
+            search={search}
+            handleSearch={handleSearch}
           />
-          <CustomTextInput placeholder={'Search QR codes...'} value={''} />
-        </ViewOutlined>
-        <FlatList
-          data={qrData?.data?.dummyQrs}
-          keyExtractor={item => item.id}
-          renderItem={({ item }) => {
-            return (
-              <TouchableOpacity
-                activeOpacity={0.95}
-                onPress={() => {
-                  dispatch(resetEditQr())
-                  navigation.navigate('EditQRDetails', { data: item });
-                }}
-              >
-                <CardContainer
-                  style={[
-                    GlobalStyles.width50,
-                    GlobalStyles.paginationContainer.alignSelf,
-                    GlobalStyles.containerPaddings,
-                    getShadowWithElevation(1),
-                    bgColor(GlobalStyles.lightwhite.backgroundColor),
-                  ]}
-                >
-                  <View style={GlobalStyles.row}>
-                    <View
-                      style={[
-                        GlobalStyles.viewRow,
-                        GlobalStyles.itemCenterStyle,
-                      ]}
-                    >
-                      <MaterialIcons
-                        name="qr-code"
-                        size={30}
-                        color={Colors.primaryColor2}
-                      />
-                      <View style={[getDynamicViewStyle({ left: 20 })]}>
-                        <CustomText
-                          title={item.qrCode}
-                          textStyle={[Typography.size.dynamic(12, 'medium')]}
-                        />
-                        <CustomText
-                          title={'Created : ' + formatDate(item.createdAt)}
-                          textStyle={[
-                            Typography.size.dynamic(
-                              10,
-                              'regular',
-                              colors.textColorGrey,
-                            ),
-                          ]}
-                        />
-                      </View>
-                    </View>
-                    <Badge
-                      text={'Dummy'}
-                      backgroundColor={getStatusColor(item.qrStatus)}
-                      textcolor={getStatusTextColor(item.qrStatus)}
-                      padding={8}
-                    />
-                  </View>
-                  <View style={[GlobalStyles.row, pt(10), pb(5)]}>
-                    <View style={GlobalStyles.halfwidth}>
-                      <CustomText
-                        title={'Kit Name'}
-                        textStyle={[
-                          Typography.size.dynamic(
-                            12,
-                            'regular',
-                            colors.textColorGrey,
-                          ),
-                        ]}
-                      />
-                    </View>
-                    {/* <View style={GlobalStyles.halfwidth}>
-                      <CustomText
-                        title={'Plan'}
-                        textStyle={[
-                          Typography.size.dynamic(
-                            12,
-                            'regular',
-                            colors.textColorGrey,
-                          ),
-                        ]}
-                      />
-                    </View> */}
-                  </View>
-                  <View style={[GlobalStyles.row, pt(1), pb(2)]}>
-                    <View style={[GlobalStyles.halfwidth]}>
-                      <CustomText
-                        title={item.qrName}
-                        textStyle={[Typography.size.dynamic(12, 'medium')]}
-                      />
-                    </View>
-                    <View style={GlobalStyles.halfwidth}>
-                      <CustomText
-                        title={item.plan}
-                        textStyle={[Typography.size.dynamic(12, 'medium')]}
-                      />
-                    </View>
-                  </View>
-                  <View style={[GlobalStyles.row, pt(5)]}>
-                    <View style={GlobalStyles.halfwidth}>
-                      <CustomText
-                        title={'Agent'}
-                        textStyle={[
-                          Typography.size.dynamic(
-                            11,
-                            'regular',
-                            colors.textColorGrey,
-                          ),
-                        ]}
-                      />
-                    </View>
-                    <View style={GlobalStyles.halfwidth}>
-                      <CustomText
-                        title={'Plan'}
-                        textStyle={[
-                          Typography.size.dynamic(
-                            11,
-                            'regular',
-                            colors.textColorGrey,
-                          ),
-                        ]}
-                      />
-                    </View>
-                  </View>
-                  <View style={[GlobalStyles.row, pt(5), pb(5)]}>
-                    <View style={GlobalStyles.halfwidth}>
-                      <CustomText
-                        title={
-                          item.qrStatus == 'NOT_ASSIGNED' && 'Not Assigned'
-                        }
-                        textStyle={[Typography.size.dynamic(12, 'medium')]}
-                      />
-                    </View>
-                    <View style={GlobalStyles.halfwidth}>
-                      <CustomText
-                        title={'--'}
-                        textStyle={[Typography.size.dynamic(12, 'medium')]}
-                      />
-                    </View>
-                  </View>
-                  <View
-                    style={[
-                      GlobalStyles.viewLine,
-                      GlobalStyles.containerPaddings,
-                    ]}
-                  />
-                  <View style={GlobalStyles.row}>
-                    <CustomText
-                      title={item.qrStatus == 'NOT_ASSIGNED' && 'Assign'}
-                      textStyle={{ color: colors.primaryColor }}
-                    />
-                    <MaterialIcons
-                      name="chevron-right"
-                      size={32}
-                      color={Colors.grey_50}
-                    />
-                  </View>
-                </CardContainer>
-              </TouchableOpacity>
-            );
-          }}
-          ListEmptyComponent={() => (
-            <View
-              style={{
-                flex: 1,
-                alignItems: 'center',
-                justifyContent: 'center',
-                marginTop: 50,
-              }}
-            >
-              <MaterialIcons
-                name="qr-code-2"
-                size={50}
-                color={Colors.grey}
-              />
-              <CustomText
-                title="No QR codes available"
-                textStyle={[
-                  Typography.size.dynamic(14, 'medium', Colors.grey),
-                  { marginTop: 10 },
-                ]}
-              />
-            </View>
-          )}
-        />
-      </ScrollView>
+        }
+        data={qrData?.data?.dummyQrs || []}
+        keyExtractor={item => item.id}
+        onEndReached={handleLoadMore}
+        onEndReachedThreshold={0.5}
+        ListFooterComponent={
+          isLoadingMore ? (
+            <ActivityIndicator
+              size="small"
+              color={Colors.primaryColor}
+              style={GlobalStyles.containerPaddings}
+            />
+          ) : null
+        }
+        renderItem={renderItem}
+        ListEmptyComponent={() => (
+          <View style={GlobalStyles.EmptyContainer}>
+            <MaterialIcons name="qr-code-2" size={50} color={Colors.grey} />
+            <CustomText
+              title="No QR codes available"
+              textStyle={[
+                Typography.size.dynamic(14, 'medium', Colors.grey),
+                { marginTop: 10 },
+              ]}
+            />
+          </View>
+        )}
+      />
+
       <HoverButton onPress={() => navigation.navigate('yourCart')} />
     </BlueWhiteBackground>
   );
