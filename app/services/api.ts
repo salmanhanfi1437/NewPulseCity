@@ -100,9 +100,10 @@ export default {
   getCities: (stateId: string) => apiClient.get(`location/cities/${stateId}`),
   getProfile:() => apiClient.get('user/profile'),
   getDashboard : () => apiClient.get("qr-management/distributor/inventory"),
-  viewQR: (params?: { page?: number; limit?: number; search?: string }) =>
-    apiClient.get('qr-management/distributor/view', { params }),
-notifications: (page: number, limit: number, type: string) =>
+  viewQR: (page: number, limit: number, type: string ) =>
+    apiClient.get(`qr-management/distributor/view?page=${page}&limit=${limit}&type=${type}`),
+
+  notifications: (page: number, limit: number, type: string) =>
   apiClient.get(
     `notification/my-notifications?page=${page}&limit=${limit}&type=${type}`),
   doLogout : () => apiClient.post('auth/logout'),

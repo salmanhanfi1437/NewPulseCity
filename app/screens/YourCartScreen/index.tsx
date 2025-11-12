@@ -114,6 +114,7 @@ const YourCart = ({ navigation }: yourCartProps) => {
       console.log('OrderData ' + JSON.stringify(orderQrData));
       if (orderQrData?.success) {
         handleCheckout();
+        dispatch(ResetOrderData());
       }
     } else {
       showAlert(qrCodeError?.message);
@@ -416,7 +417,7 @@ const YourCart = ({ navigation }: yourCartProps) => {
                 textStyle={[FontStyles.headingText]}
               />
               <CustomText
-                title={`${mastertQrData?.data?.whatInclude}`}
+                title={`• ${mastertQrData?.data?.whatInclude}`}
                 textStyle={[
                   textIncludedStyle(5),
                   textColor(colors.fadeTextColor),

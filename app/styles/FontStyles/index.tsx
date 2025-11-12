@@ -43,8 +43,9 @@ const FontStyles = StyleSheet.create({
     ...Typography.weights.boldU,
   },
    headingText: {
-        fontSize: ms(14),
+        fontSize: ms(16),
         color: Colors.black,
+        fontWeight:'600',
         ...Typography.weights.boldU,
     },
     subText: {

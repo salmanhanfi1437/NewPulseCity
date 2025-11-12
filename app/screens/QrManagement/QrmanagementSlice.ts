@@ -8,6 +8,11 @@ interface QrManagementState {
   InventoryError:string | any;
 }
 
+interface QrManagementPayload {
+  page: number;
+  limit: number;
+  type: string;
+}
 
 const initialState: QrManagementState = {
   qrData: null,
@@ -21,7 +26,7 @@ const qrManagementSlice = createSlice({
   name: 'qrManagement',
   initialState,
   reducers: {
-    fetchViewQRRequest: state => {
+    fetchViewQRRequest: (state,_action:PayloadAction<QrManagementPayload>)=> {
       state.loading = true;
       state.error = null;
     },
@@ -45,6 +50,10 @@ const qrManagementSlice = createSlice({
       state.loading = false;
       state.InventoryError = action.payload;
     },
+    resetViewQrData : state =>{
+      state.loading = false;
+      state.InventoryData = null;
+    }
   },
 });
 
@@ -54,7 +63,8 @@ export const {
   fetchViewQRError,
   fetchInventoryRequest,
   fetchInventorySuccess,
-  fetchInventoryError
+  fetchInventoryError,
+  resetViewQrData
 } = qrManagementSlice.actions;
 
 export default qrManagementSlice.reducer;

@@ -35,7 +35,8 @@ import { RootState } from '../../redux/rootReducer';
 import { DashboardRequest, SetInitialTab } from './dashboardSlice';
 import { bgColor, fontColor, fS } from '../../utils/spaces';
 import { getNextMonthDate, getNextNDaysDate } from '../../utils/dateUtils';
-import { yourCart } from '../../types/constants';
+import { const_welcomeZuvy, yourCart } from '../../types/constants';
+import { useTranslation } from 'react-i18next';
 
 const ZuvyDashBoard = () => {
   const navigation = useNavigation<any>();
@@ -65,6 +66,7 @@ const ZuvyDashBoard = () => {
     },
   ];
 
+  const {t} = useTranslation()
 
   useEffect(() =>{
 
@@ -92,10 +94,11 @@ const ZuvyDashBoard = () => {
       <BlueWhiteBackground headerHeight={80}>
         <ZuvyHeader
           onProfilePress={() => navigation.navigate('Profile')}
-          onNotificationPress={() => navigation.navigate('notifications')}/>
+          onNotificationPress={() => navigation.navigate('notifications')}
+          title = {dashboardData?.data?.distributorName[0]}/>
         <View style={GlobalStyles.translusantContainer}>
           <CustomText
-            title={`Welcome Back ${dashboardData?.data?.distributorName}`}
+            title={`${t(const_welcomeZuvy)} ${dashboardData?.data?.distributorName}`}
             textStyle={[GlobalStyles.mobileText]}
           />
           <CustomText
@@ -104,7 +107,7 @@ const ZuvyDashBoard = () => {
           />
           <View style={[GlobalStyles.zuvyRightIcons, { marginVertical: 5 }]}>
             <CustomText
-              title={`City : ${dashboardData?.data?.city}`}
+              title={`City : ${dashboardData?.data?.distributorCity}`}
               textStyle={[GlobalStyles.imageText, { fontSize: ms(12) }]}
             />
             <VerticalLine />

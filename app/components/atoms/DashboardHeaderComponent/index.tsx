@@ -10,17 +10,23 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { ZuvyLogoSVG } from '../../../assets/svg';
 import { Colors } from '../../../styles';
 import GlobalStyles from '../../../styles/GlobalStyles';
+import { CustomText } from '../Text';
+import { bgColor, fS } from '../../../utils/spaces';
+import { mvs } from 'react-native-size-matters';
+import FontStyles from '../../../styles/FontStyles';
 
 type ZuvyHeaderProps = {
   onProfilePress?: () => void; // ✅ add callback prop
   onNotificationPress?: () => void;
   headerBgColor?: string;
+  title : string;
 };
 
 const ZuvyHeader: React.FC<ZuvyHeaderProps> = ({
   onProfilePress,
   onNotificationPress,
   headerBgColor = Colors.white,
+  title
 }) => {
   return (
     <>
@@ -51,12 +57,10 @@ const ZuvyHeader: React.FC<ZuvyHeaderProps> = ({
             </TouchableOpacity>
 
             <TouchableOpacity onPress={onProfilePress}>
-              <Image
-                source={{
-                  uri: 'https://randomuser.me/api/portraits/women/44.jpg',
-                }}
-                style={GlobalStyles.zuvyProfileImg}
-              />
+             <View style={[GlobalStyles.zuvyProfileImg,GlobalStyles.viewCenter,bgColor(Colors.secondaryColor)]}>
+                       <CustomText textStyle={[FontStyles.buttonText,fS(mvs(10))]}  
+                       title={title}></CustomText>
+                     </View>
             </TouchableOpacity>
           </View>
         </View>

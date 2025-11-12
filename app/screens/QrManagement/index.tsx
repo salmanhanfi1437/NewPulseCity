@@ -28,10 +28,9 @@ import HoverButton from '../../components/atoms/HoverButton';
 import { bgColor, pb, pl, pr, pt } from '../../utils/spaces';
 import { RootState } from '../../redux/rootReducer';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchInventoryRequest, fetchViewQRRequest } from './QrmanagementSlice';
+import { fetchInventoryRequest, fetchViewQRRequest, resetViewQrData } from './QrmanagementSlice';
 import { resetEditQr } from '../QrEditDetails/EditQrSlice';
 import EventBus from 'react-native-event-bus';
-import { ClearInitialTab } from '../DashBoard/dashboardSlice';
 
 interface DynamicViewStyleProps {
   marginVertical?: number;
@@ -158,7 +157,9 @@ const QRManageMent = ({ route }) => {
       'refreshQR',
       (data) => {
         console.log('🔁 Refresh triggered!', data);
-        dispatch(fetchViewQRRequest());
+            dispatch(resetViewQrData());
+            dispatch(fetchViewQRRequest({page : 1,limit : 10,type : ''}));
+
       }
     );
 
@@ -169,8 +170,7 @@ const QRManageMent = ({ route }) => {
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(fetchViewQRRequest());
-    dispatch(ClearInitialTab()); // reset it so it doesn't repeat
+    dispatch(fetchViewQRRequest({page : 1,limit : 10,type : ''}));
   }, []);
 
   useEffect(() => {
@@ -426,7 +426,6 @@ const QRManageMent = ({ route }) => {
               >
                 <CardContainer
                   style={[
-                    // GlobalStyles.lightwhite.backgroundColor,
                     GlobalStyles.width50,
                     GlobalStyles.paginationContainer.alignSelf,
                     GlobalStyles.containerPaddings,

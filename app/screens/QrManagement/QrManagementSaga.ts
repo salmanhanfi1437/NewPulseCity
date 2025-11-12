@@ -14,13 +14,15 @@ import { hideLoader, showLoader } from '../../redux/slices/loaderSlice';
 // Optional static token for now
 
 export function* handleFetchViewQR(
-  action: PayloadAction<{ quantity: number }>,
-): Generator {
+ action: ReturnType<typeof fetchViewQRRequest>
+): Generator<any, void, any> {
   try {
     yield put(showLoader());
 
-    const params = action.payload;
-    const response: any = yield call(api.viewQR,params);
+  const { page, limit, type } = action.payload; // ✅ fully typed
+
+    
+    const response: any = yield call(api.viewQR,page,limit,type);
     
     console.log('✅ Create Order Response:', response.data);
     yield put(fetchViewQRSuccess(response.data));

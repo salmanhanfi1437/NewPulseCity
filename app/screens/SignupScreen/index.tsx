@@ -16,12 +16,16 @@ import {
   const_city,
   const_state,
   const_RESET_STORE,
+  please,
+  const_please_enter_name,
+  const_please_enter_valid_email,
+  const_please_select,
 } from '../../types/constants';
 import { Colors, Typography } from '../../styles';
 import { ms, mvs } from 'react-native-size-matters';
 import TextInputMic from '../../components/atoms/TextInputMic';
 import { CustomText } from '../../components/atoms/Text';
-import { TextInput } from 'react-native-gesture-handler';
+import { State, TextInput } from 'react-native-gesture-handler';
 import GlobalStyles from '../../styles/GlobalStyles';
 import { SignupProps } from '../../navigation/types';
 import { fontW, height, mb, mr, mt } from '../../utils/spaces';
@@ -46,7 +50,7 @@ import { CommonActions } from '@react-navigation/native';
 const SignupScreens = ({ navigation, route }: SignupProps) => {
 
     const { mobile } = route.params || {}; // 👈 Safe destructuring
-  console.log('Mobile ' + mobile);
+  
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [role, setRole] = useState('DISTRIBUTOR');
@@ -59,10 +63,19 @@ const SignupScreens = ({ navigation, route }: SignupProps) => {
   const mobileNumberRef = useRef<TextInput>(null);
   
   const dispatch = useDispatch();
-  
+    const { i18n } = useTranslation(); // for getttimg the language selected
+
+    
   const {t} = useTranslation()
   const { error, singupData, roleData } = useSelector((state: RootState) => state.signup);
 const [errors, setErrors] = useState<{ name?: boolean; email?: boolean; state?: boolean; city?: boolean }>({});
+
+  const currentLang = i18n.language;
+
+useEffect(() => {
+  console.log("Mobile", mobile);
+  console.log("CurrentLanguage", currentLang);
+}, []); // ✅ सिर्फ 1 बार (mount पर)
 
   useEffect(() => {
       
@@ -120,12 +133,9 @@ const validation = () => {
 };
 
 
-
-
   useEffect(() =>{
     dispatch(RoleRequest());
   },[])
-
 
   useEffect(() =>{
     
@@ -159,13 +169,13 @@ const validation = () => {
           GlobalStyles.ZuvyDashBoardContainer,
         ]}
       >
-       <View style={[GlobalStyles.viewRow,GlobalStyles.alignItem]}>
+       <View style={[GlobalStyles.viewRow,GlobalStyles.alignItem,mb(5)]}>
   <CustomText
     title={t(const_name)}
     textStyle={FontStyles.headingText}
   />
   <CustomText
-    title="*"
+    title=" *"
     textStyle={[FontStyles.headingText, { color: errors.name ? Colors.red : Colors.black }]} // Red asterisk
   />
 </View>
@@ -185,16 +195,16 @@ const validation = () => {
 />
 {
   errors.name &&
-<CustomText title={`Please enter ${t(const_name)}`} textStyle={[FontStyles.subTextError, mt(10),mb(10)]} />
+<CustomText title={`${const_please_enter_name}`} textStyle={[FontStyles.subTextError, mt(10)]} />
 }
 
-        <View style={[GlobalStyles.viewRow,GlobalStyles.alignItem,mt(20)]}>
+        <View style={[GlobalStyles.viewRow,GlobalStyles.alignItem,mt(20),mb(10)]}>
   <CustomText
     title={t(const_email)}
     textStyle={FontStyles.headingText}
   />
   <CustomText
-    title="*"
+    title=" *"
     textStyle={[FontStyles.headingText, { color: errors.email ? Colors.red : Colors.black }]} // Red asterisk
   />
 </View>
@@ -215,18 +225,18 @@ const validation = () => {
 />
 {
   errors.email &&
-<CustomText title={`Please enter ${t(const_email)}`} textStyle={[FontStyles.subTextError, mt(10),mb(10)]} />
+<CustomText title={`${(const_please_enter_valid_email)}`} textStyle={[FontStyles.subTextError, mt(10),mb(10)]} />
 }
       
             <View style={[GlobalStyles.flexOne]}>
               
-              <View style={[GlobalStyles.viewRow,GlobalStyles.alignItem,mt(20)]}>
+              <View style={[GlobalStyles.viewRow,GlobalStyles.alignItem,mt(20),mb(10)]}>
   <CustomText
     title={t(const_state)}
     textStyle={FontStyles.headingText}
   />
   <CustomText
-    title="*"
+    title=" *"
     textStyle={[FontStyles.headingText, { color: errors.state ? Colors.red : Colors.black }]} // Red asterisk
   />
 </View>
@@ -253,9 +263,9 @@ const validation = () => {
 
           </View>
 
- <View style={[GlobalStyles.flexOne,mt(20)]}>
+ <View style={[GlobalStyles.flexOne,mt(20),mb(10)]}>
               
-            <View style={[GlobalStyles.viewRow,GlobalStyles.alignItem]}>
+            <View style={[GlobalStyles.viewRow,GlobalStyles.alignItem,mb(10)]}>
   <CustomText
     title={t(const_city)}
     textStyle={FontStyles.headingText}
@@ -269,7 +279,7 @@ const validation = () => {
   onPress={() => {
     
     if (!stateId) {
-      showAlert('Please select a state first.');
+showAlert(t('please_select', { field: t(const_state) }));
       return;
     }
 
@@ -287,15 +297,14 @@ const validation = () => {
     viewStyle={[
       GlobalStyles.TextBordercontainer,
           errors.city && { borderBottomColor: colors.red, borderWidth: 1 },
-
-    ]}>
+]}>
                 
        <CustomTextInput placeholder={const_city} value={cityName} editable={false} />
 
   </ViewOutlined>
 </PressableOpacity>
 
-<CustomText title={const_howtouseZuvy} textStyle={[FontStyles.headingText, mt(20)]} />
+<CustomText title={const_howtouseZuvy} textStyle={[FontStyles.headingText, mt(20),mb(10)]} />
 
         <DropdownAtom
           data={roleData?.data}
@@ -310,7 +319,8 @@ const validation = () => {
         <Button
           title={signup}
           onPress={handleRegister}
-          viewStyle={[mt(30)]} />
+          titleStyle={[fontColor(Colors.black)]}
+          viewStyle={[GlobalStyles.authBtn,bR(10),mt(30)]} />
 
       </View>
       <View style={[GlobalStyles.viewRow, GlobalStyles.bottomFooter,mt(20)]}>
@@ -319,7 +329,7 @@ const validation = () => {
           index: 0,
           routes: [{ name: login }],
         })}>
-          <CustomText title={sign_in} textStyle={[FontStyles.headingText, GlobalStyles.viewCenter, styles.signInText]} underline={true} />
+          <CustomText title={sign_in} textStyle={[FontStyles.headingText, GlobalStyles.viewCenter]} underline={true} />
         </PressableOpacity>
       </View>
     </BackgroundPrimaryColor>

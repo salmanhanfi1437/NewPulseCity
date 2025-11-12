@@ -34,10 +34,12 @@ import {
   pl,
   pr,
   fontW,
+  mb,
 } from '../../utils/spaces';
 import {
   const_continue,
   const_fcmToken,
+  const_login,
   const_RESET_STORE,
   login,
   loginOrSignup,
@@ -118,31 +120,30 @@ const LoginScreen = ({ navigation }: LoginProps) => {
 
 
 useEffect(() => {
-  
-  if (verifyOTPData || otpError != null) {
-    console.log("MainverifyOTPResponse: ", verifyOTPData, "Error:", otpError);
-      // 🔥 This will clear all slices and reset to initial state
-    dispatch({ type: const_RESET_STORE });
+  if (!verifyOTPData && !otpError) return;
 
-  if(verifyOTPData?.success === true)
-    {
+  console.log('MainverifyOTPResponse:', verifyOTPData, 'Error:', otpError);
 
-      showAlert(verifyOTPData?.message);
-      if(verifyOTPData?.data?.isRegistered === false)
-      {
-        resetState();
-    navigation.navigate(signup,{mobile:mobileNumber}); //just for testimng added navigation
+  if (verifyOTPData?.success === true) {
+    showAlert(
+      verifyOTPData?.message,
+      'Success',
+      () => {
+        dispatch({ type: const_RESET_STORE }); // 🔄 अब dispatch callback में है
+        if (verifyOTPData?.data?.isRegistered === false) {
+          resetState();
+          navigation.navigate('signup', { mobile: mobileNumber });
+        } else {
+          navigation.replace('merchantTabs');
+        }
       }
-      else{
-        
-           navigation.replace('merchantTabs'); //just for testimng added navigation
-      }
-    }
-    else if(otpError?.message){
-         showAlert(otpError.message);
-    }
+    );
+  } else if (otpError?.message) {
+    showAlert(otpError.message, 'Error');
+    dispatch({ type: const_RESET_STORE }); // ❗ dispatch सिर्फ error पर भी एक बार
   }
 }, [verifyOTPData, otpError]);
+
 
   const handleVerifyToggle = useCallback(() => {
     if (mobileNumber.length !== 10) return;
@@ -224,7 +225,7 @@ dispatch(verifyOTPRequest({ mobile: mobileNumber, otp,fcmToken,deviceType:Platfo
         />
       </TouchableOpacity> */}
 
-      <Text style={[styles.mobileText,GlobalStyles.textAlign,mt(20)]}>{login}</Text>
+      <CustomText textStyle={[styles.mobileText,GlobalStyles.textAlign,mt(20)]} title={t(const_login)}></CustomText>
 
       {/* 🔹 Mobile Input */}
       <CustomText title={t(mobile_number)} textStyle={styles.mobileText} />
@@ -232,7 +233,7 @@ dispatch(verifyOTPRequest({ mobile: mobileNumber, otp,fcmToken,deviceType:Platfo
       <ViewOutlined viewStyle={styles.viewInput}>
         <CustomText
           title="+91 |"
-          textStyle={[FontStyles.headingText, fS(ms(15)), pl(12), fontW('600')]}
+          textStyle={[FontStyles.headingText, fS(ms(18)), pl(12), fontW('600')]}
         />
 
         <CustomTextInput
@@ -311,8 +312,9 @@ dispatch(verifyOTPRequest({ mobile: mobileNumber, otp,fcmToken,deviceType:Platfo
         titleStyle={[fS(ms(16)), fontColor(colors.black)]}
         viewStyle={[
           restBTNStyle,
-          mt('30%'),
+          mt('20%'),
           bR(10),
+          mb(10),
           height(60),
           ((!isOtpVerified && mobileNumber.length !== 10) ||
             (isOtpVerified && otp.length !== 6)) && { opacity: 0.5 },

@@ -7,7 +7,7 @@ const { width, height } = Dimensions.get('screen');
 const GlobalStyles = StyleSheet.create({
   //halfScreen2.5 width
   authBtn: {
-    backgroundColor: Colors.buttonColorforAuth,
+    backgroundColor: Colors.secondaryColor,
   },
   halfwidth: {
     width: width / 2.5,
@@ -387,8 +387,10 @@ const GlobalStyles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   ZuvyDashBoardContainer: {
-    width: width - 40,
+    width: width,
     alignSelf: 'center',
+    paddingHorizontal:mvs(20),
+    paddingRight:mvs(20)
   },
 
   //Play Card Styles
@@ -654,7 +656,7 @@ const GlobalStyles = StyleSheet.create({
     position: 'absolute',
     top: height * 0.02, // 5% from top (adjusts with screen)
     right: width * 0.05, // 5% from right (adjusts with screen)
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    backgroundColor: colors.secondaryColor,
     borderRadius: width * 0.05,
     padding: 5,
     paddingHorizontal: 15,

@@ -14,6 +14,10 @@ import { RootState } from '../../redux/rootReducer';
 import { ProfileRequest } from './profileSlice';
 import { showAlert } from '../../components/atoms/AlertBox/showAlert';
 import colors from '../../styles/colors';
+import { Text } from 'react-native-svg';
+import FontStyles from '../../styles/FontStyles';
+import { bgColor, fS } from '../../utils/spaces';
+import { mvs } from 'react-native-size-matters';
 const { height } = Dimensions.get('screen');
 
 const UserProfile = () => {
@@ -60,8 +64,9 @@ const hasFetchedProfile = useRef(false);
         containerStyle={{ paddingTop: GlobalStyles.tabBarStyle.paddingTop }}
       />
       <View style={[GlobalStyles.profileContainer, { top: height * 0.09 }]}>
-        <View style={[GlobalStyles.imgContainer]}>
-          <Image source={Images.profile} style={GlobalStyles.imgContainer} />
+        <View style={[GlobalStyles.imgContainer,GlobalStyles.viewCenter,bgColor(Colors.secondaryColor)]}>
+          <CustomText textStyle={[FontStyles.buttonText,fS(mvs(20))]}  
+          title={profileData?.data?.name[0]}></CustomText>
         </View>
         <CustomText
           title={profileData?.data?.name}

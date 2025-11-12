@@ -70,9 +70,11 @@ const ChooseLanguages = ({ navigation }: ChooseLanguagesProps) => {
 
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
         console.log('✅ Notification permission granted');
+        
       } else {
         Alert.alert('Permission denied', 'You won’t receive notifications.');
         console.log('❌ Notification permission denied');
+        requestNotificationPermission()
         return false;
       }
     } else {
@@ -120,28 +122,6 @@ crashlytics().setCrashlyticsCollectionEnabled(true);
   checkFCM();
 }, []);
 
-
-
-// const options = {
-//   description: 'Credits towards consultation',
-//   image: 'https://your-logo-url.png',
-//   currency: 'INR',
-//   key: 'rzp_test_YourKey', // Your api key
-//   amount: '5000', // amount in paise: 5000 = ₹50
-//   name: 'Acme Corp',
-//   prefill: { email: 'salma@zuvystore.com', contact: '8770199411', name: 'Salman' },
-//   theme: { color: colors.primaryColor }
-// };
-
-// RazorpayCheckout.open(options).then((data) => {
-//   // handle success
-//   console.log('payment success', data);
-// }).catch((error) => {
-//   // handle failure
-//   console.log('payment error', error);
-// });
-
-
   useEffect(() => {
     //dispatch(fetchLanguagesRequest());
   }, [dispatch]);
@@ -156,7 +136,7 @@ crashlytics().setCrashlyticsCollectionEnabled(true);
       style={[GlobalStyles.viewRow, mt(15), borderRadius(10)]}
       onPress={() => handleLanguageschanges(item)}>
       <View style={[GlobalStyles.flexOne, paddingH(20)]}>
-        <CustomText textStyle={[FontStyles.subText]} title={item.label} />
+        <CustomText textStyle={[FontStyles.headingText]} title={item.label} />
         <CustomText
           textStyle={[
             FontStyles.subText,
