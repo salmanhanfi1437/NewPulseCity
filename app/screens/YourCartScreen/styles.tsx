@@ -26,7 +26,8 @@ const CartStyles = StyleSheet.create({
 viewQty : {
     ...GlobalStyles.viewRow,
     marginTop:mvs(10),
-    ...GlobalStyles.viewCenter
+    ...GlobalStyles.viewCenter,
+   
 },
 qtyText:{
     ...FontStyles.subText,
