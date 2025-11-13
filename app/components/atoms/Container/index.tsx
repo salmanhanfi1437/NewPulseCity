@@ -206,7 +206,7 @@ const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
                       ]}
                     />
                     <CustomText
-                      title={profileData?.data?.state?.name ?? "NA"}
+                      title={capitalizeFirstLetter(profileData?.data?.state?.name) ?? "Na"}
                       style={[restFont, fontColor(Colors.black)]}
                     />
                   </View>
