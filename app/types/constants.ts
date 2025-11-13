@@ -91,3 +91,4 @@ export const const_please_enter_valid_email = "please_enter_valid_email";
 export const const_please_select = "please_select";
 export const const_login="login";
 export const const_welcomeZuvy = "welcome_to_zuvy";
+export const const_youwillearn="youwillearn";
