@@ -47,7 +47,7 @@ import GrillSVG from './Grills.svg';
 import DivSVG from './Secure_Icon.svg';
 import ShippmentSVG from "./shippment.svg";
 import ProfileAcitveSVG from "./profileactive.svg";
-import RupeeSVG  from './Rupee.svg';
+import RupeeSVG  from './rupee.svg';
 export {
   DivSVG,
   MicSVG,
