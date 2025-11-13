@@ -7,6 +7,7 @@ import {
   buynow,
   const_RESET_STORE,
   const_totalAmount,
+  const_youwillearn,
   instantCode,
   itemTotal,
   minus,
@@ -96,6 +97,7 @@ const YourCart = ({ navigation }: yourCartProps) => {
   const [qty, setQty] = useState(1);
   const [gstAmount, setGSTAmout] = useState(0);
   const [totalAmount, setTotalAmount] = useState(0);
+  const [earningAmount,setEarningAmount] = useState(0)
   const dispatch = useDispatch();
 
   const { error, mastertQrData } = useSelector(
@@ -156,6 +158,10 @@ const YourCart = ({ navigation }: yourCartProps) => {
 
     const totalAmount = Number(totalPrice) + gstPrice;
     setTotalAmount(totalAmount);
+
+    // ✅ Calculate earning amount (20% of total amount)
+const earningAmount = totalAmount * 0.2;
+setEarningAmount(earningAmount);
   }, [qty, mastertQrData]);
 
   const handleBackPress = () => {
@@ -437,6 +443,26 @@ const YourCart = ({ navigation }: yourCartProps) => {
             </View>
           </Card>
 
+ <LinearGradient
+            style={[CartStyles.viewViewIncluded, GlobalStyles.viewRow]}
+            colors={[Colors.color_F0FDF4, Colors.color_EFF6FF]}
+          >
+            <View style={[CartStyles.circleGreen, GlobalStyles.viewCenter]}>
+              <RupeeSVG />
+            </View>
+
+            
+              <CustomText
+                title={t(const_youwillearn)}
+                textStyle={[FontStyles.headingText,ml(15), GlobalStyles.flexShrink1,GlobalStyles.flexOne]}  />
+            
+            <CustomText
+                title={`₹${earningAmount.toFixed(2)}`}
+                textStyle={[
+                  textIncludedStyle(5),
+                 FontStyles.headingText,
+                 fontColor(Colors.green)]}/>
+          </LinearGradient>
          
 
           <LinearGradient

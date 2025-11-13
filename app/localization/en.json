@@ -68,7 +68,8 @@
         "please_enter_valid_email": "Please enter valid email",
             "please_select": "Please select {{field}}",
             "login":"Login",
-            "welcome_to_zuvy":"Welcome to Zuvy"
+            "welcome_to_zuvy":"Welcome to Zuvy",
+            "youwillearn":"You will earn"
 
 
 
