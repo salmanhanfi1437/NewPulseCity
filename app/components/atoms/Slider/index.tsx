@@ -8,8 +8,8 @@ import { CustomText } from '../Text';
 import { skip, done, next } from '../../../types/constants';
 import FontStyles from '../../../styles/FontStyles';
 import colors from '../../../styles/colors';
-import { fontColor, fontW, fS, height } from '../../../utils/spaces';
-import { ms } from 'react-native-size-matters';
+import { fontColor, fontW, fS, height, mb } from '../../../utils/spaces';
+import { ms, mvs } from 'react-native-size-matters';
 
 type SlideItem = {
   key?: number;
@@ -93,6 +93,7 @@ const OnboardingSlider: React.FC<OnboardingSliderProps> = ({
               GlobalStyles.borderStyles,
               GlobalStyles.width50,
               height(60),
+              mb(mvs(20))
             ]}
           />
         </View>

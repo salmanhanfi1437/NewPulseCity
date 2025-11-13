@@ -59,13 +59,13 @@ const PromoScreen = () => {
           onPress={handleNavigation}
         >
           <View style={[GlobalStyles.row]}>
-            <Text style={[GlobalStyles.faintText, { color: Colors.white }]}>
+            <Text style={[GlobalStyles.faintText, { color: Colors.black }]}>
               {config.PromoScree.skipButton}
             </Text>
             <MaterialIcons
               name="arrow-forward"
               size={18}
-              color={colors.white}
+              color={colors.black}
               style={{ left: 5 }}
             />
           </View>

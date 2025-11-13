@@ -63,5 +63,12 @@
         "NoInternet" : "कोई इंटरनेट नहीं",
         "validEmail":"कृपया मान्य ईमेल दर्ज करें",
       "validPanCardNumber":"कृपया वैध भारतीय पैन कार्ड नंबर दर्ज करें",
-    "validMobileNumber" : "कृपया मान्य भारतीय 10 अंकों का मोबाइल नंबर दर्ज करें"
+    "validMobileNumber" : "कृपया मान्य भारतीय 10 अंकों का मोबाइल नंबर दर्ज करें",
+    "Please":"कृपया",
+    "please_enter_name":  "कृपया नाम दर्ज करें",
+      "please_enter_valid_email": "कृपया मान्य ईमेल दर्ज करें",
+        "please_select": "कृपया {{field}} चुनें",
+         "login":"लॉग इन करें",
+         "welcome_to_zuvy":"ज़ूवी में आपका स्वागत है"
+
 }

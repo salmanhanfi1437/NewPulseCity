@@ -73,6 +73,10 @@ const qrManagementSlice = createSlice({
       state.loading = false;
       state.InventoryError = action.payload;
     },
+    resetViewQrData : state =>{
+      state.loading = false;
+      state.InventoryData = null;
+    }
   },
 });
 

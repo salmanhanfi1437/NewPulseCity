@@ -17,7 +17,7 @@ type ButtonProps = {
   viewStyle?: StyleProp<ViewStyle> | ViewStyle[];
   image?: ReactNode;
   titleStyle?: StyleProp<TextStyle>;
-  disabledBtn?:boolean
+  disabledBtn?:boolean,
 };
 
 const Button = ({

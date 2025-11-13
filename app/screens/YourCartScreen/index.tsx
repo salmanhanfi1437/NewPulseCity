@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Alert, View } from 'react-native';
+import { Alert, StyleSheet, View } from 'react-native';
 import HeaderWithBackButton from '../../components/atoms/HeaderWithBackButton';
 import {
   alltimesupport,
@@ -43,6 +43,7 @@ import {
   pl,
   textColor,
   textIncludedStyle,
+  width,
 } from '../../utils/spaces';
 import Card from '../../components/atoms/Card';
 import LinearGradient from '../../components/atoms/LinearGradient';
@@ -54,6 +55,7 @@ import {
   PlusSVG,
   PriceBreakDownSVG,
   QRCodeSVG,
+  RupeeSVG,
   TickWhiteSVG,
 } from '../../assets/svg';
 import { CustomText } from '../../components/atoms/Text';
@@ -76,7 +78,7 @@ import BlueWhiteBackground from '../../components/atoms/DashBoardBG';
 import colors from '../../styles/colors';
 import HeaderComponent from '../../components/atoms/HeaderComponent';
 import CustomButton from '../../components/atoms/CustomButton';
-import { mvs } from 'react-native-size-matters';
+import { ms, mvs } from 'react-native-size-matters';
 import { Flex } from 'native-base';
 import RazorpayCheckout from 'react-native-razorpay';
 import config from '../config';
@@ -85,6 +87,8 @@ import {
   ResetRazorPay,
   VerifyRazorPayRequest,
 } from '../CheckoutDetails/checkoutSlice';
+import TextInput from '../../components/atoms/TextInput';
+import { screenWidth } from '../../utils/dimensions';
 
 const YourCart = ({ navigation }: yourCartProps) => {
   const { t } = useTranslation();
@@ -253,8 +257,7 @@ const YourCart = ({ navigation }: yourCartProps) => {
       />
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={[{ backgroundColor: colors.white }]}
-      >
+        contentContainerStyle={[{ backgroundColor: colors.white }]}>
         <View style={[GlobalStyles.topParentView]}>
           <Card style={[getShadowWithElevation(1)]}>
             <View style={[GlobalStyles.viewRow]}>
@@ -322,8 +325,33 @@ const YourCart = ({ navigation }: yourCartProps) => {
                   </View>
                 </PressableOpacity>
 
-                <View style={[CartStyles.viewQty, ml(mvs(10)), mr(10), mt(0)]}>
-                  <CustomText title={qty} textStyle={[FontStyles.buttonText]} />
+                <View style={[CartStyles.viewQty,styles.qty, ml(mvs(10)), mr(10), mt(0)]}>
+                 <TextInput
+  value={qty.toString()}
+  style={[FontStyles.buttonText]}
+  keyboardType="phone-pad"
+  maxLength={3}
+  onChangeText={(text) => {
+    // keep only digits
+    const numeric = text.replace(/[^0-9]/g, '');
+
+    if (numeric === '') {
+      // prevent empty value → default to 1
+      setQty(1);
+    } 
+    else {
+      const numValue = Number(numeric);
+
+      // if first digit < 2 → force 1
+      if (numeric.length === 1 && numValue < 2) {
+        setQty(1);
+      } else {
+        setQty(numValue);
+      }
+    }
+  }}
+/>
+
                 </View>
 
                 <PressableOpacity onPress={() => updateQty(plus)}>
@@ -409,6 +437,8 @@ const YourCart = ({ navigation }: yourCartProps) => {
             </View>
           </Card>
 
+         
+
           <LinearGradient
             style={[CartStyles.viewViewIncluded, GlobalStyles.viewRow]}
             colors={[Colors.color_F0FDF4, Colors.color_EFF6FF]}
@@ -423,7 +453,7 @@ const YourCart = ({ navigation }: yourCartProps) => {
                 textStyle={[FontStyles.headingText]}
               />
               <CustomText
-                title={`${mastertQrData?.data?.whatInclude}`}
+                title={`• ${mastertQrData?.data?.whatInclude}`}
                 textStyle={[
                   textIncludedStyle(5),
                   textColor(colors.fadeTextColor),
@@ -431,30 +461,7 @@ const YourCart = ({ navigation }: yourCartProps) => {
                 ]}
               />
 
-              {/* <CustomText
-                title={oneyearvalidity}
-                textStyle={[
-                  textIncludedStyle(5),
-                  Typography.style.smallTextU(),
-                  textColor(colors.fadeTextColor),
-                ]}
-              />
-              <CustomText
-                title={analyticDashboard}
-                textStyle={[
-                  textIncludedStyle(5),
-                  Typography.style.smallTextU(),
-                  textColor(colors.fadeTextColor),
-                ]}
-              />
-              <CustomText
-                title={alltimesupport}
-                textStyle={[
-                  textIncludedStyle(5),
-                  Typography.style.smallTextU(),
-                  textColor(colors.fadeTextColor),
-                ]}
-              /> */}
+            
             </View>
           </LinearGradient>
         </View>
@@ -494,6 +501,7 @@ const YourCart = ({ navigation }: yourCartProps) => {
               mb(0),
               GlobalStyles.containerPaddings,
               height(50),
+              width(screenWidth - 20)
             ]}
           />
 
@@ -513,5 +521,15 @@ const YourCart = ({ navigation }: yourCartProps) => {
     </BlueWhiteBackground>
   );
 };
+
+const styles = StyleSheet.create({
+  qty :{
+    width:ms(50),
+    height:ms(36),
+     borderRadius:mvs(3),
+    borderWidth:ms(0.5),
+    borderColor:colors.borderColor
+  }
+})
 
 export default React.memo(YourCart);

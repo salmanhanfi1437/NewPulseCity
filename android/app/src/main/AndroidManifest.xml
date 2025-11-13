@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="ai.zuvystore.com">
     <!-- package="ai.zuvystore.com" -->
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -49,7 +50,7 @@
 
 <meta-data
     android:name="com.google.firebase.messaging.default_notification_icon"
-    android:resource="@drawable/ic_launcher" />
+    android:resource="@mipmap/ic_launcher" />
 
 
     </application>

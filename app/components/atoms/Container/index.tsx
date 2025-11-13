@@ -27,6 +27,7 @@ import secureStorage from '../../../utils/secureStorage';
 import PressableOpacity from '../PressableOpacity';
 import { LogoutRequest } from '../../../screens/UserProfile/profileSlice';
 import { mvs } from 'react-native-size-matters';
+import { capitalizeFirstLetter } from '../../../utils/helper';
 
 const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
   
@@ -175,7 +176,7 @@ const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
                       ]}
                     />
                     <CustomText
-                      title={profileData?.data?.roles[0]?.name}
+                      title={capitalizeFirstLetter(profileData?.data?.roles[0]?.name)}
                       style={[restFont, fontColor(Colors.black)]}
                     />
                   </View>
@@ -205,7 +206,7 @@ const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
                       ]}
                     />
                     <CustomText
-                      title={'__'}
+                      title={profileData?.data?.state?.name ?? "NA"}
                       style={[restFont, fontColor(Colors.black)]}
                     />
                   </View>
@@ -262,7 +263,7 @@ const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
                         ),
                       ]}/>
                     <CustomText
-                      title={'SHIPPING'}
+                      title={capitalizeFirstLetter('Shipping')}
                       style={[restFont, fontColor(Colors.black)]}
                     />
                   </View>

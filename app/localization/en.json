@@ -63,5 +63,13 @@
       "NoInternet" : "No Internet",
       "validEmail":"Please Enter Valid Email",
       "validPanCardNumber":"Please Enter Valid Indian Pan Card Number",
-    "validMobileNumber" : "Please Enter Valid Indian 10 Digits Mobile Number"
+    "validMobileNumber" : "Please Enter Valid Indian 10 Digits Mobile Number",
+      "please_enter_name": "Please enter name",
+        "please_enter_valid_email": "Please enter valid email",
+            "please_select": "Please select {{field}}",
+            "login":"Login",
+            "welcome_to_zuvy":"Welcome to Zuvy"
+
+
+
 }
