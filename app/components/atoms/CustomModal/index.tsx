@@ -21,6 +21,7 @@ interface DropdownProps {
   icon?: React.ReactNode;
   activeIcon?: React.ReactNode;
   style?: object;
+  disabled?:boolean;
 }
 
 const Dropdown: React.FC<DropdownProps> = ({
@@ -32,14 +33,23 @@ const Dropdown: React.FC<DropdownProps> = ({
   icon,
   activeIcon,
   style,
+  disabled,
 }) => {
   const [visible, setVisible] = useState(false);
+
+    const handlePress = () => {
+    if (!disabled) {
+      setVisible(true);
+    }
+  };
+
 
   return (
     <View>
       <TouchableOpacity
         style={[GlobalStyles.modalDropdownButton, style]}
-        onPress={() => setVisible(true)}
+        onPress={handlePress}
+        disabled={disabled}
       >
         {visible ? activeIcon : icon}
         <Text style={[GlobalStyles.modalSelectedText, textStyle]}>

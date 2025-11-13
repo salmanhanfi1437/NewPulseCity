@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Alert, View } from 'react-native';
 import {
   const_address,
@@ -57,17 +57,22 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/rootReducer';
 import { showAlert } from '../../components/atoms/AlertBox/showAlert';
-import { checkOutRequest, ResetRazorPay, VerifyRazorPayRequest } from './checkoutSlice';
+import {
+  checkOutRequest,
+  resetCheckout,
+  ResetRazorPay,
+  VerifyRazorPayRequest,
+} from './checkoutSlice';
 import { isValidPAN } from '../../utils/helper';
 import RazorpayCheckout from 'react-native-razorpay';
 import { ProfileRequest } from '../UserProfile/profileSlice';
 import { MasterQrRequest } from '../YourCartScreen/yourCartSlice';
 
-const CheckOutDetail = ({ navigation, route }: CheckOutDetailProps) => {
+const CheckOutDetail =  ({ navigation, route }: CheckOutDetailProps) => {
   const { t } = useTranslation();
   console.log('Route ' + JSON.stringify(route));
-  const { data } =  route.params;
-  console.log('cehkec ---- params ---.',data)
+  const { data } = route.params;
+  console.log('cehkec ---- params ---.', data);
 
   const [fullName, setFullName] = useState('');
   const [PanCard, setPanCard] = useState('');
@@ -79,34 +84,35 @@ const CheckOutDetail = ({ navigation, route }: CheckOutDetailProps) => {
   const [pinCode, setPinCode] = useState('');
   const [stateId, setStateId] = useState('');
   const [cityId, setCityId] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const { checkOutData, error } = useSelector(
     (state: RootState) => state.orderQr,
   );
   const { verifyRazaorPay_data, verifyRazaorPay_error } = useSelector(
     (state: RootState) => state.verifyRazorPayment,
   );
-    const { profileData, error: profileError } = useSelector(
-      (state: RootState) => state.profile,
-    );
-      const { error:masterQrError, mastertQrData } = useSelector(
-        (state: RootState) => state.masterQr,
-      );
-
+  const { profileData, error: profileError } = useSelector(
+    (state: RootState) => state.profile,
+  );
+  const { error: masterQrError, mastertQrData } = useSelector(
+    (state: RootState) => state.masterQr,
+  );
+  const apiCalledRef = useRef(false);
   const dispatch = useDispatch();
 
-    useEffect(() => {
-      dispatch(MasterQrRequest());
-    }, []);
+  useEffect(() => {
+    dispatch(MasterQrRequest());
+  }, []);
 
-      useEffect(() => {
-        if (mastertQrData || masterQrError) {
-          if (mastertQrData) {
-          } else {
-            console.log('MasterQrError ' + masterQrError);
-          }
-        }
-      }, [mastertQrData, masterQrError]);
-    
+  useEffect(() => {
+    if (mastertQrData || masterQrError) {
+      if (mastertQrData) {
+      } else {
+        console.log('MasterQrError ' + masterQrError);
+      }
+    }
+  }, [mastertQrData, masterQrError]);
 
   useEffect(() => {
     if (checkOutData || error) {
@@ -114,43 +120,49 @@ const CheckOutDetail = ({ navigation, route }: CheckOutDetailProps) => {
         showAlert(checkOutData?.message);
         handleRazorPayment();
       } else {
-        handleRazorPayment();
-
-        // showAlert(error?.message);
+        showAlert(error?.message);
       }
+      dispatch(resetCheckout());
+      apiCalledRef.current = false;
     }
   }, [checkOutData, error]);
 
   const handleBackPress = () => {
     navigation.goBack();
   };
-    useEffect(() => {
-      if (profileData) {
-        if (profileData?.success) {
-        }
-      } else {
-        showAlert(profileError?.message);
+  useEffect(() => {
+    if (profileData) {
+      if (profileData?.success) {
       }
-    }, [profileData, profileError]);
-  
+    } else {
+      showAlert(profileError?.message);
+    }
+  }, [profileData, profileError]);
 
-    useEffect(() => {
-      dispatch(ProfileRequest());
-    }, []);
+  useEffect(() => {
+    dispatch(ProfileRequest());
+  }, []);
 
   useEffect(() => {
     if (verifyRazaorPay_data || verifyRazaorPay_error) {
       if (verifyRazaorPay_data?.success) {
-         
-         dispatch(ResetRazorPay())
+        apiCalledRef.current = false;
+        dispatch(ResetRazorPay());
         navigation.replace('merchantTabs');
       }
     } else {
       showAlert(verifyRazaorPay_error?.message);
     }
-  }, [verifyRazaorPay_data,verifyRazaorPay_error]);
+  }, [verifyRazaorPay_data, verifyRazaorPay_error]);
+
+  const HandlePaymentOnce = () => {
+    if (apiCalledRef.current) return; // prevent second call
+    apiCalledRef.current = true;
+    HandlePayment();
+  };
 
   const HandlePayment = () => {
+if (apiCalledRef.current) return;
     if (fullName == '') {
       showAlert(`${t(const_fullName)} ${t(enter)} `);
     } else if (!isValidPAN(PanCard)) {
@@ -164,6 +176,7 @@ const CheckOutDetail = ({ navigation, route }: CheckOutDetailProps) => {
     } else if (pinCode == '') {
       showAlert(`Enter Pin code`);
     } else {
+       apiCalledRef.current = true;
       dispatch(
         checkOutRequest({
           fullName,
@@ -185,8 +198,8 @@ const CheckOutDetail = ({ navigation, route }: CheckOutDetailProps) => {
       image: config.zuvyBlueLogoforRazarPay,
       currency: data.currency,
       key: config.RazarPayTestKey,
-      amount:parseInt(data.amount) * 100,
-      order_id: data.razorpayOrderId, 
+      amount: parseInt(data.amount) * 100,
+      order_id: data.razorpayOrderId,
       prefill: {
         email: profileData?.data?.email,
         contact: profileData?.data?.mobile,
@@ -196,15 +209,17 @@ const CheckOutDetail = ({ navigation, route }: CheckOutDetailProps) => {
     };
     RazorpayCheckout.open(options)
       .then(data => {
-         //dispatch({ type: const_RESET_STORE });
-        
-        dispatch(
-          VerifyRazorPayRequest({
-            razorpay_payment_id: data.razorpay_payment_id,
-            razorpay_order_id: data.razorpay_order_id,
-            razorpay_signature: data.razorpay_signature,
-          }),
-        );
+        console.log('razarpay details -->', data);
+
+        if (data.razorpay_payment_id) {
+          dispatch(
+            VerifyRazorPayRequest({
+              razorpay_payment_id: data.razorpay_payment_id,
+              razorpay_order_id: data.razorpay_order_id,
+              razorpay_signature: data.razorpay_signature,
+            }),
+          );
+        }
       })
       .catch(error => {
         console.log('Payment failed/cancelled', error);
@@ -382,28 +397,35 @@ const CheckOutDetail = ({ navigation, route }: CheckOutDetailProps) => {
                 textStyle={[GlobalStyles.margin_top10]}
               />
 
-          <PressableOpacity
-  onPress={() => {
-    navigation.navigate('StateCitySelector', {
-      type: 'state',
-      onSelect: (selected: any) => {
-        setState(selected.name); // updates local state
-          setStateId(selected.id);
-        setCity(''); // reset city when state changes
-        setCityId('')
-      
-      },
-    });
-  }}>
-              <ViewOutlined
-                viewStyle={[
-                  GlobalStyles.borderStyles,
-                  {
-                    borderColor: Colors.borderBottomColor,
-                    borderRadius: GlobalStyles.ZuvyDashBoardBtn.borderRadius,
-                  },]}>
-                <CustomTextInput placeholder={const_state} value={state} onChangeText={setState} editable={false} />
-              </ViewOutlined>
+              <PressableOpacity
+                onPress={() => {
+                  navigation.navigate('StateCitySelector', {
+                    type: 'state',
+                    onSelect: (selected: any) => {
+                      setState(selected.name); // updates local state
+                      setStateId(selected.id);
+                      setCity(''); // reset city when state changes
+                      setCityId('');
+                    },
+                  });
+                }}
+              >
+                <ViewOutlined
+                  viewStyle={[
+                    GlobalStyles.borderStyles,
+                    {
+                      borderColor: Colors.borderBottomColor,
+                      borderRadius: GlobalStyles.ZuvyDashBoardBtn.borderRadius,
+                    },
+                  ]}
+                >
+                  <CustomTextInput
+                    placeholder={const_state}
+                    value={state}
+                    onChangeText={setState}
+                    editable={false}
+                  />
+                </ViewOutlined>
               </PressableOpacity>
             </View>
           </View>
@@ -523,6 +545,6 @@ const CheckOutDetail = ({ navigation, route }: CheckOutDetailProps) => {
       </ScrollView>
     </BlueWhiteBackground>
   );
-};
+}  ;
 
 export default React.memo(CheckOutDetail);
