@@ -212,8 +212,6 @@ setEarningAmount(earningAmount);
         },
         theme: { color: colors.white },
       };
-      console.log('options log ===>',options);
-      
       RazorpayCheckout.open(options)
         .then(data => {
           console.log('Payment success', data);
