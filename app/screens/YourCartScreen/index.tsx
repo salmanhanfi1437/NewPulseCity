@@ -66,7 +66,11 @@ import Button from '../../components/atoms/Button';
 import VerificationIdentityScreens from '../VerificationIdentityScreens';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/rootReducer';
-import { MasterQrRequest, OrderQrRequest, ResetOrderData } from './yourCartSlice';
+import {
+  MasterQrRequest,
+  OrderQrRequest,
+  ResetOrderData,
+} from './yourCartSlice';
 import { showAlert } from '../../components/atoms/AlertBox/showAlert';
 import BlueWhiteBackground from '../../components/atoms/DashBoardBG';
 import colors from '../../styles/colors';
@@ -77,7 +81,10 @@ import { Flex } from 'native-base';
 import RazorpayCheckout from 'react-native-razorpay';
 import config from '../config';
 import { ProfileRequest } from '../UserProfile/profileSlice';
-import { ResetRazorPay, VerifyRazorPayRequest } from '../CheckoutDetails/checkoutSlice';
+import {
+  ResetRazorPay,
+  VerifyRazorPayRequest,
+} from '../CheckoutDetails/checkoutSlice';
 
 const YourCart = ({ navigation }: yourCartProps) => {
   const { t } = useTranslation();
@@ -114,6 +121,7 @@ const YourCart = ({ navigation }: yourCartProps) => {
       console.log('OrderData ' + JSON.stringify(orderQrData));
       if (orderQrData?.success) {
         handleCheckout();
+        dispatch(ResetOrderData());
       }
     } else {
       showAlert(qrCodeError?.message);
@@ -122,10 +130,10 @@ const YourCart = ({ navigation }: yourCartProps) => {
 
   useEffect(() => {
     if (verifyRazaorPay_data || verifyRazaorPay_error) {
-      console.log('VerifyRaz'+JSON.stringify(verifyRazaorPay_data));
+      console.log('VerifyRaz' + JSON.stringify(verifyRazaorPay_data));
       if (verifyRazaorPay_data?.success) {
-        dispatch(ResetOrderData())
-        dispatch(ResetRazorPay())
+        dispatch(ResetOrderData());
+        dispatch(ResetRazorPay());
         navigation.replace('merchantTabs');
       }
     } else {
@@ -174,17 +182,17 @@ const YourCart = ({ navigation }: yourCartProps) => {
     // order data
     const orderData = orderQrData?.data;
     // 🔹 Check condition
-    if (mastertQrData?.data?.hasCheckoutDetails === false) { 
+    if (mastertQrData?.data?.hasCheckoutDetails === false) {
       // Navigate to checkout detail screen
       navigation.navigate('CheckOutDetail', { data: orderData });
     } else {
       // Open Razorpay directly
       const options: any = {
         description:
-          mastertQrData?.data?.description || 'Payment for QR Package',
+         mastertQrData?.data?.description || 'Payment for QR Package',
         image: config.zuvyBlueLogoforRazarPay,
         currency: orderData.currency,
-        key: config.RazarPayTestKey,
+        key: config.RazarPayLiveKey,
         amount: parseInt(orderData.amount) * 100, // convert to paise
         order_id: orderData?.razorpayOrderId,
         prefill: {
@@ -194,7 +202,6 @@ const YourCart = ({ navigation }: yourCartProps) => {
         },
         theme: { color: colors.white },
       };
-
       RazorpayCheckout.open(options)
         .then(data => {
           console.log('Payment success', data);
@@ -482,7 +489,6 @@ const YourCart = ({ navigation }: yourCartProps) => {
             title={buynow}
             textStyles={[fS(14), pl(10)]}
             onPress={() => dispatch(OrderQrRequest({ quantity: qty }))}
-         
             buttonStyle={[
               GlobalStyles.ZuvyDashBoardContainer,
               mb(0),
