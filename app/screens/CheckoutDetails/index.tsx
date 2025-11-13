@@ -197,7 +197,7 @@ if (apiCalledRef.current) return;
       description: mastertQrData?.data?.description || 'Payment for QR Package',
       image: config.zuvyBlueLogoforRazarPay,
       currency: data.currency,
-      key: config.RazarPayTestKey,
+      key: config.RazarPayLiveKey,
       amount: parseInt(data.amount) * 100,
       order_id: data.razorpayOrderId,
       prefill: {
