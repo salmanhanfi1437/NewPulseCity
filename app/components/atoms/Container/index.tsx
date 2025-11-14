@@ -32,10 +32,10 @@ import { const_confirm_logout, const_no, const_RESET_STORE, const_sure_logout, c
 import { useTranslation } from 'react-i18next';
 
 const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
-  
   return (props: any) => {
-
-    const { profileData, error,logoutData } = useSelector( (state: RootState) => state.profile);
+    const { profileData, error, logoutData } = useSelector(
+      (state: RootState) => state.profile,
+    );
 
     const { hideTopContent = false, hideBottomContent = false } = props;
     const { paddingRight, paddingLeft, ...restFont } =
@@ -108,7 +108,7 @@ const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
             >
               {/* Personal Info Card */}
               <CardContainer
-                style={GlobalStyles.borderStyles}
+                style={[GlobalStyles.borderStyles, GlobalStyles.width40]}
                 showShadow={false}
               >
                 {/* <View style={GlobalStyles.row}>
@@ -182,7 +182,9 @@ const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
                       ]}
                     />
                     <CustomText
-                      title={capitalizeFirstLetter(profileData?.data?.roles[0]?.name)}
+                      title={capitalizeFirstLetter(
+                        profileData?.data?.roles[0]?.name,
+                      )}
                       style={[restFont, fontColor(Colors.black)]}
                     />
                   </View>
@@ -212,7 +214,10 @@ const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
                       ]}
                     />
                     <CustomText
-                      title={capitalizeFirstLetter(profileData?.data?.state?.name) ?? "Na"}
+                      title={
+                        capitalizeFirstLetter(profileData?.data?.state?.name) ??
+                        'Na'
+                      }
                       style={[restFont, fontColor(Colors.black)]}
                     />
                   </View>
@@ -267,7 +272,8 @@ const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
                           'medium',
                           colors.fadeTextColor,
                         ),
-                      ]}/>
+                      ]}
+                    />
                     <CustomText
                       title={capitalizeFirstLetter('Shipping')}
                       style={[restFont, fontColor(Colors.black)]}
@@ -283,7 +289,11 @@ const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
               />
 
               <CardContainer
-                style={[GlobalStyles.borderStyles, { height: ms(70) }]}
+                style={[
+                  GlobalStyles.borderStyles,
+                  GlobalStyles.width40,
+                  { height: ms(70) },
+                ]}
                 showShadow={false}
               >
                 <TouchableOpacity
@@ -315,7 +325,11 @@ const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
               </CardContainer>
 
               <CardContainer
-                style={[GlobalStyles.borderStyles, { height: ms(70) }]}
+                style={[
+                  GlobalStyles.borderStyles,
+                  GlobalStyles.width40,
+                  { height: ms(70) },
+                ]}
                 showShadow={false}
               >
                 <TouchableOpacity
@@ -339,7 +353,11 @@ const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
                 </TouchableOpacity>
               </CardContainer>
               <CardContainer
-                style={[GlobalStyles.borderStyles, { height: ms(70) }]}
+                style={[
+                  GlobalStyles.borderStyles,
+                  GlobalStyles.width40,
+                  { height: ms(70) },
+                ]}
                 showShadow={false}
               >
                 <TouchableOpacity
@@ -369,7 +387,10 @@ const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
 
               <PressableOpacity onPress={handleLogout}>
                 <CardContainer
-                  style={[GlobalStyles.logoutBorderStyles]}
+                  style={[
+                    GlobalStyles.logoutBorderStyles,
+                    GlobalStyles.width40,
+                  ]}
                   showShadow={false}
                 >
                   <FontAwesome5
@@ -377,7 +398,7 @@ const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
                     size={20}
                     color={Colors.red}
                   />
-                  
+
                   <CustomText
                     title={config.Profile.logout}
                     textStyle={[
@@ -386,7 +407,7 @@ const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
                       { color: Colors.red },
                     ]}
                   />
-                  </CardContainer>
+                </CardContainer>
               </PressableOpacity>
             </ScrollView>
           </View>

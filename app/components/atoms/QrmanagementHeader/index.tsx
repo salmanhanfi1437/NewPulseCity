@@ -139,7 +139,7 @@ const QrHeader: React.FC<QrHeaderProps> = ({
             ]}
           />
           <CustomText
-            title={'+12% this month'}
+            title={'0% this month'}
             textStyle={[getDynamicTextStyle(12, colors.lightgreen)]}
           />
         </CardContainer>
@@ -187,7 +187,7 @@ const QrHeader: React.FC<QrHeaderProps> = ({
             ]}
           />
           <CustomText
-            title={'+8% this month'}
+            title={'0% this month'}
             textStyle={[getDynamicTextStyle(12, colors.lightgreen)]}
           />
         </CardContainer>
@@ -207,7 +207,6 @@ const QrHeader: React.FC<QrHeaderProps> = ({
               <TouchableOpacity
                 key={index}
                 disabled={!isClickable}
-                // onPress={() => setactiveFilter(item)}
                 onPress={() => showToast('Coming Soon 🚀')}
                 style={[
                   {
@@ -248,7 +247,9 @@ const QrHeader: React.FC<QrHeaderProps> = ({
           horizontal
           showsHorizontalScrollIndicator={false}
           renderItem={({ item }) => (
-            <TouchableOpacity onPress={() => showToast('Coming Soon 🚀')}>
+            <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => showToast('Coming Soon 🚀')}>
               <Dropdown
                 disabled={true}
                 data={[]}

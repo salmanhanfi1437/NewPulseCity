@@ -35,7 +35,7 @@ export default function TabIcons({
         style={[
           GlobalStyles.tabsText,
           {
-            color: focused ? Colors.primaryColor : Colors.grey_50,
+            color: focused ? Colors.primaryColor : Colors.grey,
             marginTop: mvs(3),
           },
         ]}

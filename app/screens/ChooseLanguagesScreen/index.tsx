@@ -82,7 +82,7 @@ const ChooseLanguages = ({ navigation }: ChooseLanguagesProps) => {
   const playStoreUrl =
     "https://play.google.com/store/apps/details?id=ai.zuvystore.com";
 
-  if (latestVersion > appVersion) {
+  if (latestVersion < appVersion) {
     showAlert(
       t(const_new_update),       // Title
       t(const_update_message),   // Message

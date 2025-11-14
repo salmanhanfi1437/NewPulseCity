@@ -69,7 +69,8 @@ viewViewIncluded : {
     borderWidth:ms(1),
     marginTop:mvs(15),
     padding:mvs(15),
-    marginBottom:mvs(15)
+    marginBottom:mvs(15),
+    alignItems:'center',
 },
 circleGreen : {
     width: ms(40),
