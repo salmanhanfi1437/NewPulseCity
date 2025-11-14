@@ -462,24 +462,7 @@ const YourCart = ({ navigation }: yourCartProps) => {
                  FontStyles.headingText,
                  fontColor(Colors.color_139944)]}/>
                  </View>
-            <CustomText
-              title={t(const_youwillearn)}
-              textStyle={[
-                FontStyles.headingText,
-                ml(15),
-                GlobalStyles.flexShrink1,
-                GlobalStyles.flexOne,
-              ]}
-            />
-
-            <CustomText
-              title={`₹${earningAmount.toFixed(2)}`}
-              textStyle={[
-                textIncludedStyle(5),
-                FontStyles.headingText,
-                fontColor(Colors.green),
-              ]}
-            />
+            
           </LinearGradient>
 
           <LinearGradient
