@@ -130,8 +130,7 @@ const Notifications = () => {
             paddingBottom: GlobalStyles.margin_top10.marginTop,
             paddingTop: 10,
           },
-        ]}
-      />
+        ]}/>
 
       {/* Tabs */}
       <CustomTabView

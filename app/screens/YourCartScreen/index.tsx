@@ -200,7 +200,7 @@ const YourCart = ({ navigation }: yourCartProps) => {
         description:
           mastertQrData?.data?.description || 'Payment for QR Package',
         image: config.zuvyBlueLogoforRazarPay,
-        currency: orderData.currency,
+        currency: orderData?.currency,
         key: config.RazarPayLiveKey,
         amount: parseInt(orderData.amount) * 100, // convert to paise
         order_id: orderData?.razorpayOrderId,
@@ -211,6 +211,7 @@ const YourCart = ({ navigation }: yourCartProps) => {
         },
         theme: { color: colors.white },
       };
+      console.log("options "+JSON.stringify(options));
       RazorpayCheckout.open(options)
         .then(data => {
           console.log('Payment success', data);
@@ -445,10 +446,22 @@ const YourCart = ({ navigation }: yourCartProps) => {
             style={[CartStyles.viewViewIncluded, GlobalStyles.viewRow]}
             colors={[Colors.color_F0FDF4, Colors.color_EFF6FF]}
           >
-            <View style={[CartStyles.circleGreen, GlobalStyles.viewCenter]}>
+            <View style={[ GlobalStyles.viewCenter]}>
               <RupeeSVG />
             </View>
 
+            <View style={[GlobalStyles.viewCenter,GlobalStyles.viewRow,GlobalStyles.flexOne]}>
+              <CustomText
+                title={t(const_youwillearn)}
+                textStyle={[FontStyles.headingText,ml(15), GlobalStyles.flexOne]}  />
+            
+            <CustomText
+                title={`₹${earningAmount.toFixed(2)}`}
+                textStyle={[
+                  textIncludedStyle(5),
+                 FontStyles.headingText,
+                 fontColor(Colors.color_139944)]}/>
+                 </View>
             <CustomText
               title={t(const_youwillearn)}
               textStyle={[
@@ -470,13 +483,8 @@ const YourCart = ({ navigation }: yourCartProps) => {
           </LinearGradient>
 
           <LinearGradient
-            style={[
-              CartStyles.viewViewIncluded,
-              GlobalStyles.viewRow,
-              { alignItems: undefined },
-            ]}
-            colors={[Colors.color_F0FDF4, Colors.color_EFF6FF]}
-          >
+            style={[CartStyles.viewViewIncluded, GlobalStyles.viewRow]}
+            colors={[Colors.color_F0FDF4, Colors.color_EFF6FF]}>
             <View style={[CartStyles.circleGreen, GlobalStyles.viewCenter]}>
               <TickWhiteSVG />
             </View>

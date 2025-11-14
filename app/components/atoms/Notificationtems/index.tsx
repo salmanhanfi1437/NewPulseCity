@@ -1,20 +1,21 @@
 import React from "react";
 import { View } from "react-native";
-import { TickCircleSVG } from "../../../assets/svg";
-import { ml, mr, mt, textColor } from "../../../utils/spaces";
+import { PaymentSVG, TickCircleSVG } from "../../../assets/svg";
+import { height, ml, mr, mt, textColor, width } from "../../../utils/spaces";
 import { CustomText } from "../Text";
 import GlobalStyles from "../../../styles/GlobalStyles";
 import FontStyles from "../../../styles/FontStyles";
 import CartStyles from "../../../screens/YourCartScreen/styles";
 import NotificationStyles from "../../../screens/NotificationScreen/styles";
 import { formatDateTime } from "../../../utils/helper";
+import { ms } from "react-native-size-matters";
 
 type NotificationItemProps = {
     data?: string
 }
 
 const NotificationItems =({data}: NotificationItemProps) =>{
-
+   
     console.log('Data'+JSON.stringify(data));
     return(
         <View style={[NotificationStyles.itemViews]}>
@@ -22,7 +23,7 @@ const NotificationItems =({data}: NotificationItemProps) =>{
           <View style={[GlobalStyles.viewRow,GlobalStyles.alignContent]}>  
 
             <View style={[mt(3)]}>
-         <TickCircleSVG/>
+           {data?.type == 'PAYMENT' ? <PaymentSVG  height={ms(30)} width={ms(30)}/> :   <TickCircleSVG height={ms(30)} width={ms(30)}/>}
               </View>
          <View style={[ml(5)]}>
                 

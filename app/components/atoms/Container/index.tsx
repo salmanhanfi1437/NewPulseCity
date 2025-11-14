@@ -1,11 +1,5 @@
-import React, { useEffect } from 'react';
-import {
-  View,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-  Alert,
-} from 'react-native';
+import React, { useEffect, useRef } from 'react';
+import { View, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import GlobalStyles from '../../../styles/GlobalStyles';
 import { Colors, Typography } from '../../../styles';
 import CardContainer from '../CardContainer';
@@ -34,6 +28,8 @@ import PressableOpacity from '../PressableOpacity';
 import { LogoutRequest } from '../../../screens/UserProfile/profileSlice';
 import { mvs } from 'react-native-size-matters';
 import { capitalizeFirstLetter } from '../../../utils/helper';
+import { const_confirm_logout, const_no, const_RESET_STORE, const_sure_logout, const_yes } from '../../../types/constants';
+import { useTranslation } from 'react-i18next';
 
 const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
   return (props: any) => {
@@ -47,40 +43,47 @@ const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
 
     const navigation = useNavigation<any>();
     const dispatch = useDispatch();
+    const {t} = useTranslation();
+    const isNavigated = useRef(false);
 
     const handleLogout = () => {
-      Alert.alert(
-        'Confirm Logout',
-        'Are you sure you want to log out?',
-        [
-          {
-            text: 'No',
-            onPress: () => console.log('Logout cancelled'),
-            style: 'cancel',
-          },
-          {
-            text: 'Yes',
-            onPress: () => {
-              dispatch(LogoutRequest());
-            },
-          },
-        ],
-        { cancelable: true },
-      );
-    };
-    useEffect(() => {
-      if (logoutData) {
-        if (logoutData?.success) {
-          showAlert(logoutData?.message);
-          secureStorage.clearAll();
-          navigation.reset({
-            index: 0,
-            routes: [{ name: 'ChooseLanguage' }],
-          });
-          dispatch(LogoutRequest()); // 👈 resets logoutData to null
-        }
-      }
-    }, [logoutData]);
+  Alert.alert(
+    t(const_confirm_logout),
+    t(const_sure_logout),
+    [
+      {
+        text: t(const_no),
+        onPress: () => console.log('Logout cancelled'),
+        style: 'cancel',
+      },
+      {
+        text: t(const_yes),
+        onPress: () => {
+          dispatch(LogoutRequest());
+        },
+      },
+    ],
+    { cancelable: true }
+  );
+};
+   useEffect(() => {
+  if (logoutData) {
+    if (logoutData?.success && !isNavigated.current) {
+          isNavigated.current = true; // <-- IMPORTANT
+
+          dispatch({ type: const_RESET_STORE });
+      //showAlert(logoutData?.message);
+      secureStorage.clearAll();
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'ChooseLanguage' }],
+      });
+    }
+  }
+}, [logoutData]);
+
+
+  
 
     // --- Data Arrays ---
 

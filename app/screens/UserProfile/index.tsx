@@ -84,4 +84,4 @@ const hasFetchedProfile = useRef(false);
   );
 };
 
-export default withBottomWhiteOverlay(UserProfile);
+export default React.memo(withBottomWhiteOverlay(UserProfile));

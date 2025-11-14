@@ -19,6 +19,11 @@ import colors from "../../../styles/colors";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ms, mvs } from "react-native-size-matters";
 import { Typography } from "../../../styles";
+import { const_city, const_please_select, const_state } from "../../../types/constants";
+import { useTranslation } from "react-i18next";
+import GlobalStyles from "../../../styles/GlobalStyles";
+import FontStyles from "../../../styles/FontStyles";
+import { mb } from "../../../utils/spaces";
 
 type RouteParams = {
   type: "state" | "city";
@@ -32,9 +37,13 @@ const StateCitySelector: React.FC = () => {
   const route = useRoute<RouteProp<Record<string, RouteParams>, string>>();
 
   const { type, stateId, onSelect } = route.params;
+
+  const {t} = useTranslation();
+
   const { stateList, cityList, loading } = useSelector(
     (state: RootState) => state.stateCity
   );
+
 
   useEffect(() => {
     if (type === "state") dispatch(fetchStatesRequest());
@@ -51,7 +60,12 @@ const StateCitySelector: React.FC = () => {
   return (
     <SafeAreaView style={styles.container}>
     <View>
-      <Text style={styles.title}>{type === "state" ? "Select State" : "Select City"}</Text>
+<Text style={[FontStyles.headingText,mb(10)]}>
+  {type === "state"
+    ? t(const_please_select, { field: t(const_state) })
+    : t(const_please_select, { field: t(const_city) })
+  }
+</Text>
       <FlatList
         data={data}
         keyExtractor={(item) => item.id}
@@ -72,14 +86,13 @@ const StateCitySelector: React.FC = () => {
 export default StateCitySelector;
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 16, backgroundColor: colors.white },
-  title: { fontSize: ms(14), fontWeight: "600", marginBottom: mvs(10),...Typography.weights.mediumU },
+  container: { flex: mvs(1), padding: mvs(16), backgroundColor: colors.white },
   item: {
-    padding: 12,
-    borderWidth: 1,
+    padding: mvs(12),
+    borderWidth: ms(1),
     borderColor: colors.grey,
-    borderRadius: 8,
-    marginBottom: 8,
+    borderRadius: mvs(8),
+    marginBottom: mvs(8),
   },
   itemText: { fontSize: 16 },
 });

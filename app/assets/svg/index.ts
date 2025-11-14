@@ -48,6 +48,7 @@ import DivSVG from './Secure_Icon.svg';
 import ShippmentSVG from "./shippment.svg";
 import ProfileAcitveSVG from "./profileactive.svg";
 import RupeeSVG  from './rupee.svg';
+import PaymentSVG from './payment.svg';
 export {
   DivSVG,
   MicSVG,
@@ -98,5 +99,6 @@ export {
   GrillSVG,
   ShippmentSVG,
   ProfileAcitveSVG,
-  RupeeSVG
+  RupeeSVG,
+  PaymentSVG
 };

@@ -1,39 +1,30 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-interface Language {
-  code: string;
-  name: string;
-}
-
-interface ChooseLanguageState {
-  language: Language[];
+interface AppVersionState {
+  appVersionData: any | null;
   error: string | null;
 }
 
-const initialState: ChooseLanguageState = {
-  language: [],
+const initialState: AppVersionState = {
+  appVersionData: null,
   error: null,
 };
 
-const chooseLanguageSlice = createSlice({
-  name: 'chooseLanguages',
+const appVersionSlice = createSlice({
+  name: 'appVersion',
   initialState,
   reducers: {
-    fetchLanguagesRequest: (state) => {},
-    fetchLanguagesSuccess: (state, action: PayloadAction<Language[]>) => {
-      state.language = action.payload;
-      state.error = null;
+    fetchAppVersion: (state) => {},
+    setAppVersionData: (state, action: PayloadAction<any>) => {
+      state.appVersionData = action.payload;
+      state.error = null; // clear old errors
     },
-    fetchLanguagesFailure: (state, action: PayloadAction<string>) => {
-      state.error = action.payload;
+    resetAppVersionData: (state, action: PayloadAction<string>) => {
+      state.appVersionData = null;
+      state.error = action.payload; // set error
     },
   },
 });
 
-export const {
-  fetchLanguagesRequest,
-  fetchLanguagesSuccess,
-  fetchLanguagesFailure,
-} = chooseLanguageSlice.actions;
-
-export default chooseLanguageSlice.reducer;
+export const { setAppVersionData, resetAppVersionData,fetchAppVersion } = appVersionSlice.actions;
+export default appVersionSlice.reducer;

@@ -68,8 +68,14 @@
         "please_enter_valid_email": "Please enter valid email",
             "please_select": "Please select {{field}}",
             "login":"Login",
-            "welcome_to_zuvy":"Welcome to Zuvy,",
-            "youwillearn":"You will earn"
+            "welcome_to_zuvy":"Welcome to Zuvy",
+            "youwillearn":"You'll earn",
+            "confirm_logout":"Confirm Logout",
+            "sure_logout" : "Are you sure you want to log out?",
+            "yes":"Yes",
+            "no":"No",
+             "new_update":"New Update Available",
+            "update_message":"A new version of the app is available. Please update to continue."
 
 
 
