@@ -1,16 +1,17 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
-import { fetchLanguagesRequest, fetchLanguagesSuccess, fetchLanguagesFailure } from './chooseLanguageSlice';
+import { fetchAppVersion, resetAppVersionData, setAppVersionData } from './chooseLanguageSlice';
 import api from '../../services/api';
 
-function* handleFetchLanguages() {
-  // try {
-  //   const response = yield call(api.getLanguages);
-  //   yield put(fetchLanguagesSuccess(response.data.languages));
-  // } catch (error: any) {
-  //   yield put(fetchLanguagesFailure(error.message));
-  // }
+function* handleGetAppVersion() : Generator {
+  try {
+    const response = yield call(api.getAppVersions);
+
+    yield put(setAppVersionData(response.data));
+  } catch (error: any) {
+    yield put(resetAppVersionData(error.message));
+  }
 }
 
 export function* chooseLanguageSaga() {
-  yield takeLatest(fetchLanguagesRequest.type, handleFetchLanguages);
+  yield takeLatest(fetchAppVersion.type, handleGetAppVersion);
 }

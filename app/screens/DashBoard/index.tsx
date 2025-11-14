@@ -85,8 +85,6 @@ const ZuvyDashBoard = () => {
   },[])
 
   const moveToNotificationScreen = () =>{
-    
-    dispatch(SetInitialTab('Notification'))
     navigation.navigate('merchantTabs', {
   screen: 'Notification',
 });

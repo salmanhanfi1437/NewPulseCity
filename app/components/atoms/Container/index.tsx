@@ -28,7 +28,8 @@ import PressableOpacity from '../PressableOpacity';
 import { LogoutRequest } from '../../../screens/UserProfile/profileSlice';
 import { mvs } from 'react-native-size-matters';
 import { capitalizeFirstLetter } from '../../../utils/helper';
-import { const_RESET_STORE } from '../../../types/constants';
+import { const_confirm_logout, const_no, const_RESET_STORE, const_sure_logout, const_yes } from '../../../types/constants';
+import { useTranslation } from 'react-i18next';
 
 const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
   
@@ -42,20 +43,21 @@ const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
 
     const navigation = useNavigation<any>();
     const dispatch = useDispatch();
-const isNavigated = useRef(false);
+    const {t} = useTranslation();
+    const isNavigated = useRef(false);
 
     const handleLogout = () => {
   Alert.alert(
-    'Confirm Logout',
-    'Are you sure you want to log out?',
+    t(const_confirm_logout),
+    t(const_sure_logout),
     [
       {
-        text: 'No',
+        text: t(const_no),
         onPress: () => console.log('Logout cancelled'),
         style: 'cancel',
       },
       {
-        text: 'Yes',
+        text: t(const_yes),
         onPress: () => {
           dispatch(LogoutRequest());
         },

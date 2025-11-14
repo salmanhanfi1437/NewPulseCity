@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { StyleSheet, View, FlatList, KeyboardAvoidingView, Platform, Alert,PermissionsAndroid } from "react-native";
+import React, { useEffect, useState,useCallback  } from "react";
+import { StyleSheet, View, FlatList, KeyboardAvoidingView, Platform, AppState ,Linking, Alert,PermissionsAndroid } from "react-native";
 import { ms, mvs } from "react-native-size-matters";
 import { ChooseLanguagesProps } from "../../navigation/types";
 import BackgroundPrimaryColor from "../../components/atoms/BackgroundPrimaryColor";
@@ -9,6 +9,9 @@ import { CustomText } from "../../components/atoms/Text";
 import Checkbox from "../Checkbox";
 import ViewBorder from "../../components/atoms/ViewBorder";
 import FontStyles from "../../styles/FontStyles";
+import DeviceInfo from 'react-native-device-info';
+import { useFocusEffect } from '@react-navigation/native';
+
 
 import {
   mt,
@@ -28,20 +31,22 @@ import {
   const_authToken,
   const_continue,
   const_fcmToken,
+  const_new_update,
   const_RESET_STORE,
+  const_update_message,
   select_your_language,
   yourCart,
 } from "../../types/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/rootReducer";
-import { fetchLanguagesRequest } from "./chooseLanguageSlice";
 import Button from "../../components/atoms/Button";
 import messaging from '@react-native-firebase/messaging';
 import crashlytics from '@react-native-firebase/crashlytics';
 import secureStorage from "../../utils/secureStorage";
 import colors from "../../styles/colors";
 import { Colors } from "../../styles";
-import { resetOTPState } from "../LoginScreen/loginSlice";
+import { fetchAppVersion } from "./chooseLanguageSlice";
+import { showAlert } from "../../components/atoms/AlertBox/showAlert";
 
 // import RazorpayCheckout from 'react-native-razorpay';
 
@@ -56,13 +61,49 @@ const ChooseLanguages = ({ navigation }: ChooseLanguagesProps) => {
   const [selectedLang, setSelectedLang] = useState('en');
   const { i18n } = useTranslation();
   const dispatch = useDispatch();
+  const {t} = useTranslation();
+  const { appVersionData, error } = useSelector((state: RootState) => state.chooseLanguage);
 
-  const { language, error } = useSelector(
-    (state: RootState) => state.chooseLanguage,
-  );
 
+  useEffect(() => {
+  const subscription = AppState.addEventListener("change", state => {
+    if (state === "active") {
+      checkForceUpdate();
+    }
+  });
+ return () => subscription.remove();
+}, [appVersionData]);
+
+ const checkForceUpdate = () => {
+  if (!appVersionData) return;
+
+  const appVersion = DeviceInfo.getVersion();
+  const latestVersion = appVersionData?.data?.androidVersion;
+  const playStoreUrl =
+    "https://play.google.com/store/apps/details?id=ai.zuvystore.com";
+
+  if (latestVersion > appVersion) {
+    showAlert(
+      t(const_new_update),       // Title
+      t(const_update_message),   // Message
+      () => {
+        Linking.openURL(playStoreUrl);
+      }
+    );
+  }
+};
+
+  useEffect(() => {
+    console.log('Dispatch')
+    dispatch(fetchAppVersion())
+  },[])
   
 
+ useFocusEffect(
+  useCallback(() => {
+    checkForceUpdate();
+  }, [appVersionData])
+);
   async function requestNotificationPermission() {
   try {
     if (Platform.OS === 'android' && Platform.Version >= 33) {
@@ -113,11 +154,11 @@ crashlytics().setCrashlyticsCollectionEnabled(true);
         secureStorage.setItem(const_fcmToken,token);
         //Alert.alert('FCM Works!', `Token: ${token.substring(0, 10)}...`);
       } else {
-        Alert.alert('❌ No FCM token retrieved');
+        showAlert('❌ No FCM token retrieved');
       }
     } catch (error) {
       console.error('❌ FCM Error:', error);
-      Alert.alert('FCM Error', error?.message);
+      showAlert('FCM Error', error?.message);
     }
   };
 

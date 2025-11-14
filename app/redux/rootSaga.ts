@@ -8,14 +8,13 @@ import stateCitySaga from '../components/atoms/State&City/StateCitySaga';
 import {profileSaga} from '../screens/UserProfile/profileSaga';
 import {dashboardSaga} from '../screens/DashBoard/dashboardSaga';
 import {notificationSaga} from '../screens/NotificationScreen/notificationSaga';
-import { DashBoardSVG } from '../assets/svg';
 import { qrManagementWatcher,InventoryWatcher } from '../screens/QrManagement/QrManagementSaga';
 import {watchEditQr} from '../screens/QrEditDetails/EditQRSaga'
 
 
 export default function* rootSaga() {
   yield all([
-    //fork(chooseLanguageSaga), 
+    fork(chooseLanguageSaga), 
     fork(loginSaga),
     fork(signupSaga),
     fork(masterQrSaga),
