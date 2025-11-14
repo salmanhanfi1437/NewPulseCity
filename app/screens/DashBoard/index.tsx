@@ -98,7 +98,7 @@ const ZuvyDashBoard = () => {
           title = {dashboardData?.data?.distributorName[0]}/>
         <View style={GlobalStyles.translusantContainer}>
           <CustomText
-            title={`${t(const_welcomeZuvy)} ${dashboardData?.data?.distributorName}`}
+            title={`${t(const_welcomeZuvy)}, ${dashboardData?.data?.distributorName}`}
             textStyle={[GlobalStyles.mobileText]}
           />
           <CustomText
