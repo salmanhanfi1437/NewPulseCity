@@ -95,6 +95,6 @@ export const const_youwillearn="youwillearn";
 export const const_confirm_logout="confirm_logout";
 export const const_sure_logout="sure_logout";
 export const const_yes="yes"
-export const const_no="no;";
+export const const_no="no";
 export const const_new_update = "new_update";
 export const const_update_message = "update_message"

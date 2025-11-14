@@ -115,7 +115,7 @@ const ZuvyDashBoard = () => {
         <BlueWhiteBackground headerHeight={80}>
           <ZuvyHeader
             onProfilePress={() => navigation.navigate('Profile')}
-            onNotificationPress={() => navigation.navigate('notifications')}
+            onNotificationPress={moveToNotificationScreen}
             title={dashboardData?.data?.distributorName[0]}
           />
           <View style={GlobalStyles.translusantContainer}>
