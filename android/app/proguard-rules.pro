@@ -1,10 +1,22 @@
-# Add project specific ProGuard rules here.
-# By default, the flags in this file are appended to flags specified
-# in /usr/local/Cellar/android-sdk/24.3.3/tools/proguard/proguard-android.txt
-# You can edit the include path and order by changing the proguardFiles
-# directive in build.gradle.
-#
-# For more details, see
-#   http://developer.android.com/guide/developing/tools/proguard.html
+# --- Razorpay SDK ---
+-keep class com.razorpay.** { *; }
+-keep interface com.razorpay.** { *; }
+-dontwarn com.razorpay.**
 
-# Add any project specific keep options here:
+# --- React Native ---
+-keep class com.facebook.react.** { *; }
+-dontwarn com.facebook.react.**
+
+# --- OkHttp / Retrofit (if used by your backend) ---
+-dontwarn okhttp3.**
+-dontwarn okio.**
+-keep class okhttp3.** { *; }
+-keep interface okhttp3.** { *; }
+
+# --- Gson (for JSON parsing in some SDKs) ---
+-keep class com.google.gson.** { *; }
+-keep interface com.google.gson.** { *; }
+-dontwarn com.google.gson.**
+
+# --- Keep annotation classes (used for reflection) ---
+-keepattributes *Annotation*

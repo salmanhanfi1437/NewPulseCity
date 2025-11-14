@@ -2,7 +2,8 @@ import React from 'react';
 import Images from '../../assets/images';
 import config from '../config';
 import OnboardingSlider from '../../components/atoms/Slider/index';
-import { login } from '../../types/constants';
+import { const_RESET_STORE, login } from '../../types/constants';
+import { useDispatch } from 'react-redux';
 
 const slidesData = [
   {
@@ -28,8 +29,12 @@ const slidesData = [
 
 const OnboardingScreen = ({ navigation }: { navigation: any }) => {
 
-  
+  const dispatch = useDispatch();
+
+
 const moveToLoginScreen = () => {
+     dispatch({ type: const_RESET_STORE });
+
     navigation.replace(login)
 }
 

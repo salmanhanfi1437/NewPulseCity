@@ -27,6 +27,7 @@ interface TextInputWithMicProps extends RNTextInputProps {
   containerStyle?: StyleProp<ViewStyle>;
   error?: boolean;
   returnKeyType?: 'done' | 'next' | 'go' | 'search' | 'send';
+  autoCapitalize : any;
   onSubmitEditing?: () => void;
 }
 
@@ -46,6 +47,7 @@ const CustomTextInputMic = forwardRef<TextInput, TextInputWithMicProps>(
       error = false,
       returnKeyType = 'done',
       onSubmitEditing,
+      autoCapitalize
     },
     ref,
   ) => {
@@ -70,6 +72,7 @@ const CustomTextInputMic = forwardRef<TextInput, TextInputWithMicProps>(
           keyboardType={keyboardType}
           secureTextEntry={secureTextEntry}
           maxLength={maxLength}
+          autoCapitalize={autoCapitalize}
           placeholderTextColor={Colors.grey_50}
           returnKeyType={returnKeyType}
           onSubmitEditing={onSubmitEditing}

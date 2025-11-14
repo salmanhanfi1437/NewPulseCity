@@ -220,6 +220,7 @@ const validation = () => {
   placeholder={t(const_email)}
   keyboardType="email-address"
   returnKeyType="next"
+  autoCapitalize='none'
   onSubmitEditing={() => mobileNumberRef?.current?.focus()}
   error={errors.email} // ✅ pass error prop
 />
@@ -247,10 +248,14 @@ const validation = () => {
     navigation.navigate('StateCitySelector', {
       type: 'state',
       onSelect: (selected: any) => {
-        setStateName(selected.name); // updates local state
+        setStateName(capitalizeFirstLetter(selected.name)); // updates local state
         setStateId(selected.id)
         setCityId(0); // reset city when state changes
         setCityName(''); // reset city when state changes
+
+        if (errors.state) {
+    setErrors(prev => ({ ...prev, state: false }));
+  }
       },
     });
   }}>
@@ -260,8 +265,17 @@ const validation = () => {
                 <CustomTextInput placeholder={const_state} value={stateName} editable={false} />
               </ViewOutlined>
               </PressableOpacity>
-
           </View>
+
+        {
+  errors.state && (
+    <CustomText
+      title={t('please_select', { field: t(const_state) })}
+      textStyle={[FontStyles.subTextError, mt(10), mb(10)]}
+    />
+  )
+}
+
 
  <View style={[GlobalStyles.flexOne,mt(20),mb(10)]}>
               
@@ -271,7 +285,7 @@ const validation = () => {
     textStyle={FontStyles.headingText}
   />
   <CustomText
-    title="*"
+    title=" *"
     textStyle={[FontStyles.headingText, { color: errors.city ? Colors.red : Colors.black }]} // Red asterisk
   />
 </View>
@@ -287,8 +301,11 @@ showAlert(t('please_select', { field: t(const_state) }));
       type: 'city',
       stateId: stateId, // Pass selected state ID
       onSelect: (selected: any) => {
-        setCityName(selected.name);
+        setCityName(capitalizeFirstLetter(selected.name));
         setCityId(selected.id)
+        if (errors.city) {
+    setErrors(prev => ({ ...prev, city: false }));
+  }
       },
     });
   }}
@@ -304,14 +321,22 @@ showAlert(t('please_select', { field: t(const_state) }));
   </ViewOutlined>
 </PressableOpacity>
 
+  {
+  errors.city && (
+    <CustomText
+      title={t('please_select', { field: t(const_city) })}
+      textStyle={[FontStyles.subTextError, mt(10), mb(10)]}
+    />
+  )
+}
+
 <CustomText title={const_howtouseZuvy} textStyle={[FontStyles.headingText, mt(20),mb(10)]} />
 
         <DropdownAtom
           data={roleData?.data}
           placeholder={role}
-          selectedValue={capitalizeFirstLetter(role)}               // ✅ show current value
-          onSelect={(val : any) => setRole(val)}   // ✅ update state on select
-/>
+          selectedValue={capitalizeFirstLetter(role)}
+          onSelect={(val : any) => setRole(val)}/>
            
             </View>
 

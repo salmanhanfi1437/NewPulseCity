@@ -28,6 +28,7 @@ import {
   const_authToken,
   const_continue,
   const_fcmToken,
+  const_RESET_STORE,
   select_your_language,
   yourCart,
 } from "../../types/constants";
@@ -40,6 +41,7 @@ import crashlytics from '@react-native-firebase/crashlytics';
 import secureStorage from "../../utils/secureStorage";
 import colors from "../../styles/colors";
 import { Colors } from "../../styles";
+import { resetOTPState } from "../LoginScreen/loginSlice";
 
 // import RazorpayCheckout from 'react-native-razorpay';
 
@@ -122,9 +124,11 @@ crashlytics().setCrashlyticsCollectionEnabled(true);
   checkFCM();
 }, []);
 
-  useEffect(() => {
-    //dispatch(fetchLanguagesRequest());
-  }, [dispatch]);
+
+useEffect(() =>{
+  dispatch({ type: const_RESET_STORE });
+},[])
+
 
   const handleLanguageschanges = (item: any) => {
     setSelectedLang(item.code);

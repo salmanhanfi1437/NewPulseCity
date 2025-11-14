@@ -22,6 +22,6 @@ export const showAlert = (
         onPress: onPress || (() => {}),
       },
     ],
-    { cancelable: true }
+    { cancelable: false }
   );
 };

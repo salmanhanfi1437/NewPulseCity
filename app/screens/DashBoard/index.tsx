@@ -37,6 +37,7 @@ import { bgColor, fontColor, fS } from '../../utils/spaces';
 import { getNextMonthDate, getNextNDaysDate } from '../../utils/dateUtils';
 import { const_welcomeZuvy, yourCart } from '../../types/constants';
 import { useTranslation } from 'react-i18next';
+import { showAlert } from '../../components/atoms/AlertBox/showAlert';
 
 const ZuvyDashBoard = () => {
   const navigation = useNavigation<any>();
@@ -83,6 +84,14 @@ const ZuvyDashBoard = () => {
 
   },[])
 
+  const moveToNotificationScreen = () =>{
+    
+    dispatch(SetInitialTab('Notification'))
+    navigation.navigate('merchantTabs', {
+  screen: 'Notification',
+});
+  }
+
   return (
         <View style={styles.container}>
     <ScrollView
@@ -94,7 +103,7 @@ const ZuvyDashBoard = () => {
       <BlueWhiteBackground headerHeight={80}>
         <ZuvyHeader
           onProfilePress={() => navigation.navigate('Profile')}
-          onNotificationPress={() => navigation.navigate('notifications')}
+          onNotificationPress={moveToNotificationScreen}
           title = {dashboardData?.data?.distributorName[0]}/>
         <View style={GlobalStyles.translusantContainer}>
           <CustomText

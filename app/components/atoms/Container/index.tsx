@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { View, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import GlobalStyles from '../../../styles/GlobalStyles';
 import { Colors, Typography } from '../../../styles';
@@ -28,6 +28,7 @@ import PressableOpacity from '../PressableOpacity';
 import { LogoutRequest } from '../../../screens/UserProfile/profileSlice';
 import { mvs } from 'react-native-size-matters';
 import { capitalizeFirstLetter } from '../../../utils/helper';
+import { const_RESET_STORE } from '../../../types/constants';
 
 const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
   
@@ -41,6 +42,7 @@ const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
 
     const navigation = useNavigation<any>();
     const dispatch = useDispatch();
+const isNavigated = useRef(false);
 
     const handleLogout = () => {
   Alert.alert(
@@ -64,14 +66,16 @@ const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
 };
    useEffect(() => {
   if (logoutData) {
-    if (logoutData?.success) {
-      showAlert(logoutData?.message);
+    if (logoutData?.success && !isNavigated.current) {
+          isNavigated.current = true; // <-- IMPORTANT
+
+          dispatch({ type: const_RESET_STORE });
+      //showAlert(logoutData?.message);
       secureStorage.clearAll();
       navigation.reset({
         index: 0,
         routes: [{ name: 'ChooseLanguage' }],
       });
-      dispatch(LogoutRequest()); // 👈 resets logoutData to null
     }
   }
 }, [logoutData]);

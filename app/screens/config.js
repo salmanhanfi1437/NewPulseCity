@@ -150,6 +150,6 @@ export default {
   { label: "Admin", value: "Admin" }
 ],
 RazarPayTestKey : 'rzp_test_RcvwqaDEn0lkeH',
-RazarPayLiveKey : 'rzp_live_RekSCDWfJAaQaIqr3X0fYSZ0ib1H2Anh0z1tv5',
+RazarPayLiveKey : 'rzp_live_RekSCDWfJAaQaI',
 zuvyBlueLogoforRazarPay : 'https://res.cloudinary.com/dn9ujhfh0/image/upload/v1762590041/bluelogo_jn0iax.png'
 };
