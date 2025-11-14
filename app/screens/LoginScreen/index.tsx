@@ -336,9 +336,9 @@ const styles = StyleSheet.create({
     letterSpacing: ms(2),
   },
   mobileText: {
-    fontSize: ms(20),
+    fontSize: ms(18),
     color: Colors.black,
-    fontWeight: '700',
+    fontWeight: '600',
     ...Typography.weights.mediumU,
     marginTop: mvs(30),
   },

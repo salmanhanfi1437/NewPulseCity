@@ -16,7 +16,7 @@ import { showAlert } from '../../components/atoms/AlertBox/showAlert';
 import colors from '../../styles/colors';
 import { Text } from 'react-native-svg';
 import FontStyles from '../../styles/FontStyles';
-import { bgColor, fS } from '../../utils/spaces';
+import { bgColor, fS, mb } from '../../utils/spaces';
 import { mvs } from 'react-native-size-matters';
 const { height } = Dimensions.get('screen');
 
@@ -64,7 +64,7 @@ const hasFetchedProfile = useRef(false);
         containerStyle={{ paddingTop: GlobalStyles.tabBarStyle.paddingTop }}
       />
       <View style={[GlobalStyles.profileContainer, { top: height * 0.09 }]}>
-        <View style={[GlobalStyles.imgContainer,GlobalStyles.viewCenter,bgColor(Colors.secondaryColor)]}>
+        <View style={[GlobalStyles.imgContainer,GlobalStyles.viewCenter,bgColor(Colors.secondaryColor),mb(2)]}>
           <CustomText textStyle={[FontStyles.buttonText,fS(mvs(20))]}  
           title={profileData?.data?.name[0]}></CustomText>
         </View>

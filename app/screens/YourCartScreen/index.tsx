@@ -94,10 +94,10 @@ import { screenWidth } from '../../utils/dimensions';
 const YourCart = ({ navigation }: yourCartProps) => {
   const { t } = useTranslation();
 
-  const [qty, setQty] = useState(1);
+  const [qty, setQty] = useState(0);
   const [gstAmount, setGSTAmout] = useState(0);
   const [totalAmount, setTotalAmount] = useState(0);
-  const [earningAmount,setEarningAmount] = useState(0)
+  const [earningAmount, setEarningAmount] = useState(0);
   const dispatch = useDispatch();
 
   const { error, mastertQrData } = useSelector(
@@ -160,8 +160,8 @@ const YourCart = ({ navigation }: yourCartProps) => {
     setTotalAmount(totalAmount);
 
     // ✅ Calculate earning amount (20% of total amount)
-const earningAmount = totalAmount * 0.2;
-setEarningAmount(earningAmount);
+    const earningAmount = totalAmount * 0.2;
+    setEarningAmount(earningAmount);
   }, [qty, mastertQrData]);
 
   const handleBackPress = () => {
@@ -170,12 +170,11 @@ setEarningAmount(earningAmount);
 
   const updateQty = (type: 'plus' | 'minus') => {
     setQty(prev => {
-      if (type === plus) {
-        return prev + 1;
-      } else if (type === minus && prev != 1) {
-        return prev - 1;
+      if (type === 'plus') {
+        return Math.min(prev + 1, 999); // max cap
+      } else {
+        return Math.max(prev - 1, 1); // min cap
       }
-      return prev;
     });
   };
 
@@ -199,7 +198,7 @@ setEarningAmount(earningAmount);
       // Open Razorpay directly
       const options: any = {
         description:
-         mastertQrData?.data?.description || 'Payment for QR Package',
+          mastertQrData?.data?.description || 'Payment for QR Package',
         image: config.zuvyBlueLogoforRazarPay,
         currency: orderData.currency,
         key: config.RazarPayLiveKey,
@@ -263,7 +262,8 @@ setEarningAmount(earningAmount);
       />
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={[{ backgroundColor: colors.white }]}>
+        contentContainerStyle={[{ backgroundColor: colors.white }]}
+      >
         <View style={[GlobalStyles.topParentView]}>
           <Card style={[getShadowWithElevation(1)]}>
             <View style={[GlobalStyles.viewRow]}>
@@ -291,7 +291,7 @@ setEarningAmount(earningAmount);
                   style={[GlobalStyles.viewRow, mt(5), GlobalStyles.viewCenter]}
                 >
                   <CustomText
-                    title={mastertQrData?.data?.perUnitPrice}
+                    title={`₹${mastertQrData?.data?.perUnitPrice}`}
                     textStyle={[
                       FontStyles.headingText,
                       GlobalStyles.flexOne,
@@ -331,34 +331,32 @@ setEarningAmount(earningAmount);
                   </View>
                 </PressableOpacity>
 
-                <View style={[CartStyles.viewQty,styles.qty, ml(mvs(10)), mr(10), mt(0)]}>
-                 <TextInput
-  value={qty.toString()}
-  style={[FontStyles.buttonText]}
-  keyboardType="phone-pad"
-  maxLength={3}
-  onChangeText={(text) => {
-    // keep only digits
-    const numeric = text.replace(/[^0-9]/g, '');
-
-    if (numeric === '') {
-      // prevent empty value → default to 1
-      setQty(1);
-    } 
-    else {
-      const numValue = Number(numeric);
-
-      // if first digit < 2 → force 1
-      if (numeric.length === 1 && numValue < 2) {
-        setQty(1);
-      } else {
-        setQty(numValue);
-      }
-    }
-  }}
-/>
-
-                </View>
+                <TextInput
+                  value={qty.toString()}
+                  style={[
+                    FontStyles.buttonText,
+                    styles.qty,
+                    ml(mvs(10)),
+                    mr(10),
+                  ]}
+                  keyboardType="phone-pad"
+                  textAlign={'center'}
+                  maxLength={3}
+                  onChangeText={text => {
+                    const numeric = text.replace(/[^0-9]/g, '');
+                    if (numeric === '') {
+                      setQty(0);
+                      return;
+                    }
+                    let num = parseInt(numeric, 10);
+                    if (num < 1) num = 1;
+                    if (num > 999) num = 999;
+                    setQty(num);
+                  }}
+                  onBlur={() => {
+                    if (qty === 0) setQty(1);
+                  }}
+                />
 
                 <PressableOpacity onPress={() => updateQty(plus)}>
                   <View
@@ -443,7 +441,7 @@ setEarningAmount(earningAmount);
             </View>
           </Card>
 
- <LinearGradient
+          <LinearGradient
             style={[CartStyles.viewViewIncluded, GlobalStyles.viewRow]}
             colors={[Colors.color_F0FDF4, Colors.color_EFF6FF]}
           >
@@ -451,22 +449,32 @@ setEarningAmount(earningAmount);
               <RupeeSVG />
             </View>
 
-            
-              <CustomText
-                title={t(const_youwillearn)}
-                textStyle={[FontStyles.headingText,ml(15), GlobalStyles.flexShrink1,GlobalStyles.flexOne]}  />
-            
             <CustomText
-                title={`₹${earningAmount.toFixed(2)}`}
-                textStyle={[
-                  textIncludedStyle(5),
-                 FontStyles.headingText,
-                 fontColor(Colors.green)]}/>
+              title={t(const_youwillearn)}
+              textStyle={[
+                FontStyles.headingText,
+                ml(15),
+                GlobalStyles.flexShrink1,
+                GlobalStyles.flexOne,
+              ]}
+            />
+
+            <CustomText
+              title={`₹${earningAmount.toFixed(2)}`}
+              textStyle={[
+                textIncludedStyle(5),
+                FontStyles.headingText,
+                fontColor(Colors.green),
+              ]}
+            />
           </LinearGradient>
-         
 
           <LinearGradient
-            style={[CartStyles.viewViewIncluded, GlobalStyles.viewRow]}
+            style={[
+              CartStyles.viewViewIncluded,
+              GlobalStyles.viewRow,
+              { alignItems: undefined },
+            ]}
             colors={[Colors.color_F0FDF4, Colors.color_EFF6FF]}
           >
             <View style={[CartStyles.circleGreen, GlobalStyles.viewCenter]}>
@@ -478,16 +486,24 @@ setEarningAmount(earningAmount);
                 title={whatincluded}
                 textStyle={[FontStyles.headingText]}
               />
-              <CustomText
-                title={`• ${mastertQrData?.data?.whatInclude}`}
-                textStyle={[
-                  textIncludedStyle(5),
-                  textColor(colors.fadeTextColor),
-                  Typography.style.smallTextU(),
-                ]}
-              />
-
-            
+              <View style={[GlobalStyles.viewRow]} >
+                  <CustomText
+                  title={`• `}
+                  textStyle={[
+                    textIncludedStyle(5),
+                    textColor(colors.fadeTextColor),
+                    Typography.style.smallTextU(),
+                  ]}
+                />
+                <CustomText
+                  title={mastertQrData?.data?.whatInclude}
+                  textStyle={[
+                    textIncludedStyle(5),
+                    textColor(colors.fadeTextColor),
+                    Typography.style.smallTextU(),
+                  ]}
+                />
+              </View>
             </View>
           </LinearGradient>
         </View>
@@ -527,7 +543,7 @@ setEarningAmount(earningAmount);
               mb(0),
               GlobalStyles.containerPaddings,
               height(50),
-              width(screenWidth - 20)
+              width(screenWidth - 20),
             ]}
           />
 
@@ -549,13 +565,17 @@ setEarningAmount(earningAmount);
 };
 
 const styles = StyleSheet.create({
-  qty :{
-    width:ms(50),
-    height:ms(36),
-     borderRadius:mvs(3),
-    borderWidth:ms(0.5),
-    borderColor:colors.borderColor
-  }
-})
+  qty: {
+    width: ms(55),
+    height: ms(35),
+    borderRadius: mvs(3),
+    borderWidth: ms(0.5),
+    borderColor: colors.borderColor,
+    paddingVertical: 0,
+    textAlignVertical: 'center', // Android vertical center
+    fontSize: 14,
+    lineHeight: ms(10), // PERFECT match (adjust 6–8 if needed)
+  },
+});
 
 export default React.memo(YourCart);

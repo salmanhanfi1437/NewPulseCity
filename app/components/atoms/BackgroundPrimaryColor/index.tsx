@@ -20,7 +20,6 @@ type BgProps = {
   div?: boolean;
   KeyboardAwareScrollViewStyles?: ViewStyle | ViewStyle[];
   GrillVisible?: boolean;
-
 };
 
 const BackgroundPrimaryColor = ({
@@ -36,7 +35,15 @@ const BackgroundPrimaryColor = ({
     GlobalStyles.paginationContainer;
 
   return (
-    <SafeAreaView style={styles.container}>
+    <KeyboardAwareScrollView
+      // style={[GlobalStyles.keyboardView, KeyboardAwareScrollViewStyles]}
+      contentContainerStyle={flexGrow(1)}
+      enableOnAndroid={true}
+      extraScrollHeight={80}
+      keyboardShouldPersistTaps="handled"
+      showsVerticalScrollIndicator={false}
+      style={styles.container}
+    >
       {/* HEADER AREA */}
 
       {div ? (
@@ -68,9 +75,9 @@ const BackgroundPrimaryColor = ({
             <ZuvyLogo
               height={ms(100)}
               width={ms(160)}
-              style={{ right: 1,}}
+              style={{ right: 1 }}
               preserveAspectRatio="xMidYMid meet"
-              viewBox="65 0 100 100" 
+              viewBox="65 0 100 100"
             />
             <CustomText
               title={title}
@@ -108,7 +115,7 @@ const BackgroundPrimaryColor = ({
       >
         {children}
       </KeyboardAwareScrollView>
-    </SafeAreaView>
+    </KeyboardAwareScrollView>
   );
 };
 

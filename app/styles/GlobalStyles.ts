@@ -389,8 +389,8 @@ const GlobalStyles = StyleSheet.create({
   ZuvyDashBoardContainer: {
     width: width,
     alignSelf: 'center',
-    paddingHorizontal:mvs(20),
-    paddingRight:mvs(20)
+    paddingHorizontal: mvs(20),
+    paddingRight: mvs(20),
   },
 
   //Play Card Styles
@@ -650,7 +650,6 @@ const GlobalStyles = StyleSheet.create({
     alignSelf: 'center',
     width: '90%', // ✅ responsive width
   },
-
   //promoScreen
   skipButton: {
     position: 'absolute',
@@ -704,6 +703,10 @@ const GlobalStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 50,
+  },
+  width40: {
+    width: width - 40,
+    alignSelf: 'center',
   },
 });
 export default GlobalStyles;

@@ -1,5 +1,11 @@
 import React, { useEffect } from 'react';
-import { View, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+  Alert,
+} from 'react-native';
 import GlobalStyles from '../../../styles/GlobalStyles';
 import { Colors, Typography } from '../../../styles';
 import CardContainer from '../CardContainer';
@@ -30,10 +36,10 @@ import { mvs } from 'react-native-size-matters';
 import { capitalizeFirstLetter } from '../../../utils/helper';
 
 const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
-  
   return (props: any) => {
-
-    const { profileData, error,logoutData } = useSelector( (state: RootState) => state.profile);
+    const { profileData, error, logoutData } = useSelector(
+      (state: RootState) => state.profile,
+    );
 
     const { hideTopContent = false, hideBottomContent = false } = props;
     const { paddingRight, paddingLeft, ...restFont } =
@@ -43,41 +49,38 @@ const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
     const dispatch = useDispatch();
 
     const handleLogout = () => {
-  Alert.alert(
-    'Confirm Logout',
-    'Are you sure you want to log out?',
-    [
-      {
-        text: 'No',
-        onPress: () => console.log('Logout cancelled'),
-        style: 'cancel',
-      },
-      {
-        text: 'Yes',
-        onPress: () => {
-          dispatch(LogoutRequest());
-        },
-      },
-    ],
-    { cancelable: true }
-  );
-};
-   useEffect(() => {
-  if (logoutData) {
-    if (logoutData?.success) {
-      showAlert(logoutData?.message);
-      secureStorage.clearAll();
-      navigation.reset({
-        index: 0,
-        routes: [{ name: 'ChooseLanguage' }],
-      });
-      dispatch(LogoutRequest()); // 👈 resets logoutData to null
-    }
-  }
-}, [logoutData]);
-
-
-  
+      Alert.alert(
+        'Confirm Logout',
+        'Are you sure you want to log out?',
+        [
+          {
+            text: 'No',
+            onPress: () => console.log('Logout cancelled'),
+            style: 'cancel',
+          },
+          {
+            text: 'Yes',
+            onPress: () => {
+              dispatch(LogoutRequest());
+            },
+          },
+        ],
+        { cancelable: true },
+      );
+    };
+    useEffect(() => {
+      if (logoutData) {
+        if (logoutData?.success) {
+          showAlert(logoutData?.message);
+          secureStorage.clearAll();
+          navigation.reset({
+            index: 0,
+            routes: [{ name: 'ChooseLanguage' }],
+          });
+          dispatch(LogoutRequest()); // 👈 resets logoutData to null
+        }
+      }
+    }, [logoutData]);
 
     // --- Data Arrays ---
 
@@ -102,7 +105,7 @@ const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
             >
               {/* Personal Info Card */}
               <CardContainer
-                style={GlobalStyles.borderStyles}
+                style={[GlobalStyles.borderStyles, GlobalStyles.width40]}
                 showShadow={false}
               >
                 {/* <View style={GlobalStyles.row}>
@@ -176,7 +179,9 @@ const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
                       ]}
                     />
                     <CustomText
-                      title={capitalizeFirstLetter(profileData?.data?.roles[0]?.name)}
+                      title={capitalizeFirstLetter(
+                        profileData?.data?.roles[0]?.name,
+                      )}
                       style={[restFont, fontColor(Colors.black)]}
                     />
                   </View>
@@ -206,7 +211,10 @@ const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
                       ]}
                     />
                     <CustomText
-                      title={capitalizeFirstLetter(profileData?.data?.state?.name) ?? "Na"}
+                      title={
+                        capitalizeFirstLetter(profileData?.data?.state?.name) ??
+                        'Na'
+                      }
                       style={[restFont, fontColor(Colors.black)]}
                     />
                   </View>
@@ -261,7 +269,8 @@ const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
                           'medium',
                           colors.fadeTextColor,
                         ),
-                      ]}/>
+                      ]}
+                    />
                     <CustomText
                       title={capitalizeFirstLetter('Shipping')}
                       style={[restFont, fontColor(Colors.black)]}
@@ -277,7 +286,11 @@ const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
               />
 
               <CardContainer
-                style={[GlobalStyles.borderStyles, { height: ms(70) }]}
+                style={[
+                  GlobalStyles.borderStyles,
+                  GlobalStyles.width40,
+                  { height: ms(70) },
+                ]}
                 showShadow={false}
               >
                 <TouchableOpacity
@@ -309,7 +322,11 @@ const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
               </CardContainer>
 
               <CardContainer
-                style={[GlobalStyles.borderStyles, { height: ms(70) }]}
+                style={[
+                  GlobalStyles.borderStyles,
+                  GlobalStyles.width40,
+                  { height: ms(70) },
+                ]}
                 showShadow={false}
               >
                 <TouchableOpacity
@@ -333,7 +350,11 @@ const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
                 </TouchableOpacity>
               </CardContainer>
               <CardContainer
-                style={[GlobalStyles.borderStyles, { height: ms(70) }]}
+                style={[
+                  GlobalStyles.borderStyles,
+                  GlobalStyles.width40,
+                  { height: ms(70) },
+                ]}
                 showShadow={false}
               >
                 <TouchableOpacity
@@ -363,7 +384,10 @@ const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
 
               <PressableOpacity onPress={handleLogout}>
                 <CardContainer
-                  style={[GlobalStyles.logoutBorderStyles]}
+                  style={[
+                    GlobalStyles.logoutBorderStyles,
+                    GlobalStyles.width40,
+                  ]}
                   showShadow={false}
                 >
                   <FontAwesome5
@@ -371,7 +395,7 @@ const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
                     size={20}
                     color={Colors.red}
                   />
-                  
+
                   <CustomText
                     title={config.Profile.logout}
                     textStyle={[
@@ -380,7 +404,7 @@ const withBottomWhiteOverlay = (WrappedComponent: React.ComponentType<any>) => {
                       { color: Colors.red },
                     ]}
                   />
-                  </CardContainer>
+                </CardContainer>
               </PressableOpacity>
             </ScrollView>
           </View>
