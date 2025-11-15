@@ -78,7 +78,7 @@ const LoginScreen = ({ navigation }: LoginProps) => {
   );
   const inputRef = useRef<TextInput>(null);
   const dispatch = useDispatch();
-  
+
   // 🔁 Countdown timer logic
   useEffect(() => {
     if (!isOtpVerified || timer <= 0) return;
@@ -100,55 +100,51 @@ const LoginScreen = ({ navigation }: LoginProps) => {
 
 
   useEffect(() => {
-  if (otpData || error) {
-    console.log("OTPData changed: ", otpData, "Error:", error);
+    if (otpData || error) {
+      console.log("OTPData changed: ", otpData, "Error:", error);
 
-    if(otpData?.success === true)
-    {
-      Alert.alert(otpData?.message)
-      setOtpVerified(true);
-      setTimer(RESEND_TIMER);
-      if(otpData?.data?.userMObileRegister == false)
-      {
-      dispatch({ type: const_RESET_STORE });
+      if (otpData?.success === true) {
+        Alert.alert(otpData?.message)
+        setOtpVerified(true);
+        setTimer(RESEND_TIMER);
+        if (otpData?.data?.userMObileRegister == false) {
+          dispatch({ type: const_RESET_STORE });
 
-      }
-      //Alert.alert(otpData?.data)
-    }
-  }
-}, [otpData, error]);
-
-
-useEffect(() => {
-  if (!verifyOTPData && !otpError) return;
-
-  console.log('MainverifyOTPResponse:', verifyOTPData, 'Error:', otpError);
-
-  if (verifyOTPData?.success === true) {
-    dispatch({ type: const_RESET_STORE }); // 🔄 अब dispatch callback में है
-        if (verifyOTPData?.data?.isRegistered === false) {
-          resetState();
-          navigation.navigate('signup', { mobile: mobileNumber });
-        } else {
-          navigation.replace('merchantTabs');
         }
-  } else if (otpError?.message) {
-    showAlert(otpError.message, 'Error');
-    dispatch({ type: const_RESET_STORE }); // ❗ dispatch सिर्फ error पर भी एक बार
-  }
-}, [verifyOTPData, otpError]);
+        //Alert.alert(otpData?.data)
+      }
+    }
+  }, [otpData, error]);
+
+
+  useEffect(() => {
+    if (!verifyOTPData && !otpError) return;
+
+    console.log('MainverifyOTPResponse:', verifyOTPData, 'Error:', otpError);
+
+    if (verifyOTPData?.success === true) {
+      dispatch({ type: const_RESET_STORE }); // 🔄 अब dispatch callback में है
+      if (verifyOTPData?.data?.isRegistered === false) {
+        resetState();
+        navigation.navigate('signup', { mobile: mobileNumber });
+      } else {
+        navigation.replace('merchantTabs');
+      }
+    } else if (otpError?.message) {
+      showAlert(otpError.message, 'Error');
+      dispatch({ type: const_RESET_STORE }); // ❗ dispatch सिर्फ error पर भी एक बार
+    }
+  }, [verifyOTPData, otpError]);
 
 
   const handleVerifyToggle = useCallback(() => {
     if (mobileNumber.length !== 10) return;
-  
 
-    if(otp.length === 6)
-    {
+
+    if (otp.length === 6) {
       verifyOTP()
     }
-    else if(!isValidIndianMobile(mobileNumber))
-    {
+    else if (!isValidIndianMobile(mobileNumber)) {
       showAlert(t(validMobileNumber))
     }
     else if (isOtpVerified) {
@@ -157,41 +153,41 @@ useEffect(() => {
       setMobileNo('');
       setOtp('');
       setTimer(RESEND_TIMER);
-    } else{
-       sendOTP()
+    } else {
+      sendOTP()
     }
-  }, [mobileNumber, isOtpVerified,otp]);
+  }, [mobileNumber, isOtpVerified, otp]);
 
- const sendOTP = async () => {
-  try {
+  const sendOTP = async () => {
+    try {
 
-dispatch(sendOTPRequest(mobileNumber)); // ✅ only send the mobile
-  } catch (error: any) {
-    dispatch(sendOTPFailure('Failed to send OTP'));
-    showAlert('Failed to send OTP, please try again');
-  }
-};
+      dispatch(sendOTPRequest(mobileNumber)); // ✅ only send the mobile
+    } catch (error: any) {
+      dispatch(sendOTPFailure('Failed to send OTP'));
+      showAlert('Failed to send OTP, please try again');
+    }
+  };
 
- const verifyOTP = async () => {
-  try {
-    const fcmToken = await secureStorage.getItem(const_fcmToken);
-    
+  const verifyOTP = async () => {
+    try {
+      const fcmToken = await secureStorage.getItem(const_fcmToken);
 
-dispatch(verifyOTPRequest({ mobile: mobileNumber, otp,fcmToken,deviceType:Platform.OS.toUpperCase(),purpose : login.toUpperCase() }));
-  } catch (error: any) {
-    dispatch(sendOTPFailure('Failed to send OTP'));
-    Alert.alert('Failed to send OTP, please try again');
-  }
-};
+
+      dispatch(verifyOTPRequest({ mobile: mobileNumber, otp, fcmToken, deviceType: Platform.OS.toUpperCase(), purpose: login.toUpperCase() }));
+    } catch (error: any) {
+      dispatch(sendOTPFailure('Failed to send OTP'));
+      Alert.alert('Failed to send OTP, please try again');
+    }
+  };
 
   const handleResendOtp = useCallback(() => {
     setTimer(RESEND_TIMER);
     sendOTP();
   }, []);
 
-  const handleNavigation = () =>{
+  const handleNavigation = () => {
     resetState();
-    navigation.navigate('signup',{mobile : mobileNumber});
+    navigation.navigate('signup', { mobile: mobileNumber });
   }
 
   const resetState = () => {
@@ -202,24 +198,8 @@ dispatch(verifyOTPRequest({ mobile: mobileNumber, otp,fcmToken,deviceType:Platfo
 
   return (
     <BackgroundPrimaryColor title={t(welcomeZuvy)}>
-      {/* 🔹 Header Card */}
-      {/* <TouchableOpacity
-        onPress={handleNavigation}
-        activeOpacity={2}
-      >
-        <ViewRounded10
-          title={loginOrSignup}
-          titleStyle={[fS(ms(15))]}
-          containerStyle={[
-            GlobalStyles.viewRound,
-            GlobalStyles.viewCenter,
-            mt(15),
-            bgColor(Colors.fadeWhite),
-          ]}
-        />
-      </TouchableOpacity> */}
 
-      <CustomText textStyle={[styles.mobileText,GlobalStyles.textAlign,mt(20)]} title={t(const_login)}></CustomText>
+      <CustomText textStyle={[styles.mobileText, GlobalStyles.textAlign, mt(20)]} title={t(const_login)}></CustomText>
 
       {/* 🔹 Mobile Input */}
       <CustomText title={t(mobile_number)} textStyle={styles.mobileText} />
@@ -227,8 +207,7 @@ dispatch(verifyOTPRequest({ mobile: mobileNumber, otp,fcmToken,deviceType:Platfo
       <ViewOutlined viewStyle={styles.viewInput}>
         <CustomText
           title="+91 |"
-          textStyle={[FontStyles.headingText, fS(ms(18)), pl(12), fontW('600')]}
-        />
+          textStyle={[FontStyles.headingText, fS(ms(18)), pl(12), fontW('600')]} />
 
         <CustomTextInput
           ref={inputRef}

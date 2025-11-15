@@ -53,9 +53,9 @@ import { showAlert } from "../../components/atoms/AlertBox/showAlert";
 const ChooseLanguages = ({ navigation }: ChooseLanguagesProps) => {
   const languages = [
     { code: 'en', label: 'English', title: 'English' },
-    { code: 'hi', label: 'हिन्दी', title: 'Hindi' },
-    { code: 'te', label: 'తెలుగు', title: 'Telugu' },
-    { code: 'bn', label: 'বাংলা', title: 'Bengali' },
+    // { code: 'hi', label: 'हिन्दी', title: 'Hindi' },
+    // { code: 'te', label: 'తెలుగు', title: 'Telugu' },
+    // { code: 'bn', label: 'বাংলা', title: 'Bengali' },
   ];
 
   const [selectedLang, setSelectedLang] = useState('en');

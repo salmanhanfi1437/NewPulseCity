@@ -80,7 +80,9 @@
                         "ActiveSupportTeam":"सक्रिय सहायता टीम",
                         "Checkout_Details":"Checkout Details",
             "Total_Payable":"Total Payable",
-             "Or":"या"
+             "Or":"या",
+             "By_continuing":"By continuing, you agree to Zuvy's",
+             "terms":"Terms & Conditions and Privacy Policy"
 
 
 }

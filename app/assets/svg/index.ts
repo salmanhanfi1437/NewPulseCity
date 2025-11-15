@@ -110,7 +110,7 @@ export {
   RupeeSVG,
   PaymentSVG,
   ActiviteSupportSVG,
-  SecurePaymentSVG
+  SecurePaymentSVG,
   DownloadSVG,
   SaveSvg,
   RedTrashSVG,

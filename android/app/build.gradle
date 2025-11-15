@@ -88,6 +88,8 @@ android {
         versionCode 1
         versionName "1.0"
         missingDimensionStrategy 'react-native-blob-util', 'react-native-blob-util'
+          multiDexEnabled true
+
     }
     signingConfigs {
         debug {
@@ -136,6 +138,8 @@ dependencies {
     implementation("com.facebook.react:react-android")
     implementation project(':react-native-razorpay')
     implementation platform('com.google.firebase:firebase-bom:34.5.0')
+        implementation 'androidx.multidex:multidex:2.0.1'
+
     // Then add Firebase services you need
     implementation 'com.google.firebase:firebase-messaging'
     // You can also add:
