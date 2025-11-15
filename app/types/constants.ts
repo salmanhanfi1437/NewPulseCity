@@ -98,3 +98,7 @@ export const const_yes="yes"
 export const const_no="no";
 export const const_new_update = "new_update";
 export const const_update_message = "update_message"
+export const const_active_support_team="ActiveSupportTeam"
+export const const_checkout_details = "Checkout_Details";
+export const const_total_payable="Total_Payable";
+export const const_or = "Or";

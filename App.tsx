@@ -23,8 +23,7 @@ const GlobalLoader = () => {
           overlayColor="rgba(255,255,255,0.25)"
           source={require('./app/assets/lottie/loader.json')}
           animationStyle={styles.lottie}
-          speed={1}
-        />
+          speed={1}/>
       </View>
     </Modal>
   );

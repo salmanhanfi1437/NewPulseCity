@@ -5,6 +5,7 @@ import {
   alltimesupport,
   analyticDashboard,
   buynow,
+  const_active_support_team,
   const_RESET_STORE,
   const_totalAmount,
   const_youwillearn,
@@ -52,6 +53,7 @@ import Card from '../../components/atoms/Card';
 import LinearGradient from '../../components/atoms/LinearGradient';
 import { Colors, Typography } from '../../styles';
 import {
+  ActiviteSupportSVG,
   CartSVG,
   DigiLockerSVG,
   MinusSVG,
@@ -59,6 +61,7 @@ import {
   PriceBreakDownSVG,
   QRCodeSVG,
   RupeeSVG,
+  SecurePaymentSVG,
   TickWhiteSVG,
 } from '../../assets/svg';
 import { CustomText } from '../../components/atoms/Text';
@@ -361,10 +364,9 @@ const YourCart = ({ navigation }: yourCartProps) => {
                 title={itemTotal}
                 textStyle={[
                   CartStyles.itemTotalText,
-                  fS(13),
+                  fS(12),
                   textColor(colors.fadeTextColor),
                   Typography.style.subTextU(),
-                  pl(3),
                 ]}
               />
               <CustomText
@@ -430,7 +432,7 @@ const YourCart = ({ navigation }: yourCartProps) => {
           </Card>
 
           <LinearGradient
-            style={[CartStyles.viewViewIncluded, GlobalStyles.viewRow]}
+            style={[CartStyles.viewViewIncluded, GlobalStyles.viewRow,mt(15)]}
             colors={[Colors.color_F0FDF4, Colors.color_EFF6FF]}
           >
             <View style={[ GlobalStyles.viewCenter]}>
@@ -497,7 +499,6 @@ const YourCart = ({ navigation }: yourCartProps) => {
           <View
             style={[
               CartStyles.viewSubTotal,
-              GlobalStyles.ZuvyDashBoardContainer,
               mt(2),
             ]}
           >
@@ -532,18 +533,31 @@ const YourCart = ({ navigation }: yourCartProps) => {
               width(screenWidth - 20),
             ]}
           />
-
+          <View style={[GlobalStyles.viewRow,GlobalStyles.viewCenter,mt(8)]}>
+            <View style={[GlobalStyles.viewRow,GlobalStyles.viewCenter]}>
+              <SecurePaymentSVG/>
           <CustomText
             title={securePayment}
             textStyle={[
               CartStyles.itemTotalText,
-              mt(5),
-              mb(10),
-              fS(12),
-              fontW('400'),
+              fontW('500'),
               textColor(colors.color_6B7280),
-            ]}
-          />
+              ml(5)
+            ]}/>
+            </View>
+
+              <View style={[GlobalStyles.viewRow,GlobalStyles.viewCenter,ml(10)]}>
+              <ActiviteSupportSVG/>
+          <CustomText
+            title={const_active_support_team}
+            textStyle={[
+              CartStyles.itemTotalText,
+              fontW('500'),
+              textColor(colors.color_6B7280),
+              ml(5)
+            ]}/>
+            </View>
+          </View>
         </View>
       </ScrollView>
       </SafeAreaView>
@@ -562,6 +576,10 @@ const styles = StyleSheet.create({
     fontSize: 14,
     lineHeight: ms(10), // PERFECT match (adjust 6–8 if needed)
   },
+  bottomView:{
+    alignItems: 'center', 
+    justifyContent: 'flex-start' 
+  }
 });
 
 export default React.memo(YourCart);

@@ -549,9 +549,9 @@ const GlobalStyles = StyleSheet.create({
     
   },
   topParentView: {
-    paddingStart: mvs(10),
-    paddingEnd: mvs(10),
-    paddingTop: mvs(10),
+    paddingStart: mvs(12),
+    paddingEnd: mvs(12),
+    paddingTop: mvs(12),
   },
   viewRound8: {
     height: ms(80),

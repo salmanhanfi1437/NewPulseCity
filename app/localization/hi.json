@@ -76,7 +76,11 @@
                       "yes":"हाँ",
             "no":"नहीं",
             "new_update":"नया अपडेट उपलब्ध है",
-            "update_message":"ऐप का नया संस्करण उपलब्ध है। कृपया जारी रखने के लिए अपडेट करें।"
+            "update_message":"ऐप का नया संस्करण उपलब्ध है। कृपया जारी रखने के लिए अपडेट करें।",
+                        "ActiveSupportTeam":"सक्रिय सहायता टीम",
+                        "Checkout_Details":"Checkout Details",
+            "Total_Payable":"Total Payable",
+             "Or":"या"
 
 
 }

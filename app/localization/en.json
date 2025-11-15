@@ -47,7 +47,7 @@
   "alltimesupport":"• 24/7 support",
   "totalAmount":"Total Amount",
   "buynow":"Buy Now",
-  "securePayment":"Secure payment",
+  "securePayment":"Secure Payment",
   "notifications":"Notifications",
   "All":"All",
   "Orders":"Orders",
@@ -75,7 +75,11 @@
             "yes":"Yes",
             "no":"No",
              "new_update":"New Update Available",
-            "update_message":"A new version of the app is available. Please update to continue."
+            "update_message":"A new version of the app is available. Please update to continue.",
+            "ActiveSupportTeam":"Active Support Team",
+            "Checkout_Details":"Checkout Details",
+            "Total_Payable":"Total Payable",
+            "Or":"Or"
 
 
 

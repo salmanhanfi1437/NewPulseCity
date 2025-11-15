@@ -79,7 +79,7 @@ export const bR = (value: number) => {
   return { borderRadius: ms(value) };
 };
 
-export const width = (value: number) => {
+export const width = (value: any) => {
   return { width: value };
 };
 

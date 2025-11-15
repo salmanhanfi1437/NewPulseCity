@@ -49,6 +49,8 @@ import ShippmentSVG from "./shippment.svg";
 import ProfileAcitveSVG from "./profileactive.svg";
 import RupeeSVG  from './rupee.svg';
 import PaymentSVG from './payment.svg';
+import SecurePaymentSVG from './seucre.svg';
+import ActiviteSupportSVG from './active_payment.svg';
 export {
   DivSVG,
   MicSVG,
@@ -100,5 +102,7 @@ export {
   ShippmentSVG,
   ProfileAcitveSVG,
   RupeeSVG,
-  PaymentSVG
+  PaymentSVG,
+  ActiviteSupportSVG,
+  SecurePaymentSVG
 };

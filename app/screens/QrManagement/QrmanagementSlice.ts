@@ -87,6 +87,7 @@ export const {
   fetchInventoryRequest,
   fetchInventorySuccess,
   fetchInventoryError,
+  resetViewQrData
 } = qrManagementSlice.actions;
 
 export default qrManagementSlice.reducer;

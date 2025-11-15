@@ -24,7 +24,7 @@ const BlueWhiteBackground = ({
   linearLocation= [0, 0.32, 0.32]
 }: BlueWhiteBackgroundProps) => {
   return (
-    <SafeAreaView style={[GlobalStyles.flexOne]}>
+    
     <View style={{ flex: 1 }}>
       <LinearGradient
         colors={Colors.zuvyPrimaryGradient}
@@ -48,7 +48,6 @@ const BlueWhiteBackground = ({
         </View>
       )}
     </View>
-    </SafeAreaView>
-  );
+    );
 };
 export default BlueWhiteBackground;
