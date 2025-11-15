@@ -13,7 +13,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { Colors } from '../../../styles';
 
 interface DropdownProps {
-  data: string[];
+  data: any[];
   selectedValue: string;
   onSelect: (value: string) => void;
   placeholder?: string;
@@ -21,7 +21,7 @@ interface DropdownProps {
   icon?: React.ReactNode;
   activeIcon?: React.ReactNode;
   style?: object;
-  disabled?:boolean;
+  disabled?: boolean;
 }
 
 const Dropdown: React.FC<DropdownProps> = ({
@@ -37,12 +37,11 @@ const Dropdown: React.FC<DropdownProps> = ({
 }) => {
   const [visible, setVisible] = useState(false);
 
-    const handlePress = () => {
+  const handlePress = () => {
     if (!disabled) {
       setVisible(true);
     }
   };
-
 
   return (
     <View>
@@ -74,12 +73,24 @@ const Dropdown: React.FC<DropdownProps> = ({
               renderItem={({ item }) => (
                 <TouchableOpacity
                   style={GlobalStyles.modalItem}
+                  // disabled={item.isCategory} 
                   onPress={() => {
-                    onSelect(item);
-                    setVisible(false);
+                   if (!item.isCategory) {
+                      onSelect(item.label);
+                      setVisible(false);
+                    }
                   }}
                 >
-                  <Text style={GlobalStyles.modalItemText}>{item}</Text>
+                  <Text
+                    style={[
+                      GlobalStyles.modalItemText,
+                      item.isCategory && {
+                        fontWeight: 'bold',
+                      },
+                    ]}
+                  >
+                    {item.label}
+                  </Text>
                 </TouchableOpacity>
               )}
             />

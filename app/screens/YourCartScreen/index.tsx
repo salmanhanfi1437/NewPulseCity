@@ -219,7 +219,7 @@ const YourCart = ({ navigation }: yourCartProps) => {
         },
         theme: { color: colors.white },
       };
-      console.log("options "+JSON.stringify(options));
+      console.log('options ' + JSON.stringify(options));
       RazorpayCheckout.open(options)
         .then(data => {
           console.log('Payment success', data);
@@ -435,16 +435,27 @@ const YourCart = ({ navigation }: yourCartProps) => {
             style={[CartStyles.viewViewIncluded, GlobalStyles.viewRow,mt(15)]}
             colors={[Colors.color_F0FDF4, Colors.color_EFF6FF]}
           >
-            <View style={[ GlobalStyles.viewCenter]}>
+            <View style={[GlobalStyles.viewCenter]}>
               <RupeeSVG />
             </View>
 
-            <View style={[GlobalStyles.viewCenter,GlobalStyles.viewRow,GlobalStyles.flexOne]}>
+            <View
+              style={[
+                GlobalStyles.viewCenter,
+                GlobalStyles.viewRow,
+                GlobalStyles.flexOne,
+              ]}
+            >
               <CustomText
                 title={t(const_youwillearn)}
-                textStyle={[FontStyles.headingText,ml(15), GlobalStyles.flexOne]}  />
-            
-            <CustomText
+                textStyle={[
+                  FontStyles.headingText,
+                  ml(15),
+                  GlobalStyles.flexOne,
+                ]}
+              />
+
+              <CustomText
                 title={`₹${earningAmount.toFixed(2)}`}
                 textStyle={[
                   textIncludedStyle(5),
@@ -452,11 +463,17 @@ const YourCart = ({ navigation }: yourCartProps) => {
                  fontColor(Colors.color_139944)]}/>
                  </View>
                   
+                  FontStyles.headingText,
+                  fontColor(Colors.color_139944),
+                ]}
+              />
+            </View>
           </LinearGradient>
 
           <LinearGradient
             style={[CartStyles.viewViewIncluded, GlobalStyles.viewRow]}
-            colors={[Colors.color_F0FDF4, Colors.color_EFF6FF]}>
+            colors={[Colors.color_F0FDF4, Colors.color_EFF6FF]}
+          >
             <View style={[CartStyles.circleGreen, GlobalStyles.viewCenter]}>
               <TickWhiteSVG />
             </View>
@@ -466,6 +483,7 @@ const YourCart = ({ navigation }: yourCartProps) => {
                 title={whatincluded}
                 textStyle={[FontStyles.headingText]}
               />
+
               <View style={[GlobalStyles.viewRow]} >
               <FlatList
   data={includesArray(mastertQrData)}
@@ -490,6 +508,24 @@ const YourCart = ({ navigation }: yourCartProps) => {
     </View>
   )}
 />
+
+              <View style={[GlobalStyles.viewRow]}>
+                <CustomText
+                  title={`• `}
+                  textStyle={[
+                    textIncludedStyle(5),
+                    textColor(colors.fadeTextColor),
+                    Typography.style.smallTextU(),
+                  ]}
+                />
+                <CustomText
+                  title={mastertQrData?.data?.whatInclude}
+                  textStyle={[
+                    textIncludedStyle(5),
+                    textColor(colors.fadeTextColor),
+                    Typography.style.smallTextU(),
+                  ]}
+                />
 
               </View>
             </View>

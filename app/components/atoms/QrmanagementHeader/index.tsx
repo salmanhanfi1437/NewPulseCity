@@ -133,14 +133,17 @@ const QrHeader: React.FC<QrHeaderProps> = ({
               GlobalStyles.margin_top10,
               {
                 color: colors.black,
-                left: GlobalStyles.dot.height,
+                left: 8,
                 marginVertical: GlobalStyles.iconButton.padding,
               },
             ]}
           />
           <CustomText
-            title={'0% this month'}
-            textStyle={[getDynamicTextStyle(12, colors.lightgreen)]}
+            title={'Purchased this \nmonth 0%'}
+            textStyle={[
+              getDynamicTextStyle(12, colors.lightgreen),
+              { left: 5 },
+            ]}
           />
         </CardContainer>
 
@@ -181,14 +184,17 @@ const QrHeader: React.FC<QrHeaderProps> = ({
               rest,
               GlobalStyles.margin_top10,
               {
-                left: GlobalStyles.dot.height,
+                left: 10,
                 marginVertical: GlobalStyles.iconButton.padding,
               },
             ]}
           />
           <CustomText
-            title={'0% this month'}
-            textStyle={[getDynamicTextStyle(12, colors.lightgreen)]}
+            title={'Purchased this \nmonth 0%'}
+            textStyle={[
+              getDynamicTextStyle(12, colors.lightgreen),
+              { left: 5 },
+            ]}
           />
         </CardContainer>
       </View>
@@ -248,8 +254,9 @@ const QrHeader: React.FC<QrHeaderProps> = ({
           showsHorizontalScrollIndicator={false}
           renderItem={({ item }) => (
             <TouchableOpacity
-            activeOpacity={0.8}
-            onPress={() => showToast('Coming Soon 🚀')}>
+              activeOpacity={0.8}
+              onPress={() => showToast('Coming Soon 🚀')}
+            >
               <Dropdown
                 disabled={true}
                 data={[]}

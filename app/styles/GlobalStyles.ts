@@ -9,6 +9,7 @@ const GlobalStyles = StyleSheet.create({
   authBtn: {
     backgroundColor: Colors.secondaryColor,
   },
+  
   halfwidth: {
     width: width / 2.5,
   },
@@ -612,12 +613,14 @@ const GlobalStyles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     backgroundColor: 'rgba(0,0,0,0.3)',
+    height: 30
   },
   modalDropdownList: {
     backgroundColor: '#fff',
     marginHorizontal: 20,
     borderRadius: 10,
     paddingVertical: 10,
+    height:width 
   },
   modalItem: {
     padding: 12,

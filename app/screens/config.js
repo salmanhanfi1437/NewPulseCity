@@ -33,13 +33,13 @@ export default {
     city: 'City: Mumbai',
     distriduteID: 'Distributor ID: ZUVY-12345',
     QRsummary: 'Your QR Kit Summary',
-    QRpurchased: 'QRs Purchased',
+    QRpurchased: `QR's Purchased`,
     activekit: 'Active Kits',
     date: 'Guarantee Date',
     activationDate: "Your city's activation guarantee: ",
     refund: 'Refund Eligibility',
     refunddate: 'Eligible after 15/01/2025',
-    viewKit: 'View My Kits',
+    viewKit: 'View My Kit',
     Distributor_Exp: 'Distributor Experiences',
     viewAll: 'View All',
     testimonialLabel: 'Hear from real Zuvy distributors',
@@ -70,7 +70,7 @@ export default {
     Purchase_Date: 'Purchase Date',
     Payment_Method: 'Payment Method',
     Amount_Paid: 'Amount Paid',
-    Security: 'Security',
+    selectCategory: 'Select Category',
     downloadQr: 'Download QR Code',
     share: 'Share',
     qrPreview: "QR Code Preview"
@@ -79,7 +79,7 @@ export default {
     H1: 'QR Management',
     Total: 'Total',
     Active: 'Active',
-    qrfilter: ['Dummy', 'Assigned', 'Active', 'Retired'],
+    qrfilter: ['Dummy', 'Purchased', 'Activated', 'Retired'],
     FilterButtons: [
       { label: 'Agent', icon: 'filter-list' },
       { label: 'Status', icon: 'radio-button-checked' },
@@ -151,5 +151,52 @@ export default {
 ],
 RazarPayTestKey : 'rzp_test_RcvwqaDEn0lkeH',
 RazarPayLiveKey : 'rzp_live_RekSCDWfJAaQaI',
-zuvyBlueLogoforRazarPay : 'https://res.cloudinary.com/dn9ujhfh0/image/upload/v1762590041/bluelogo_jn0iax.png'
+zuvyBlueLogoforRazarPay : 'https://res.cloudinary.com/dn9ujhfh0/image/upload/v1762590041/bluelogo_jn0iax.png',
+shopCategories : [
+  {
+    category: "Grocery & Daily Needs",
+    subcategories: [
+      "Supermarkets / Hypermarkets",
+      "Kirana stores",
+      "Dairy & milk booths",
+      "Fruits & vegetable shops",
+      "Meat & fish shops"
+    ]
+  },
+  {
+    category: "Food & Beverages",
+    subcategories: [
+      "Restaurants",
+      "Cafés",
+      "Bakeries",
+      "Sweet shops (Mithai)",
+      "Juice centers / Ice-cream parlors"
+    ]
+  },
+  {
+    category: "Fashion & Clothing",
+    subcategories: [
+      "Men’s clothing",
+      "Women’s clothing",
+      "Kids wear",
+      "Boutique & tailoring",
+      "Footwear stores"
+    ]
+  },
+  {
+    category: "Electronics & Appliances",
+    subcategories: [
+      "Mobile stores",
+      "Computer & laptop shops",
+      "Home appliances",
+      "TV / AC / Fridge shops"
+    ]
+  },
+  {
+    category: "Health & Wellness",
+    subcategories: [
+      "Medical stores (Pharmacy)"
+    ]
+  }
+]
 };
