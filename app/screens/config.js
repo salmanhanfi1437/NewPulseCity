@@ -43,7 +43,7 @@ export default {
     Distributor_Exp: 'Distributor Experiences',
     viewAll: 'View All',
     testimonialLabel: 'Hear from real Zuvy distributors',
-    moreTestimonial: 'Watch more Testimonials',
+    moreTestimonial: 'Watch Testimonials',
     trustZuvylable: 'Why Distributors Trust Zuvy',
     verifyOwner: 'Verified QR Ownership',
     legalkit: 'Every kit you buy is legally',
@@ -51,6 +51,7 @@ export default {
     commingSoon: 'Coming Soon',
     customerSuport: 'Contact Support',
     legalZuvy: 'Legal & About Zuvy',
+    FQ: 'Frequently Asked Questions',
   },
   ZuvyQrEdit: {
     H1: 'Edit zQR Details',
@@ -73,13 +74,13 @@ export default {
     selectCategory: 'Select Category',
     downloadQr: 'Download QR Code',
     share: 'Share',
-    qrPreview: "QR Code Preview"
+    qrPreview: 'QR Code Preview',
   },
   ZuvyQrManagement: {
     H1: 'QR Management',
     Total: 'Total',
     Active: 'Active',
-    qrfilter: ['Dummy', 'Purchased', 'Activated', 'Retired'],
+    qrfilter: ['Purchased', 'Assigned', 'Activated', 'Retired'],
     FilterButtons: [
       { label: 'Agent', icon: 'filter-list' },
       { label: 'Status', icon: 'radio-button-checked' },
@@ -128,10 +129,10 @@ export default {
     },
   ],
 
-  zuvyRoles :[
-  { label: "Distributor", value: "Distributor" },
-  { label: "Admin", value: "Admin" }
-],
+  zuvyRoles: [
+    { label: 'Distributor', value: 'Distributor' },
+    { label: 'Admin', value: 'Admin' },
+  ],
   PromoScree: {
     skipButton: 'Skip',
   },
@@ -145,58 +146,57 @@ export default {
     Proceed: 'Proceed to Payment',
     totalPayable: 'Total Payable',
   },
-  zuvyRoles :[
-  { label: "Distributor", value: "Distributor" },
-  { label: "Admin", value: "Admin" }
-],
-RazarPayTestKey : 'rzp_test_RcvwqaDEn0lkeH',
-RazarPayLiveKey : 'rzp_live_RekSCDWfJAaQaI',
-zuvyBlueLogoforRazarPay : 'https://res.cloudinary.com/dn9ujhfh0/image/upload/v1762590041/bluelogo_jn0iax.png',
-shopCategories : [
-  {
-    category: "Grocery & Daily Needs",
-    subcategories: [
-      "Supermarkets / Hypermarkets",
-      "Kirana stores",
-      "Dairy & milk booths",
-      "Fruits & vegetable shops",
-      "Meat & fish shops"
-    ]
-  },
-  {
-    category: "Food & Beverages",
-    subcategories: [
-      "Restaurants",
-      "Cafés",
-      "Bakeries",
-      "Sweet shops (Mithai)",
-      "Juice centers / Ice-cream parlors"
-    ]
-  },
-  {
-    category: "Fashion & Clothing",
-    subcategories: [
-      "Men’s clothing",
-      "Women’s clothing",
-      "Kids wear",
-      "Boutique & tailoring",
-      "Footwear stores"
-    ]
-  },
-  {
-    category: "Electronics & Appliances",
-    subcategories: [
-      "Mobile stores",
-      "Computer & laptop shops",
-      "Home appliances",
-      "TV / AC / Fridge shops"
-    ]
-  },
-  {
-    category: "Health & Wellness",
-    subcategories: [
-      "Medical stores (Pharmacy)"
-    ]
-  }
-]
+  zuvyRoles: [
+    { label: 'Distributor', value: 'Distributor' },
+    { label: 'Admin', value: 'Admin' },
+  ],
+  RazarPayTestKey: 'rzp_test_RcvwqaDEn0lkeH',
+  RazarPayLiveKey: 'rzp_live_RekSCDWfJAaQaI',
+  zuvyBlueLogoforRazarPay:
+    'https://res.cloudinary.com/dn9ujhfh0/image/upload/v1762590041/bluelogo_jn0iax.png',
+  shopCategories: [
+    {
+      category: 'Grocery & Daily Needs',
+      subcategories: [
+        'Supermarkets / Hypermarkets',
+        'Kirana stores',
+        'Dairy & milk booths',
+        'Fruits & vegetable shops',
+        'Meat & fish shops',
+      ],
+    },
+    {
+      category: 'Food & Beverages',
+      subcategories: [
+        'Restaurants',
+        'Cafés',
+        'Bakeries',
+        'Sweet shops (Mithai)',
+        'Juice centers / Ice-cream parlors',
+      ],
+    },
+    {
+      category: 'Fashion & Clothing',
+      subcategories: [
+        'Men’s clothing',
+        'Women’s clothing',
+        'Kids wear',
+        'Boutique & tailoring',
+        'Footwear stores',
+      ],
+    },
+    {
+      category: 'Electronics & Appliances',
+      subcategories: [
+        'Mobile stores',
+        'Computer & laptop shops',
+        'Home appliances',
+        'TV / AC / Fridge shops',
+      ],
+    },
+    {
+      category: 'Health & Wellness',
+      subcategories: ['Medical stores (Pharmacy)'],
+    },
+  ],
 };

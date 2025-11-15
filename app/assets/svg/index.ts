@@ -51,8 +51,10 @@ import RupeeSVG from './rupee.svg';
 import PaymentSVG from './payment.svg';
 import DownloadSVG from './Download.svg';
 import SaveSvg from './save.svg';
-import RedTrashSVG from "./redTrash.svg"
-import QrPreviewSVG from "./QrPreview.svg"
+import RedTrashSVG from './redTrash.svg';
+import QrPreviewSVG from './QrPreview.svg';
+import YouTudeSVG from './YouTude.svg';
+import FndQSVG from './FndQ.svg';
 export {
   DivSVG,
   MicSVG,
@@ -108,5 +110,7 @@ export {
   DownloadSVG,
   SaveSvg,
   RedTrashSVG,
-  QrPreviewSVG
+  QrPreviewSVG,
+  YouTudeSVG,
+  FndQSVG,
 };

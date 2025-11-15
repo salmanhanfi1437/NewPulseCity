@@ -82,7 +82,6 @@ const QrHeader: React.FC<QrHeaderProps> = ({
   console.log('----- cehck inavailableQuantity -->', InventoryData?.data);
 
   const showToast = (msg: string) => {
-    console.log('press ->');
 
     if (Platform.OS === 'android') {
       ToastAndroid.showWithGravity(msg, ToastAndroid.SHORT, ToastAndroid.TOP);
@@ -208,7 +207,7 @@ const QrHeader: React.FC<QrHeaderProps> = ({
       >
         <View style={[GlobalStyles.zuvyHeaderRow]}>
           {config.ZuvyQrManagement.qrfilter.map((item, index) => {
-            const isClickable = index === 0;
+            const isClickable = index == 0;
             return (
               <TouchableOpacity
                 key={index}

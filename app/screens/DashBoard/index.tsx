@@ -22,6 +22,7 @@ import { Colors, Typography } from '../../styles';
 import HorizontalLine from '../../components/atoms/HorizontalLine';
 import {
   CalendarSVG,
+  FndQSVG,
   GreenbagSVG,
   HumburgerSVG,
   InfoSVG,
@@ -31,6 +32,7 @@ import {
   TransportSvg,
   VectorSVG,
   WechatSVG,
+  YouTudeSVG,
 } from '../../assets/svg';
 import CustomButton from '../../components/atoms/CustomButton';
 import VideoCard from '../../components/atoms/VideoCard';
@@ -48,7 +50,7 @@ import { useTranslation } from 'react-i18next';
 import { showAlert } from '../../components/atoms/AlertBox/showAlert';
 import Badge from '../../components/atoms/Badge';
 import { PermissionsAndroid, Platform, Alert } from 'react-native';
-// import ReactNativeBlobUtil from "react-native-blob-util"; 
+// import ReactNativeBlobUtil from "react-native-blob-util";
 
 const ZuvyDashBoard = () => {
   const navigation = useNavigation<any>();
@@ -65,7 +67,7 @@ const ZuvyDashBoard = () => {
   const DistributorsArr = [
     {
       title: 'Verified QR Ownership',
-      description: 'Every kit you buy is legally \nregistered to your name.',
+      description: 'Every kit you buy is identical \nand registered to your name.',
       icon: GreenbagSVG,
     },
     {
@@ -106,82 +108,77 @@ const ZuvyDashBoard = () => {
     });
   };
 
-const REMOTE_IMAGE_PATH =
-  "https://raw.githubusercontent.com/AboutReact/sampleresource/master/gift.png";
+  const REMOTE_IMAGE_PATH =
+    'https://raw.githubusercontent.com/AboutReact/sampleresource/master/gift.png';
 
-const getExtention = (filename: string) => {
-  return filename.split('.').pop();
-};
+  const getExtention = (filename: string) => {
+    return filename.split('.').pop();
+  };
 
-const requestStoragePermission = async () => {
-  if (Platform.OS !== "android") return true;
+  const requestStoragePermission = async () => {
+    if (Platform.OS !== 'android') return true;
 
-  // Android 13+ does not need WRITE_EXTERNAL_STORAGE
-  if (Platform.Version >= 33) return true;
+    // Android 13+ does not need WRITE_EXTERNAL_STORAGE
+    if (Platform.Version >= 33) return true;
 
-  try {
-    const granted = await PermissionsAndroid.request(
-      PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-      {
-        title: "Storage Permission Required",
-        message: "App needs access to your storage to download images",
-        buttonPositive: "OK",
-      }
-    );
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+        {
+          title: 'Storage Permission Required',
+          message: 'App needs access to your storage to download images',
+          buttonPositive: 'OK',
+        },
+      );
 
-    return granted === PermissionsAndroid.RESULTS.GRANTED;
-  } catch (err) {
-    console.warn(err);
-    return false;
-  }
-}
+      return granted === PermissionsAndroid.RESULTS.GRANTED;
+    } catch (err) {
+      console.warn(err);
+      return false;
+    }
+  };
 
+  // const downloadImageRemote = async() => {
+  //    const hasPermission = await requestStoragePermission();
+  //   if (!hasPermission) {
+  //     Alert.alert("Permission Denied", "Cannot download image without permission.");
+  //     return;
+  //   }
+  //   let date = new Date();
+  //   let image_URL = REMOTE_IMAGE_PATH;
 
+  //   let ext = getExtention(image_URL);
+  //   ext = "." + ext;
 
-// const downloadImageRemote = async() => {
-//    const hasPermission = await requestStoragePermission();
-//   if (!hasPermission) {
-//     Alert.alert("Permission Denied", "Cannot download image without permission.");
-//     return;
-//   }
-//   let date = new Date();
-//   let image_URL = REMOTE_IMAGE_PATH;
+  //   const { config, fs } = ReactNativeBlobUtil;
+  //   let PictureDir = fs.dirs.PictureDir;
 
-//   let ext = getExtention(image_URL);
-//   ext = "." + ext;
+  //   let options = {
+  //     fileCache: true,
+  //     addAndroidDownloads: {
+  //       useDownloadManager: true,
+  //       notification: true,
+  //       mime: "image/png",
+  //       path:
+  //         PictureDir +
+  //         "/image_" +
+  //         Math.floor(date.getTime() + date.getSeconds() / 2) +
+  //         ext,
+  //       description: "Image Download",
+  //     },
+  //   };
 
-//   const { config, fs } = ReactNativeBlobUtil;
-//   let PictureDir = fs.dirs.PictureDir;
-
-//   let options = {
-//     fileCache: true,
-//     addAndroidDownloads: {
-//       useDownloadManager: true,
-//       notification: true,
-//       mime: "image/png",
-//       path:
-//         PictureDir +
-//         "/image_" +
-//         Math.floor(date.getTime() + date.getSeconds() / 2) +
-//         ext,
-//       description: "Image Download",
-//     },
-//   };
-
-//   config(options)
-//     .fetch("GET", image_URL)
-//     .then(res => {
-//       console.log("File saved to: ", res.path());
-//       Alert.alert("Image Downloaded Successfully");
-//     })
-//     .catch(err => {
-//       console.log(err);
-//       Alert.alert("Download Failed");
-//     });
-// };
-
-
-
+  //   config(options)
+  //     .fetch("GET", image_URL)
+  //     .then(res => {
+  //       console.log("File saved to: ", res.path());
+  //       Alert.alert("Image Downloaded Successfully");
+  //     })
+  //     .catch(err => {
+  //       console.log(err);
+  //       Alert.alert("Download Failed");
+  //     });
+  // };
 
   return (
     <View style={styles.container}>
@@ -310,7 +307,7 @@ const requestStoragePermission = async () => {
                     GlobalStyles.fadeText,
                   ]}
                 />
-                <CustomText title={getNextNDaysDate(20)} />
+                <CustomText title={dashboardData?.data?.usedQuantity == 0 ? "--" :'180 days after purchased'} />
               </View>
             </View>
 
@@ -376,12 +373,15 @@ const requestStoragePermission = async () => {
               style={[
                 GlobalStyles.itemCenterStyle,
                 GlobalStyles.lightwhite,
-                getShadowWithElevation(1),
+                getShadowWithElevation(0),
                 bgColor(colors.watchTestimonial),
               ]}
             >
               <TouchableOpacity onPress={handletestimonial}>
-                <CustomText title={config.ZuvyDashBoard.moreTestimonial} />
+                <View style={[GlobalStyles.viewRow, GlobalStyles.alignItem]}>
+                  <YouTudeSVG style={{ right: 25 }} />
+                  <CustomText title={config.ZuvyDashBoard.moreTestimonial} />
+                </View>
               </TouchableOpacity>
             </CardContainer>
 
@@ -410,7 +410,7 @@ const requestStoragePermission = async () => {
                       { margin: GlobalStyles.iconButton.padding },
                     ]}
                   >
-                    <View style={[GlobalStyles.row,]}>
+                    <View style={[GlobalStyles.row]}>
                       {<item.icon />}
                       {item.icon == TransportSvg && (
                         <Badge
@@ -421,11 +421,18 @@ const requestStoragePermission = async () => {
                     </View>
                     <CustomText
                       title={item.title}
-                      textStyle={[Typography.size.dynamic(12,'medium'),marginVertical(10)]}
+                      textStyle={[
+                        Typography.size.dynamic(12, 'medium'),
+                        marginVertical(10),
+                      ]}
                     />
                     <CustomText
                       title={item.description}
-                      textStyle={[Typography.size.xSmall() ,fontColor(Colors.color_4B5563),pb(10) ]}
+                      textStyle={[
+                        Typography.size.xSmall(),
+                        fontColor(Colors.color_4B5563),
+                        pb(10),
+                      ]}
                     />
                   </CardContainer>
                 );
@@ -433,21 +440,31 @@ const requestStoragePermission = async () => {
             />
 
             <CustomButton
-              gradientColors={colors.profileHeaderGradient}
-              title={'Refer & Earn'}
-              onPress={() => {}}
+              gradientColors={[Colors.white, Colors.white, Colors.white]}
+              title={config.ZuvyDashBoard.FQ}
+              onPress={handleContactSupport}
               buttonStyle={[
                 restZuvyDashBoardBtn,
                 GlobalStyles.ZuvyDashBoardContainer,
+                GlobalStyles.borderStyles,
                 getShadowWithElevation(1),
                 GlobalStyles.width40,
+                bgColor(colors.white),
               ]}
-              textStyles={GlobalStyles.ZuvyDashBoardBtnText}
-              commingSoon
-              badgeTextColor={colors.white}
-              BadgeText={config.ZuvyDashBoard.commingSoon}
-              leftIcon={<VectorSVG fill={Colors.white} />}
+              textStyles={[
+                GlobalStyles.ZuvyDashBoardBtnText,
+                { color: Colors.black },
+              ]}
+              leftIcon={<FndQSVG width={20} height={20} />}
+              rightIcon={
+                <MaterialIcons
+                  name="arrow-forward"
+                  size={25}
+                  color={colors.grey_50}
+                />
+              }
             />
+
             <CustomButton
               gradientColors={[Colors.white, Colors.white, Colors.white]}
               title={config.ZuvyDashBoard.customerSuport}
@@ -473,7 +490,8 @@ const requestStoragePermission = async () => {
                 />
               }
             />
-            {/* <CustomButton
+
+            <CustomButton
               gradientColors={[Colors.white, Colors.white, Colors.white]}
               title={config.ZuvyDashBoard.legalZuvy}
               onPress={() => {}}
@@ -497,7 +515,23 @@ const requestStoragePermission = async () => {
                 />
               }
               leftIcon={<InfoSVG />}
-            /> */}
+            />
+            <CustomButton
+              gradientColors={colors.profileHeaderGradient}
+              title={'Refer & Earn'}
+              onPress={() => {}}
+              buttonStyle={[
+                restZuvyDashBoardBtn,
+                GlobalStyles.ZuvyDashBoardContainer,
+                getShadowWithElevation(1),
+                GlobalStyles.width40,
+              ]}
+              textStyles={GlobalStyles.ZuvyDashBoardBtnText}
+              commingSoon
+              badgeTextColor={colors.white}
+              BadgeText={config.ZuvyDashBoard.commingSoon}
+              leftIcon={<VectorSVG fill={Colors.white} />}
+            />
           </View>
           <View style={styles.hoverButtonContainer}></View>
         </BlueWhiteBackground>
