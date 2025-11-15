@@ -34,6 +34,7 @@ export default {
   color_BBF7D0: '#BBF7D0',
   color_F0FDF4: '#F0FDF4',
   color_22C55E: '#22C55E',
+  color_F9FAFB:'#F9FAFB',
   darkGreen: 'rgba(22, 101, 52, 1)',
   whiteGradient: ['white', 'white', 'white'],
   qrbg1: 'rgba(219, 234, 254, 1)',

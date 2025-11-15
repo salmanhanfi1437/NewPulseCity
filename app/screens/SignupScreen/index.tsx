@@ -28,7 +28,7 @@ import { CustomText } from '../../components/atoms/Text';
 import { State, TextInput } from 'react-native-gesture-handler';
 import GlobalStyles from '../../styles/GlobalStyles';
 import { SignupProps } from '../../navigation/types';
-import { fontW, height, mb, mr, mt } from '../../utils/spaces';
+import { fontW, height, mb, ml, mr, mt } from '../../utils/spaces';
 import PressableOpacity from '../../components/atoms/PressableOpacity';
 import FontStyles from '../../styles/FontStyles';
 import Button from '../../components/atoms/Button';
@@ -176,7 +176,7 @@ const validation = () => {
   />
   <CustomText
     title=" *"
-    textStyle={[FontStyles.headingText, { color: errors.name ? Colors.red : Colors.black }]} // Red asterisk
+    textStyle={[FontStyles.fontAsterisk]} // Red asterisk
   />
 </View>
 
@@ -205,7 +205,7 @@ const validation = () => {
   />
   <CustomText
     title=" *"
-    textStyle={[FontStyles.headingText, { color: errors.email ? Colors.red : Colors.black }]} // Red asterisk
+    textStyle={[FontStyles.fontAsterisk]} // Red asterisk
   />
 </View>
 
@@ -238,7 +238,8 @@ const validation = () => {
   />
   <CustomText
     title=" *"
-    textStyle={[FontStyles.headingText, { color: errors.state ? Colors.red : Colors.black }]} // Red asterisk
+ textStyle={[FontStyles.fontAsterisk]} // Red asterisk
+
   />
 </View>
           
@@ -286,7 +287,7 @@ const validation = () => {
   />
   <CustomText
     title=" *"
-    textStyle={[FontStyles.headingText, { color: errors.city ? Colors.red : Colors.black }]} // Red asterisk
+    textStyle={[FontStyles.fontAsterisk]} // Red asterisk
   />
 </View>
                <PressableOpacity
@@ -349,12 +350,12 @@ showAlert(t('please_select', { field: t(const_state) }));
 
       </View>
       <View style={[GlobalStyles.viewRow, GlobalStyles.bottomFooter,mt(20)]}>
-        <CustomText title={alreadyhaveAccount} textStyle={[FontStyles.subText, GlobalStyles.viewCenter,]} />
+        <CustomText title={alreadyhaveAccount} textStyle={[FontStyles.subText, GlobalStyles.viewCenter,GlobalStyles.textAlign]} />
         <PressableOpacity onPress={() => navigation.reset({
           index: 0,
           routes: [{ name: login }],
         })}>
-          <CustomText title={sign_in} textStyle={[FontStyles.headingText, GlobalStyles.viewCenter]} underline={true} />
+          <CustomText title={sign_in} textStyle={[FontStyles.headingText, GlobalStyles.viewCenter,ml(5)]} underline={true} />
         </PressableOpacity>
       </View>
     </BackgroundPrimaryColor>

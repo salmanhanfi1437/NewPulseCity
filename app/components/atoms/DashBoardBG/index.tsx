@@ -3,6 +3,7 @@ import { View, Dimensions, ViewStyle } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import GlobalStyles from '../../../styles/GlobalStyles';
 import { Colors } from '../../../styles';
+import { SafeAreaView } from 'react-native-safe-area-context';
 const { height } = Dimensions.get('window');
 
 interface BlueWhiteBackgroundProps {
@@ -23,6 +24,7 @@ const BlueWhiteBackground = ({
   linearLocation= [0, 0.32, 0.32]
 }: BlueWhiteBackgroundProps) => {
   return (
+    <SafeAreaView style={[GlobalStyles.flexOne]}>
     <View style={{ flex: 1 }}>
       <LinearGradient
         colors={Colors.zuvyPrimaryGradient}
@@ -46,6 +48,7 @@ const BlueWhiteBackground = ({
         </View>
       )}
     </View>
+    </SafeAreaView>
   );
 };
 export default BlueWhiteBackground;

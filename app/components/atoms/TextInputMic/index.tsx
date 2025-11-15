@@ -27,7 +27,7 @@ interface TextInputWithMicProps extends RNTextInputProps {
   containerStyle?: StyleProp<ViewStyle>;
   error?: boolean;
   returnKeyType?: 'done' | 'next' | 'go' | 'search' | 'send';
-  autoCapitalize : any;
+  autoCapitalize? : any;
   onSubmitEditing?: () => void;
 }
 
