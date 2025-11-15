@@ -7,10 +7,10 @@ import { resetEditQr } from '../../../screens/QrEditDetails/EditQrSlice';
 import GlobalStyles, {
   getShadowWithElevation,
 } from '../../../styles/GlobalStyles';
-import { bgColor } from '../../../utils/spaces';
+import { bgColor, bR } from '../../../utils/spaces';
 import CardContainer from '../CardContainer';
 import { CustomText } from '../Text';
-import { Colors, Typography, } from '../../../styles';
+import { Colors, Typography } from '../../../styles';
 import Badge from '../Badge';
 import colors from '../../../styles/colors';
 
@@ -60,7 +60,7 @@ const QrItemCard = ({ item }: any) => {
     });
   };
 
- const getStatusColor = (status: string) => {
+  const getStatusColor = (status: string) => {
     switch (status) {
       case 'Dummy':
         return Colors.borderBottomColor;
@@ -71,7 +71,7 @@ const QrItemCard = ({ item }: any) => {
       case 'Retired':
         return Colors.light_red;
       default:
-        return Colors.semiLight_grey;
+        return Colors.badgeBg;
     }
   };
   const getStatusTextColor = (status: string) => {
@@ -88,7 +88,6 @@ const QrItemCard = ({ item }: any) => {
         return Colors.black;
     }
   };
-
 
   return (
     <TouchableOpacity
@@ -109,11 +108,13 @@ const QrItemCard = ({ item }: any) => {
       >
         <View style={GlobalStyles.row}>
           <View style={[GlobalStyles.viewRow, GlobalStyles.itemCenterStyle]}>
-            <MaterialIcons
-              name="qr-code"
-              size={30}
-              color={Colors.primaryColor2}
-            />
+            <View style={[bR(10),{ backgroundColor: colors.qrbg1 ,padding: GlobalStyles.zuvyIconBox.padding,}]}>
+              <MaterialIcons
+                name="qr-code"
+                size={30}
+                color={Colors.primaryColor2}
+              />
+            </View>
             <View style={[getDynamicViewStyle({ left: 20 })]}>
               <CustomText
                 title={item.qrCode}
@@ -147,7 +148,7 @@ const QrItemCard = ({ item }: any) => {
         </View>
 
         <View style={[GlobalStyles.row, { paddingTop: 1, paddingBottom: 2 }]}>
-          <View style={GlobalStyles.halfwidth}>
+          <View>
             <CustomText
               title={item.qrName}
               textStyle={[Typography.size.dynamic(12, 'medium')]}

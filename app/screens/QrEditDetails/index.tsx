@@ -1,8 +1,11 @@
-import React, { useEffect,useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
+  Alert,
   Dimensions,
   GestureResponderEvent,
   ScrollView,
+  Share,
+  ToastAndroid,
   View,
 } from 'react-native';
 import { CustomText } from '../../components/atoms/Text';
@@ -21,9 +24,22 @@ import Badge from '../../components/atoms/Badge';
 import ViewOutlined from '../../components/atoms/ViewOutlined';
 import Dropdown from '../../components/atoms/CustomModal';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { QrplassholderSVG } from '../../assets/svg';
+import {
+  DownloadSVG,
+  QrplassholderSVG,
+  QrPreviewSVG,
+  RedTrashSVG,
+  SaveSvg,
+} from '../../assets/svg';
 import CustomButton from '../../components/atoms/CustomButton';
-import { fontW, pb } from '../../utils/spaces';
+import {
+  borderWidth,
+  fontColor,
+  fontW,
+  paddingH,
+  pb,
+  pt,
+} from '../../utils/spaces';
 import { EditQRDetails } from '../../navigation/types';
 import { useDispatch } from 'react-redux';
 import { editQrRequest, resetEditQr } from './EditQrSlice';
@@ -31,15 +47,14 @@ import { RootState } from '../../redux/rootReducer';
 import { useSelector } from 'react-redux';
 import { showAlert } from '../../components/atoms/AlertBox/showAlert';
 import EventBus from 'react-native-event-bus';
+import { ms } from 'react-native-size-matters';
 
-
-const EditQR = ({navigation,route}:EditQRDetails) => {
- 
+const EditQR = ({ navigation, route }: EditQRDetails) => {
   const { color, ...avoidcolor } = GlobalStyles.faintText;
- const { data } =  route.params;
-console.log('Data '+JSON.stringify(data));
- const dispatch = useDispatch();
- 
+  const { data } = route.params;
+  console.log('Data ' + JSON.stringify(data));
+  const dispatch = useDispatch();
+
   const [kitName, setKitName] = useState(data?.qrName);
   const [description, setDescription] = useState(data?.description);
   const [location, setLocation] = useState(data?.location);
@@ -54,41 +69,90 @@ console.log('Data '+JSON.stringify(data));
   const handleContactChange = (text: string) => setContact(text);
   const handleEmailChange = (text: string) => setEmail(text);
 
- const { editQrData, error } = useSelector(
-    (state: RootState) => state.editQr);
+  const { editQrData, error } = useSelector((state: RootState) => state.editQr);
 
-    useEffect(() => {
-  if (editQrData || error) {
-    console.log('EDITQR ' + JSON.stringify(editQrData));
+  useEffect(() => {
+    if (editQrData || error) {
+      console.log('EDITQR===> ' + JSON.stringify(editQrData));
 
-    if (editQrData?.success === true) {
-     EventBus.getInstance().fireEvent('refreshQR', {
-    message: editQrData.message, // optional payload
-  });
-      navigation.goBack()
-//      showAlert(
-//   editQrData?.message,
-//   'Success',
-//   () => {
-//     navigation.goBack()
-//   }
-// );
-
-    } else {
-      showAlert(error?.message);
+      if (editQrData?.success === true) {
+        EventBus.getInstance().fireEvent('refreshQR', {
+          message: editQrData.message, // optional payload
+        });
+        navigation.goBack();
+        //      showAlert(
+        //   editQrData?.message,
+        //   'Success',
+        //   () => {
+        //     navigation.goBack()
+        //   }
+        // );
+      } else {
+        showAlert(error?.message);
+      }
     }
+  }, [editQrData, error]);
+
+  const updateQr = () => {
+    dispatch(
+      editQrRequest({
+        id: data?.id,
+        qrName: kitName,
+        description,
+        location: location,
+        category,
+        emergencyContactNumber: contact,
+        email,
+      }),
+    );
+  };
+
+  useEffect(() => {}, []);
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-IN', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
+    });
+  };
+
+  const dropdownData = config.shopCategories.flatMap(item => [
+    { label: item.category, value: null, isCategory: true },
+    ...item.subcategories.map(sub => ({
+      label: sub,
+      value: sub,
+      isCategory: false,
+    })),
+  ]);
+
+  const onShare = async () => {
+    try {
+      const result = await Share.share({
+        title: 'Share',
+        message: 'Hey! Check this out: https://zuvy.store/',
+        url: data?.qrImage,
+      });
+
+      if (result.action === Share.sharedAction) {
+        console.log('Shared successfully');
+      } else if (result.action === Share.dismissedAction) {
+        console.log('Share dismissed');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleDelete = () => {
+    Alert.alert('QR Status', 'This QR is not retired yet.');
+  };
+
+  const handleQr = ()=>{
+    ToastAndroid.show('QR download coming soon', ToastAndroid.SHORT);
+
   }
-}, [editQrData, error]);
-
-
-   const updateQr = () => {
-      dispatch(editQrRequest({id : data?.id,qrName :kitName,description, location: location,category,emergencyContactNumber:contact,email}))
-   }
-
-   useEffect(()=>{
-
-   },[])
-
 
   return (
     <BlueWhiteBackground
@@ -122,9 +186,12 @@ console.log('Data '+JSON.stringify(data));
           <View style={[GlobalStyles.viewRow]}>
             <CustomText
               title={config.ZuvyQrEdit.zQR_ID}
-              textStyle={GlobalStyles.greyColorText}
+              textStyle={{ color: colors.color_4B5563 }}
             />
-            <CustomText title={'ZQR-007214'} />
+            <CustomText
+              title={data.qrCode}
+              textStyle={[Typography.weights.boldU()]}
+            />
           </View>
           <Badge
             backgroundColor={colors.greenBadgeColor}
@@ -166,7 +233,11 @@ console.log('Data '+JSON.stringify(data));
               },
             ]}
           >
-            <CustomTextInput placeholder={''} value={kitName} onChangeText={handleKitNameChange} />
+            <CustomTextInput
+              placeholder={''}
+              value={kitName}
+              onChangeText={handleKitNameChange}
+            />
           </ViewOutlined>
           <CustomText
             title={config.ZuvyQrEdit.Description}
@@ -237,10 +308,11 @@ console.log('Data '+JSON.stringify(data));
             ]}
           >
             <Dropdown
-              data={['test1', 'test2', 'test3']}
+              data={dropdownData}
               selectedValue={category}
-              // placeholder={config.ZuvyQrEdit.Security}
-              onSelect={(value) => {handleCategoryChange(value)}}
+              onSelect={value => {
+                handleCategoryChange(value);
+              }}
             />
           </ViewOutlined>
         </CardContainer>
@@ -267,7 +339,11 @@ console.log('Data '+JSON.stringify(data));
               },
             ]}
           >
-            <CustomTextInput placeholder={''} value={contact} onChangeText={handleContactChange} />
+            <CustomTextInput
+              placeholder={''}
+              value={contact}
+              onChangeText={handleContactChange}
+            />
           </ViewOutlined>
 
           <CustomText
@@ -288,7 +364,11 @@ console.log('Data '+JSON.stringify(data));
               },
             ]}
           >
-            <CustomTextInput placeholder={''} value={email} onChangeText={handleEmailChange} />
+            <CustomTextInput
+              placeholder={''}
+              value={email}
+              onChangeText={handleEmailChange}
+            />
           </ViewOutlined>
         </CardContainer>
         <CardContainer style={[getShadowWithElevation(1)]}>
@@ -308,7 +388,7 @@ console.log('Data '+JSON.stringify(data));
               textStyle={[GlobalStyles.fadeText, Typography.size.dynamic(12)]}
             />
             <CustomText
-              title={'Test Name'}
+              title={data.creator.name}
               textStyle={[
                 GlobalStyles.fadeText,
                 Typography.size.dynamic(12, 'medium'),
@@ -321,7 +401,7 @@ console.log('Data '+JSON.stringify(data));
               textStyle={[GlobalStyles.fadeText, Typography.size.dynamic(12)]}
             />
             <CustomText
-              title={'******'}
+              title={formatDate(data.createdAt)}
               textStyle={[
                 GlobalStyles.fadeText,
                 Typography.size.dynamic(12, 'medium'),
@@ -334,7 +414,7 @@ console.log('Data '+JSON.stringify(data));
               textStyle={[GlobalStyles.fadeText, Typography.size.dynamic(12)]}
             />
             <CustomText
-              title={'*****'}
+              title={''}
               textStyle={[
                 GlobalStyles.fadeText,
                 Typography.size.dynamic(12, 'medium'),
@@ -347,7 +427,7 @@ console.log('Data '+JSON.stringify(data));
               textStyle={[GlobalStyles.fadeText, Typography.size.dynamic(12)]}
             />
             <CustomText
-              title={'*****'}
+              title={data?.priceWithGst}
               textStyle={[
                 GlobalStyles.fadeText,
                 Typography.size.dynamic(12, 'medium'),
@@ -355,38 +435,59 @@ console.log('Data '+JSON.stringify(data));
             />
           </View>
         </CardContainer>
-        <CardContainer style={[getShadowWithElevation(1)]}>
-          <CustomText title={config.ZuvyQrEdit.qrPreview} />
-          <QrplassholderSVG
+        <CardContainer
+          style={[
+            getShadowWithElevation(1),
+            { borderWidth: 0.5, borderColor: colors.grey_50 },
+          ]}
+        >
+          <CustomText
+            title={config.ZuvyQrEdit.qrPreview}
+            textStyle={[Typography.weights.mediumU(), fontW('700')]}
+          />
+          <QrPreviewSVG
             style={[
               { alignSelf: GlobalStyles.paginationContainer.alignSelf },
               GlobalStyles.margin_top10,
             ]}
           />
-          <View style={[GlobalStyles.row, GlobalStyles.margin_top10]}>
+          <View
+            style={[
+              GlobalStyles.row,
+              GlobalStyles.margin_top10,
+              GlobalStyles.width40,
+              GlobalStyles.width50,
+              paddingH(5),
+            ]}
+          >
             <CustomButton
+              isTransparent={true}
+              leftIcon={<DownloadSVG style={{ bottom: 2, right: 5 }} />}
               gradientColors={colors.whiteGradient}
               title={config.ZuvyQrEdit.downloadQr}
-              onPress={() => {}}
+              onPress={handleQr}
               textStyles={[GlobalStyles.fadeText, Typography.size.dynamic(10)]}
               buttonStyle={[
                 GlobalStyles.borderStyles,
                 GlobalStyles.halfwidth,
                 {
+                  backgroundColor: colors.badgeBg,
                   borderRadius: GlobalStyles.modalDropdownList.borderRadius,
                 },
                 getShadowWithElevation(0),
               ]}
             />
             <CustomButton
+              isTransparent={true}
               gradientColors={colors.whiteGradient}
               title={config.ZuvyQrEdit.share}
-              onPress={() => {}}
+              onPress={onShare}
               textStyles={[GlobalStyles.fadeText, Typography.size.dynamic(10)]}
               buttonStyle={[
                 GlobalStyles.borderStyles,
                 GlobalStyles.halfwidth,
                 {
+                  backgroundColor: colors.badgeBg,
                   borderRadius: GlobalStyles.modalDropdownList.borderRadius,
                 },
                 getShadowWithElevation(0),
@@ -395,22 +496,30 @@ console.log('Data '+JSON.stringify(data));
           </View>
         </CardContainer>
         <CustomButton
+          leftIcon={
+            <SaveSvg width={20} height={20} style={{ right: 8, bottom: 1 }} />
+          }
           textStyles={{ fontSize: GlobalStyles.cardTiltle.fontSize }}
           buttonStyle={[
             GlobalStyles.ZuvyDashBoardContainer,
+            GlobalStyles.alignItem,
+            GlobalStyles.width40,
             { borderRadius: GlobalStyles.modalDropdownList.borderRadius },
           ]}
           title={'Save Changes'}
-          onPress={() => updateQr()}/>
+          onPress={() => updateQr()}
+        />
 
-        <View style={[GlobalStyles.row, GlobalStyles.margin_top10]}>
+        <View style={[GlobalStyles.row]}>
           <CustomButton
             gradientColors={colors.whiteGradient}
             title={'Cancel'}
-            onPress={() => {}}
-            textStyles={[GlobalStyles.fadeText, Typography.size.dynamic(10)]}
+            onPress={() => {
+              navigation.goBack();
+            }}
+            textStyles={[GlobalStyles.fadeText, Typography.size.dynamic(11)]}
             buttonStyle={[
-              getShadowWithElevation(1),
+              getShadowWithElevation(0),
               GlobalStyles.borderStyles,
               GlobalStyles.halfwidth,
               {
@@ -419,15 +528,19 @@ console.log('Data '+JSON.stringify(data));
             ]}
           />
           <CustomButton
+            leftIcon={<RedTrashSVG style={{ right: 5, bottom: 2 }} />}
+            isTransparent={true}
             gradientColors={colors.whiteGradient}
             title={'Delete'}
-            onPress={() => {}}
-            textStyles={[GlobalStyles.fadeText, Typography.size.dynamic(10)]}
+            onPress={handleDelete}
+            textStyles={[fontColor(colors.red), Typography.size.dynamic(11)]}
             buttonStyle={[
-              getShadowWithElevation(1),
+              getShadowWithElevation(0),
               GlobalStyles.borderStyles,
               GlobalStyles.halfwidth,
+
               {
+                backgroundColor: colors.faintRed,
                 borderRadius: GlobalStyles.modalDropdownList.borderRadius,
               },
             ]}

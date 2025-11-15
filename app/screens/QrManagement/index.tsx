@@ -29,7 +29,7 @@ import HoverButton from '../../components/atoms/HoverButton';
 import { bgColor, pb, pl, pr, pt } from '../../utils/spaces';
 import { RootState } from '../../redux/rootReducer';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchInventoryRequest, fetchViewQRRequest, resetViewQrData } from './QrmanagementSlice';
+import { fetchInventoryRequest, fetchViewQRRequest,resetViewQrData } from './QrmanagementSlice';
 import { resetEditQr } from '../QrEditDetails/EditQrSlice';
 import EventBus from 'react-native-event-bus';
 import QrItemCard from '../../components/atoms/QrmanagementList';

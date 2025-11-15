@@ -41,11 +41,14 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/rootReducer';
 import { DashboardRequest, SetInitialTab } from './dashboardSlice';
-import { bgColor, fontColor, fS } from '../../utils/spaces';
+import { bgColor, fontColor, fS, marginVertical, pb } from '../../utils/spaces';
 import { getNextMonthDate, getNextNDaysDate } from '../../utils/dateUtils';
 import { const_welcomeZuvy, yourCart } from '../../types/constants';
 import { useTranslation } from 'react-i18next';
 import { showAlert } from '../../components/atoms/AlertBox/showAlert';
+import Badge from '../../components/atoms/Badge';
+import { PermissionsAndroid, Platform, Alert } from 'react-native';
+// import ReactNativeBlobUtil from "react-native-blob-util"; 
 
 const ZuvyDashBoard = () => {
   const navigation = useNavigation<any>();
@@ -97,11 +100,88 @@ const ZuvyDashBoard = () => {
     Linking.openURL('https://zuvy.store/contact/');
   };
 
-  const moveToNotificationScreen = () =>{
+  const moveToNotificationScreen = () => {
     navigation.navigate('merchantTabs', {
-  screen: 'Notification',
-});
+      screen: 'Notification',
+    });
+  };
+
+const REMOTE_IMAGE_PATH =
+  "https://raw.githubusercontent.com/AboutReact/sampleresource/master/gift.png";
+
+const getExtention = (filename: string) => {
+  return filename.split('.').pop();
+};
+
+const requestStoragePermission = async () => {
+  if (Platform.OS !== "android") return true;
+
+  // Android 13+ does not need WRITE_EXTERNAL_STORAGE
+  if (Platform.Version >= 33) return true;
+
+  try {
+    const granted = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+      {
+        title: "Storage Permission Required",
+        message: "App needs access to your storage to download images",
+        buttonPositive: "OK",
+      }
+    );
+
+    return granted === PermissionsAndroid.RESULTS.GRANTED;
+  } catch (err) {
+    console.warn(err);
+    return false;
   }
+}
+
+
+
+// const downloadImageRemote = async() => {
+//    const hasPermission = await requestStoragePermission();
+//   if (!hasPermission) {
+//     Alert.alert("Permission Denied", "Cannot download image without permission.");
+//     return;
+//   }
+//   let date = new Date();
+//   let image_URL = REMOTE_IMAGE_PATH;
+
+//   let ext = getExtention(image_URL);
+//   ext = "." + ext;
+
+//   const { config, fs } = ReactNativeBlobUtil;
+//   let PictureDir = fs.dirs.PictureDir;
+
+//   let options = {
+//     fileCache: true,
+//     addAndroidDownloads: {
+//       useDownloadManager: true,
+//       notification: true,
+//       mime: "image/png",
+//       path:
+//         PictureDir +
+//         "/image_" +
+//         Math.floor(date.getTime() + date.getSeconds() / 2) +
+//         ext,
+//       description: "Image Download",
+//     },
+//   };
+
+//   config(options)
+//     .fetch("GET", image_URL)
+//     .then(res => {
+//       console.log("File saved to: ", res.path());
+//       Alert.alert("Image Downloaded Successfully");
+//     })
+//     .catch(err => {
+//       console.log(err);
+//       Alert.alert("Download Failed");
+//     });
+// };
+
+
+
 
   return (
     <View style={styles.container}>
@@ -120,9 +200,9 @@ const ZuvyDashBoard = () => {
           />
           <View style={GlobalStyles.translusantContainer}>
             <CustomText
-              title={`${t(const_welcomeZuvy)} ${
-                dashboardData?.data?.distributorName
-              }`}
+              title={`${dashboardData?.data?.distributorName}, ${t(
+                const_welcomeZuvy,
+              )}`}
               textStyle={[GlobalStyles.mobileText]}
             />
             <CustomText
@@ -165,7 +245,9 @@ const ZuvyDashBoard = () => {
                 ]}
               />
               <CustomText
-                title={`${dashboardData?.data?.totalQuantity} kits`}
+                title={`${dashboardData?.data?.totalQuantity} ${
+                  dashboardData?.data?.totalQuantity > 1 ? 'kits' : 'kit'
+                }`}
                 textStyle={[
                   GlobalStyles.headingText,
                   GlobalStyles.avoidTopMargin,
@@ -182,7 +264,9 @@ const ZuvyDashBoard = () => {
                 ]}
               />
               <CustomText
-                title={`${dashboardData?.data?.usedQuantity} kits`}
+                title={`${dashboardData?.data?.usedQuantity} ${
+                  dashboardData?.data?.usedQuantity > 1 ? 'kits' : 'kit'
+                }`}
                 textStyle={[
                   GlobalStyles.headingText,
                   GlobalStyles.avoidTopMargin,
@@ -206,13 +290,8 @@ const ZuvyDashBoard = () => {
                     GlobalStyles.fadeText,
                   ]}
                 />
-                <CustomText
-                  title={config.ZuvyDashBoard.activationDate}
-                  textStyle={[Typography.size.dynamic(13)]}
-                />
-                <Text style={[Typography.size.dynamic(13)]}>
-                  {getNextMonthDate()}
-                </Text>
+                <CustomText title={config.ZuvyDashBoard.activationDate} />
+                <CustomText title={getNextMonthDate()} />
               </View>
             </View>
             <View
@@ -231,14 +310,14 @@ const ZuvyDashBoard = () => {
                     GlobalStyles.fadeText,
                   ]}
                 />
-                <Text style={[Typography.size.dynamic(13)]}>
-                  {getNextNDaysDate(20)}
-                </Text>
+                <CustomText title={getNextNDaysDate(20)} />
               </View>
             </View>
 
             <CustomButton
-              title={config.ZuvyDashBoard.viewKit}
+              title={`${config.ZuvyDashBoard.viewKit}${
+                dashboardData?.data?.totalQuantity > 1 ? 's' : ''
+              } `}
               buttonStyle={[
                 GlobalStyles.ZuvyDashBoardBtn,
 
@@ -259,7 +338,7 @@ const ZuvyDashBoard = () => {
               rightIcon={<RightSVG />}
             />
           </CardContainer>
-          <View
+          {/* <View
             style={[
               GlobalStyles.ZuvyDashBoardRowContainer,
               GlobalStyles.containerPaddings,
@@ -271,28 +350,28 @@ const ZuvyDashBoard = () => {
                 { fontSize: GlobalStyles.ZuvyDashBoardBtnText.fontSize },
               ]}
             />
-          </View>
+          </View> */}
           <View
             style={[
               GlobalStyles.ZuvyDashBoardContainer,
-              GlobalStyles.containerPaddings,
+              // GlobalStyles.containerPaddings,
             ]}
           >
-            <CustomText
+            {/* <CustomText
               title={config.ZuvyDashBoard.testimonialLabel}
               textStyle={[
                 GlobalStyles.greyColorText,
                 { fontSize: GlobalStyles.playRole.fontSize },
               ]}
-            />
+            /> */}
 
-            <ScrollView
+            {/* <ScrollView
               horizontal
               showsHorizontalScrollIndicator
               style={[GlobalStyles.containerPaddings, GlobalStyles.iconButton]}
             >
               <VideoCard name={'Rajesh Kumar'} role={'Delhi Distributor'} />
-            </ScrollView>
+            </ScrollView> */}
             <CardContainer
               style={[
                 GlobalStyles.itemCenterStyle,
@@ -331,14 +410,22 @@ const ZuvyDashBoard = () => {
                       { margin: GlobalStyles.iconButton.padding },
                     ]}
                   >
-                    {<item.icon />}
+                    <View style={[GlobalStyles.row,]}>
+                      {<item.icon />}
+                      {item.icon == TransportSvg && (
+                        <Badge
+                          text={config.ZuvyDashBoard.commingSoon}
+                          backgroundColor={colors.grey_50}
+                        />
+                      )}
+                    </View>
                     <CustomText
                       title={item.title}
-                      textStyle={[GlobalStyles.headingText, fS(12)]}
+                      textStyle={[Typography.size.dynamic(12,'medium'),marginVertical(10)]}
                     />
                     <CustomText
                       title={item.description}
-                      textStyle={[GlobalStyles.faintText]}
+                      textStyle={[Typography.size.xSmall() ,fontColor(Colors.color_4B5563),pb(10) ]}
                     />
                   </CardContainer>
                 );
@@ -371,6 +458,7 @@ const ZuvyDashBoard = () => {
                 GlobalStyles.borderStyles,
                 getShadowWithElevation(1),
                 GlobalStyles.width40,
+                bgColor(colors.white),
               ]}
               textStyles={[
                 GlobalStyles.ZuvyDashBoardBtnText,
@@ -386,28 +474,30 @@ const ZuvyDashBoard = () => {
               }
             />
             {/* <CustomButton
-            gradientColors={[Colors.white, Colors.white, Colors.white]}
-            title={config.ZuvyDashBoard.legalZuvy}
-            onPress={() => {}}
-            buttonStyle={[
-              GlobalStyles.ZuvyDashBoardContainer,
-              restZuvyDashBoardBtn,
-              GlobalStyles.borderStyles,
-              getShadowWithElevation(1),
-            ]}
-            textStyles={[
-              GlobalStyles.ZuvyDashBoardBtnText,
-              { color: Colors.black },
-            ]}
-            rightIcon={
-              <MaterialIcons
-                name="arrow-forward"
-                size={25}
-                color={colors.grey_50}
-              />
-            }
-            leftIcon={<InfoSVG />}
-          /> */}
+              gradientColors={[Colors.white, Colors.white, Colors.white]}
+              title={config.ZuvyDashBoard.legalZuvy}
+              onPress={() => {}}
+              buttonStyle={[
+                GlobalStyles.ZuvyDashBoardContainer,
+                restZuvyDashBoardBtn,
+                GlobalStyles.borderStyles,
+                getShadowWithElevation(1),
+                GlobalStyles.width40,
+                bgColor(colors.white),
+              ]}
+              textStyles={[
+                GlobalStyles.ZuvyDashBoardBtnText,
+                { color: Colors.black },
+              ]}
+              rightIcon={
+                <MaterialIcons
+                  name="arrow-forward"
+                  size={25}
+                  color={colors.grey_50}
+                />
+              }
+              leftIcon={<InfoSVG />}
+            /> */}
           </View>
           <View style={styles.hoverButtonContainer}></View>
         </BlueWhiteBackground>

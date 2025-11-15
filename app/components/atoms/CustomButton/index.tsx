@@ -26,6 +26,7 @@ type CustomButtonProps = {
   BadgeText?: string;
   badgeTextColor?: string;
   isTransparent?: boolean;
+  height?: number;
 };
 
 const CustomButton: React.FC<CustomButtonProps> = ({
@@ -41,21 +42,29 @@ const CustomButton: React.FC<CustomButtonProps> = ({
   BadgeText,
   badgeTextColor,
   isTransparent = false,
+  height,
 }) => {
   return (
-    <TouchableOpacity onPress={onPress} disabled={disabled} activeOpacity={0.7}>
+    <View>
       {isTransparent ? (
         <View
           style={[
             GlobalStyles.Custombutton,
             { backgroundColor: colors.transparent },
+            height !== undefined ? { height } : {},
             buttonStyle,
           ]}
         >
-          <CustomText
-            title={title}
-            textStyle={[GlobalStyles.buttonText, textStyles]}
-          />
+          <TouchableOpacity onPress={onPress} disabled={disabled}>
+            <View style={GlobalStyles.zuvyRightIcons}>
+              {leftIcon}
+              <CustomText
+                title={title}
+                textStyle={[GlobalStyles.buttonText, textStyles]}
+              />
+              {rightIcon}
+            </View>
+          </TouchableOpacity>
         </View>
       ) : (
         <LinearGradient
@@ -66,22 +75,25 @@ const CustomButton: React.FC<CustomButtonProps> = ({
             GlobalStyles.Custombutton,
             buttonStyle,
             disabled && GlobalStyles.disabledButton,
+            height !== undefined ? { height } : {},
           ]}
         >
-          <View style={GlobalStyles.zuvyRightIcons}>
-            {leftIcon}
-            <CustomText
-              textStyle={[GlobalStyles.buttonText, textStyles]}
-              title={title}
-            />
-            {commingSoon && (
-              <Badge text={BadgeText} textcolor={badgeTextColor} />
-            )}
-            {rightIcon}
-          </View>
+          <TouchableOpacity onPress={onPress} disabled={disabled}>
+            <View style={GlobalStyles.zuvyRightIcons}>
+              {leftIcon}
+              <CustomText
+                textStyle={[GlobalStyles.buttonText, textStyles]}
+                title={title}
+              />
+              {commingSoon && (
+                <Badge text={BadgeText} textcolor={badgeTextColor} />
+              )}
+              {rightIcon}
+            </View>
+          </TouchableOpacity>
         </LinearGradient>
       )}
-    </TouchableOpacity>
+    </View>
   );
 };
 
