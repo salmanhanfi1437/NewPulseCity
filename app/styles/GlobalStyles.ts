@@ -518,6 +518,10 @@ const GlobalStyles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  viewRight: {
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end',
+  },
   cardView: {
     width: '100%',
     borderRadius: mvs(10),
@@ -543,11 +547,12 @@ const GlobalStyles = StyleSheet.create({
     position: 'absolute',
     left: 0,
     right: 0,
+    
   },
   topParentView: {
-    paddingStart: mvs(10),
-    paddingEnd: mvs(10),
-    paddingTop: mvs(20),
+    paddingStart: mvs(12),
+    paddingEnd: mvs(12),
+    paddingTop: mvs(12),
   },
   viewRound8: {
     height: ms(80),

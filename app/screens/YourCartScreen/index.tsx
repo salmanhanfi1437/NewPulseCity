@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { Alert, StyleSheet, View } from 'react-native';
+import { Alert, FlatList, StyleSheet, View } from 'react-native';
 import HeaderWithBackButton from '../../components/atoms/HeaderWithBackButton';
 import {
   alltimesupport,
   analyticDashboard,
   buynow,
+  const_active_support_team,
   const_RESET_STORE,
   const_totalAmount,
   const_youwillearn,
+  gst,
   instantCode,
   itemTotal,
   minus,
@@ -42,6 +44,7 @@ import {
   paddingH,
   pb,
   pl,
+  pr,
   textColor,
   textIncludedStyle,
   width,
@@ -50,6 +53,7 @@ import Card from '../../components/atoms/Card';
 import LinearGradient from '../../components/atoms/LinearGradient';
 import { Colors, Typography } from '../../styles';
 import {
+  ActiviteSupportSVG,
   CartSVG,
   DigiLockerSVG,
   MinusSVG,
@@ -57,6 +61,7 @@ import {
   PriceBreakDownSVG,
   QRCodeSVG,
   RupeeSVG,
+  SecurePaymentSVG,
   TickWhiteSVG,
 } from '../../assets/svg';
 import { CustomText } from '../../components/atoms/Text';
@@ -90,11 +95,13 @@ import {
 } from '../CheckoutDetails/checkoutSlice';
 import TextInput from '../../components/atoms/TextInput';
 import { screenWidth } from '../../utils/dimensions';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { includesArray } from '../../utils/helper';
 
 const YourCart = ({ navigation }: yourCartProps) => {
   const { t } = useTranslation();
 
-  const [qty, setQty] = useState(0);
+  const [qty, setQty] = useState(1);
   const [gstAmount, setGSTAmout] = useState(0);
   const [totalAmount, setTotalAmount] = useState(0);
   const [earningAmount, setEarningAmount] = useState(0);
@@ -160,12 +167,13 @@ const YourCart = ({ navigation }: yourCartProps) => {
     setTotalAmount(totalAmount);
 
     // ✅ Calculate earning amount (20% of total amount)
-    const earningAmount = totalAmount * 0.2;
-    setEarningAmount(earningAmount);
+    const total = mastertQrData?.data?.perUnitPrice * qty;
+    const thirtyThreePercent = total * 0.33;
+    setEarningAmount(thirtyThreePercent)
   }, [qty, mastertQrData]);
 
   const handleBackPress = () => {
-    console.log('BackPRess');
+    navigation.goBack()
   };
 
   const updateQty = (type: 'plus' | 'minus') => {
@@ -239,47 +247,29 @@ const YourCart = ({ navigation }: yourCartProps) => {
   }, []);
 
   return (
-    <BlueWhiteBackground
-      headerHeight={90}
-      BlueWhiteBackgroundStyle={{ backgroundColor: colors.white }}
-    >
-      <HeaderComponent
-        showBack={true}
-        IconColor={GlobalStyles.blackcolor.color}
-        title={t(yourCart)}
-        onBackPress={handleBackPress}
-        titleStyle={[
-          GlobalStyles.headertitle,
-          GlobalStyles.blackcolor,
-          fontW('600'),
-          fS(16),
-        ]}
-        containerStyle={[
-          GlobalStyles.Full_widthLine,
-          {
-            paddingBottom: GlobalStyles.margin_top10.marginTop,
-          },
-        ]}
-      />
+    <SafeAreaView style={[GlobalStyles.flexOne]}>
+    <HeaderWithBackButton
+      title={yourCart}
+      onPress={handleBackPress}/>
+      
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={[{ backgroundColor: colors.white }]}
+        contentContainerStyle={[{ backgroundColor: colors.color_F9FAFB }]}
       >
         <View style={[GlobalStyles.topParentView]}>
           <Card style={[getShadowWithElevation(1)]}>
             <View style={[GlobalStyles.viewRow]}>
               <LinearGradient
                 style={CartStyles.viewLinearGradient}
-                colors={[Colors.color_FFD51C, Colors.primaryColor]}
-              >
+                colors={[Colors.color_FFD51C, Colors.primaryColor]}>
                 <QRCodeSVG />
               </LinearGradient>
 
               <View style={[ml(10), GlobalStyles.flexOne]}>
                 <CustomText
                   title={mastertQrData?.data?.qrName}
-                  textStyle={[FontStyles.headingText]}
-                />
+                  textStyle={[FontStyles.headingText]}/>
+                
                 <CustomText
                   title={mastertQrData?.data?.description}
                   textStyle={[
@@ -289,13 +279,11 @@ const YourCart = ({ navigation }: yourCartProps) => {
                   ]}
                 />
                 <View
-                  style={[GlobalStyles.viewRow, mt(5), GlobalStyles.viewCenter]}
-                >
+                  style={[GlobalStyles.viewRow, GlobalStyles.viewRight]}>
                   <CustomText
                     title={`₹${mastertQrData?.data?.perUnitPrice}`}
                     textStyle={[
                       FontStyles.headingText,
-                      GlobalStyles.flexOne,
                       fontW('600'),
                     ]}
                   />
@@ -305,6 +293,7 @@ const YourCart = ({ navigation }: yourCartProps) => {
                       FontStyles.subText,
                       textColor(colors.fadeTextColor),
                       fS(13),
+                      ml(5),
                     ]}
                   />
                 </View>
@@ -326,7 +315,7 @@ const YourCart = ({ navigation }: yourCartProps) => {
               <View style={[GlobalStyles.viewRow]}>
                 <PressableOpacity onPress={() => updateQty(minus)}>
                   <View
-                    style={[GlobalStyles.qtycircle, GlobalStyles.viewCenter]}
+                    style={[GlobalStyles.qtycircle, GlobalStyles.viewCenter,bgColor(Colors.color_E5E7EB)]}
                   >
                     <MinusSVG />
                   </View>
@@ -343,10 +332,11 @@ const YourCart = ({ navigation }: yourCartProps) => {
                   keyboardType="phone-pad"
                   textAlign={'center'}
                   maxLength={3}
-                  onChangeText={text => {
+                  onChangeText={text => { 
+                    //here user if delete all quantity by default 1 will be shown
                     const numeric = text.replace(/[^0-9]/g, '');
                     if (numeric === '') {
-                      setQty(0);
+                      setQty(1);
                       return;
                     }
                     let num = parseInt(numeric, 10);
@@ -361,7 +351,7 @@ const YourCart = ({ navigation }: yourCartProps) => {
 
                 <PressableOpacity onPress={() => updateQty(plus)}>
                   <View
-                    style={[GlobalStyles.qtycircle, GlobalStyles.viewCenter]}
+                    style={[GlobalStyles.qtycircle, GlobalStyles.viewCenter,bgColor(Colors.color_E5E7EB)]}
                   >
                     <PlusSVG />
                   </View>
@@ -369,15 +359,14 @@ const YourCart = ({ navigation }: yourCartProps) => {
               </View>
             </View>
 
-            <ViewOutlined viewStyle={[CartStyles.viewitemTotal, paddingH(10)]}>
+            <ViewOutlined viewStyle={[CartStyles.viewitemTotal]}>
               <CustomText
                 title={itemTotal}
                 textStyle={[
                   CartStyles.itemTotalText,
-                  fS(13),
+                  fS(12),
                   textColor(colors.fadeTextColor),
                   Typography.style.subTextU(),
-                  pl(8),
                 ]}
               />
               <CustomText
@@ -413,7 +402,7 @@ const YourCart = ({ navigation }: yourCartProps) => {
 
             <View style={CartStyles.viewSubTotal}>
               <CustomText
-                title={`GST (${mastertQrData?.data?.gst}%)`}
+              title={`${t("gst")} (${mastertQrData?.data?.gst}%)`}
                 textStyle={[
                   CartStyles.itemTotalText,
                   textColor(colors.fadeTextColor),
@@ -443,7 +432,7 @@ const YourCart = ({ navigation }: yourCartProps) => {
           </Card>
 
           <LinearGradient
-            style={[CartStyles.viewViewIncluded, GlobalStyles.viewRow]}
+            style={[CartStyles.viewViewIncluded, GlobalStyles.viewRow,mt(15)]}
             colors={[Colors.color_F0FDF4, Colors.color_EFF6FF]}
           >
             <View style={[GlobalStyles.viewCenter]}>
@@ -470,6 +459,10 @@ const YourCart = ({ navigation }: yourCartProps) => {
                 title={`₹${earningAmount.toFixed(2)}`}
                 textStyle={[
                   textIncludedStyle(5),
+                 FontStyles.headingText,
+                 fontColor(Colors.color_139944)]}/>
+                 </View>
+                  
                   FontStyles.headingText,
                   fontColor(Colors.color_139944),
                 ]}
@@ -490,6 +483,32 @@ const YourCart = ({ navigation }: yourCartProps) => {
                 title={whatincluded}
                 textStyle={[FontStyles.headingText]}
               />
+
+              <View style={[GlobalStyles.viewRow]} >
+              <FlatList
+  data={includesArray(mastertQrData)}
+  keyExtractor={(item, index) => index.toString()}
+  renderItem={({ item }) => (
+    <View style={[GlobalStyles.viewRow,GlobalStyles.alignItem]}>
+      <CustomText
+        title="•"
+        textStyle={[
+          FontStyles.headingText,
+          mr(6)
+        ]}
+      />
+
+      <CustomText
+        title={item}
+        textStyle={[
+          FontStyles.subText,
+          textColor(colors.fadeTextColor),
+        ]}
+      />
+    </View>
+  )}
+/>
+
               <View style={[GlobalStyles.viewRow]}>
                 <CustomText
                   title={`• `}
@@ -507,15 +526,15 @@ const YourCart = ({ navigation }: yourCartProps) => {
                     Typography.style.smallTextU(),
                   ]}
                 />
+
               </View>
             </View>
           </LinearGradient>
         </View>
-        <View style={[CartStyles.totalView]}>
+        <View style={[CartStyles.totalView,mt(10)]}>
           <View
             style={[
               CartStyles.viewSubTotal,
-              GlobalStyles.ZuvyDashBoardContainer,
               mt(2),
             ]}
           >
@@ -550,21 +569,34 @@ const YourCart = ({ navigation }: yourCartProps) => {
               width(screenWidth - 20),
             ]}
           />
-
+          <View style={[GlobalStyles.viewRow,GlobalStyles.viewCenter,mt(8)]}>
+            <View style={[GlobalStyles.viewRow,GlobalStyles.viewCenter]}>
+              <SecurePaymentSVG/>
           <CustomText
             title={securePayment}
             textStyle={[
               CartStyles.itemTotalText,
-              GlobalStyles.containerPaddings,
-              mb(60),
-              fS(11),
-              fontW('100'),
-              textColor(colors.fadeTextColor),
-            ]}
-          />
+              fontW('500'),
+              textColor(colors.color_6B7280),
+              ml(5)
+            ]}/>
+            </View>
+
+              <View style={[GlobalStyles.viewRow,GlobalStyles.viewCenter,ml(10)]}>
+              <ActiviteSupportSVG/>
+          <CustomText
+            title={const_active_support_team}
+            textStyle={[
+              CartStyles.itemTotalText,
+              fontW('500'),
+              textColor(colors.color_6B7280),
+              ml(5)
+            ]}/>
+            </View>
+          </View>
         </View>
       </ScrollView>
-    </BlueWhiteBackground>
+      </SafeAreaView>
   );
 };
 
@@ -580,6 +612,10 @@ const styles = StyleSheet.create({
     fontSize: 14,
     lineHeight: ms(10), // PERFECT match (adjust 6–8 if needed)
   },
+  bottomView:{
+    alignItems: 'center', 
+    justifyContent: 'flex-start' 
+  }
 });
 
 export default React.memo(YourCart);

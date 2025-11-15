@@ -35,6 +35,7 @@ const BackgroundPrimaryColor = ({
     GlobalStyles.paginationContainer;
 
   return (
+    <SafeAreaView style={[GlobalStyles.flexOne]}>
     <KeyboardAwareScrollView
       // style={[GlobalStyles.keyboardView, KeyboardAwareScrollViewStyles]}
       contentContainerStyle={flexGrow(1)}
@@ -116,6 +117,7 @@ const BackgroundPrimaryColor = ({
         {children}
       </KeyboardAwareScrollView>
     </KeyboardAwareScrollView>
+    </SafeAreaView>
   );
 };
 

@@ -1,14 +1,28 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- ✅ Use MaterialComponents theme -->
+    <!-- App Theme -->
     <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <!-- You can define your colors here -->
+
+        <!-- Brand Colors -->
         <item name="colorPrimary">#0033FF</item>
         <item name="colorPrimaryVariant">#FFD51C</item>
         <item name="colorOnPrimary">#FFFFFF</item>
         <item name="colorSecondary">#FFD51C</item>
+
+        <!-- Status Bar -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
-        <item name="android:navigationBarColor">?attr/colorPrimary</item>
+        <item name="android:windowLightStatusBar">false</item>
+
+        <!-- Navigation Bar Colors -->
+        <item name="android:navigationBarColor">#0033FF</item>
+        <item name="android:navigationBarDividerColor">#0033FF</item>
+
+        <!-- Disable forced contrast (fixes grey/white ghosting on navbar buttons) -->
+        <item name="android:enforceNavigationBarContrast">false</item>
+
+        <!-- Keep navigation bar opaque -->
+        <item name="android:windowTranslucentNavigation">false</item>
+
     </style>
 
 </resources>

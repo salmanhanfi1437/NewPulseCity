@@ -20,6 +20,7 @@ import {
   const_please_enter_name,
   const_please_enter_valid_email,
   const_please_select,
+  const_or,
 } from '../../types/constants';
 import { Colors, Typography } from '../../styles';
 import { ms, mvs } from 'react-native-size-matters';
@@ -28,7 +29,7 @@ import { CustomText } from '../../components/atoms/Text';
 import { State, TextInput } from 'react-native-gesture-handler';
 import GlobalStyles from '../../styles/GlobalStyles';
 import { SignupProps } from '../../navigation/types';
-import { fontW, height, mb, mr, mt } from '../../utils/spaces';
+import { fontW, height, mb, ml, mr, mt, pl, pr, width } from '../../utils/spaces';
 import PressableOpacity from '../../components/atoms/PressableOpacity';
 import FontStyles from '../../styles/FontStyles';
 import Button from '../../components/atoms/Button';
@@ -46,6 +47,7 @@ import { RootState } from '../../redux/rootReducer';
 import ViewOutlined from '../../components/atoms/ViewOutlined';
 import CustomTextInput from '../../components/atoms/TextInput';
 import { CommonActions } from '@react-navigation/native';
+import Checkboxborder from '../Checkbox/Checkboxborder';
 
 const SignupScreens = ({ navigation, route }: SignupProps) => {
 
@@ -58,6 +60,8 @@ const SignupScreens = ({ navigation, route }: SignupProps) => {
   const [stateName,setStateName] = useState('');
   const [cityId,setCityId] = useState(0);
   const [cityName,setCityName] = useState('')
+    const [isChecked, setIsChecked] = useState(false);
+
   const nameRef = useRef<TextInput>(null);
   const emailRef = useRef<TextInput>(null);
   const mobileNumberRef = useRef<TextInput>(null);
@@ -176,7 +180,7 @@ const validation = () => {
   />
   <CustomText
     title=" *"
-    textStyle={[FontStyles.headingText, { color: errors.name ? Colors.red : Colors.black }]} // Red asterisk
+    textStyle={[FontStyles.fontAsterisk]} // Red asterisk
   />
 </View>
 
@@ -205,7 +209,7 @@ const validation = () => {
   />
   <CustomText
     title=" *"
-    textStyle={[FontStyles.headingText, { color: errors.email ? Colors.red : Colors.black }]} // Red asterisk
+    textStyle={[FontStyles.fontAsterisk]} // Red asterisk
   />
 </View>
 
@@ -238,7 +242,8 @@ const validation = () => {
   />
   <CustomText
     title=" *"
-    textStyle={[FontStyles.headingText, { color: errors.state ? Colors.red : Colors.black }]} // Red asterisk
+ textStyle={[FontStyles.fontAsterisk]} // Red asterisk
+
   />
 </View>
           
@@ -286,7 +291,7 @@ const validation = () => {
   />
   <CustomText
     title=" *"
-    textStyle={[FontStyles.headingText, { color: errors.city ? Colors.red : Colors.black }]} // Red asterisk
+    textStyle={[FontStyles.fontAsterisk]} // Red asterisk
   />
 </View>
                <PressableOpacity
@@ -337,10 +342,17 @@ showAlert(t('please_select', { field: t(const_state) }));
           placeholder={role}
           selectedValue={capitalizeFirstLetter(role)}
           onSelect={(val : any) => setRole(val)}/>
-           
             </View>
 
+<View style={[GlobalStyles.viewRow]}>
 
+           <Checkboxborder
+        isChecked={isChecked}
+        onPress={() => setIsChecked(!isChecked)}/>
+
+<CustomText title={"By continuing, you agree to Zuvy's"} textStyle={[FontStyles.subText,ml(2)]}/>
+<CustomText title={"Terms & Conditions and Privacy Policy"} textStyle={[FontStyles.headingText,ml(2)]} underline={true}/>
+</View>
         <Button
           title={signup}
           onPress={handleRegister}
@@ -348,13 +360,24 @@ showAlert(t('please_select', { field: t(const_state) }));
           viewStyle={[GlobalStyles.authBtn,bR(10),mt(30)]} />
 
       </View>
-      <View style={[GlobalStyles.viewRow, GlobalStyles.bottomFooter,mt(20)]}>
-        <CustomText title={alreadyhaveAccount} textStyle={[FontStyles.subText, GlobalStyles.viewCenter,]} />
+
+      <View style={[GlobalStyles.viewRow,GlobalStyles.viewCenter,mt(10)]}>
+
+        <View style={[GlobalStyles.viewLine,width('40%')]}/>
+        
+        <CustomText title={t(const_or)} textStyle={[pl(10),pr(10)]}/>
+         <View style={[GlobalStyles.viewLine,width('40%')]}/>
+
+        </View>
+        
+
+      <View style={[GlobalStyles.viewRow, GlobalStyles.bottomFooter,mt(10)]}>
+        <CustomText title={alreadyhaveAccount} textStyle={[FontStyles.subText, GlobalStyles.viewCenter,GlobalStyles.textAlign]} />
         <PressableOpacity onPress={() => navigation.reset({
           index: 0,
           routes: [{ name: login }],
         })}>
-          <CustomText title={sign_in} textStyle={[FontStyles.headingText, GlobalStyles.viewCenter]} underline={true} />
+          <CustomText title={sign_in} textStyle={[FontStyles.headingText, GlobalStyles.viewCenter,ml(5),fontColor(Colors.primaryColor)]} underline={true} />
         </PressableOpacity>
       </View>
     </BackgroundPrimaryColor>
@@ -390,11 +413,6 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
     elevation: 3,
-  },
-  buttonText: {
-    fontSize: 18,
-    color: '#000',
-    fontWeight: '600',
   },
 });
 

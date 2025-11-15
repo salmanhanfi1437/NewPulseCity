@@ -47,7 +47,7 @@
   "alltimesupport": "• 24/7 सहायता",
   "totalAmount": "कुल राशि",
   "buynow": "अभी खरीदें",
-  "securePayment": "सुरक्षित भुगतान • 30-दिन की धन-वापसी गारंटी",
+  "securePayment": "सुरक्षित भुगतान",
   "notifications": "अधिसूचना",
    "All":"सभी",
   "Orders":"ऑर्डर",
@@ -68,15 +68,19 @@
     "please_enter_name":  "कृपया नाम दर्ज करें",
       "please_enter_valid_email": "कृपया मान्य ईमेल दर्ज करें",
         "please_select": "कृपया {{field}} चुनें",
-         "login":"लॉग इन करें",
+         "login":"लॉग इन / साइन अप करें",
          "welcome_to_zuvy":"ज़ूवी में आपका स्वागत है",
-         "youwillearn":"तुम कमाओगे",
+         "youwillearn":"वितरक मार्जिन",
           "confirm_logout":"लॉगआउट की पुष्टि करें",
                       "sure_logout" : "क्या आप लॉग आउट करना चाहते हैं?",
                       "yes":"हाँ",
             "no":"नहीं",
             "new_update":"नया अपडेट उपलब्ध है",
-            "update_message":"ऐप का नया संस्करण उपलब्ध है। कृपया जारी रखने के लिए अपडेट करें।"
+            "update_message":"ऐप का नया संस्करण उपलब्ध है। कृपया जारी रखने के लिए अपडेट करें।",
+                        "ActiveSupportTeam":"सक्रिय सहायता टीम",
+                        "Checkout_Details":"Checkout Details",
+            "Total_Payable":"Total Payable",
+             "Or":"या"
 
 
 }

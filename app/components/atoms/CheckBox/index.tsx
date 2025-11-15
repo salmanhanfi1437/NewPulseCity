@@ -8,7 +8,7 @@ import FontStyles from '../../../styles/FontStyles';
 import GlobalStyles from '../../../styles/GlobalStyles';
 import { fontW, fS } from '../../../utils/spaces';
 
-const RememberMe = ({ label = 'Remember me', onChange }: any) => {
+const RememberMe = ({ label = '', onChange }: any) => {
   const [checked, setChecked] = useState(false);
 
   const toggleCheck = () => {

@@ -2,12 +2,14 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Alert, View } from 'react-native';
 import {
   const_address,
+  const_checkout_details,
   const_city,
   const_fullName,
   const_pancard_number,
   const_pincode,
   const_RESET_STORE,
   const_state,
+  const_total_payable,
   const_totalAmount,
   enter,
   instantCode,
@@ -37,6 +39,10 @@ import {
   fontW,
   pl,
   mr,
+  bgColor,
+  pr,
+  height,
+  width,
 } from '../../utils/spaces';
 import { Colors } from '../../styles';
 import { CartSVG } from '../../assets/svg';
@@ -67,13 +73,19 @@ import { isValidPAN } from '../../utils/helper';
 import RazorpayCheckout from 'react-native-razorpay';
 import { ProfileRequest } from '../UserProfile/profileSlice';
 import { MasterQrRequest } from '../YourCartScreen/yourCartSlice';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import HeaderWithBackButton from '../../components/atoms/HeaderWithBackButton';
 
 const CheckOutDetail =  ({ navigation, route }: CheckOutDetailProps) => {
   const { t } = useTranslation();
   console.log('Route ' + JSON.stringify(route));
   const { data } = route.params;
-  console.log('cehkec ---- params ---.', data);
-
+const safeData = {
+  amount: data?.amount ? Number(data.amount) : 0,
+  currency: data?.currency || 'INR',
+  razorpayOrderId: data?.razorpayOrderId || '',
+  description: data?.description || 'Payment for QR Package',
+};
   const [fullName, setFullName] = useState('');
   const [PanCard, setPanCard] = useState('');
   const [GSTNumber, setGSTNumber] = useState('');
@@ -235,40 +247,30 @@ if (apiCalledRef.current) return;
   };
 
   return (
-    <BlueWhiteBackground
-      headerHeight={90}
-      BlueWhiteBackgroundStyle={{ backgroundColor: colors.white }}
-    >
-      <HeaderComponent
-        showBack={true}
-        IconColor={GlobalStyles.blackcolor.color}
-        title={config.CheckOutDetailsScreen.title}
-        onBackPress={handleBackPress}
-        titleStyle={[
-          GlobalStyles.headertitle,
-          GlobalStyles.blackcolor,
-          fontW('600'),
-          fS(16),
-        ]}
-        containerStyle={[
-          GlobalStyles.Full_widthLine,
-          {
-            paddingBottom: GlobalStyles.margin_top10.marginTop,
-          },
-        ]}
-      />
+    <SafeAreaView style={[GlobalStyles.flexOne]}>
+    <HeaderWithBackButton
+    title={t(const_checkout_details)}
+    onPress={handleBackPress}
+    />
+      
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={[{ backgroundColor: colors.white }]}
+        contentContainerStyle={[bgColor(Colors.color_E5E7EB),pl(10),pr(10)]}
       >
-        <CardContainer style={[getShadowWithElevation(1), paddingH(20)]}>
-          <CustomText
-            title={const_fullName}
-            textStyle={[GlobalStyles.margin_top10]}
-          />
+        <CardContainer style={[getShadowWithElevation(1), paddingH(10)]}>
+          <View style={[GlobalStyles.viewRow,GlobalStyles.alignItem,mb(5)]}>
+           <CustomText
+             title={t(const_fullName)}
+           />
+           <CustomText
+             title=" *"
+             textStyle={[FontStyles.fontAsterisk]} // Red asterisk
+           />
+         </View>
+         
           <ViewOutlined
             viewStyle={[
-              GlobalStyles.borderStyles,
+              GlobalStyles.borderStyles,mt(5),
               {
                 borderColor: Colors.borderBottomColor,
                 borderRadius: GlobalStyles.ZuvyDashBoardBtn.borderRadius,
@@ -282,10 +284,15 @@ if (apiCalledRef.current) return;
             />
           </ViewOutlined>
 
-          <CustomText
-            title={const_pancard_number}
-            textStyle={[GlobalStyles.margin_top10]}
-          />
+         <View style={[GlobalStyles.viewRow,GlobalStyles.alignItem,mb(5),mt(5)]}>
+           <CustomText
+             title={t(const_pancard_number)}
+           />
+           <CustomText
+             title=" *"
+             textStyle={[FontStyles.fontAsterisk]} // Red asterisk
+           />
+         </View>
           <ViewOutlined
             viewStyle={[
               GlobalStyles.borderStyles,
@@ -301,7 +308,7 @@ if (apiCalledRef.current) return;
               onChangeText={setPanCard}
             />
           </ViewOutlined>
-          <View style={[GlobalStyles.viewRow]}>
+          <View style={[GlobalStyles.viewRow,mb(5)]}>
             <CustomText
               title={config.CheckOutDetailsScreen.gstNo}
               textStyle={[GlobalStyles.margin_top10]}
@@ -329,7 +336,7 @@ if (apiCalledRef.current) return;
               onChangeText={setGSTNumber}
             />
           </ViewOutlined>
-          <View style={[GlobalStyles.viewRow]}>
+          <View style={[GlobalStyles.viewRow,mb(5)]}>
             <CustomText
               title={config.CheckOutDetailsScreen.legalCoName}
               textStyle={[GlobalStyles.margin_top10]}
@@ -368,10 +375,15 @@ if (apiCalledRef.current) return;
             <CustomTextInput placeholder={pinCode} value={pinCode} onChangeText={setPinCode} maxLength={6} />
           </ViewOutlined> */}
 
-          <CustomText
-            title={config.CheckOutDetailsScreen.Address}
-            textStyle={[GlobalStyles.margin_top10]}
-          />
+         <View style={[GlobalStyles.viewRow,GlobalStyles.alignItem,mb(5),mt(5)]}>
+           <CustomText
+             title={config.CheckOutDetailsScreen.Address}
+           />
+           <CustomText
+             title=" *"
+             textStyle={[FontStyles.fontAsterisk]} // Red asterisk
+           />
+         </View>
           <ViewOutlined
             viewStyle={[
               GlobalStyles.borderStyles,
@@ -392,10 +404,15 @@ if (apiCalledRef.current) return;
 
           <View style={[GlobalStyles.viewRow]}>
             <View style={[GlobalStyles.flexOne, mr(15)]}>
-              <CustomText
-                title={const_state}
-                textStyle={[GlobalStyles.margin_top10]}
-              />
+             <View style={[GlobalStyles.viewRow,GlobalStyles.alignItem,mb(5),mt(5)]}>
+           <CustomText
+             title={const_state}
+           />
+           <CustomText
+             title=" *"
+             textStyle={[FontStyles.fontAsterisk]} // Red asterisk
+           />
+         </View>
 
               <PressableOpacity
                 onPress={() => {
@@ -431,10 +448,15 @@ if (apiCalledRef.current) return;
           </View>
 
           <View style={[GlobalStyles.flexOne]}>
-            <CustomText
-              title={const_city}
-              textStyle={[GlobalStyles.margin_top10]}
-            />
+           <View style={[GlobalStyles.viewRow,GlobalStyles.alignItem,mb(5),mt(5)]}>
+           <CustomText
+             title={const_city}
+           />
+           <CustomText
+             title=" *"
+             textStyle={[FontStyles.fontAsterisk]} // Red asterisk
+           />
+         </View>
             <PressableOpacity
               onPress={() => {
                 if (!stateId) {
@@ -472,10 +494,15 @@ if (apiCalledRef.current) return;
           </View>
 
           <View style={[GlobalStyles.flexOne, mr(15)]}>
-            <CustomText
-              title={const_pincode}
-              textStyle={[GlobalStyles.margin_top10]}
-            />
+            <View style={[GlobalStyles.viewRow,GlobalStyles.alignItem,mb(5),mt(5)]}>
+           <CustomText
+             title={const_pincode}
+           />
+           <CustomText
+             title=" *"
+             textStyle={[FontStyles.fontAsterisk]} // Red asterisk
+           />
+         </View>
             <ViewOutlined
               viewStyle={[
                 GlobalStyles.borderStyles,
@@ -485,24 +512,26 @@ if (apiCalledRef.current) return;
                 },
               ]}
             >
-              <CustomTextInput
-                placeholder={const_pincode}
-                value={pinCode}
-                onChangeText={setPinCode}
-              />
+             <CustomTextInput
+                  placeholder={const_pincode}
+                  value={pinCode}
+                  onChangeText={setPinCode}
+                  editable={false}
+                  maxLength={6}
+                />
             </ViewOutlined>
           </View>
         </CardContainer>
-        <View style={[CartStyles.totalView]}>
+       
+      </ScrollView>
+       <View style={[CartStyles.totalView]}>
           <View
             style={[
               CartStyles.viewSubTotal,
-              GlobalStyles.ZuvyDashBoardContainer,
               mt(2),
-            ]}
-          >
+            ]}>
             <CustomText
-              title={const_totalAmount}
+              title={t(const_total_payable)}
               textStyle={[
                 CartStyles.itemTotalText,
                 fS(13),
@@ -525,25 +554,12 @@ if (apiCalledRef.current) return;
             textStyles={[fS(14), pl(5)]}
             onPress={() => HandlePayment()}
             buttonStyle={[
-              GlobalStyles.ZuvyDashBoardContainer,
-              mb(0),
-              GlobalStyles.containerPaddings,
-            ]}
-          />
+             mt(10),
+             height(50),width('100%')
+             ]}/>
 
-          <CustomText
-            title={securePayment}
-            textStyle={[
-              CartStyles.itemTotalText,
-              GlobalStyles.containerPaddings,
-              mb(10),
-              fS(12),
-              textColor(colors.grey),
-            ]}
-          />
         </View>
-      </ScrollView>
-    </BlueWhiteBackground>
+    </SafeAreaView>
   );
 }  ;
 

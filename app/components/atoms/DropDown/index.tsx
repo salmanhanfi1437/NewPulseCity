@@ -8,6 +8,7 @@ import { mvs } from 'react-native-size-matters';
 import FontStyles from '../../../styles/FontStyles';
 import { pl } from '../../../utils/spaces';
 import { const_howtouseZuvy } from '../../../types/constants';
+import { useTranslation } from 'react-i18next';
 
 export interface DropdownItem {
   label: string;
@@ -45,6 +46,7 @@ const DropdownAtom: React.FC<DropdownAtomProps> = ({
 
   const [value, setValue] = useState<string | number | null>(defaultValue);
   const [isFocus, setIsFocus] = useState<boolean>(false);
+  const {t} = useTranslation()
 
   useEffect(() => {
     if (defaultValue) {
@@ -75,7 +77,7 @@ const DropdownAtom: React.FC<DropdownAtomProps> = ({
         maxHeight={300}
         labelField="label"
         valueField="value"
-        placeholder={!isFocus ? placeholder : const_howtouseZuvy}
+        placeholder={!isFocus ? placeholder : t(const_howtouseZuvy)}
         value={value}
         onFocus={() => setIsFocus(true)}
         onBlur={() => setIsFocus(false)}

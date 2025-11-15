@@ -41,3 +41,13 @@ export const capitalizeFirstLetter = (text: string) => {
   return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
 };
 
+
+export const includesArray = (data: any) => {
+  return (
+    data?.data?.whatInclude
+      ?.split(',')
+      ?.map((i: string) => i.trim()) || []
+  );
+};
+
+

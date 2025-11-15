@@ -125,19 +125,13 @@ useEffect(() => {
   console.log('MainverifyOTPResponse:', verifyOTPData, 'Error:', otpError);
 
   if (verifyOTPData?.success === true) {
-    showAlert(
-      verifyOTPData?.message,
-      'Success',
-      () => {
-        dispatch({ type: const_RESET_STORE }); // 🔄 अब dispatch callback में है
+    dispatch({ type: const_RESET_STORE }); // 🔄 अब dispatch callback में है
         if (verifyOTPData?.data?.isRegistered === false) {
           resetState();
           navigation.navigate('signup', { mobile: mobileNumber });
         } else {
           navigation.replace('merchantTabs');
         }
-      }
-    );
   } else if (otpError?.message) {
     showAlert(otpError.message, 'Error');
     dispatch({ type: const_RESET_STORE }); // ❗ dispatch सिर्फ error पर भी एक बार

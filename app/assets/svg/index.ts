@@ -49,6 +49,8 @@ import ShippmentSVG from './shippment.svg';
 import ProfileAcitveSVG from './profileactive.svg';
 import RupeeSVG from './rupee.svg';
 import PaymentSVG from './payment.svg';
+import SecurePaymentSVG from './seucre.svg';
+import ActiviteSupportSVG from './active_payment.svg';
 import DownloadSVG from './Download.svg';
 import SaveSvg from './save.svg';
 import RedTrashSVG from './redTrash.svg';
@@ -107,6 +109,8 @@ export {
   ProfileAcitveSVG,
   RupeeSVG,
   PaymentSVG,
+  ActiviteSupportSVG,
+  SecurePaymentSVG
   DownloadSVG,
   SaveSvg,
   RedTrashSVG,

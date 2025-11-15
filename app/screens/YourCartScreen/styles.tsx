@@ -67,9 +67,9 @@ viewViewIncluded : {
     borderRadius:ms(10),
     borderColor:Colors.color_BBF7D0,
     borderWidth:ms(1),
-    marginTop:mvs(15),
+    marginTop:mvs(10),
     padding:mvs(15),
-    marginBottom:mvs(15),
+    marginBottom:mvs(5),
     alignItems:'center',
 },
 circleGreen : {

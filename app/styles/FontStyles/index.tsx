@@ -48,6 +48,12 @@ const FontStyles = StyleSheet.create({
         fontWeight:'600',
         ...Typography.weights.boldU,
     },
+    fontAsterisk : {
+    fontSize: ms(12),
+        color: Colors.red,
+        fontWeight: '400',
+        ...Typography.weights.mediumU,
+    },
     subText: {
         fontSize: ms(12),
         color: Colors.black,
