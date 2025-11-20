@@ -19,7 +19,7 @@ const Stack = createStackNavigator<RootStackParamList>();
 export function RootStack() {
   return (
     <Stack.Navigator initialRouteName="Splash" screenOptions={{ headerShown: true }}>
-      <Stack.Screen name="BiometricLogin" component={BiometricLoginScreen} options={{ headerShown: false }} /> */}
+      <Stack.Screen name="BiometricLogin" component={BiometricLoginScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Splash" component={SplashScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="EventDetails" component={EventDetailsScreen} />

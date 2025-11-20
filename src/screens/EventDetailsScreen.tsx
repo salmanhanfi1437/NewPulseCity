@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
-import MapView, { Marker } from 'react-native-maps';
+//import MapView, { Marker } from 'react-native-maps';
 import { flex, marginBottom, marginTop, padding } from '../styles/ui';
 import { mvs } from 'react-native-size-matters';
 import { globalStyles } from '../styles';
@@ -21,7 +21,7 @@ const EventDetailsScreen: React.FC<any> = ({ route }) => {
       <Text>Venue: {venue?.name ?? 'N/A'}</Text>
       <Text style={globalStyles.title}>{event.info ?? 'No description'}</Text>
 
-      {lat && lng ? (
+      {/* {lat && lng ? (
         <MapView
           style={styles.map}
           initialRegion={{
@@ -35,7 +35,7 @@ const EventDetailsScreen: React.FC<any> = ({ route }) => {
         </MapView>
       ) : (
         <Text style={marginTop(mvs(12))}>No location available for this venue.</Text>
-      )}
+      )} */}
    </ScreenWrapper>
   );
 };
