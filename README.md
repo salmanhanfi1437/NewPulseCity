@@ -1,97 +1,76 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+City Pulse — Local Events Explorer (React Native + TypeScript)
+Overview
 
-# Getting Started
+Starter app for the assessment. Search events (Ticketmaster), view details, favorite events (persisted), toggle LTR/RTL (English/Arabic), biometric login, and map preview.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+Setup
 
-## Step 1: Start Metro
+Clone and install
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+npx react-native init CityPulse --template react-native-template-typescript
+cd CityPulse
+# copy/paste files from above into src/
+npm install
 
-To start the Metro dev server, run the following command from the root of your React Native project:
 
-```sh
-# Using npm
-npm start
+Install native packages
 
-# OR using Yarn
-yarn start
-```
+npx pod-install ios   # iOS only
+# Android: ensure SDK etc. configured
 
-## Step 2: Build and run your app
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
+Set Ticketmaster API Key
+Open src/config/keys.ts and set:
 
-### Android
+export const TICKETMASTER_API_KEY = 'PASTE_YOUR_CONSUMER_KEY_HERE';
 
-```sh
-# Using npm
+
+(Use the Consumer Key visible in your Ticketmaster Developer console. This is the apikey for discovery requests.)
+
+Maps
+
+If you want Google Maps on Android/iOS, add API keys to AndroidManifest.xml / Info.plist and to src/config/keys.ts.
+
+For basic map preview on Android using the JS map view you may still need to configure if you plan to use Google Maps provider; otherwise default works on many setups.
+
+Run
+
+# Start Metro
+npm run start
+
+# Android
 npm run android
 
-# OR using Yarn
-yarn android
-```
-
-### iOS
-
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
-
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
-
-```sh
-bundle install
-```
-
-Then, and every time you update your native dependencies, run:
-
-```sh
-bundle exec pod install
-```
-
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
-
-```sh
-# Using npm
+# iOS
 npm run ios
 
-# OR using Yarn
-yarn ios
-```
+Notes & assumptions
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+Using Consumer Key as Ticketmaster apikey param — this is the public key shown in your Developer Dashboard.
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+For mobile app type there is no explicit "mobile" option in their app creation; a Web app key (consumer key) works for Discovery API calls from client (respect rate limits). If you need OAuth flows, configure OAuth redirect URIs.
 
-## Step 3: Modify your app
+Biometric login is mocked — successful biometric auth routes to Home. Add production auth/secure key storage if required.
 
-Now that you have successfully run the app, let's make changes!
+Favorites are stored in AsyncStorage under favorites_v1.
 
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
+RTL change requires app reload to apply fully.
 
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
+Bonus / Next steps
 
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
+Add Firebase Auth / Firestore for remote persistence.
 
-## Congratulations! :tada:
+Use native secure storage (Keychain / Keystore) for tokens.
 
-You've successfully run and modified your React Native App. :partying_face:
+Implement offline caching and better error handling.
 
-### Now what?
+Final tips & where to put your Ticketmaster keys
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
+The Consumer Key you saw on the Ticketmaster Developer page is the API key you need to pass as the apikey parameter in the REST URL:
 
-# Troubleshooting
+https://app.ticketmaster.com/discovery/v2/events.json?apikey=YOUR_CONSUMER_KEY&keyword=rock&city=Dubai
 
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
 
-# Learn More
+Paste that string into src/config/keys.ts as TICKETMASTER_API_KEY.
 
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+If you prefer to keep keys out of source control, use environment variables or react-native-config and set the key in .env. For the assessment a config file as above is fine.

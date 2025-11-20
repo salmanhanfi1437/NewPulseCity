@@ -1,17 +1,17 @@
 pluginManagement {
-    repositories {
-        google()
-        mavenCentral()
-        gradlePluginPortal()
-    }
+    includeBuild("../node_modules/@react-native/gradle-plugin")
 }
 
 plugins {
-    id("com.facebook.react.settings") // React Native Gradle Plugin
+    id("com.facebook.react.settings")
+}
+
+extensions.configure(com.facebook.react.ReactSettingsExtension) { ex ->
+    ex.autolinkLibrariesFromCommand()
 }
 
 rootProject.name = "ZuvyStore"
-
-apply(from = file("../node_modules/react-native-unimodules/gradle.groovy"))
-
 include(":app")
+
+includeBuild("../node_modules/@react-native/gradle-plugin")
+
